@@ -1,0 +1,18 @@
+# BasicAdminInboxFlow
+
+main: kit: flow: BasicAdminInboxFlow:
+{
+  entity: "admin_inbox",
+  kind: "basic",
+  name: "BasicAdminInboxFlow",
+  step: [
+    {
+      input: {
+        ref: "admin_inbox_ref01"
+      }
+
+      op: "create"
+    }
+  ],
+  "key$": "BasicAdminInboxFlow"
+}

@@ -1,0 +1,73 @@
+# Entity: photo
+
+main: kit: entity: photo: {
+
+  alias: field: {}
+
+  name: "photo"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "country"
+                orig: "country"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                kind: "param"
+                name: "filename"
+                orig: "filename"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                kind: "query"
+                name: "width"
+                orig: "width"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/photos/{country}/{filename}"
+          parts: [
+            "photos"
+            "{country}"
+            "{filename}"
+          ]
+          select: {
+            exist: [
+              "country"
+              "filename"
+              "width"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "photo"
+      ]
+    ]
+  }
+
+
+
+}

@@ -1,0 +1,10 @@
+# Entity: inbox_state_query
+
+main: kit: entity: inbox_state_query: {
+
+  alias: field: {}
+
+  name: "inbox_state_query"
+
+
+}

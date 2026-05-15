@@ -1,0 +1,127 @@
+# Entity: oauth
+
+main: kit: entity: oauth: {
+
+  alias: field: {}
+
+  name: "oauth"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          args: {
+            header: [
+              {
+                kind: "header"
+                name: "authorization"
+                orig: "authorization"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "POST"
+          orig: "/oauth2/revoke"
+          parts: [
+            "oauth2"
+            "revoke"
+          ]
+          select: {
+            exist: [
+              "authorization"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "client_id"
+                orig: "client_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "code_challenge"
+                orig: "code_challenge"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "code_challenge_method"
+                orig: "code_challenge_method"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "redirect_uri"
+                orig: "redirect_uri"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "response_type"
+                orig: "response_type"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "scope"
+                orig: "scope"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "state"
+                orig: "state"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/oauth2/authorize"
+          parts: [
+            "oauth2"
+            "authorize"
+          ]
+          select: {
+            exist: [
+              "client_id"
+              "code_challenge"
+              "code_challenge_method"
+              "redirect_uri"
+              "response_type"
+              "scope"
+              "state"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

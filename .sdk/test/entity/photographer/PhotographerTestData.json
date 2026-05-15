@@ -1,0 +1,14 @@
+{
+  "existing": {
+    "photographer": {
+      "PHOTOGRAPHER00": {},
+      "PHOTOGRAPHER01": {},
+      "PHOTOGRAPHER02": {}
+    }
+  },
+  "new": {
+    "photographer": {
+      "photographer_ref01": {}
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "existing": {
+    "photo_station": {
+      "PHOTO_STATION00": {
+        "license": [],
+        "photo_base_url": "s29",
+        "photographer": [],
+        "station": [],
+        "country": "COUNTRY01"
+      },
+      "PHOTO_STATION01": {
+        "license": [],
+        "photo_base_url": "s51",
+        "photographer": [],
+        "station": [],
+        "country": "COUNTRY01"
+      },
+      "PHOTO_STATION02": {
+        "license": [],
+        "photo_base_url": "s79",
+        "photographer": [],
+        "station": [],
+        "country": "COUNTRY01"
+      }
+    }
+  },
+  "new": {
+    "photo_station": {
+      "photo_station_ref01": {
+        "license": [],
+        "photo_base_url": "sa1",
+        "photographer": [],
+        "station": []
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+# BasicPhotoStationFlow
+
+main: kit: flow: BasicPhotoStationFlow:
+{
+  entity: "photo_station",
+  kind: "basic",
+  name: "BasicPhotoStationFlow",
+  step: [
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "photo_station_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "photo_station_ref01",
+        srcdatavar: "photo_station_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "photo_station01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-photo_station_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicPhotoStationFlow"
+}

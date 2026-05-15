@@ -1,0 +1,190 @@
+# Entity: photo_download
+
+main: kit: entity: photo_download: {
+
+  alias: field: {}
+
+  name: "photo_download"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "filename"
+                orig: "filename"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                kind: "query"
+                name: "width"
+                orig: "width"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/inbox/done/{filename}"
+          parts: [
+            "inbox"
+            "done"
+            "{filename}"
+          ]
+          select: {
+            exist: [
+              "filename"
+              "width"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "filename"
+                orig: "filename"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                kind: "query"
+                name: "width"
+                orig: "width"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/inbox/processed/{filename}"
+          parts: [
+            "inbox"
+            "processed"
+            "{filename}"
+          ]
+          select: {
+            exist: [
+              "filename"
+              "width"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "filename"
+                orig: "filename"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                kind: "query"
+                name: "width"
+                orig: "width"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/inbox/rejected/{filename}"
+          parts: [
+            "inbox"
+            "rejected"
+            "{filename}"
+          ]
+          select: {
+            exist: [
+              "filename"
+              "width"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "filename"
+                orig: "filename"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                kind: "query"
+                name: "width"
+                orig: "width"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/inbox/{filename}"
+          parts: [
+            "inbox"
+            "{filename}"
+          ]
+          select: {
+            exist: [
+              "filename"
+              "width"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "done"
+      ]
+      [
+        "processed"
+      ]
+      [
+        "rejected"
+      ]
+      [
+        "inbox"
+      ]
+    ]
+  }
+
+
+
+}

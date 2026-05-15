@@ -1,0 +1,14 @@
+{
+  "existing": {
+    "inbox_state_query": {
+      "INBOX_STATE_QUERY00": {},
+      "INBOX_STATE_QUERY01": {},
+      "INBOX_STATE_QUERY02": {}
+    }
+  },
+  "new": {
+    "inbox_state_query": {
+      "inbox_state_query_ref01": {}
+    }
+  }
+}

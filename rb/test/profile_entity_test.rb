@@ -1,0 +1,123 @@
+# Profile entity test
+
+require "minitest/autorun"
+require "json"
+require_relative "../RailwayStationPhotos_sdk"
+require_relative "runner"
+
+class ProfileEntityTest < Minitest::Test
+  def test_create_instance
+    testsdk = RailwayStationPhotosSDK.test(nil, nil)
+    ent = testsdk.Profile(nil)
+    assert !ent.nil?
+  end
+
+  def test_basic_flow
+    setup = profile_basic_setup(nil)
+    # Per-op sdk-test-control.json skip.
+    _live = setup[:live] || false
+    ["create", "load", "remove"].each do |_op|
+      _should_skip, _reason = Runner.is_control_skipped("entityOp", "profile." + _op, _live ? "live" : "unit")
+      if _should_skip
+        skip(_reason || "skipped via sdk-test-control.json")
+        return
+      end
+    end
+    # The basic flow consumes synthetic IDs from the fixture. In live mode
+    # without an *_ENTID env override, those IDs hit the live API and 4xx.
+    if setup[:synthetic_only]
+      skip "live entity test uses synthetic IDs from fixture — set RAILWAYSTATIONPHOTOS_TEST_PROFILE_ENTID JSON to run live"
+      return
+    end
+    client = setup[:client]
+
+    # CREATE
+    profile_ref01_ent = client.Profile(nil)
+    profile_ref01_data = Helpers.to_map(Vs.getprop(
+      Vs.getpath(setup[:data], "new.profile"), "profile_ref01"))
+
+    profile_ref01_data_result, err = profile_ref01_ent.create(profile_ref01_data, nil)
+    assert_nil err
+    profile_ref01_data = Helpers.to_map(profile_ref01_data_result)
+    assert !profile_ref01_data.nil?
+
+    # LOAD
+    profile_ref01_match_dt0 = {}
+    profile_ref01_data_dt0_loaded, err = profile_ref01_ent.load(profile_ref01_match_dt0, nil)
+    assert_nil err
+    assert !profile_ref01_data_dt0_loaded.nil?
+
+    # REMOVE
+    profile_ref01_match_rm0 = {
+      "id" => profile_ref01_data["id"],
+    }
+    _, err = profile_ref01_ent.remove(profile_ref01_match_rm0, nil)
+    assert_nil err
+
+  end
+end
+
+def profile_basic_setup(extra)
+  Runner.load_env_local
+
+  entity_data_file = File.join(__dir__, "..", "..", ".sdk", "test", "entity", "profile", "ProfileTestData.json")
+  entity_data_source = File.read(entity_data_file)
+  entity_data = JSON.parse(entity_data_source)
+
+  options = {}
+  options["entity"] = entity_data["existing"]
+
+  client = RailwayStationPhotosSDK.test(options, extra)
+
+  # Generate idmap via transform.
+  idmap = Vs.transform(
+    ["profile01", "profile02", "profile03", "email_verification01", "email_verification02", "email_verification03"],
+    {
+      "`$PACK`" => ["", {
+        "`$KEY`" => "`$COPY`",
+        "`$VAL`" => ["`$FORMAT`", "upper", "`$COPY`"],
+      }],
+    }
+  )
+
+  # Detect ENTID env override before envOverride consumes it. When live
+  # mode is on without a real override, the basic test runs against synthetic
+  # IDs from the fixture and 4xx's. Surface this so the test can skip.
+  entid_env_raw = ENV["RAILWAYSTATIONPHOTOS_TEST_PROFILE_ENTID"]
+  idmap_overridden = !entid_env_raw.nil? && entid_env_raw.strip.start_with?("{")
+
+  env = Runner.env_override({
+    "RAILWAYSTATIONPHOTOS_TEST_PROFILE_ENTID" => idmap,
+    "RAILWAYSTATIONPHOTOS_TEST_LIVE" => "FALSE",
+    "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN" => "FALSE",
+    "RAILWAYSTATIONPHOTOS_APIKEY" => "NONE",
+  })
+
+  idmap_resolved = Helpers.to_map(
+    env["RAILWAYSTATIONPHOTOS_TEST_PROFILE_ENTID"])
+  if idmap_resolved.nil?
+    idmap_resolved = Helpers.to_map(idmap)
+  end
+
+  if env["RAILWAYSTATIONPHOTOS_TEST_LIVE"] == "TRUE"
+    merged_opts = Vs.merge([
+      {
+        "apikey" => env["RAILWAYSTATIONPHOTOS_APIKEY"],
+      },
+      extra || {},
+    ])
+    client = RailwayStationPhotosSDK.new(Helpers.to_map(merged_opts))
+  end
+
+  live = env["RAILWAYSTATIONPHOTOS_TEST_LIVE"] == "TRUE"
+  {
+    client: client,
+    data: entity_data,
+    idmap: idmap_resolved,
+    env: env,
+    explain: env["RAILWAYSTATIONPHOTOS_TEST_EXPLAIN"] == "TRUE",
+    live: live,
+    synthetic_only: live && !idmap_overridden,
+    now: (Time.now.to_f * 1000).to_i,
+  }
+end

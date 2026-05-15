@@ -1,0 +1,25 @@
+# API Information
+
+
+main: {
+  kit: {
+    info: {
+      description: `Backend Service for https://www.railway-stations.org/. 
+Sourcecode available at: https://codeberg.org/RailwayStations/RSAPI.
+`
+      license: {
+        name: "MIT"
+        url: "https://codeberg.org/RailwayStations/RSAPI/blob/master/LICENSE.txt"
+      }
+      servers: [
+        {
+          url: "https://api.railway-stations.org"
+        }
+      ]
+      title: "RSAPI"
+      version: "20240607.2121"
+    }
+  }
+}
+
+}

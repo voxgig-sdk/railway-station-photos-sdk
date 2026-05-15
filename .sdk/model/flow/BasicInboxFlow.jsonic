@@ -1,0 +1,59 @@
+# BasicInboxFlow
+
+main: kit: flow: BasicInboxFlow:
+{
+  entity: "inbox",
+  kind: "basic",
+  name: "BasicInboxFlow",
+  step: [
+    {
+      input: {
+        ref: "inbox_ref01"
+      }
+
+      op: "create"
+    }
+
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "inbox_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "inbox_ref01",
+        suffix: "_rm0"
+      }
+
+      match: {
+        id: "inbox01"
+      }
+
+      op: "remove"
+    }
+
+    {
+      input: {
+        suffix: "_rt0"
+      }
+
+      op: "list",
+      valid: [
+        {
+          apply: "ItemNotExists",
+          def: {
+            ref: "inbox_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicInboxFlow"
+}

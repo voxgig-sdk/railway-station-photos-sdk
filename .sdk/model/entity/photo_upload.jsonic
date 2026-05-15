@@ -1,0 +1,109 @@
+# Entity: photo_upload
+
+main: kit: entity: photo_upload: {
+
+  alias: field: {}
+
+  name: "photo_upload"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          args: {
+            header: [
+              {
+                kind: "header"
+                name: "active"
+                orig: "active"
+                reqd: false
+                type: "`$BOOLEAN`"
+              }
+              {
+                kind: "header"
+                name: "authorization"
+                orig: "authorization"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                kind: "header"
+                name: "comment"
+                orig: "comment"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "header"
+                name: "content_type"
+                orig: "content_type"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                kind: "header"
+                name: "country"
+                orig: "country"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "header"
+                name: "latitude"
+                orig: "latitude"
+                reqd: false
+                type: "`$NUMBER`"
+              }
+              {
+                kind: "header"
+                name: "longitude"
+                orig: "longitude"
+                reqd: false
+                type: "`$NUMBER`"
+              }
+              {
+                kind: "header"
+                name: "station_id"
+                orig: "station_id"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "header"
+                name: "station_title"
+                orig: "station_title"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "POST"
+          orig: "/photoUpload"
+          parts: [
+            "photoUpload"
+          ]
+          select: {
+            exist: [
+              "active"
+              "authorization"
+              "comment"
+              "content_type"
+              "country"
+              "latitude"
+              "longitude"
+              "station_id"
+              "station_title"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

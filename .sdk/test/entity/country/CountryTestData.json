@@ -1,0 +1,54 @@
+{
+  "existing": {
+    "country": {
+      "COUNTRY00": {
+        "active": true,
+        "allow_photo_upload": false,
+        "code": "s5c",
+        "email": "s5d",
+        "message": "s5e",
+        "name": "s5f",
+        "override_licenses": "s60",
+        "provider_app": [],
+        "timetable_url_template": "s62"
+      },
+      "COUNTRY01": {
+        "active": true,
+        "allow_photo_upload": false,
+        "code": "sb6",
+        "email": "sb7",
+        "message": "sb8",
+        "name": "sb9",
+        "override_licenses": "sba",
+        "provider_app": [],
+        "timetable_url_template": "sbc"
+      },
+      "COUNTRY02": {
+        "active": true,
+        "allow_photo_upload": false,
+        "code": "s110",
+        "email": "s111",
+        "message": "s112",
+        "name": "s113",
+        "override_licenses": "s114",
+        "provider_app": [],
+        "timetable_url_template": "s116"
+      }
+    }
+  },
+  "new": {
+    "country": {
+      "country_ref01": {
+        "active": true,
+        "allow_photo_upload": false,
+        "code": "s16a",
+        "email": "s16b",
+        "message": "s16c",
+        "name": "s16d",
+        "override_licenses": "s16e",
+        "provider_app": [],
+        "timetable_url_template": "s170"
+      }
+    }
+  }
+}

@@ -1,0 +1,118 @@
+# Entity: admin_inbox
+
+main: kit: entity: admin_inbox: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "active"
+      req: false
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "command"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "conflict_resolution"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "country_code"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "ds100"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "id"
+      req: true
+      type: "`$INTEGER`"
+    }
+    {
+      name: "lat"
+      req: false
+      type: "`$NUMBER`"
+    }
+    {
+      name: "lon"
+      req: false
+      type: "`$NUMBER`"
+    }
+    {
+      name: "message"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "reject_reason"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "station_id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "status"
+      req: true
+      type: "`$INTEGER`"
+    }
+    {
+      name: "title"
+      req: false
+      type: "`$STRING`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "admin_inbox"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          args: {
+            header: [
+              {
+                kind: "header"
+                name: "authorization"
+                orig: "authorization"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "POST"
+          orig: "/adminInbox"
+          parts: [
+            "adminInbox"
+          ]
+          select: {
+            exist: [
+              "authorization"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

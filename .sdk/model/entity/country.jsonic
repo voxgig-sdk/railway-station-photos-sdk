@@ -1,0 +1,93 @@
+# Entity: country
+
+main: kit: entity: country: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "active"
+      req: true
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "allow_photo_upload"
+      req: true
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "code"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "email"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "message"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "name"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "override_licenses"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "provider_app"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "timetable_url_template"
+      req: false
+      type: "`$STRING`"
+    }
+  ]
+
+  name: "country"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "only_active"
+                orig: "only_active"
+                reqd: false
+                type: "`$BOOLEAN`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/countries"
+          parts: [
+            "countries"
+          ]
+          select: {
+            exist: [
+              "only_active"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

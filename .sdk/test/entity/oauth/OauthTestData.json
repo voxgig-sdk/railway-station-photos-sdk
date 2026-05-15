@@ -1,0 +1,14 @@
+{
+  "existing": {
+    "oauth": {
+      "OAUTH00": {},
+      "OAUTH01": {},
+      "OAUTH02": {}
+    }
+  },
+  "new": {
+    "oauth": {
+      "oauth_ref01": {}
+    }
+  }
+}

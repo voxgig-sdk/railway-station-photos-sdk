@@ -1,0 +1,37 @@
+# Entity: inbox_count
+
+main: kit: entity: inbox_count: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "pending_inbox_entry"
+      req: true
+      type: "`$INTEGER`"
+    }
+  ]
+
+  name: "inbox_count"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          method: "GET"
+          orig: "/adminInboxCount"
+          parts: [
+            "adminInboxCount"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

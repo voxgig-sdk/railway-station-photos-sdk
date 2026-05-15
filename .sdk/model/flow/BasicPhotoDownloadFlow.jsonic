@@ -1,0 +1,32 @@
+# BasicPhotoDownloadFlow
+
+main: kit: flow: BasicPhotoDownloadFlow:
+{
+  entity: "photo_download",
+  kind: "basic",
+  name: "BasicPhotoDownloadFlow",
+  step: [
+    {
+      input: {
+        ref: "photo_download_ref01",
+        srcdatavar: "photo_download_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "photo_download01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-photo_download_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicPhotoDownloadFlow"
+}

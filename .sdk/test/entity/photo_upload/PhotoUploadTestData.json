@@ -1,0 +1,14 @@
+{
+  "existing": {
+    "photo_upload": {
+      "PHOTO_UPLOAD00": {},
+      "PHOTO_UPLOAD01": {},
+      "PHOTO_UPLOAD02": {}
+    }
+  },
+  "new": {
+    "photo_upload": {
+      "photo_upload_ref01": {}
+    }
+  }
+}

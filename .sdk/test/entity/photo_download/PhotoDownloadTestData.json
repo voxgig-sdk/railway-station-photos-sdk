@@ -1,0 +1,20 @@
+{
+  "existing": {
+    "photo_download": {
+      "PHOTO_DOWNLOAD00": {
+        "filename": "FILENAME01"
+      },
+      "PHOTO_DOWNLOAD01": {
+        "filename": "FILENAME01"
+      },
+      "PHOTO_DOWNLOAD02": {
+        "filename": "FILENAME01"
+      }
+    }
+  },
+  "new": {
+    "photo_download": {
+      "photo_download_ref01": {}
+    }
+  }
+}

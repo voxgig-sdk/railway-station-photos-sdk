@@ -1,0 +1,22 @@
+{
+  "existing": {
+    "inbox_count": {
+      "INBOX_COUNT00": {
+        "pending_inbox_entry": "sa"
+      },
+      "INBOX_COUNT01": {
+        "pending_inbox_entry": "s14"
+      },
+      "INBOX_COUNT02": {
+        "pending_inbox_entry": "s1e"
+      }
+    }
+  },
+  "new": {
+    "inbox_count": {
+      "inbox_count_ref01": {
+        "pending_inbox_entry": "s28"
+      }
+    }
+  }
+}

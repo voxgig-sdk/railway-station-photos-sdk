@@ -1,0 +1,23 @@
+{
+  "existing": {
+    "photo": {
+      "PHOTO00": {
+        "country": "COUNTRY01",
+        "filename": "FILENAME01"
+      },
+      "PHOTO01": {
+        "country": "COUNTRY01",
+        "filename": "FILENAME01"
+      },
+      "PHOTO02": {
+        "country": "COUNTRY01",
+        "filename": "FILENAME01"
+      }
+    }
+  },
+  "new": {
+    "photo": {
+      "photo_ref01": {}
+    }
+  }
+}

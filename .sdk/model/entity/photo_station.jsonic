@@ -1,0 +1,209 @@
+# Entity: photo_station
+
+main: kit: entity: photo_station: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "license"
+      req: true
+      type: "`$ARRAY`"
+    }
+    {
+      name: "photo_base_url"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "photographer"
+      req: true
+      type: "`$ARRAY`"
+    }
+    {
+      name: "station"
+      req: true
+      type: "`$ARRAY`"
+    }
+  ]
+
+  name: "photo_station"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "country"
+                orig: "country"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/photoStationById/{country}/{id}"
+          parts: [
+            "photoStationById"
+            "{country}"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "country"
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            query: [
+              {
+                example: 10
+                kind: "query"
+                name: "since_hour"
+                orig: "since_hour"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/photoStationsByRecentPhotoImports"
+          parts: [
+            "photoStationsByRecentPhotoImports"
+          ]
+          select: {
+            exist: [
+              "since_hour"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "country"
+                orig: "country"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                kind: "query"
+                name: "has_photo"
+                orig: "has_photo"
+                reqd: false
+                type: "`$BOOLEAN`"
+              }
+              {
+                kind: "query"
+                name: "is_active"
+                orig: "is_active"
+                reqd: false
+                type: "`$BOOLEAN`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/photoStationsByCountry/{country}"
+          parts: [
+            "photoStationsByCountry"
+            "{country}"
+          ]
+          select: {
+            exist: [
+              "country"
+              "has_photo"
+              "is_active"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "photographer"
+                orig: "photographer"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                kind: "query"
+                name: "country"
+                orig: "country"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/photoStationsByPhotographer/{photographer}"
+          parts: [
+            "photoStationsByPhotographer"
+            "{photographer}"
+          ]
+          select: {
+            exist: [
+              "country"
+              "photographer"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "photo_station_by_id"
+      ]
+      [
+        "photo_stations_by_country"
+      ]
+      [
+        "photo_stations_by_photographer"
+      ]
+    ]
+  }
+
+
+
+}

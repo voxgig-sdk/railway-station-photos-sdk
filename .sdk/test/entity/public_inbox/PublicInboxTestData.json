@@ -1,0 +1,38 @@
+{
+  "existing": {
+    "public_inbox": {
+      "PUBLIC_INBOX00": {
+        "country_code": "s32",
+        "lat": 51,
+        "lon": 52,
+        "station_id": "STATION01",
+        "title": "s36"
+      },
+      "PUBLIC_INBOX01": {
+        "country_code": "s64",
+        "lat": 101,
+        "lon": 102,
+        "station_id": "STATION01",
+        "title": "s68"
+      },
+      "PUBLIC_INBOX02": {
+        "country_code": "s96",
+        "lat": 151,
+        "lon": 152,
+        "station_id": "STATION01",
+        "title": "s9a"
+      }
+    }
+  },
+  "new": {
+    "public_inbox": {
+      "public_inbox_ref01": {
+        "country_code": "sc8",
+        "lat": 201,
+        "lon": 202,
+        "station_id": "STATION01",
+        "title": "scc"
+      }
+    }
+  }
+}

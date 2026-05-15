@@ -1,0 +1,57 @@
+# Entity: public_inbox
+
+main: kit: entity: public_inbox: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "country_code"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "lat"
+      req: true
+      type: "`$NUMBER`"
+    }
+    {
+      name: "lon"
+      req: true
+      type: "`$NUMBER`"
+    }
+    {
+      name: "station_id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "title"
+      req: true
+      type: "`$STRING`"
+    }
+  ]
+
+  name: "public_inbox"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          method: "GET"
+          orig: "/publicInbox"
+          parts: [
+            "publicInbox"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

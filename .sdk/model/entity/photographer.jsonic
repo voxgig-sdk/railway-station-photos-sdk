@@ -1,0 +1,45 @@
+# Entity: photographer
+
+main: kit: entity: photographer: {
+
+  alias: field: {}
+
+  name: "photographer"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "country"
+                orig: "country"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/photographers"
+          parts: [
+            "photographers"
+          ]
+          select: {
+            exist: [
+              "country"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

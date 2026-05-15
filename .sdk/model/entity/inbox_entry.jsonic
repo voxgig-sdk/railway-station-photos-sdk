@@ -1,0 +1,163 @@
+# Entity: inbox_entry
+
+main: kit: entity: inbox_entry: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "active"
+      req: false
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "comment"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "country_code"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "created_at"
+      req: true
+      type: "`$INTEGER`"
+    }
+    {
+      name: "done"
+      req: true
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "filename"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "has_conflict"
+      req: false
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "has_photo"
+      req: true
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "id"
+      req: true
+      type: "`$INTEGER`"
+    }
+    {
+      name: "inbox_url"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "is_processed"
+      req: false
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "lat"
+      req: false
+      type: "`$NUMBER`"
+    }
+    {
+      name: "lon"
+      req: false
+      type: "`$NUMBER`"
+    }
+    {
+      name: "new_lat"
+      req: false
+      type: "`$NUMBER`"
+    }
+    {
+      name: "new_lon"
+      req: false
+      type: "`$NUMBER`"
+    }
+    {
+      name: "new_title"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "photo_id"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "photographer_email"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "photographer_nickname"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "problem_report_type"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "station_id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "title"
+      req: false
+      type: "`$STRING`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "inbox_entry"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            header: [
+              {
+                kind: "header"
+                name: "authorization"
+                orig: "authorization"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/adminInbox"
+          parts: [
+            "adminInbox"
+          ]
+          select: {
+            exist: [
+              "authorization"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

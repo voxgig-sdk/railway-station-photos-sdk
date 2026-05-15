@@ -1,0 +1,18 @@
+# Flows
+
+@"BasicAdminInboxFlow.jsonic"
+@"BasicCountryFlow.jsonic"
+@"BasicInboxCountFlow.jsonic"
+@"BasicInboxEntryFlow.jsonic"
+@"BasicInboxFlow.jsonic"
+@"BasicInboxStateQueryFlow.jsonic"
+@"BasicOAuthTokenFlow.jsonic"
+@"BasicOauthFlow.jsonic"
+@"BasicPhotoDownloadFlow.jsonic"
+@"BasicPhotoFlow.jsonic"
+@"BasicPhotoStationFlow.jsonic"
+@"BasicPhotoUploadFlow.jsonic"
+@"BasicPhotographerFlow.jsonic"
+@"BasicProfileFlow.jsonic"
+@"BasicPublicInboxFlow.jsonic"
+@"BasicStatFlow.jsonic"

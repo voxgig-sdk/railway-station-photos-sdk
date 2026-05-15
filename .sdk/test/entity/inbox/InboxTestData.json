@@ -1,0 +1,85 @@
+{
+  "existing": {
+    "inbox": {
+      "INBOX00": {
+        "comment": "saa",
+        "country_code": "sab",
+        "crc32": "sac",
+        "created_at": "sad",
+        "filename": "sae",
+        "id": "INBOX00",
+        "inbox_url": "sb0",
+        "lat": 177,
+        "lon": 178,
+        "new_lat": 179,
+        "new_lon": 180,
+        "new_title": "sb5",
+        "problem_report_type": "sb6",
+        "rejected_reason": "sb7",
+        "state": "sb8",
+        "station_id": "STATION01",
+        "title": "sba"
+      },
+      "INBOX01": {
+        "comment": "s154",
+        "country_code": "s155",
+        "crc32": "s156",
+        "created_at": "s157",
+        "filename": "s158",
+        "id": "INBOX01",
+        "inbox_url": "s15a",
+        "lat": 347,
+        "lon": 348,
+        "new_lat": 349,
+        "new_lon": 350,
+        "new_title": "s15f",
+        "problem_report_type": "s160",
+        "rejected_reason": "s161",
+        "state": "s162",
+        "station_id": "STATION01",
+        "title": "s164"
+      },
+      "INBOX02": {
+        "comment": "s1fe",
+        "country_code": "s1ff",
+        "crc32": "s200",
+        "created_at": "s201",
+        "filename": "s202",
+        "id": "INBOX02",
+        "inbox_url": "s204",
+        "lat": 517,
+        "lon": 518,
+        "new_lat": 519,
+        "new_lon": 520,
+        "new_title": "s209",
+        "problem_report_type": "s20a",
+        "rejected_reason": "s20b",
+        "state": "s20c",
+        "station_id": "STATION01",
+        "title": "s20e"
+      }
+    }
+  },
+  "new": {
+    "inbox": {
+      "inbox_ref01": {
+        "comment": "s2a8",
+        "country_code": "s2a9",
+        "crc32": "s2aa",
+        "created_at": "s2ab",
+        "filename": "s2ac",
+        "inbox_url": "s2ae",
+        "lat": 687,
+        "lon": 688,
+        "new_lat": 689,
+        "new_lon": 690,
+        "new_title": "s2b3",
+        "problem_report_type": "s2b4",
+        "rejected_reason": "s2b5",
+        "state": "s2b6",
+        "station_id": "STATION01",
+        "title": "s2b8"
+      }
+    }
+  }
+}

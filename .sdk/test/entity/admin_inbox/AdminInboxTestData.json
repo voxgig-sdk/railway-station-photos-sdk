@@ -1,0 +1,69 @@
+{
+  "existing": {
+    "admin_inbox": {
+      "ADMIN_INBOX00": {
+        "active": true,
+        "command": "s83",
+        "conflict_resolution": "s84",
+        "country_code": "s85",
+        "ds100": "s86",
+        "id": "ADMIN_INBOX00",
+        "lat": 136,
+        "lon": 137,
+        "message": "s8a",
+        "reject_reason": "s8b",
+        "station_id": "STATION01",
+        "status": "s8d",
+        "title": "s8e"
+      },
+      "ADMIN_INBOX01": {
+        "active": true,
+        "command": "s105",
+        "conflict_resolution": "s106",
+        "country_code": "s107",
+        "ds100": "s108",
+        "id": "ADMIN_INBOX01",
+        "lat": 266,
+        "lon": 267,
+        "message": "s10c",
+        "reject_reason": "s10d",
+        "station_id": "STATION01",
+        "status": "s10f",
+        "title": "s110"
+      },
+      "ADMIN_INBOX02": {
+        "active": true,
+        "command": "s187",
+        "conflict_resolution": "s188",
+        "country_code": "s189",
+        "ds100": "s18a",
+        "id": "ADMIN_INBOX02",
+        "lat": 396,
+        "lon": 397,
+        "message": "s18e",
+        "reject_reason": "s18f",
+        "station_id": "STATION01",
+        "status": "s191",
+        "title": "s192"
+      }
+    }
+  },
+  "new": {
+    "admin_inbox": {
+      "admin_inbox_ref01": {
+        "active": true,
+        "command": "s209",
+        "conflict_resolution": "s20a",
+        "country_code": "s20b",
+        "ds100": "s20c",
+        "lat": 526,
+        "lon": 527,
+        "message": "s210",
+        "reject_reason": "s211",
+        "station_id": "STATION01",
+        "status": "s213",
+        "title": "s214"
+      }
+    }
+  }
+}
