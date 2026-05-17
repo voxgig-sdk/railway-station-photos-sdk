@@ -6,21 +6,24 @@
         "expires_in": "s33",
         "refresh_token": "s34",
         "scope": "s35",
-        "token_type": "s36"
+        "token_type": "s36",
+        "id": "O_AUTH_TOKEN00"
       },
       "O_AUTH_TOKEN01": {
         "access_token": "s64",
         "expires_in": "s65",
         "refresh_token": "s66",
         "scope": "s67",
-        "token_type": "s68"
+        "token_type": "s68",
+        "id": "O_AUTH_TOKEN01"
       },
       "O_AUTH_TOKEN02": {
         "access_token": "s96",
         "expires_in": "s97",
         "refresh_token": "s98",
         "scope": "s99",
-        "token_type": "s9a"
+        "token_type": "s9a",
+        "id": "O_AUTH_TOKEN02"
       }
     }
   },

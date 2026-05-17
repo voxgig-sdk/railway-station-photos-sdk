@@ -223,7 +223,7 @@ func MakeConfig() map[string]any {
 						"index$": 5,
 					},
 					map[string]any{
-						"name": "override_licenses",
+						"name": "override_license",
 						"req": false,
 						"type": "`$STRING`",
 						"active": true,
@@ -1740,7 +1740,7 @@ func MakeConfig() map[string]any {
 						"index$": 3,
 					},
 					map[string]any{
-						"name": "licenses",
+						"name": "license",
 						"op": map[string]any{
 							"create": map[string]any{
 								"req": false,

@@ -369,7 +369,7 @@ const country = client.Country()
 | `email` | ``$STRING`` | No |  |
 | `message` | ``$STRING`` | No |  |
 | `name` | ``$STRING`` | Yes |  |
-| `override_licenses` | ``$STRING`` | No |  |
+| `override_license` | ``$STRING`` | No |  |
 | `provider_app` | ``$ARRAY`` | No |  |
 | `timetable_url_template` | ``$STRING`` | No |  |
 
@@ -1013,7 +1013,7 @@ const profile = client.Profile()
 | `anonymous` | ``$BOOLEAN`` | No |  |
 | `email` | ``$STRING`` | No |  |
 | `email_verified` | ``$BOOLEAN`` | No |  |
-| `licenses` | ``$STRING`` | Yes |  |
+| `license` | ``$STRING`` | Yes |  |
 | `link` | ``$STRING`` | No |  |
 | `new_password` | ``$STRING`` | Yes |  |
 | `nickname` | ``$STRING`` | Yes |  |
@@ -1028,7 +1028,7 @@ const profile = client.Profile()
 | `anonymous` | - | - | - | - | - |
 | `email` | - | - | Yes | - | - |
 | `email_verified` | - | - | - | - | - |
-| `licenses` | - | - | Yes | - | - |
+| `license` | - | - | Yes | - | - |
 | `link` | - | - | - | - | - |
 | `new_password` | - | - | - | - | - |
 | `nickname` | - | - | - | - | - |
@@ -1043,7 +1043,7 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.Profile().create({
-  licenses: /* `$STRING` */,
+  license: /* `$STRING` */,
   new_password: /* `$STRING` */,
   nickname: /* `$STRING` */,
   photo_owner: /* `$BOOLEAN` */,

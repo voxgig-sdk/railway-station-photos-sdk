@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	sdk "github.com/voxgig-sdk/railway-station-photos-sdk"
-	"github.com/voxgig-sdk/railway-station-photos-sdk/core"
+	sdk "github.com/voxgig-sdk/railway-station-photos-sdk/go"
+	"github.com/voxgig-sdk/railway-station-photos-sdk/go/core"
 )
 
 func TestPublicInboxDirect(t *testing.T) {

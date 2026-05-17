@@ -1,9 +1,15 @@
 {
   "existing": {
     "photo_upload": {
-      "PHOTO_UPLOAD00": {},
-      "PHOTO_UPLOAD01": {},
-      "PHOTO_UPLOAD02": {}
+      "PHOTO_UPLOAD00": {
+        "id": "PHOTO_UPLOAD00"
+      },
+      "PHOTO_UPLOAD01": {
+        "id": "PHOTO_UPLOAD01"
+      },
+      "PHOTO_UPLOAD02": {
+        "id": "PHOTO_UPLOAD02"
+      }
     }
   },
   "new": {

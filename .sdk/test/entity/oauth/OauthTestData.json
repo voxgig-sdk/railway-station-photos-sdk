@@ -1,9 +1,15 @@
 {
   "existing": {
     "oauth": {
-      "OAUTH00": {},
-      "OAUTH01": {},
-      "OAUTH02": {}
+      "OAUTH00": {
+        "id": "OAUTH00"
+      },
+      "OAUTH01": {
+        "id": "OAUTH01"
+      },
+      "OAUTH02": {
+        "id": "OAUTH02"
+      }
     }
   },
   "new": {

@@ -4,7 +4,7 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/voxgig-sdk/railway-station-photos-sdk/core"
+	"github.com/voxgig-sdk/railway-station-photos-sdk/go/core"
 )
 
 type LogFeature struct {

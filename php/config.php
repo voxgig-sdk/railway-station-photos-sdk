@@ -229,7 +229,7 @@ class RailwayStationPhotosConfig
               'index$' => 5,
             ],
             [
-              'name' => 'override_licenses',
+              'name' => 'override_license',
               'req' => false,
               'type' => '`$STRING`',
               'active' => true,
@@ -1746,7 +1746,7 @@ class RailwayStationPhotosConfig
               'index$' => 3,
             ],
             [
-              'name' => 'licenses',
+              'name' => 'license',
               'op' => [
                 'create' => [
                   'req' => false,

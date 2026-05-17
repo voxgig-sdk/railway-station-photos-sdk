@@ -6,39 +6,42 @@
         "anonymous": false,
         "email": "s66",
         "email_verified": false,
-        "licenses": "s68",
+        "license": "s68",
         "link": "s69",
         "new_password": "s6a",
         "nickname": "s6b",
         "photo_owner": true,
         "send_notification": false,
-        "token": "TOKEN01"
+        "token": "TOKEN01",
+        "id": "PROFILE00"
       },
       "PROFILE01": {
         "admin": true,
         "anonymous": false,
         "email": "sca",
         "email_verified": false,
-        "licenses": "scc",
+        "license": "scc",
         "link": "scd",
         "new_password": "sce",
         "nickname": "scf",
         "photo_owner": true,
         "send_notification": false,
-        "token": "TOKEN01"
+        "token": "TOKEN01",
+        "id": "PROFILE01"
       },
       "PROFILE02": {
         "admin": true,
         "anonymous": false,
         "email": "s12e",
         "email_verified": false,
-        "licenses": "s130",
+        "license": "s130",
         "link": "s131",
         "new_password": "s132",
         "nickname": "s133",
         "photo_owner": true,
         "send_notification": false,
-        "token": "TOKEN01"
+        "token": "TOKEN01",
+        "id": "PROFILE02"
       }
     }
   },
@@ -49,7 +52,7 @@
         "anonymous": false,
         "email": "s192",
         "email_verified": false,
-        "licenses": "s194",
+        "license": "s194",
         "link": "s195",
         "new_password": "s196",
         "nickname": "s197",

@@ -3,7 +3,7 @@ package sdktest
 import (
 	"testing"
 
-	sdk "github.com/voxgig-sdk/railway-station-photos-sdk"
+	sdk "github.com/voxgig-sdk/railway-station-photos-sdk/go"
 )
 
 func TestCustomUtility(t *testing.T) {

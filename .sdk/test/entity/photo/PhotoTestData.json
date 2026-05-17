@@ -3,15 +3,18 @@
     "photo": {
       "PHOTO00": {
         "country": "COUNTRY01",
-        "filename": "FILENAME01"
+        "filename": "FILENAME01",
+        "id": "PHOTO00"
       },
       "PHOTO01": {
         "country": "COUNTRY01",
-        "filename": "FILENAME01"
+        "filename": "FILENAME01",
+        "id": "PHOTO01"
       },
       "PHOTO02": {
         "country": "COUNTRY01",
-        "filename": "FILENAME01"
+        "filename": "FILENAME01",
+        "id": "PHOTO02"
       }
     }
   },

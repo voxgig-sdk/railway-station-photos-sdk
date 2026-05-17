@@ -1,7 +1,7 @@
 package feature
 
 import (
-	"github.com/voxgig-sdk/railway-station-photos-sdk/core"
+	"github.com/voxgig-sdk/railway-station-photos-sdk/go/core"
 )
 
 type BaseFeature struct {

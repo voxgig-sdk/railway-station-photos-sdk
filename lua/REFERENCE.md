@@ -225,7 +225,7 @@ local country = client:Country(nil)
 | `email` | ``$STRING`` | No |  |
 | `message` | ``$STRING`` | No |  |
 | `name` | ``$STRING`` | Yes |  |
-| `override_licenses` | ``$STRING`` | No |  |
+| `override_license` | ``$STRING`` | No |  |
 | `provider_app` | ``$ARRAY`` | No |  |
 | `timetable_url_template` | ``$STRING`` | No |  |
 
@@ -893,7 +893,7 @@ local profile = client:Profile(nil)
 | `anonymous` | ``$BOOLEAN`` | No |  |
 | `email` | ``$STRING`` | No |  |
 | `email_verified` | ``$BOOLEAN`` | No |  |
-| `licenses` | ``$STRING`` | Yes |  |
+| `license` | ``$STRING`` | Yes |  |
 | `link` | ``$STRING`` | No |  |
 | `new_password` | ``$STRING`` | Yes |  |
 | `nickname` | ``$STRING`` | Yes |  |
@@ -908,7 +908,7 @@ local profile = client:Profile(nil)
 | `anonymous` | - | - | - | - | - |
 | `email` | - | - | Yes | - | - |
 | `email_verified` | - | - | - | - | - |
-| `licenses` | - | - | Yes | - | - |
+| `license` | - | - | Yes | - | - |
 | `link` | - | - | - | - | - |
 | `new_password` | - | - | - | - | - |
 | `nickname` | - | - | - | - | - |
@@ -923,7 +923,7 @@ Create a new entity with the given data.
 
 ```lua
 local result, err = client:Profile(nil):create({
-  licenses = --[[ `$STRING` ]],
+  license = --[[ `$STRING` ]],
   new_password = --[[ `$STRING` ]],
   nickname = --[[ `$STRING` ]],
   photo_owner = --[[ `$BOOLEAN` ]],

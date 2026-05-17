@@ -3,9 +3,9 @@ package utility
 import (
 	"strings"
 
-	vs "github.com/voxgig/struct"
+	vs "github.com/voxgig-sdk/railway-station-photos-sdk/go/utility/struct"
 
-	"github.com/voxgig-sdk/railway-station-photos-sdk/core"
+	"github.com/voxgig-sdk/railway-station-photos-sdk/go/core"
 )
 
 func makePointUtil(ctx *core.Context) (map[string]any, error) {

@@ -1,9 +1,9 @@
 package entity
 
 import (
-	"github.com/voxgig-sdk/railway-station-photos-sdk/core"
+	"github.com/voxgig-sdk/railway-station-photos-sdk/go/core"
 
-	vs "github.com/voxgig/struct"
+	vs "github.com/voxgig-sdk/railway-station-photos-sdk/go/utility/struct"
 )
 
 type PhotoDownloadEntity struct {

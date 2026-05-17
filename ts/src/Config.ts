@@ -284,7 +284,7 @@ class Config {
           "index$": 5
         },
         {
-          "name": "override_licenses",
+          "name": "override_license",
           "req": false,
           "type": "`$STRING`",
           "active": true,
@@ -1801,7 +1801,7 @@ class Config {
           "index$": 3
         },
         {
-          "name": "licenses",
+          "name": "license",
           "op": {
             "create": {
               "req": false,

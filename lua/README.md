@@ -248,7 +248,7 @@ API path: `/adminInbox`
 | `email` |  |
 | `message` |  |
 | `name` |  |
-| `override_licenses` |  |
+| `override_license` |  |
 | `provider_app` |  |
 | `timetable_url_template` |  |
 
@@ -412,7 +412,7 @@ API path: `/photographers`
 | `anonymous` |  |
 | `email` |  |
 | `email_verified` |  |
-| `licenses` |  |
+| `license` |  |
 | `link` |  |
 | `new_password` |  |
 | `nickname` |  |
@@ -515,7 +515,7 @@ Create an instance: `const country = client.Country()`
 | `email` | ``$STRING`` |  |
 | `message` | ``$STRING`` |  |
 | `name` | ``$STRING`` |  |
-| `override_licenses` | ``$STRING`` |  |
+| `override_license` | ``$STRING`` |  |
 | `provider_app` | ``$ARRAY`` |  |
 | `timetable_url_template` | ``$STRING`` |  |
 
@@ -825,7 +825,7 @@ Create an instance: `const profile = client.Profile()`
 | `anonymous` | ``$BOOLEAN`` |  |
 | `email` | ``$STRING`` |  |
 | `email_verified` | ``$BOOLEAN`` |  |
-| `licenses` | ``$STRING`` |  |
+| `license` | ``$STRING`` |  |
 | `link` | ``$STRING`` |  |
 | `new_password` | ``$STRING`` |  |
 | `nickname` | ``$STRING`` |  |
@@ -842,7 +842,7 @@ const profile = await client.Profile().load({ id: 'profile_id' })
 
 ```ts
 const profile = await client.Profile().create({
-  licenses: /* `$STRING` */,
+  license: /* `$STRING` */,
   new_password: /* `$STRING` */,
   nickname: /* `$STRING` */,
   photo_owner: /* `$BOOLEAN` */,

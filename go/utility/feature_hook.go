@@ -3,7 +3,7 @@ package utility
 import (
 	"reflect"
 
-	"github.com/voxgig-sdk/railway-station-photos-sdk/core"
+	"github.com/voxgig-sdk/railway-station-photos-sdk/go/core"
 )
 
 func featureHookUtil(ctx *core.Context, name string) {

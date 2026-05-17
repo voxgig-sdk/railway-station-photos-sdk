@@ -36,7 +36,7 @@ main: kit: entity: country: {
       type: "`$STRING`"
     }
     {
-      name: "override_licenses"
+      name: "override_license"
       req: false
       type: "`$STRING`"
     }

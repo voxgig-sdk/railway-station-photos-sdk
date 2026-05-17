@@ -2,13 +2,16 @@
   "existing": {
     "photo_download": {
       "PHOTO_DOWNLOAD00": {
-        "filename": "FILENAME01"
+        "filename": "FILENAME01",
+        "id": "PHOTO_DOWNLOAD00"
       },
       "PHOTO_DOWNLOAD01": {
-        "filename": "FILENAME01"
+        "filename": "FILENAME01",
+        "id": "PHOTO_DOWNLOAD01"
       },
       "PHOTO_DOWNLOAD02": {
-        "filename": "FILENAME01"
+        "filename": "FILENAME01",
+        "id": "PHOTO_DOWNLOAD02"
       }
     }
   },

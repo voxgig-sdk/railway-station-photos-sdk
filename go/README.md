@@ -5,14 +5,14 @@ The Golang SDK for the RailwayStationPhotos API. Provides an entity-oriented int
 
 ## Install
 ```bash
-go get github.com/voxgig-sdk/railway-station-photos-sdk
+go get github.com/voxgig-sdk/railway-station-photos-sdk/go
 ```
 
 If the module is not yet published to a registry, use a `replace` directive
 in your `go.mod` to point to a local checkout:
 
 ```bash
-go mod edit -replace github.com/voxgig-sdk/railway-station-photos-sdk=../path/to/github.com/voxgig-sdk/railway-station-photos-sdk
+go mod edit -replace github.com/voxgig-sdk/railway-station-photos-sdk/go=../path/to/github.com/voxgig-sdk/railway-station-photos-sdk/go
 ```
 
 
@@ -30,8 +30,8 @@ import (
     "fmt"
     "os"
 
-    sdk "github.com/voxgig-sdk/railway-station-photos-sdk"
-    "github.com/voxgig-sdk/railway-station-photos-sdk/core"
+    sdk "github.com/voxgig-sdk/railway-station-photos-sdk/go"
+    "github.com/voxgig-sdk/railway-station-photos-sdk/go/core"
 )
 
 func main() {
@@ -262,7 +262,7 @@ API path: `/adminInbox`
 | `"email"` |  |
 | `"message"` |  |
 | `"name"` |  |
-| `"override_licenses"` |  |
+| `"override_license"` |  |
 | `"provider_app"` |  |
 | `"timetable_url_template"` |  |
 
@@ -426,7 +426,7 @@ API path: `/photographers`
 | `"anonymous"` |  |
 | `"email"` |  |
 | `"email_verified"` |  |
-| `"licenses"` |  |
+| `"license"` |  |
 | `"link"` |  |
 | `"new_password"` |  |
 | `"nickname"` |  |
@@ -529,7 +529,7 @@ Create an instance: `country := client.Country(nil)`
 | `email` | ``$STRING`` |  |
 | `message` | ``$STRING`` |  |
 | `name` | ``$STRING`` |  |
-| `override_licenses` | ``$STRING`` |  |
+| `override_license` | ``$STRING`` |  |
 | `provider_app` | ``$ARRAY`` |  |
 | `timetable_url_template` | ``$STRING`` |  |
 
@@ -839,7 +839,7 @@ Create an instance: `profile := client.Profile(nil)`
 | `anonymous` | ``$BOOLEAN`` |  |
 | `email` | ``$STRING`` |  |
 | `email_verified` | ``$BOOLEAN`` |  |
-| `licenses` | ``$STRING`` |  |
+| `license` | ``$STRING`` |  |
 | `link` | ``$STRING`` |  |
 | `new_password` | ``$STRING`` |  |
 | `nickname` | ``$STRING`` |  |
@@ -856,7 +856,7 @@ result, err := client.Profile(nil).Load(map[string]any{"id": "profile_id"}, nil)
 
 ```go
 result, err := client.Profile(nil).Create(map[string]any{
-    "licenses": /* `$STRING` */,
+    "license": /* `$STRING` */,
     "new_password": /* `$STRING` */,
     "nickname": /* `$STRING` */,
     "photo_owner": /* `$BOOLEAN` */,
@@ -968,7 +968,7 @@ Use `core.ToMapAny()` to safely cast results and nested data.
 ### Package structure
 
 ```
-github.com/voxgig-sdk/railway-station-photos-sdk/
+github.com/voxgig-sdk/railway-station-photos-sdk/go/
 ├── railway-station-photos.go        # Root package — type aliases and constructors
 ├── core/               # SDK core — client, types, pipeline
 ├── entity/             # Entity implementations
@@ -977,7 +977,7 @@ github.com/voxgig-sdk/railway-station-photos-sdk/
 └── test/               # Test suites
 ```
 
-The root package (`github.com/voxgig-sdk/railway-station-photos-sdk`) re-exports everything needed
+The root package (`github.com/voxgig-sdk/railway-station-photos-sdk/go`) re-exports everything needed
 for normal use. Import sub-packages only when you need specific types
 like `core.ToMapAny`.
 

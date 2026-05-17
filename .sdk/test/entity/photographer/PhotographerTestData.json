@@ -1,9 +1,15 @@
 {
   "existing": {
     "photographer": {
-      "PHOTOGRAPHER00": {},
-      "PHOTOGRAPHER01": {},
-      "PHOTOGRAPHER02": {}
+      "PHOTOGRAPHER00": {
+        "id": "PHOTOGRAPHER00"
+      },
+      "PHOTOGRAPHER01": {
+        "id": "PHOTOGRAPHER01"
+      },
+      "PHOTOGRAPHER02": {
+        "id": "PHOTOGRAPHER02"
+      }
     }
   },
   "new": {

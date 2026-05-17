@@ -200,7 +200,7 @@
               "active": true
             },
             {
-              "name": "override_licenses",
+              "name": "override_license",
               "req": false,
               "type": "`$STRING`",
               "active": true
@@ -1681,7 +1681,7 @@
               "active": true
             },
             {
-              "name": "licenses",
+              "name": "license",
               "op": {
                 "create": {
                   "req": false,
@@ -2158,6 +2158,9 @@
               "deps": {}
             },
             "rb": {
+              "deps": {}
+            },
+            "go-cli": {
               "deps": {}
             }
           }
@@ -2684,6 +2687,33 @@
         }
       },
       "target": {
+        "go-cli": {
+          "title": "Go CLI",
+          "ext": "go",
+          "comment": {
+            "line": "//"
+          },
+          "module": {
+            "name": "railway-station-photos"
+          },
+          "phase": {
+            "entity": {
+              "active": false
+            },
+            "feature": {
+              "active": false
+            },
+            "readme": {
+              "active": false
+            },
+            "test": {
+              "active": false
+            }
+          },
+          "deps": {},
+          "name": "go-cli",
+          "active": true
+        },
         "ts": {
           "title": "TypeScript",
           "ext": "ts",
@@ -2724,14 +2754,7 @@
             "name": "railway-station-photos"
           },
           "srcfeature": false,
-          "deps": {
-            "github.com/voxgig/struct": {
-              "active": true,
-              "version": "v0.0.0",
-              "replace": "./utility/struct",
-              "kind": "prod"
-            }
-          },
+          "deps": {},
           "name": "go",
           "active": true
         },
@@ -2819,15 +2842,6 @@
     },
     "def": {
       "desc": ""
-    },
-    "api": {
-      "guide": {},
-      "entity": {}
     }
-  },
-  "name__orig": "railway-station-photos",
-  "Name": "RailwayStationPhotos",
-  "name_": "railway_station_photos",
-  "name-": "railway-station-photos",
-  "NAME": "RAILWAY-STATION-PHOTOS"
+  }
 }

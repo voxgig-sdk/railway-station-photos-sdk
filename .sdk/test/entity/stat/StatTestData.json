@@ -6,21 +6,24 @@
         "photographer": "s33",
         "total": "s34",
         "with_photo": "s35",
-        "without_photo": "s36"
+        "without_photo": "s36",
+        "id": "STAT00"
       },
       "STAT01": {
         "country_code": "s64",
         "photographer": "s65",
         "total": "s66",
         "with_photo": "s67",
-        "without_photo": "s68"
+        "without_photo": "s68",
+        "id": "STAT01"
       },
       "STAT02": {
         "country_code": "s96",
         "photographer": "s97",
         "total": "s98",
         "with_photo": "s99",
-        "without_photo": "s9a"
+        "without_photo": "s9a",
+        "id": "STAT02"
       }
     }
   },

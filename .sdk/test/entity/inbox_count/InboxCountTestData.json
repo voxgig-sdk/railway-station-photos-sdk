@@ -2,13 +2,16 @@
   "existing": {
     "inbox_count": {
       "INBOX_COUNT00": {
-        "pending_inbox_entry": "sa"
+        "pending_inbox_entry": "sa",
+        "id": "INBOX_COUNT00"
       },
       "INBOX_COUNT01": {
-        "pending_inbox_entry": "s14"
+        "pending_inbox_entry": "s14",
+        "id": "INBOX_COUNT01"
       },
       "INBOX_COUNT02": {
-        "pending_inbox_entry": "s1e"
+        "pending_inbox_entry": "s1e",
+        "id": "INBOX_COUNT02"
       }
     }
   },
