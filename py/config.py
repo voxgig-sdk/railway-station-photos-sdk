@@ -15,9 +15,6 @@ def make_config():
         },
         "options": {
             "base": "https://api.railway-stations.org",
-            "auth": {
-                "prefix": "Bearer",
-            },
             "headers": {
         "content-type": "application/json",
       },

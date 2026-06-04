@@ -61,14 +61,12 @@ def profile_direct_setup(mockres)
   env = Runner.env_override({
     "RAILWAYSTATIONPHOTOS_TEST_PROFILE_ENTID" => {},
     "RAILWAYSTATIONPHOTOS_TEST_LIVE" => "FALSE",
-    "RAILWAYSTATIONPHOTOS_APIKEY" => "NONE",
   })
 
   live = env["RAILWAYSTATIONPHOTOS_TEST_LIVE"] == "TRUE"
 
   if live
     merged_opts = {
-      "apikey" => env["RAILWAYSTATIONPHOTOS_APIKEY"],
     }
     client = RailwayStationPhotosSDK.new(merged_opts)
     return {

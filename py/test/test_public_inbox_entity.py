@@ -92,7 +92,6 @@ def _public_inbox_basic_setup(extra):
         "RAILWAYSTATIONPHOTOS_TEST_PUBLIC_INBOX_ENTID": idmap,
         "RAILWAYSTATIONPHOTOS_TEST_LIVE": "FALSE",
         "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN": "FALSE",
-        "RAILWAYSTATIONPHOTOS_APIKEY": "NONE",
     })
 
     idmap_resolved = helpers.to_map(
@@ -103,7 +102,6 @@ def _public_inbox_basic_setup(extra):
     if env.get("RAILWAYSTATIONPHOTOS_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
             {
-                "apikey": env.get("RAILWAYSTATIONPHOTOS_APIKEY"),
             },
             extra or {},
         ])

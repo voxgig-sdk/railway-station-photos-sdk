@@ -18,8 +18,43 @@ Sourcecode available at: https://codeberg.org/RailwayStations/RSAPI.
       ]
       title: "RSAPI"
       version: "20240607.2121"
+      tagline: "Crowd-sourced photos of railway stations across many countries, served as open data"
+      homepage: "https://railway-stations.org"
+      docs_url: "https://api.railway-stations.org/openapi.yaml"
+      license_short: "MIT (API code); most photos contributed under CC0"
+      license_md: `- API source code is published under the MIT licence.
+- Most station photographs are contributed under CC0 and can be reused without restriction.
+- Individual photos may carry their own licence and photographer attribution — check the photo metadata before reuse.
+- Station and country data come from community contributors via the RailwayStations OpenData project.`
+      about_md: `[RSAPI](https://api.railway-stations.org) is the backend for [railway-stations.org](https://railway-stations.org), an OpenData project that collects photographs of railway stations from many countries. The service and its community are organised on [GitHub](https://github.com/RailwayStations).
+
+What you get from the API:
+- Lists of countries participating in the project and their stations.
+- Photos for a given station, addressed by country code plus station ID.
+- A photographer directory and per-photographer profile data.
+- An inbox workflow for submitting, reviewing and moderating new photo uploads.
+- Aggregate statistics about the collection.
+
+Public read endpoints do not require authentication and CORS is enabled. Upload, inbox and profile operations use OAuth tokens. The full machine-readable contract is published at \`https://api.railway-stations.org/openapi.yaml\`.`
+      entity_desc: {
+        admin_inbox: "Moderator-facing view of submitted photos awaiting review in the inbox workflow."
+        country: "Participating country in the project, identified by an ISO country code (for example `ch` for Switzerland)."
+        inbox: "Submission queue for new station photos contributed by users."
+        inbox_count: "Counters summarising how many entries are pending in the inbox."
+        inbox_entry: "A single pending photo submission, including the proposed station and uploader."
+        inbox_state_query: "Query for the current moderation state of one or more inbox entries."
+        o_auth_token: "OAuth bearer token used to authenticate photographer and inbox operations."
+        oauth: "OAuth endpoints used to obtain and manage access tokens for authenticated calls."
+        photo: "A station photograph with its photographer, licence and metadata."
+        photo_download: "Binary download of a photo file."
+        photo_station: "A railway station with its associated photos, addressed by country code and station ID."
+        photo_upload: "Upload endpoint for submitting a new station photo into the inbox workflow."
+        photographer: "A contributor who has uploaded one or more station photos."
+        profile: "Authenticated photographer's own profile and account settings."
+        public_inbox: "Public, read-only view of pending submissions in the inbox."
+        stat: "Aggregate statistics about stations, photos and photographers in the project."
+      }
+      auth: false
     }
   }
-}
-
 }
