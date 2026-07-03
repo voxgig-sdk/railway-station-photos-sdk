@@ -10,7 +10,7 @@ The Lua SDK for the RailwayStationPhotos API — an entity-oriented client using
 
 ## Install
 ```bash
-luarocks install railway-station-photos-sdk
+luarocks install voxgig-sdk-railway-station-photos
 ```
 
 If the module is not yet published, add the source directory to

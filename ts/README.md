@@ -10,7 +10,7 @@ The TypeScript SDK for the RailwayStationPhotos API — a type-safe, entity-orie
 
 ## Install
 ```bash
-npm install railway-station-photos
+npm install @voxgig-sdk/railway-station-photos
 ```
 ## Tutorial: your first API call
 

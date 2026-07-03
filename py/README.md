@@ -10,7 +10,7 @@ The Python SDK for the RailwayStationPhotos API — an entity-oriented client fo
 
 ## Install
 ```bash
-pip install railway-station-photos-sdk
+pip install voxgig-sdk-railway-station-photos
 ```
 
 Or install from source:

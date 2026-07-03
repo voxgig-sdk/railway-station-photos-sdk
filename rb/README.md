@@ -10,13 +10,13 @@ The Ruby SDK for the RailwayStationPhotos API — an entity-oriented client usin
 
 ## Install
 ```bash
-gem install railway-station-photos-sdk
+gem install voxgig-sdk-railway-station-photos
 ```
 
 Or add to your `Gemfile`:
 
 ```ruby
-gem "railway-station-photos-sdk"
+gem "voxgig-sdk-railway-station-photos"
 ```
 
 Then run:

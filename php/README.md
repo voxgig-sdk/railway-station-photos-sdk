@@ -10,7 +10,7 @@ The PHP SDK for the RailwayStationPhotos API — an entity-oriented client using
 
 ## Install
 ```bash
-composer require voxgig/railway-station-photos-sdk
+composer require voxgig-sdk/railway-station-photos
 ```
 
 
