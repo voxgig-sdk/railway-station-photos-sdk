@@ -61,12 +61,14 @@ def _public_inbox_direct_setup(mockres):
     env = runner.env_override({
         "RAILWAYSTATIONPHOTOS_TEST_PUBLIC_INBOX_ENTID": {},
         "RAILWAYSTATIONPHOTOS_TEST_LIVE": "FALSE",
+        "RAILWAYSTATIONPHOTOS_APIKEY": "NONE",
     })
 
     live = env.get("RAILWAYSTATIONPHOTOS_TEST_LIVE") == "TRUE"
 
     if live:
         merged_opts = {
+            "apikey": env.get("RAILWAYSTATIONPHOTOS_APIKEY"),
         }
         client = RailwayStationPhotosSDK(merged_opts)
         return {

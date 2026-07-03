@@ -1,6 +1,11 @@
 # RailwayStationPhotos TypeScript SDK
 
-The TypeScript SDK for the RailwayStationPhotos API. Provides a type-safe, entity-oriented interface with full async/await support.
+
+
+The TypeScript SDK for the RailwayStationPhotos API — a type-safe, entity-oriented client with full async/await support.
+
+> Other languages, the CLI, and MCP server live alongside this one — see
+> the [top-level README](../README.md).
 
 
 ## Install
@@ -17,7 +22,9 @@ loading a specific record.
 ```ts
 import { RailwayStationPhotosSDK } from 'railway-station-photos'
 
-const client = new RailwayStationPhotosSDK({})
+const client = new RailwayStationPhotosSDK({
+  apikey: process.env.RAILWAY-STATION-PHOTOS_APIKEY,
+})
 ```
 
 ### 4. Create, update, and remove
@@ -80,7 +87,7 @@ const result = await client.Planet().load({ id: 'test01' })
 You can also use the instance method:
 
 ```ts
-const client = new RailwayStationPhotosSDK()
+const client = new RailwayStationPhotosSDK({ apikey: '...' })
 const testClient = client.tester()
 ```
 
@@ -116,6 +123,7 @@ const logger = {
 }
 
 const client = new RailwayStationPhotosSDK({
+  apikey: '...',
   extend: [logger],
 })
 ```
@@ -126,6 +134,7 @@ Create a `.env.local` file at the project root:
 
 ```
 RAILWAY-STATION-PHOTOS_TEST_LIVE=TRUE
+RAILWAY-STATION-PHOTOS_APIKEY=<your-key>
 ```
 
 Then run:
@@ -143,6 +152,7 @@ cd ts && npm test
 
 ```ts
 new RailwayStationPhotosSDK(options?: {
+  apikey?: string
   base?: string
   prefix?: string
   suffix?: string
@@ -153,6 +163,7 @@ new RailwayStationPhotosSDK(options?: {
 
 | Option | Type | Description |
 | --- | --- | --- |
+| `apikey` | `string` | API key for authentication. |
 | `base` | `string` | Base URL of the API server. |
 | `prefix` | `string` | URL path prefix prepended to all requests. |
 | `suffix` | `string` | URL path suffix appended to all requests. |

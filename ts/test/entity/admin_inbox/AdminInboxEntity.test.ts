@@ -113,6 +113,7 @@ function basicSetup(extra?: any) {
     'RAILWAY_STATION_PHOTOS_TEST_ADMIN_INBOX_ENTID': idmap,
     'RAILWAY_STATION_PHOTOS_TEST_LIVE': 'FALSE',
     'RAILWAY_STATION_PHOTOS_TEST_EXPLAIN': 'FALSE',
+    'RAILWAY_STATION_PHOTOS_APIKEY': 'NONE',
   })
 
   idmap = env['RAILWAY_STATION_PHOTOS_TEST_ADMIN_INBOX_ENTID']
@@ -122,6 +123,7 @@ function basicSetup(extra?: any) {
   if (live) {
     client = new RailwayStationPhotosSDK(merge([
       {
+        apikey: env.RAILWAY_STATION_PHOTOS_APIKEY,
       },
       extra
     ]))

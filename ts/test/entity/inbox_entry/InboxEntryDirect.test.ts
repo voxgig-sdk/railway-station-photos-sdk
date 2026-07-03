@@ -79,12 +79,14 @@ function directSetup(mockres?: any) {
   const env = envOverride({
     'RAILWAYSTATIONPHOTOS_TEST_INBOX_ENTRY_ENTID': {},
     'RAILWAYSTATIONPHOTOS_TEST_LIVE': 'FALSE',
+    'RAILWAYSTATIONPHOTOS_APIKEY': 'NONE',
   })
 
   const live = 'TRUE' === env.RAILWAYSTATIONPHOTOS_TEST_LIVE
 
   if (live) {
     const client = new RailwayStationPhotosSDK({
+      apikey: env.RAILWAYSTATIONPHOTOS_APIKEY,
     })
 
     let idmap: any = env['RAILWAYSTATIONPHOTOS_TEST_INBOX_ENTRY_ENTID']

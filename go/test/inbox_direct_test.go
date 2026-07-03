@@ -93,12 +93,14 @@ func inboxDirectSetup(mockres any) *inboxDirectSetupResult {
 	env := envOverride(map[string]any{
 		"RAILWAYSTATIONPHOTOS_TEST_INBOX_ENTID": map[string]any{},
 		"RAILWAYSTATIONPHOTOS_TEST_LIVE":    "FALSE",
+		"RAILWAYSTATIONPHOTOS_APIKEY":       "NONE",
 	})
 
 	live := env["RAILWAYSTATIONPHOTOS_TEST_LIVE"] == "TRUE"
 
 	if live {
 		mergedOpts := map[string]any{
+			"apikey": env["RAILWAYSTATIONPHOTOS_APIKEY"],
 		}
 		client := sdk.NewRailwayStationPhotosSDK(mergedOpts)
 

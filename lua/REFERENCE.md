@@ -30,12 +30,12 @@ Create a new SDK client instance.
 
 ### Static Methods
 
-#### `sdk.test(testopts, sdkopts)`
+#### `sdk.test(testopts?, sdkopts?)`
 
-Create a test client with mock features active. Both arguments may be `nil`.
+Create a test client with mock features active. Both arguments are optional.
 
 ```lua
-local client = sdk.test(nil, nil)
+local client = sdk.test()
 ```
 
 
@@ -172,11 +172,11 @@ local admin_inbox = client:AdminInbox(nil)
 Create a new entity with the given data.
 
 ```lua
-local result, err = client:AdminInbox(nil):create({
+local result, err = client:AdminInbox():create({
   command = --[[ `$STRING` ]],
   message = --[[ `$STRING` ]],
   status = --[[ `$INTEGER` ]],
-}, nil)
+})
 ```
 
 ### Common Methods
@@ -236,7 +236,7 @@ local country = client:Country(nil)
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:Country(nil):list(nil, nil)
+local results, err = client:Country():list()
 ```
 
 ### Common Methods
@@ -304,9 +304,9 @@ local inbox = client:Inbox(nil)
 Create a new entity with the given data.
 
 ```lua
-local result, err = client:Inbox(nil):create({
+local result, err = client:Inbox():create({
   state = --[[ `$STRING` ]],
-}, nil)
+})
 ```
 
 #### `list(reqmatch, ctrl) -> any, err`
@@ -314,7 +314,7 @@ local result, err = client:Inbox(nil):create({
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:Inbox(nil):list(nil, nil)
+local results, err = client:Inbox():list()
 ```
 
 #### `remove(reqmatch, ctrl) -> any, err`
@@ -322,7 +322,7 @@ local results, err = client:Inbox(nil):list(nil, nil)
 Remove the entity matching the given criteria.
 
 ```lua
-local result, err = client:Inbox(nil):remove({ id = "inbox_id" }, nil)
+local result, err = client:Inbox():remove({ id = "inbox_id" })
 ```
 
 ### Common Methods
@@ -374,7 +374,7 @@ local inbox_count = client:InboxCount(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:InboxCount(nil):load({ id = "inbox_count_id" }, nil)
+local result, err = client:InboxCount():load({ id = "inbox_count_id" })
 ```
 
 ### Common Methods
@@ -447,7 +447,7 @@ local inbox_entry = client:InboxEntry(nil)
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:InboxEntry(nil):list(nil, nil)
+local results, err = client:InboxEntry():list()
 ```
 
 ### Common Methods
@@ -539,11 +539,11 @@ local o_auth_token = client:OAuthToken(nil)
 Create a new entity with the given data.
 
 ```lua
-local result, err = client:OAuthToken(nil):create({
+local result, err = client:OAuthToken():create({
   access_token = --[[ `$STRING` ]],
   scope = --[[ `$STRING` ]],
   token_type = --[[ `$STRING` ]],
-}, nil)
+})
 ```
 
 ### Common Methods
@@ -589,8 +589,8 @@ local oauth = client:Oauth(nil)
 Create a new entity with the given data.
 
 ```lua
-local result, err = client:Oauth(nil):create({
-}, nil)
+local result, err = client:Oauth():create({
+})
 ```
 
 #### `load(reqmatch, ctrl) -> any, err`
@@ -598,7 +598,7 @@ local result, err = client:Oauth(nil):create({
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Oauth(nil):load({ id = "oauth_id" }, nil)
+local result, err = client:Oauth():load({ id = "oauth_id" })
 ```
 
 ### Common Methods
@@ -644,7 +644,7 @@ local photo = client:Photo(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Photo(nil):load({ id = "photo_id" }, nil)
+local result, err = client:Photo():load({ id = "photo_id" })
 ```
 
 ### Common Methods
@@ -690,7 +690,7 @@ local photo_download = client:PhotoDownload(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:PhotoDownload(nil):load({ id = "photo_download_id" }, nil)
+local result, err = client:PhotoDownload():load({ id = "photo_download_id" })
 ```
 
 ### Common Methods
@@ -745,7 +745,7 @@ local photo_station = client:PhotoStation(nil)
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:PhotoStation(nil):list(nil, nil)
+local results, err = client:PhotoStation():list()
 ```
 
 #### `load(reqmatch, ctrl) -> any, err`
@@ -753,7 +753,7 @@ local results, err = client:PhotoStation(nil):list(nil, nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:PhotoStation(nil):load({ id = "photo_station_id" }, nil)
+local result, err = client:PhotoStation():load({ id = "photo_station_id" })
 ```
 
 ### Common Methods
@@ -799,8 +799,8 @@ local photo_upload = client:PhotoUpload(nil)
 Create a new entity with the given data.
 
 ```lua
-local result, err = client:PhotoUpload(nil):create({
-}, nil)
+local result, err = client:PhotoUpload():create({
+})
 ```
 
 ### Common Methods
@@ -846,7 +846,7 @@ local photographer = client:Photographer(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Photographer(nil):load({ id = "photographer_id" }, nil)
+local result, err = client:Photographer():load({ id = "photographer_id" })
 ```
 
 ### Common Methods
@@ -922,12 +922,12 @@ local profile = client:Profile(nil)
 Create a new entity with the given data.
 
 ```lua
-local result, err = client:Profile(nil):create({
+local result, err = client:Profile():create({
   license = --[[ `$STRING` ]],
   new_password = --[[ `$STRING` ]],
   nickname = --[[ `$STRING` ]],
   photo_owner = --[[ `$BOOLEAN` ]],
-}, nil)
+})
 ```
 
 #### `load(reqmatch, ctrl) -> any, err`
@@ -935,7 +935,7 @@ local result, err = client:Profile(nil):create({
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Profile(nil):load({ id = "profile_id" }, nil)
+local result, err = client:Profile():load({ id = "profile_id" })
 ```
 
 #### `remove(reqmatch, ctrl) -> any, err`
@@ -943,7 +943,7 @@ local result, err = client:Profile(nil):load({ id = "profile_id" }, nil)
 Remove the entity matching the given criteria.
 
 ```lua
-local result, err = client:Profile(nil):remove({ id = "profile_id" }, nil)
+local result, err = client:Profile():remove({ id = "profile_id" })
 ```
 
 ### Common Methods
@@ -999,7 +999,7 @@ local public_inbox = client:PublicInbox(nil)
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:PublicInbox(nil):list(nil, nil)
+local results, err = client:PublicInbox():list()
 ```
 
 ### Common Methods
@@ -1055,7 +1055,7 @@ local stat = client:Stat(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Stat(nil):load({ id = "stat_id" }, nil)
+local result, err = client:Stat():load({ id = "stat_id" })
 ```
 
 ### Common Methods

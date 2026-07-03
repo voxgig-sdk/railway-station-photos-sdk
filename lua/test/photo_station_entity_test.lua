@@ -98,6 +98,7 @@ function photo_station_basic_setup(extra)
     ["RAILWAYSTATIONPHOTOS_TEST_PHOTO_STATION_ENTID"] = idmap,
     ["RAILWAYSTATIONPHOTOS_TEST_LIVE"] = "FALSE",
     ["RAILWAYSTATIONPHOTOS_TEST_EXPLAIN"] = "FALSE",
+    ["RAILWAYSTATIONPHOTOS_APIKEY"] = "NONE",
   })
 
   local idmap_resolved = helpers.to_map(
@@ -109,6 +110,7 @@ function photo_station_basic_setup(extra)
   if env["RAILWAYSTATIONPHOTOS_TEST_LIVE"] == "TRUE" then
     local merged_opts = vs.merge({
       {
+        apikey = env["RAILWAYSTATIONPHOTOS_APIKEY"],
       },
       extra or {},
     })

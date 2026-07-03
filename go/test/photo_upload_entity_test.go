@@ -110,6 +110,7 @@ func photo_uploadBasicSetup(extra map[string]any) *entityTestSetup {
 		"RAILWAYSTATIONPHOTOS_TEST_PHOTO_UPLOAD_ENTID": idmap,
 		"RAILWAYSTATIONPHOTOS_TEST_LIVE":      "FALSE",
 		"RAILWAYSTATIONPHOTOS_TEST_EXPLAIN":   "FALSE",
+		"RAILWAYSTATIONPHOTOS_APIKEY":         "NONE",
 	})
 
 	idmapResolved := core.ToMapAny(env["RAILWAYSTATIONPHOTOS_TEST_PHOTO_UPLOAD_ENTID"])
@@ -120,6 +121,7 @@ func photo_uploadBasicSetup(extra map[string]any) *entityTestSetup {
 	if env["RAILWAYSTATIONPHOTOS_TEST_LIVE"] == "TRUE" {
 		mergedOpts := vs.Merge([]any{
 			map[string]any{
+				"apikey": env["RAILWAYSTATIONPHOTOS_APIKEY"],
 			},
 			extra,
 		})

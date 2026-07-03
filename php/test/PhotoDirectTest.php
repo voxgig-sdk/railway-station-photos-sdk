@@ -78,12 +78,14 @@ function photo_direct_setup($mockres)
     $env = Runner::env_override([
         "RAILWAYSTATIONPHOTOS_TEST_PHOTO_ENTID" => [],
         "RAILWAYSTATIONPHOTOS_TEST_LIVE" => "FALSE",
+        "RAILWAYSTATIONPHOTOS_APIKEY" => "NONE",
     ]);
 
     $live = $env["RAILWAYSTATIONPHOTOS_TEST_LIVE"] === "TRUE";
 
     if ($live) {
         $merged_opts = [
+            "apikey" => $env["RAILWAYSTATIONPHOTOS_APIKEY"],
         ];
         $client = new RailwayStationPhotosSDK($merged_opts);
         return [

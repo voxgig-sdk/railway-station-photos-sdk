@@ -1,21 +1,8 @@
 # RailwayStationPhotos SDK
 
-Crowd-sourced photos of railway stations across many countries, served as open data
+RSAPI client, generated from the OpenAPI spec.
 
 > TypeScript, Python, PHP, Golang, Ruby, Lua SDKs, a CLI, an interactive REPL, and an MCP server for AI agents — all generated from one OpenAPI spec by [@voxgig/sdkgen](https://github.com/voxgig/sdkgen).
-
-## About RSAPI
-
-[RSAPI](https://api.railway-stations.org) is the backend for [railway-stations.org](https://railway-stations.org), an OpenData project that collects photographs of railway stations from many countries. The service and its community are organised on [GitHub](https://github.com/RailwayStations).
-
-What you get from the API:
-- Lists of countries participating in the project and their stations.
-- Photos for a given station, addressed by country code plus station ID.
-- A photographer directory and per-photographer profile data.
-- An inbox workflow for submitting, reviewing and moderating new photo uploads.
-- Aggregate statistics about the collection.
-
-Public read endpoints do not require authentication and CORS is enabled. Upload, inbox and profile operations use OAuth tokens. The full machine-readable contract is published at `https://api.railway-stations.org/openapi.yaml`.
 
 ## Try it
 
@@ -49,27 +36,28 @@ gem install railway-station-photos-sdk
 luarocks install railway-station-photos-sdk
 ```
 
-## 30-second quickstart
+## Quickstart
 
 ### TypeScript
 
 ```ts
 import { RailwayStationPhotosSDK } from 'railway-station-photos'
 
-const client = new RailwayStationPhotosSDK({})
+const client = new RailwayStationPhotosSDK({
+  apikey: process.env.RAILWAY-STATION-PHOTOS_APIKEY,
+})
 
 ```
 
-See the [TypeScript README](ts/README.md) for the
-full guide, or scroll down for the same example in other languages.
+See the [TypeScript README](ts/README.md) for the full guide.
 
-## What's in the box
+## Surfaces
 
-| Surface | Use it for | Path |
-| --- | --- | --- |
-| **SDK** (TypeScript, Python, PHP, Golang, Ruby, Lua) | App integration | `ts/` `py/` `php/` `go/` `rb/` `lua/` |
-| **CLI** | Scripts, CI, ops, one-off API calls | `go-cli/` |
-| **MCP server** | AI agents (Claude, Cursor, Cline) | `go-mcp/` |
+| Surface | Path |
+| --- | --- |
+| **SDK** (TypeScript, Python, PHP, Golang, Ruby, Lua) | `ts/` `py/` `php/` `go/` `rb/` `lua/` |
+| **CLI** | `go-cli/` |
+| **MCP server** | `go-mcp/` |
 
 ## Use it from an AI agent (MCP)
 
@@ -99,22 +87,22 @@ The API exposes 16 entities:
 
 | Entity | Description | API path |
 | --- | --- | --- |
-| **AdminInbox** | Moderator-facing view of submitted photos awaiting review in the inbox workflow. | `/adminInbox` |
-| **Country** | Participating country in the project, identified by an ISO country code (for example `ch` for Switzerland). | `/countries` |
-| **Inbox** | Submission queue for new station photos contributed by users. | `/reportProblem` |
-| **InboxCount** | Counters summarising how many entries are pending in the inbox. | `/adminInboxCount` |
-| **InboxEntry** | A single pending photo submission, including the proposed station and uploader. | `/adminInbox` |
-| **InboxStateQuery** | Query for the current moderation state of one or more inbox entries. | `` |
-| **OAuthToken** | OAuth bearer token used to authenticate photographer and inbox operations. | `/oauth2/token` |
-| **Oauth** | OAuth endpoints used to obtain and manage access tokens for authenticated calls. | `/oauth2/revoke` |
-| **Photo** | A station photograph with its photographer, licence and metadata. | `/photos/{country}/{filename}` |
-| **PhotoDownload** | Binary download of a photo file. | `/inbox/done/{filename}` |
-| **PhotoStation** | A railway station with its associated photos, addressed by country code and station ID. | `/photoStationById/{country}/{id}` |
-| **PhotoUpload** | Upload endpoint for submitting a new station photo into the inbox workflow. | `/photoUpload` |
-| **Photographer** | A contributor who has uploaded one or more station photos. | `/photographers` |
-| **Profile** | Authenticated photographer's own profile and account settings. | `/changePassword` |
-| **PublicInbox** | Public, read-only view of pending submissions in the inbox. | `/publicInbox` |
-| **Stat** | Aggregate statistics about stations, photos and photographers in the project. | `/stats` |
+| **AdminInbox** |  | `/adminInbox` |
+| **Country** |  | `/countries` |
+| **Inbox** |  | `/reportProblem` |
+| **InboxCount** |  | `/adminInboxCount` |
+| **InboxEntry** |  | `/adminInbox` |
+| **InboxStateQuery** |  | `` |
+| **OAuthToken** |  | `/oauth2/token` |
+| **Oauth** |  | `/oauth2/revoke` |
+| **Photo** |  | `/photos/{country}/{filename}` |
+| **PhotoDownload** |  | `/inbox/done/{filename}` |
+| **PhotoStation** |  | `/photoStationById/{country}/{id}` |
+| **PhotoUpload** |  | `/photoUpload` |
+| **Photographer** |  | `/photographers` |
+| **Profile** |  | `/changePassword` |
+| **PublicInbox** |  | `/publicInbox` |
+| **Stat** |  | `/stats` |
 
 Each entity supports the following operations where available: **load**,
 **list**, **create**, **update**, and **remove**.
@@ -124,9 +112,12 @@ Each entity supports the following operations where available: **load**,
 ### Python
 
 ```python
+import os
 from railwaystationphotos_sdk import RailwayStationPhotosSDK
 
-client = RailwayStationPhotosSDK({})
+client = RailwayStationPhotosSDK({
+    "apikey": os.environ.get("RAILWAY-STATION-PHOTOS_APIKEY"),
+})
 
 ```
 
@@ -136,7 +127,9 @@ client = RailwayStationPhotosSDK({})
 <?php
 require_once 'railwaystationphotos_sdk.php';
 
-$client = new RailwayStationPhotosSDK([]);
+$client = new RailwayStationPhotosSDK([
+    "apikey" => getenv("RAILWAY-STATION-PHOTOS_APIKEY"),
+]);
 
 ```
 
@@ -145,7 +138,9 @@ $client = new RailwayStationPhotosSDK([]);
 ```go
 import sdk "github.com/voxgig-sdk/railway-station-photos-sdk/go"
 
-client := sdk.NewRailwayStationPhotosSDK(map[string]any{})
+client := sdk.NewRailwayStationPhotosSDK(map[string]any{
+    "apikey": os.Getenv("RAILWAY-STATION-PHOTOS_APIKEY"),
+})
 
 ```
 
@@ -154,7 +149,9 @@ client := sdk.NewRailwayStationPhotosSDK(map[string]any{})
 ```ruby
 require_relative "RailwayStationPhotos_sdk"
 
-client = RailwayStationPhotosSDK.new({})
+client = RailwayStationPhotosSDK.new({
+  "apikey" => ENV["RAILWAY-STATION-PHOTOS_APIKEY"],
+})
 
 ```
 
@@ -163,7 +160,9 @@ client = RailwayStationPhotosSDK.new({})
 ```lua
 local sdk = require("railway-station-photos_sdk")
 
-local client = sdk.new({})
+local client = sdk.new({
+  apikey = os.getenv("RAILWAY-STATION-PHOTOS_APIKEY"),
+})
 
 ```
 
@@ -183,25 +182,21 @@ const result = await client.AdminInbox().load({ id: 'test01' })
 ### Python
 
 ```python
-client = RailwayStationPhotosSDK.test(None, None)
-result, err = client.AdminInbox(None).load(
-    {"id": "test01"}, None
-)
+client = RailwayStationPhotosSDK.test()
+result, err = client.AdminInbox().load({"id": "test01"})
 ```
 
 ### PHP
 
 ```php
-$client = RailwayStationPhotosSDK::test(null, null);
-[$result, $err] = $client->AdminInbox(null)->load(
-    ["id" => "test01"], null
-);
+$client = RailwayStationPhotosSDK::test();
+[$result, $err] = $client->AdminInbox()->load(["id" => "test01"]);
 ```
 
 ### Golang
 
 ```go
-client := sdk.TestSDK(nil, nil)
+client := sdk.Test()
 result, err := client.AdminInbox(nil).Load(
     map[string]any{"id": "test01"}, nil,
 )
@@ -210,19 +205,15 @@ result, err := client.AdminInbox(nil).Load(
 ### Ruby
 
 ```ruby
-client = RailwayStationPhotosSDK.test(nil, nil)
-result, err = client.AdminInbox(nil).load(
-  { "id" => "test01" }, nil
-)
+client = RailwayStationPhotosSDK.test
+result, err = client.AdminInbox().load({ "id" => "test01" })
 ```
 
 ### Lua
 
 ```lua
-local client = sdk.test(nil, nil)
-local result, err = client:AdminInbox(nil):load(
-  { id = "test01" }, nil
-)
+local client = sdk.test()
+local result, err = client:AdminInbox():load({ id = "test01" })
 ```
 
 ## How it works
@@ -326,16 +317,6 @@ local result, err = client:direct({
 - [Golang](go/README.md)
 - [Ruby](rb/README.md)
 - [Lua](lua/README.md)
-
-## Using the RSAPI
-
-- Upstream: [https://railway-stations.org](https://railway-stations.org)
-- API docs: [https://api.railway-stations.org/openapi.yaml](https://api.railway-stations.org/openapi.yaml)
-
-- API source code is published under the MIT licence.
-- Most station photographs are contributed under CC0 and can be reused without restriction.
-- Individual photos may carry their own licence and photographer attribution — check the photo metadata before reuse.
-- Station and country data come from community contributors via the RailwayStations OpenData project.
 
 ---
 
