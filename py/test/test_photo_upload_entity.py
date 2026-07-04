@@ -44,9 +44,7 @@ class TestPhotoUploadEntity:
         photo_upload_ref01_data = helpers.to_map(vs.getprop(
             vs.getpath(setup["data"], "new.photo_upload"), "photo_upload_ref01"))
 
-        photo_upload_ref01_data_result, err = photo_upload_ref01_ent.create(photo_upload_ref01_data, None)
-        assert err is None
-        photo_upload_ref01_data = helpers.to_map(photo_upload_ref01_data_result)
+        photo_upload_ref01_data = helpers.to_map(photo_upload_ref01_ent.create(photo_upload_ref01_data, None))
         assert photo_upload_ref01_data is not None
 
 
@@ -87,7 +85,6 @@ def _photo_upload_basic_setup(extra):
         "RAILWAYSTATIONPHOTOS_TEST_PHOTO_UPLOAD_ENTID": idmap,
         "RAILWAYSTATIONPHOTOS_TEST_LIVE": "FALSE",
         "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN": "FALSE",
-        "RAILWAYSTATIONPHOTOS_APIKEY": "NONE",
     })
 
     idmap_resolved = helpers.to_map(
@@ -98,7 +95,6 @@ def _photo_upload_basic_setup(extra):
     if env.get("RAILWAYSTATIONPHOTOS_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
             {
-                "apikey": env.get("RAILWAYSTATIONPHOTOS_APIKEY"),
             },
             extra or {},
         ])

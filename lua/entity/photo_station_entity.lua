@@ -79,6 +79,10 @@ end
 
 
 
+---@param reqmatch PhotoStationLoadMatch
+---@param ctrl? table
+---@return PhotoStation
+---@return string? err
 function PhotoStationEntity:load(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -104,6 +108,10 @@ end
 
 
 
+---@param reqmatch PhotoStationListMatch
+---@param ctrl? table
+---@return PhotoStation[]
+---@return string? err
 function PhotoStationEntity:list(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

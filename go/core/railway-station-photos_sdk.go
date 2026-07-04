@@ -245,81 +245,129 @@ func (sdk *RailwayStationPhotosSDK) Direct(fetchargs map[string]any) (map[string
 }
 
 
+// AdminInbox returns a AdminInbox entity bound to this client.
+// Idiomatic usage: client.AdminInbox(nil).List(nil, nil) or
+// client.AdminInbox(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *RailwayStationPhotosSDK) AdminInbox(data map[string]any) RailwayStationPhotosEntity {
 	return NewAdminInboxEntityFunc(sdk, data)
 }
 
 
+// Country returns a Country entity bound to this client.
+// Idiomatic usage: client.Country(nil).List(nil, nil) or
+// client.Country(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *RailwayStationPhotosSDK) Country(data map[string]any) RailwayStationPhotosEntity {
 	return NewCountryEntityFunc(sdk, data)
 }
 
 
+// Inbox returns a Inbox entity bound to this client.
+// Idiomatic usage: client.Inbox(nil).List(nil, nil) or
+// client.Inbox(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *RailwayStationPhotosSDK) Inbox(data map[string]any) RailwayStationPhotosEntity {
 	return NewInboxEntityFunc(sdk, data)
 }
 
 
+// InboxCount returns a InboxCount entity bound to this client.
+// Idiomatic usage: client.InboxCount(nil).List(nil, nil) or
+// client.InboxCount(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *RailwayStationPhotosSDK) InboxCount(data map[string]any) RailwayStationPhotosEntity {
 	return NewInboxCountEntityFunc(sdk, data)
 }
 
 
+// InboxEntry returns a InboxEntry entity bound to this client.
+// Idiomatic usage: client.InboxEntry(nil).List(nil, nil) or
+// client.InboxEntry(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *RailwayStationPhotosSDK) InboxEntry(data map[string]any) RailwayStationPhotosEntity {
 	return NewInboxEntryEntityFunc(sdk, data)
 }
 
 
+// InboxStateQuery returns a InboxStateQuery entity bound to this client.
+// Idiomatic usage: client.InboxStateQuery(nil).List(nil, nil) or
+// client.InboxStateQuery(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *RailwayStationPhotosSDK) InboxStateQuery(data map[string]any) RailwayStationPhotosEntity {
 	return NewInboxStateQueryEntityFunc(sdk, data)
 }
 
 
+// OAuthToken returns a OAuthToken entity bound to this client.
+// Idiomatic usage: client.OAuthToken(nil).List(nil, nil) or
+// client.OAuthToken(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *RailwayStationPhotosSDK) OAuthToken(data map[string]any) RailwayStationPhotosEntity {
 	return NewOAuthTokenEntityFunc(sdk, data)
 }
 
 
+// Oauth returns a Oauth entity bound to this client.
+// Idiomatic usage: client.Oauth(nil).List(nil, nil) or
+// client.Oauth(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *RailwayStationPhotosSDK) Oauth(data map[string]any) RailwayStationPhotosEntity {
 	return NewOauthEntityFunc(sdk, data)
 }
 
 
+// Photo returns a Photo entity bound to this client.
+// Idiomatic usage: client.Photo(nil).List(nil, nil) or
+// client.Photo(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *RailwayStationPhotosSDK) Photo(data map[string]any) RailwayStationPhotosEntity {
 	return NewPhotoEntityFunc(sdk, data)
 }
 
 
+// PhotoDownload returns a PhotoDownload entity bound to this client.
+// Idiomatic usage: client.PhotoDownload(nil).List(nil, nil) or
+// client.PhotoDownload(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *RailwayStationPhotosSDK) PhotoDownload(data map[string]any) RailwayStationPhotosEntity {
 	return NewPhotoDownloadEntityFunc(sdk, data)
 }
 
 
+// PhotoStation returns a PhotoStation entity bound to this client.
+// Idiomatic usage: client.PhotoStation(nil).List(nil, nil) or
+// client.PhotoStation(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *RailwayStationPhotosSDK) PhotoStation(data map[string]any) RailwayStationPhotosEntity {
 	return NewPhotoStationEntityFunc(sdk, data)
 }
 
 
+// PhotoUpload returns a PhotoUpload entity bound to this client.
+// Idiomatic usage: client.PhotoUpload(nil).List(nil, nil) or
+// client.PhotoUpload(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *RailwayStationPhotosSDK) PhotoUpload(data map[string]any) RailwayStationPhotosEntity {
 	return NewPhotoUploadEntityFunc(sdk, data)
 }
 
 
+// Photographer returns a Photographer entity bound to this client.
+// Idiomatic usage: client.Photographer(nil).List(nil, nil) or
+// client.Photographer(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *RailwayStationPhotosSDK) Photographer(data map[string]any) RailwayStationPhotosEntity {
 	return NewPhotographerEntityFunc(sdk, data)
 }
 
 
+// Profile returns a Profile entity bound to this client.
+// Idiomatic usage: client.Profile(nil).List(nil, nil) or
+// client.Profile(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *RailwayStationPhotosSDK) Profile(data map[string]any) RailwayStationPhotosEntity {
 	return NewProfileEntityFunc(sdk, data)
 }
 
 
+// PublicInbox returns a PublicInbox entity bound to this client.
+// Idiomatic usage: client.PublicInbox(nil).List(nil, nil) or
+// client.PublicInbox(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *RailwayStationPhotosSDK) PublicInbox(data map[string]any) RailwayStationPhotosEntity {
 	return NewPublicInboxEntityFunc(sdk, data)
 }
 
 
+// Stat returns a Stat entity bound to this client.
+// Idiomatic usage: client.Stat(nil).List(nil, nil) or
+// client.Stat(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *RailwayStationPhotosSDK) Stat(data map[string]any) RailwayStationPhotosEntity {
 	return NewStatEntityFunc(sdk, data)
 }

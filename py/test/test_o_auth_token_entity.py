@@ -44,9 +44,7 @@ class TestOAuthTokenEntity:
         o_auth_token_ref01_data = helpers.to_map(vs.getprop(
             vs.getpath(setup["data"], "new.o_auth_token"), "o_auth_token_ref01"))
 
-        o_auth_token_ref01_data_result, err = o_auth_token_ref01_ent.create(o_auth_token_ref01_data, None)
-        assert err is None
-        o_auth_token_ref01_data = helpers.to_map(o_auth_token_ref01_data_result)
+        o_auth_token_ref01_data = helpers.to_map(o_auth_token_ref01_ent.create(o_auth_token_ref01_data, None))
         assert o_auth_token_ref01_data is not None
 
 
@@ -87,7 +85,6 @@ def _o_auth_token_basic_setup(extra):
         "RAILWAYSTATIONPHOTOS_TEST_O_AUTH_TOKEN_ENTID": idmap,
         "RAILWAYSTATIONPHOTOS_TEST_LIVE": "FALSE",
         "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN": "FALSE",
-        "RAILWAYSTATIONPHOTOS_APIKEY": "NONE",
     })
 
     idmap_resolved = helpers.to_map(
@@ -98,7 +95,6 @@ def _o_auth_token_basic_setup(extra):
     if env.get("RAILWAYSTATIONPHOTOS_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
             {
-                "apikey": env.get("RAILWAYSTATIONPHOTOS_APIKEY"),
             },
             extra or {},
         ])

@@ -43,8 +43,7 @@ class InboxEntityTest extends TestCase
         $inbox_ref01_data = Helpers::to_map(Vs::getprop(
             Vs::getpath($setup["data"], "new.inbox"), "inbox_ref01"));
 
-        [$inbox_ref01_data_result, $err] = $inbox_ref01_ent->create($inbox_ref01_data, null);
-        $this->assertNull($err);
+        $inbox_ref01_data_result = $inbox_ref01_ent->create($inbox_ref01_data, null);
         $inbox_ref01_data = Helpers::to_map($inbox_ref01_data_result);
         $this->assertNotNull($inbox_ref01_data);
         $this->assertNotNull($inbox_ref01_data["id"]);
@@ -52,8 +51,7 @@ class InboxEntityTest extends TestCase
         // LIST
         $inbox_ref01_match = [];
 
-        [$inbox_ref01_list_result, $err] = $inbox_ref01_ent->list($inbox_ref01_match, null);
-        $this->assertNull($err);
+        $inbox_ref01_list_result = $inbox_ref01_ent->list($inbox_ref01_match, null);
         $this->assertIsArray($inbox_ref01_list_result);
 
         $found_item = sdk_select(
@@ -65,14 +63,12 @@ class InboxEntityTest extends TestCase
         $inbox_ref01_match_rm0 = [
             "id" => $inbox_ref01_data["id"],
         ];
-        [$_, $err] = $inbox_ref01_ent->remove($inbox_ref01_match_rm0, null);
-        $this->assertNull($err);
+        $inbox_ref01_ent->remove($inbox_ref01_match_rm0, null);
 
         // LIST
         $inbox_ref01_match_rt0 = [];
 
-        [$inbox_ref01_list_rt0_result, $err] = $inbox_ref01_ent->list($inbox_ref01_match_rt0, null);
-        $this->assertNull($err);
+        $inbox_ref01_list_rt0_result = $inbox_ref01_ent->list($inbox_ref01_match_rt0, null);
         $this->assertIsArray($inbox_ref01_list_rt0_result);
 
         $not_found_item = sdk_select(
@@ -112,7 +108,6 @@ function inbox_basic_setup($extra)
         "RAILWAYSTATIONPHOTOS_TEST_INBOX_ENTID" => $idmap,
         "RAILWAYSTATIONPHOTOS_TEST_LIVE" => "FALSE",
         "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN" => "FALSE",
-        "RAILWAYSTATIONPHOTOS_APIKEY" => "NONE",
     ]);
 
     $idmap_resolved = Helpers::to_map(
@@ -124,7 +119,6 @@ function inbox_basic_setup($extra)
     if ($env["RAILWAYSTATIONPHOTOS_TEST_LIVE"] === "TRUE") {
         $merged_opts = Vs::merge([
             [
-                "apikey" => $env["RAILWAYSTATIONPHOTOS_APIKEY"],
             ],
             $extra ?? [],
         ]);

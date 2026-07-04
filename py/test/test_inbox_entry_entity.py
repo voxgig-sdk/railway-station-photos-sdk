@@ -50,8 +50,7 @@ class TestInboxEntryEntity:
         inbox_entry_ref01_ent = client.InboxEntry(None)
         inbox_entry_ref01_match = {}
 
-        inbox_entry_ref01_list_result, err = inbox_entry_ref01_ent.list(inbox_entry_ref01_match, None)
-        assert err is None
+        inbox_entry_ref01_list_result = inbox_entry_ref01_ent.list(inbox_entry_ref01_match, None)
         assert isinstance(inbox_entry_ref01_list_result, list)
 
 
@@ -92,7 +91,6 @@ def _inbox_entry_basic_setup(extra):
         "RAILWAYSTATIONPHOTOS_TEST_INBOX_ENTRY_ENTID": idmap,
         "RAILWAYSTATIONPHOTOS_TEST_LIVE": "FALSE",
         "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN": "FALSE",
-        "RAILWAYSTATIONPHOTOS_APIKEY": "NONE",
     })
 
     idmap_resolved = helpers.to_map(
@@ -103,7 +101,6 @@ def _inbox_entry_basic_setup(extra):
     if env.get("RAILWAYSTATIONPHOTOS_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
             {
-                "apikey": env.get("RAILWAYSTATIONPHOTOS_APIKEY"),
             },
             extra or {},
         ])

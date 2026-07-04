@@ -244,96 +244,304 @@ end
 
 
 
+-- Idiomatic facade: client:admin_inbox():list() / client:admin_inbox():load({ id = ... })
+function RailwayStationPhotosSDK:admin_inbox(data)
+  local EntityMod = require("entity.admin_inbox_entity")
+  if data == nil then
+    if self._admin_inbox == nil then
+      self._admin_inbox = EntityMod.new(self, nil)
+    end
+    return self._admin_inbox
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:admin_inbox() instead.
 function RailwayStationPhotosSDK:AdminInbox(data)
   local EntityMod = require("entity.admin_inbox_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:country():list() / client:country():load({ id = ... })
+function RailwayStationPhotosSDK:country(data)
+  local EntityMod = require("entity.country_entity")
+  if data == nil then
+    if self._country == nil then
+      self._country = EntityMod.new(self, nil)
+    end
+    return self._country
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:country() instead.
 function RailwayStationPhotosSDK:Country(data)
   local EntityMod = require("entity.country_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:inbox():list() / client:inbox():load({ id = ... })
+function RailwayStationPhotosSDK:inbox(data)
+  local EntityMod = require("entity.inbox_entity")
+  if data == nil then
+    if self._inbox == nil then
+      self._inbox = EntityMod.new(self, nil)
+    end
+    return self._inbox
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:inbox() instead.
 function RailwayStationPhotosSDK:Inbox(data)
   local EntityMod = require("entity.inbox_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:inbox_count():list() / client:inbox_count():load({ id = ... })
+function RailwayStationPhotosSDK:inbox_count(data)
+  local EntityMod = require("entity.inbox_count_entity")
+  if data == nil then
+    if self._inbox_count == nil then
+      self._inbox_count = EntityMod.new(self, nil)
+    end
+    return self._inbox_count
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:inbox_count() instead.
 function RailwayStationPhotosSDK:InboxCount(data)
   local EntityMod = require("entity.inbox_count_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:inbox_entry():list() / client:inbox_entry():load({ id = ... })
+function RailwayStationPhotosSDK:inbox_entry(data)
+  local EntityMod = require("entity.inbox_entry_entity")
+  if data == nil then
+    if self._inbox_entry == nil then
+      self._inbox_entry = EntityMod.new(self, nil)
+    end
+    return self._inbox_entry
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:inbox_entry() instead.
 function RailwayStationPhotosSDK:InboxEntry(data)
   local EntityMod = require("entity.inbox_entry_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:inbox_state_query():list() / client:inbox_state_query():load({ id = ... })
+function RailwayStationPhotosSDK:inbox_state_query(data)
+  local EntityMod = require("entity.inbox_state_query_entity")
+  if data == nil then
+    if self._inbox_state_query == nil then
+      self._inbox_state_query = EntityMod.new(self, nil)
+    end
+    return self._inbox_state_query
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:inbox_state_query() instead.
 function RailwayStationPhotosSDK:InboxStateQuery(data)
   local EntityMod = require("entity.inbox_state_query_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:o_auth_token():list() / client:o_auth_token():load({ id = ... })
+function RailwayStationPhotosSDK:o_auth_token(data)
+  local EntityMod = require("entity.o_auth_token_entity")
+  if data == nil then
+    if self._o_auth_token == nil then
+      self._o_auth_token = EntityMod.new(self, nil)
+    end
+    return self._o_auth_token
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:o_auth_token() instead.
 function RailwayStationPhotosSDK:OAuthToken(data)
   local EntityMod = require("entity.o_auth_token_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:oauth():list() / client:oauth():load({ id = ... })
+function RailwayStationPhotosSDK:oauth(data)
+  local EntityMod = require("entity.oauth_entity")
+  if data == nil then
+    if self._oauth == nil then
+      self._oauth = EntityMod.new(self, nil)
+    end
+    return self._oauth
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:oauth() instead.
 function RailwayStationPhotosSDK:Oauth(data)
   local EntityMod = require("entity.oauth_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:photo():list() / client:photo():load({ id = ... })
+function RailwayStationPhotosSDK:photo(data)
+  local EntityMod = require("entity.photo_entity")
+  if data == nil then
+    if self._photo == nil then
+      self._photo = EntityMod.new(self, nil)
+    end
+    return self._photo
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:photo() instead.
 function RailwayStationPhotosSDK:Photo(data)
   local EntityMod = require("entity.photo_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:photo_download():list() / client:photo_download():load({ id = ... })
+function RailwayStationPhotosSDK:photo_download(data)
+  local EntityMod = require("entity.photo_download_entity")
+  if data == nil then
+    if self._photo_download == nil then
+      self._photo_download = EntityMod.new(self, nil)
+    end
+    return self._photo_download
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:photo_download() instead.
 function RailwayStationPhotosSDK:PhotoDownload(data)
   local EntityMod = require("entity.photo_download_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:photo_station():list() / client:photo_station():load({ id = ... })
+function RailwayStationPhotosSDK:photo_station(data)
+  local EntityMod = require("entity.photo_station_entity")
+  if data == nil then
+    if self._photo_station == nil then
+      self._photo_station = EntityMod.new(self, nil)
+    end
+    return self._photo_station
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:photo_station() instead.
 function RailwayStationPhotosSDK:PhotoStation(data)
   local EntityMod = require("entity.photo_station_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:photo_upload():list() / client:photo_upload():load({ id = ... })
+function RailwayStationPhotosSDK:photo_upload(data)
+  local EntityMod = require("entity.photo_upload_entity")
+  if data == nil then
+    if self._photo_upload == nil then
+      self._photo_upload = EntityMod.new(self, nil)
+    end
+    return self._photo_upload
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:photo_upload() instead.
 function RailwayStationPhotosSDK:PhotoUpload(data)
   local EntityMod = require("entity.photo_upload_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:photographer():list() / client:photographer():load({ id = ... })
+function RailwayStationPhotosSDK:photographer(data)
+  local EntityMod = require("entity.photographer_entity")
+  if data == nil then
+    if self._photographer == nil then
+      self._photographer = EntityMod.new(self, nil)
+    end
+    return self._photographer
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:photographer() instead.
 function RailwayStationPhotosSDK:Photographer(data)
   local EntityMod = require("entity.photographer_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:profile():list() / client:profile():load({ id = ... })
+function RailwayStationPhotosSDK:profile(data)
+  local EntityMod = require("entity.profile_entity")
+  if data == nil then
+    if self._profile == nil then
+      self._profile = EntityMod.new(self, nil)
+    end
+    return self._profile
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:profile() instead.
 function RailwayStationPhotosSDK:Profile(data)
   local EntityMod = require("entity.profile_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:public_inbox():list() / client:public_inbox():load({ id = ... })
+function RailwayStationPhotosSDK:public_inbox(data)
+  local EntityMod = require("entity.public_inbox_entity")
+  if data == nil then
+    if self._public_inbox == nil then
+      self._public_inbox = EntityMod.new(self, nil)
+    end
+    return self._public_inbox
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:public_inbox() instead.
 function RailwayStationPhotosSDK:PublicInbox(data)
   local EntityMod = require("entity.public_inbox_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:stat():list() / client:stat():load({ id = ... })
+function RailwayStationPhotosSDK:stat(data)
+  local EntityMod = require("entity.stat_entity")
+  if data == nil then
+    if self._stat == nil then
+      self._stat = EntityMod.new(self, nil)
+    end
+    return self._stat
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:stat() instead.
 function RailwayStationPhotosSDK:Stat(data)
   local EntityMod = require("entity.stat_entity")
   return EntityMod.new(self, data)

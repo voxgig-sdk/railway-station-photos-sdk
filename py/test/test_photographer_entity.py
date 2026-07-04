@@ -49,8 +49,7 @@ class TestPhotographerEntity:
         # LOAD
         photographer_ref01_ent = client.Photographer(None)
         photographer_ref01_match_dt0 = {}
-        photographer_ref01_data_dt0_loaded, err = photographer_ref01_ent.load(photographer_ref01_match_dt0, None)
-        assert err is None
+        photographer_ref01_data_dt0_loaded = photographer_ref01_ent.load(photographer_ref01_match_dt0, None)
         assert photographer_ref01_data_dt0_loaded is not None
 
 
@@ -91,7 +90,6 @@ def _photographer_basic_setup(extra):
         "RAILWAYSTATIONPHOTOS_TEST_PHOTOGRAPHER_ENTID": idmap,
         "RAILWAYSTATIONPHOTOS_TEST_LIVE": "FALSE",
         "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN": "FALSE",
-        "RAILWAYSTATIONPHOTOS_APIKEY": "NONE",
     })
 
     idmap_resolved = helpers.to_map(
@@ -102,7 +100,6 @@ def _photographer_basic_setup(extra):
     if env.get("RAILWAYSTATIONPHOTOS_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
             {
-                "apikey": env.get("RAILWAYSTATIONPHOTOS_APIKEY"),
             },
             extra or {},
         ])

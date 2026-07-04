@@ -45,6 +45,7 @@ class CountryEntity
     end
   end
 
+  # @return [Country, Hash] the current Country data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,6 +58,7 @@ class CountryEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of Country fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
@@ -65,6 +67,11 @@ class CountryEntity
   
 
   
+  # List Country items matching the given filter.
+  #
+  # @param reqmatch [CountryListMatch, Hash, nil] match filter (any subset of Country fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Array<Country>, Array] the matching Country items; raises RailwayStationPhotosError on failure
   def list(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({

@@ -38,10 +38,6 @@ class Config {
   options = {
     base: 'https://api.railway-stations.org',
 
-    auth: {
-      prefix: 'Bearer',
-    },
-
     headers: {
       "content-type": "application/json"
     },
@@ -602,7 +598,8 @@ class Config {
                     "name": "id",
                     "orig": "id",
                     "reqd": true,
-                    "type": "`$INTEGER`"
+                    "type": "`$INTEGER`",
+                    "index$": 0
                   }
                 ]
               },
@@ -1119,7 +1116,8 @@ class Config {
                     "name": "country",
                     "orig": "country",
                     "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "index$": 0
                   },
                   {
                     "active": true,
@@ -1127,7 +1125,8 @@ class Config {
                     "name": "filename",
                     "orig": "filename",
                     "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "index$": 1
                   }
                 ],
                 "query": [
@@ -1191,7 +1190,8 @@ class Config {
                     "name": "filename",
                     "orig": "filename",
                     "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "index$": 0
                   }
                 ],
                 "query": [
@@ -1234,7 +1234,8 @@ class Config {
                     "name": "filename",
                     "orig": "filename",
                     "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "index$": 0
                   }
                 ],
                 "query": [
@@ -1277,7 +1278,8 @@ class Config {
                     "name": "filename",
                     "orig": "filename",
                     "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "index$": 0
                   }
                 ],
                 "query": [
@@ -1320,7 +1322,8 @@ class Config {
                     "name": "filename",
                     "orig": "filename",
                     "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "index$": 0
                   }
                 ],
                 "query": [
@@ -1420,7 +1423,8 @@ class Config {
                     "name": "country",
                     "orig": "country",
                     "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "index$": 0
                   },
                   {
                     "active": true,
@@ -1428,7 +1432,8 @@ class Config {
                     "name": "id",
                     "orig": "id",
                     "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "index$": 1
                   }
                 ]
               },
@@ -1499,7 +1504,8 @@ class Config {
                     "name": "country",
                     "orig": "country",
                     "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "index$": 0
                   }
                 ],
                 "query": [
@@ -1550,7 +1556,8 @@ class Config {
                     "name": "photographer",
                     "orig": "photographer",
                     "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "index$": 0
                   }
                 ],
                 "query": [
@@ -1998,7 +2005,8 @@ class Config {
                     "name": "token",
                     "orig": "token",
                     "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "index$": 0
                   }
                 ]
               },

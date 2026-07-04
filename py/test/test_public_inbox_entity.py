@@ -50,8 +50,7 @@ class TestPublicInboxEntity:
         public_inbox_ref01_ent = client.PublicInbox(None)
         public_inbox_ref01_match = {}
 
-        public_inbox_ref01_list_result, err = public_inbox_ref01_ent.list(public_inbox_ref01_match, None)
-        assert err is None
+        public_inbox_ref01_list_result = public_inbox_ref01_ent.list(public_inbox_ref01_match, None)
         assert isinstance(public_inbox_ref01_list_result, list)
 
 
@@ -92,7 +91,6 @@ def _public_inbox_basic_setup(extra):
         "RAILWAYSTATIONPHOTOS_TEST_PUBLIC_INBOX_ENTID": idmap,
         "RAILWAYSTATIONPHOTOS_TEST_LIVE": "FALSE",
         "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN": "FALSE",
-        "RAILWAYSTATIONPHOTOS_APIKEY": "NONE",
     })
 
     idmap_resolved = helpers.to_map(
@@ -103,7 +101,6 @@ def _public_inbox_basic_setup(extra):
     if env.get("RAILWAYSTATIONPHOTOS_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
             {
-                "apikey": env.get("RAILWAYSTATIONPHOTOS_APIKEY"),
             },
             extra or {},
         ])

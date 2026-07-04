@@ -42,8 +42,7 @@ class PhotoDownloadEntityTest < Minitest::Test
     # LOAD
     photo_download_ref01_ent = client.PhotoDownload(nil)
     photo_download_ref01_match_dt0 = {}
-    photo_download_ref01_data_dt0_loaded, err = photo_download_ref01_ent.load(photo_download_ref01_match_dt0, nil)
-    assert_nil err
+    photo_download_ref01_data_dt0_loaded = photo_download_ref01_ent.load(photo_download_ref01_match_dt0, nil)
     assert !photo_download_ref01_data_dt0_loaded.nil?
 
   end
@@ -82,7 +81,6 @@ def photo_download_basic_setup(extra)
     "RAILWAYSTATIONPHOTOS_TEST_PHOTO_DOWNLOAD_ENTID" => idmap,
     "RAILWAYSTATIONPHOTOS_TEST_LIVE" => "FALSE",
     "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN" => "FALSE",
-    "RAILWAYSTATIONPHOTOS_APIKEY" => "NONE",
   })
 
   idmap_resolved = Helpers.to_map(
@@ -94,7 +92,6 @@ def photo_download_basic_setup(extra)
   if env["RAILWAYSTATIONPHOTOS_TEST_LIVE"] == "TRUE"
     merged_opts = Vs.merge([
       {
-        "apikey" => env["RAILWAYSTATIONPHOTOS_APIKEY"],
       },
       extra || {},
     ])

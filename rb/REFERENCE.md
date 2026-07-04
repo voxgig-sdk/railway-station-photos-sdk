@@ -20,7 +20,6 @@ Create a new SDK client instance.
 | Name | Type | Description |
 | --- | --- | --- |
 | `options` | `Hash` | SDK configuration options. |
-| `options["apikey"]` | `String` | API key for authentication. |
 | `options["base"]` | `String` | Base URL for API requests. |
 | `options["prefix"]` | `String` | URL prefix appended after base. |
 | `options["suffix"]` | `String` | URL suffix appended after path. |
@@ -114,9 +113,11 @@ Return a deep copy of the current SDK options.
 
 Return a copy of the SDK utility object.
 
-#### `direct(fetchargs = {}) -> Hash, err`
+#### `direct(fetchargs = {}) -> Hash`
 
-Make a direct HTTP request to any API endpoint.
+Make a direct HTTP request to any API endpoint. Returns a result hash
+(`{ "ok" => ..., "status" => ..., "data" => ..., "err" => ... }`); it
+does not raise — inspect `result["ok"]`.
 
 **Parameters:**
 
@@ -130,14 +131,14 @@ Make a direct HTTP request to any API endpoint.
 | `fetchargs["body"]` | `any` | Request body (hashes are JSON-serialized). |
 | `fetchargs["ctrl"]` | `Hash` | Control options (e.g. `{ "explain" => true }`). |
 
-**Returns:** `Hash, err`
+**Returns:** `Hash`
 
-#### `prepare(fetchargs = {}) -> Hash, err`
+#### `prepare(fetchargs = {}) -> Hash`
 
 Prepare a fetch definition without sending the request. Accepts the
-same parameters as `direct()`.
+same parameters as `direct()`. Raises on error.
 
-**Returns:** `Hash, err`
+**Returns:** `Hash` (the fetch definition; raises on error)
 
 
 ---
@@ -145,7 +146,7 @@ same parameters as `direct()`.
 ## AdminInboxEntity
 
 ```ruby
-admin_inbox = client.AdminInbox
+admin_inbox = client.admin_inbox
 ```
 
 ### Fields
@@ -168,12 +169,12 @@ admin_inbox = client.AdminInbox
 
 ### Operations
 
-#### `create(reqdata, ctrl = nil) -> result, err`
+#### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Raises on error.
 
 ```ruby
-result, err = client.AdminInbox.create({
+result = client.admin_inbox.create({
   "command" => # `$STRING`,
   "message" => # `$STRING`,
   "status" => # `$INTEGER`,
@@ -213,7 +214,7 @@ Return the entity name.
 ## CountryEntity
 
 ```ruby
-country = client.Country
+country = client.country
 ```
 
 ### Fields
@@ -232,12 +233,12 @@ country = client.Country
 
 ### Operations
 
-#### `list(reqmatch, ctrl = nil) -> result, err`
+#### `list(reqmatch, ctrl = nil) -> Array`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array. Raises on error.
 
 ```ruby
-results, err = client.Country.list(nil)
+results = client.country.list(nil)
 ```
 
 ### Common Methods
@@ -273,7 +274,7 @@ Return the entity name.
 ## InboxEntity
 
 ```ruby
-inbox = client.Inbox
+inbox = client.inbox
 ```
 
 ### Fields
@@ -300,30 +301,30 @@ inbox = client.Inbox
 
 ### Operations
 
-#### `create(reqdata, ctrl = nil) -> result, err`
+#### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Raises on error.
 
 ```ruby
-result, err = client.Inbox.create({
+result = client.inbox.create({
   "state" => # `$STRING`,
 })
 ```
 
-#### `list(reqmatch, ctrl = nil) -> result, err`
+#### `list(reqmatch, ctrl = nil) -> Array`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array. Raises on error.
 
 ```ruby
-results, err = client.Inbox.list(nil)
+results = client.inbox.list(nil)
 ```
 
-#### `remove(reqmatch, ctrl = nil) -> result, err`
+#### `remove(reqmatch, ctrl = nil) -> result`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Raises on error.
 
 ```ruby
-result, err = client.Inbox.remove({ "id" => "inbox_id" })
+result = client.inbox.remove({ "id" => "inbox_id" })
 ```
 
 ### Common Methods
@@ -359,7 +360,7 @@ Return the entity name.
 ## InboxCountEntity
 
 ```ruby
-inbox_count = client.InboxCount
+inbox_count = client.inbox_count
 ```
 
 ### Fields
@@ -370,12 +371,12 @@ inbox_count = client.InboxCount
 
 ### Operations
 
-#### `load(reqmatch, ctrl = nil) -> result, err`
+#### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result, err = client.InboxCount.load({ "id" => "inbox_count_id" })
+result = client.inbox_count.load({ "id" => "inbox_count_id" })
 ```
 
 ### Common Methods
@@ -411,7 +412,7 @@ Return the entity name.
 ## InboxEntryEntity
 
 ```ruby
-inbox_entry = client.InboxEntry
+inbox_entry = client.inbox_entry
 ```
 
 ### Fields
@@ -443,12 +444,12 @@ inbox_entry = client.InboxEntry
 
 ### Operations
 
-#### `list(reqmatch, ctrl = nil) -> result, err`
+#### `list(reqmatch, ctrl = nil) -> Array`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array. Raises on error.
 
 ```ruby
-results, err = client.InboxEntry.list(nil)
+results = client.inbox_entry.list(nil)
 ```
 
 ### Common Methods
@@ -484,7 +485,7 @@ Return the entity name.
 ## InboxStateQueryEntity
 
 ```ruby
-inbox_state_query = client.InboxStateQuery
+inbox_state_query = client.inbox_state_query
 ```
 
 ### Common Methods
@@ -520,7 +521,7 @@ Return the entity name.
 ## OAuthTokenEntity
 
 ```ruby
-o_auth_token = client.OAuthToken
+o_auth_token = client.o_auth_token
 ```
 
 ### Fields
@@ -535,12 +536,12 @@ o_auth_token = client.OAuthToken
 
 ### Operations
 
-#### `create(reqdata, ctrl = nil) -> result, err`
+#### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Raises on error.
 
 ```ruby
-result, err = client.OAuthToken.create({
+result = client.o_auth_token.create({
   "access_token" => # `$STRING`,
   "scope" => # `$STRING`,
   "token_type" => # `$STRING`,
@@ -580,26 +581,26 @@ Return the entity name.
 ## OauthEntity
 
 ```ruby
-oauth = client.Oauth
+oauth = client.oauth
 ```
 
 ### Operations
 
-#### `create(reqdata, ctrl = nil) -> result, err`
+#### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Raises on error.
 
 ```ruby
-result, err = client.Oauth.create({
+result = client.oauth.create({
 })
 ```
 
-#### `load(reqmatch, ctrl = nil) -> result, err`
+#### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result, err = client.Oauth.load({ "id" => "oauth_id" })
+result = client.oauth.load({ "id" => "oauth_id" })
 ```
 
 ### Common Methods
@@ -635,17 +636,17 @@ Return the entity name.
 ## PhotoEntity
 
 ```ruby
-photo = client.Photo
+photo = client.photo
 ```
 
 ### Operations
 
-#### `load(reqmatch, ctrl = nil) -> result, err`
+#### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result, err = client.Photo.load({ "id" => "photo_id" })
+result = client.photo.load({ "id" => "photo_id" })
 ```
 
 ### Common Methods
@@ -681,17 +682,17 @@ Return the entity name.
 ## PhotoDownloadEntity
 
 ```ruby
-photo_download = client.PhotoDownload
+photo_download = client.photo_download
 ```
 
 ### Operations
 
-#### `load(reqmatch, ctrl = nil) -> result, err`
+#### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result, err = client.PhotoDownload.load({ "id" => "photo_download_id" })
+result = client.photo_download.load({ "id" => "photo_download_id" })
 ```
 
 ### Common Methods
@@ -727,7 +728,7 @@ Return the entity name.
 ## PhotoStationEntity
 
 ```ruby
-photo_station = client.PhotoStation
+photo_station = client.photo_station
 ```
 
 ### Fields
@@ -741,20 +742,20 @@ photo_station = client.PhotoStation
 
 ### Operations
 
-#### `list(reqmatch, ctrl = nil) -> result, err`
+#### `list(reqmatch, ctrl = nil) -> Array`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array. Raises on error.
 
 ```ruby
-results, err = client.PhotoStation.list(nil)
+results = client.photo_station.list(nil)
 ```
 
-#### `load(reqmatch, ctrl = nil) -> result, err`
+#### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result, err = client.PhotoStation.load({ "id" => "photo_station_id" })
+result = client.photo_station.load({ "id" => "photo_station_id" })
 ```
 
 ### Common Methods
@@ -790,17 +791,17 @@ Return the entity name.
 ## PhotoUploadEntity
 
 ```ruby
-photo_upload = client.PhotoUpload
+photo_upload = client.photo_upload
 ```
 
 ### Operations
 
-#### `create(reqdata, ctrl = nil) -> result, err`
+#### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Raises on error.
 
 ```ruby
-result, err = client.PhotoUpload.create({
+result = client.photo_upload.create({
 })
 ```
 
@@ -837,17 +838,17 @@ Return the entity name.
 ## PhotographerEntity
 
 ```ruby
-photographer = client.Photographer
+photographer = client.photographer
 ```
 
 ### Operations
 
-#### `load(reqmatch, ctrl = nil) -> result, err`
+#### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result, err = client.Photographer.load({ "id" => "photographer_id" })
+result = client.photographer.load({ "id" => "photographer_id" })
 ```
 
 ### Common Methods
@@ -883,7 +884,7 @@ Return the entity name.
 ## ProfileEntity
 
 ```ruby
-profile = client.Profile
+profile = client.profile
 ```
 
 ### Fields
@@ -918,12 +919,12 @@ profile = client.Profile
 
 ### Operations
 
-#### `create(reqdata, ctrl = nil) -> result, err`
+#### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Raises on error.
 
 ```ruby
-result, err = client.Profile.create({
+result = client.profile.create({
   "license" => # `$STRING`,
   "new_password" => # `$STRING`,
   "nickname" => # `$STRING`,
@@ -931,20 +932,20 @@ result, err = client.Profile.create({
 })
 ```
 
-#### `load(reqmatch, ctrl = nil) -> result, err`
+#### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result, err = client.Profile.load({ "id" => "profile_id" })
+result = client.profile.load({ "id" => "profile_id" })
 ```
 
-#### `remove(reqmatch, ctrl = nil) -> result, err`
+#### `remove(reqmatch, ctrl = nil) -> result`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Raises on error.
 
 ```ruby
-result, err = client.Profile.remove({ "id" => "profile_id" })
+result = client.profile.remove({ "id" => "profile_id" })
 ```
 
 ### Common Methods
@@ -980,7 +981,7 @@ Return the entity name.
 ## PublicInboxEntity
 
 ```ruby
-public_inbox = client.PublicInbox
+public_inbox = client.public_inbox
 ```
 
 ### Fields
@@ -995,12 +996,12 @@ public_inbox = client.PublicInbox
 
 ### Operations
 
-#### `list(reqmatch, ctrl = nil) -> result, err`
+#### `list(reqmatch, ctrl = nil) -> Array`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array. Raises on error.
 
 ```ruby
-results, err = client.PublicInbox.list(nil)
+results = client.public_inbox.list(nil)
 ```
 
 ### Common Methods
@@ -1036,7 +1037,7 @@ Return the entity name.
 ## StatEntity
 
 ```ruby
-stat = client.Stat
+stat = client.stat
 ```
 
 ### Fields
@@ -1051,12 +1052,12 @@ stat = client.Stat
 
 ### Operations
 
-#### `load(reqmatch, ctrl = nil) -> result, err`
+#### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result, err = client.Stat.load({ "id" => "stat_id" })
+result = client.stat.load({ "id" => "stat_id" })
 ```
 
 ### Common Methods

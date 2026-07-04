@@ -49,8 +49,7 @@ class TestStatEntity:
         # LOAD
         stat_ref01_ent = client.Stat(None)
         stat_ref01_match_dt0 = {}
-        stat_ref01_data_dt0_loaded, err = stat_ref01_ent.load(stat_ref01_match_dt0, None)
-        assert err is None
+        stat_ref01_data_dt0_loaded = stat_ref01_ent.load(stat_ref01_match_dt0, None)
         assert stat_ref01_data_dt0_loaded is not None
 
 
@@ -91,7 +90,6 @@ def _stat_basic_setup(extra):
         "RAILWAYSTATIONPHOTOS_TEST_STAT_ENTID": idmap,
         "RAILWAYSTATIONPHOTOS_TEST_LIVE": "FALSE",
         "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN": "FALSE",
-        "RAILWAYSTATIONPHOTOS_APIKEY": "NONE",
     })
 
     idmap_resolved = helpers.to_map(
@@ -102,7 +100,6 @@ def _stat_basic_setup(extra):
     if env.get("RAILWAYSTATIONPHOTOS_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
             {
-                "apikey": env.get("RAILWAYSTATIONPHOTOS_APIKEY"),
             },
             extra or {},
         ])

@@ -20,7 +20,6 @@ Create a new SDK client instance.
 | Name | Type | Description |
 | --- | --- | --- |
 | `$options` | `array` | SDK configuration options. |
-| `$options["apikey"]` | `string` | API key for authentication. |
 | `$options["base"]` | `string` | Base URL for API requests. |
 | `$options["prefix"]` | `string` | URL prefix appended after base. |
 | `$options["suffix"]` | `string` | URL suffix appended after path. |
@@ -116,7 +115,10 @@ Return a copy of the SDK utility object.
 
 #### `direct(array $fetchargs = []): array`
 
-Make a direct HTTP request to any API endpoint. Returns `[$result, $err]`.
+Make a direct HTTP request to any API endpoint. This is the raw-HTTP escape
+hatch: it does **not** throw. It returns a result array
+`["ok" => bool, "status" => int, "headers" => array, "data" => mixed]`, or
+`["ok" => false, "err" => \Exception]` on failure. Branch on `$result["ok"]`.
 
 **Parameters:**
 
@@ -130,11 +132,12 @@ Make a direct HTTP request to any API endpoint. Returns `[$result, $err]`.
 | `$fetchargs["body"]` | `mixed` | Request body (arrays are JSON-serialized). |
 | `$fetchargs["ctrl"]` | `array` | Control options. |
 
-**Returns:** `array [$result, $err]`
+**Returns:** `array` — the result dict (see above); never throws.
 
-#### `prepare(array $fetchargs = []): array`
+#### `prepare(array $fetchargs = []): mixed`
 
-Prepare a fetch definition without sending the request. Returns `[$fetchdef, $err]`.
+Prepare a fetch definition without sending the request. Returns the
+`$fetchdef` array. Throws on error.
 
 
 ---
@@ -142,7 +145,7 @@ Prepare a fetch definition without sending the request. Returns `[$fetchdef, $er
 ## AdminInboxEntity
 
 ```php
-$admin_inbox = $client->AdminInbox();
+$admin_inbox = $client->admin_inbox();
 ```
 
 ### Fields
@@ -165,12 +168,12 @@ $admin_inbox = $client->AdminInbox();
 
 ### Operations
 
-#### `create(array $reqdata, ?array $ctrl = null): array`
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Throws on error.
 
 ```php
-[$result, $err] = $client->AdminInbox()->create([
+$result = $client->admin_inbox()->create([
   "command" => /* `$STRING` */,
   "message" => /* `$STRING` */,
   "status" => /* `$INTEGER` */,
@@ -210,7 +213,7 @@ Return the entity name.
 ## CountryEntity
 
 ```php
-$country = $client->Country();
+$country = $client->country();
 ```
 
 ### Fields
@@ -229,12 +232,12 @@ $country = $client->Country();
 
 ### Operations
 
-#### `list(array $reqmatch, ?array $ctrl = null): array`
+#### `list(array $reqmatch, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-[$results, $err] = $client->Country()->list([]);
+$results = $client->country()->list([]);
 ```
 
 ### Common Methods
@@ -270,7 +273,7 @@ Return the entity name.
 ## InboxEntity
 
 ```php
-$inbox = $client->Inbox();
+$inbox = $client->inbox();
 ```
 
 ### Fields
@@ -297,30 +300,30 @@ $inbox = $client->Inbox();
 
 ### Operations
 
-#### `create(array $reqdata, ?array $ctrl = null): array`
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Throws on error.
 
 ```php
-[$result, $err] = $client->Inbox()->create([
+$result = $client->inbox()->create([
   "state" => /* `$STRING` */,
 ]);
 ```
 
-#### `list(array $reqmatch, ?array $ctrl = null): array`
+#### `list(array $reqmatch, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-[$results, $err] = $client->Inbox()->list([]);
+$results = $client->inbox()->list([]);
 ```
 
-#### `remove(array $reqmatch, ?array $ctrl = null): array`
+#### `remove(array $reqmatch, ?array $ctrl = null): mixed`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Throws on error.
 
 ```php
-[$result, $err] = $client->Inbox()->remove(["id" => "inbox_id"]);
+$result = $client->inbox()->remove(["id" => "inbox_id"]);
 ```
 
 ### Common Methods
@@ -356,7 +359,7 @@ Return the entity name.
 ## InboxCountEntity
 
 ```php
-$inbox_count = $client->InboxCount();
+$inbox_count = $client->inbox_count();
 ```
 
 ### Fields
@@ -367,12 +370,12 @@ $inbox_count = $client->InboxCount();
 
 ### Operations
 
-#### `load(array $reqmatch, ?array $ctrl = null): array`
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Throws on error.
 
 ```php
-[$result, $err] = $client->InboxCount()->load(["id" => "inbox_count_id"]);
+$result = $client->inbox_count()->load(["id" => "inbox_count_id"]);
 ```
 
 ### Common Methods
@@ -408,7 +411,7 @@ Return the entity name.
 ## InboxEntryEntity
 
 ```php
-$inbox_entry = $client->InboxEntry();
+$inbox_entry = $client->inbox_entry();
 ```
 
 ### Fields
@@ -440,12 +443,12 @@ $inbox_entry = $client->InboxEntry();
 
 ### Operations
 
-#### `list(array $reqmatch, ?array $ctrl = null): array`
+#### `list(array $reqmatch, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-[$results, $err] = $client->InboxEntry()->list([]);
+$results = $client->inbox_entry()->list([]);
 ```
 
 ### Common Methods
@@ -481,7 +484,7 @@ Return the entity name.
 ## InboxStateQueryEntity
 
 ```php
-$inbox_state_query = $client->InboxStateQuery();
+$inbox_state_query = $client->inbox_state_query();
 ```
 
 ### Common Methods
@@ -517,7 +520,7 @@ Return the entity name.
 ## OAuthTokenEntity
 
 ```php
-$o_auth_token = $client->OAuthToken();
+$o_auth_token = $client->o_auth_token();
 ```
 
 ### Fields
@@ -532,12 +535,12 @@ $o_auth_token = $client->OAuthToken();
 
 ### Operations
 
-#### `create(array $reqdata, ?array $ctrl = null): array`
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Throws on error.
 
 ```php
-[$result, $err] = $client->OAuthToken()->create([
+$result = $client->o_auth_token()->create([
   "access_token" => /* `$STRING` */,
   "scope" => /* `$STRING` */,
   "token_type" => /* `$STRING` */,
@@ -577,26 +580,26 @@ Return the entity name.
 ## OauthEntity
 
 ```php
-$oauth = $client->Oauth();
+$oauth = $client->oauth();
 ```
 
 ### Operations
 
-#### `create(array $reqdata, ?array $ctrl = null): array`
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Throws on error.
 
 ```php
-[$result, $err] = $client->Oauth()->create([
+$result = $client->oauth()->create([
 ]);
 ```
 
-#### `load(array $reqmatch, ?array $ctrl = null): array`
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Throws on error.
 
 ```php
-[$result, $err] = $client->Oauth()->load(["id" => "oauth_id"]);
+$result = $client->oauth()->load(["id" => "oauth_id"]);
 ```
 
 ### Common Methods
@@ -632,17 +635,17 @@ Return the entity name.
 ## PhotoEntity
 
 ```php
-$photo = $client->Photo();
+$photo = $client->photo();
 ```
 
 ### Operations
 
-#### `load(array $reqmatch, ?array $ctrl = null): array`
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Throws on error.
 
 ```php
-[$result, $err] = $client->Photo()->load(["id" => "photo_id"]);
+$result = $client->photo()->load(["id" => "photo_id"]);
 ```
 
 ### Common Methods
@@ -678,17 +681,17 @@ Return the entity name.
 ## PhotoDownloadEntity
 
 ```php
-$photo_download = $client->PhotoDownload();
+$photo_download = $client->photo_download();
 ```
 
 ### Operations
 
-#### `load(array $reqmatch, ?array $ctrl = null): array`
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Throws on error.
 
 ```php
-[$result, $err] = $client->PhotoDownload()->load(["id" => "photo_download_id"]);
+$result = $client->photo_download()->load(["id" => "photo_download_id"]);
 ```
 
 ### Common Methods
@@ -724,7 +727,7 @@ Return the entity name.
 ## PhotoStationEntity
 
 ```php
-$photo_station = $client->PhotoStation();
+$photo_station = $client->photo_station();
 ```
 
 ### Fields
@@ -738,20 +741,20 @@ $photo_station = $client->PhotoStation();
 
 ### Operations
 
-#### `list(array $reqmatch, ?array $ctrl = null): array`
+#### `list(array $reqmatch, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-[$results, $err] = $client->PhotoStation()->list([]);
+$results = $client->photo_station()->list([]);
 ```
 
-#### `load(array $reqmatch, ?array $ctrl = null): array`
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Throws on error.
 
 ```php
-[$result, $err] = $client->PhotoStation()->load(["id" => "photo_station_id"]);
+$result = $client->photo_station()->load(["id" => "photo_station_id"]);
 ```
 
 ### Common Methods
@@ -787,17 +790,17 @@ Return the entity name.
 ## PhotoUploadEntity
 
 ```php
-$photo_upload = $client->PhotoUpload();
+$photo_upload = $client->photo_upload();
 ```
 
 ### Operations
 
-#### `create(array $reqdata, ?array $ctrl = null): array`
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Throws on error.
 
 ```php
-[$result, $err] = $client->PhotoUpload()->create([
+$result = $client->photo_upload()->create([
 ]);
 ```
 
@@ -834,17 +837,17 @@ Return the entity name.
 ## PhotographerEntity
 
 ```php
-$photographer = $client->Photographer();
+$photographer = $client->photographer();
 ```
 
 ### Operations
 
-#### `load(array $reqmatch, ?array $ctrl = null): array`
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Throws on error.
 
 ```php
-[$result, $err] = $client->Photographer()->load(["id" => "photographer_id"]);
+$result = $client->photographer()->load(["id" => "photographer_id"]);
 ```
 
 ### Common Methods
@@ -880,7 +883,7 @@ Return the entity name.
 ## ProfileEntity
 
 ```php
-$profile = $client->Profile();
+$profile = $client->profile();
 ```
 
 ### Fields
@@ -915,12 +918,12 @@ $profile = $client->Profile();
 
 ### Operations
 
-#### `create(array $reqdata, ?array $ctrl = null): array`
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Throws on error.
 
 ```php
-[$result, $err] = $client->Profile()->create([
+$result = $client->profile()->create([
   "license" => /* `$STRING` */,
   "new_password" => /* `$STRING` */,
   "nickname" => /* `$STRING` */,
@@ -928,20 +931,20 @@ Create a new entity with the given data.
 ]);
 ```
 
-#### `load(array $reqmatch, ?array $ctrl = null): array`
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Throws on error.
 
 ```php
-[$result, $err] = $client->Profile()->load(["id" => "profile_id"]);
+$result = $client->profile()->load(["id" => "profile_id"]);
 ```
 
-#### `remove(array $reqmatch, ?array $ctrl = null): array`
+#### `remove(array $reqmatch, ?array $ctrl = null): mixed`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Throws on error.
 
 ```php
-[$result, $err] = $client->Profile()->remove(["id" => "profile_id"]);
+$result = $client->profile()->remove(["id" => "profile_id"]);
 ```
 
 ### Common Methods
@@ -977,7 +980,7 @@ Return the entity name.
 ## PublicInboxEntity
 
 ```php
-$public_inbox = $client->PublicInbox();
+$public_inbox = $client->public_inbox();
 ```
 
 ### Fields
@@ -992,12 +995,12 @@ $public_inbox = $client->PublicInbox();
 
 ### Operations
 
-#### `list(array $reqmatch, ?array $ctrl = null): array`
+#### `list(array $reqmatch, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-[$results, $err] = $client->PublicInbox()->list([]);
+$results = $client->public_inbox()->list([]);
 ```
 
 ### Common Methods
@@ -1033,7 +1036,7 @@ Return the entity name.
 ## StatEntity
 
 ```php
-$stat = $client->Stat();
+$stat = $client->stat();
 ```
 
 ### Fields
@@ -1048,12 +1051,12 @@ $stat = $client->Stat();
 
 ### Operations
 
-#### `load(array $reqmatch, ?array $ctrl = null): array`
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Throws on error.
 
 ```php
-[$result, $err] = $client->Stat()->load(["id" => "stat_id"]);
+$result = $client->stat()->load(["id" => "stat_id"]);
 ```
 
 ### Common Methods

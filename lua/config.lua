@@ -14,9 +14,6 @@ local function make_config()
     },
     options = {
       base = "https://api.railway-stations.org",
-      auth = {
-        prefix = "Bearer",
-      },
       headers = {
         ["content-type"] = "application/json",
       },
@@ -542,6 +539,7 @@ local function make_config()
                       ["orig"] = "id",
                       ["reqd"] = true,
                       ["type"] = "`$INTEGER`",
+                      ["index$"] = 0,
                     },
                   },
                 },
@@ -1059,6 +1057,7 @@ local function make_config()
                       ["orig"] = "country",
                       ["reqd"] = true,
                       ["type"] = "`$STRING`",
+                      ["index$"] = 0,
                     },
                     {
                       ["active"] = true,
@@ -1067,6 +1066,7 @@ local function make_config()
                       ["orig"] = "filename",
                       ["reqd"] = true,
                       ["type"] = "`$STRING`",
+                      ["index$"] = 1,
                     },
                   },
                   ["query"] = {
@@ -1131,6 +1131,7 @@ local function make_config()
                       ["orig"] = "filename",
                       ["reqd"] = true,
                       ["type"] = "`$STRING`",
+                      ["index$"] = 0,
                     },
                   },
                   ["query"] = {
@@ -1174,6 +1175,7 @@ local function make_config()
                       ["orig"] = "filename",
                       ["reqd"] = true,
                       ["type"] = "`$STRING`",
+                      ["index$"] = 0,
                     },
                   },
                   ["query"] = {
@@ -1217,6 +1219,7 @@ local function make_config()
                       ["orig"] = "filename",
                       ["reqd"] = true,
                       ["type"] = "`$STRING`",
+                      ["index$"] = 0,
                     },
                   },
                   ["query"] = {
@@ -1260,6 +1263,7 @@ local function make_config()
                       ["orig"] = "filename",
                       ["reqd"] = true,
                       ["type"] = "`$STRING`",
+                      ["index$"] = 0,
                     },
                   },
                   ["query"] = {
@@ -1360,6 +1364,7 @@ local function make_config()
                       ["orig"] = "country",
                       ["reqd"] = true,
                       ["type"] = "`$STRING`",
+                      ["index$"] = 0,
                     },
                     {
                       ["active"] = true,
@@ -1368,6 +1373,7 @@ local function make_config()
                       ["orig"] = "id",
                       ["reqd"] = true,
                       ["type"] = "`$STRING`",
+                      ["index$"] = 1,
                     },
                   },
                 },
@@ -1439,6 +1445,7 @@ local function make_config()
                       ["orig"] = "country",
                       ["reqd"] = true,
                       ["type"] = "`$STRING`",
+                      ["index$"] = 0,
                     },
                   },
                   ["query"] = {
@@ -1490,6 +1497,7 @@ local function make_config()
                       ["orig"] = "photographer",
                       ["reqd"] = true,
                       ["type"] = "`$STRING`",
+                      ["index$"] = 0,
                     },
                   },
                   ["query"] = {
@@ -1938,6 +1946,7 @@ local function make_config()
                       ["orig"] = "token",
                       ["reqd"] = true,
                       ["type"] = "`$STRING`",
+                      ["index$"] = 0,
                     },
                   },
                 },

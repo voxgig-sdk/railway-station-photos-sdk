@@ -81,6 +81,10 @@ end
 
 
 
+---@param reqmatch PublicInboxListMatch
+---@param ctrl? table
+---@return PublicInbox[]
+---@return string? err
 function PublicInboxEntity:list(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

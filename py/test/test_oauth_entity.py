@@ -44,15 +44,12 @@ class TestOauthEntity:
         oauth_ref01_data = helpers.to_map(vs.getprop(
             vs.getpath(setup["data"], "new.oauth"), "oauth_ref01"))
 
-        oauth_ref01_data_result, err = oauth_ref01_ent.create(oauth_ref01_data, None)
-        assert err is None
-        oauth_ref01_data = helpers.to_map(oauth_ref01_data_result)
+        oauth_ref01_data = helpers.to_map(oauth_ref01_ent.create(oauth_ref01_data, None))
         assert oauth_ref01_data is not None
 
         # LOAD
         oauth_ref01_match_dt0 = {}
-        oauth_ref01_data_dt0_loaded, err = oauth_ref01_ent.load(oauth_ref01_match_dt0, None)
-        assert err is None
+        oauth_ref01_data_dt0_loaded = oauth_ref01_ent.load(oauth_ref01_match_dt0, None)
         assert oauth_ref01_data_dt0_loaded is not None
 
 
@@ -93,7 +90,6 @@ def _oauth_basic_setup(extra):
         "RAILWAYSTATIONPHOTOS_TEST_OAUTH_ENTID": idmap,
         "RAILWAYSTATIONPHOTOS_TEST_LIVE": "FALSE",
         "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN": "FALSE",
-        "RAILWAYSTATIONPHOTOS_APIKEY": "NONE",
     })
 
     idmap_resolved = helpers.to_map(
@@ -104,7 +100,6 @@ def _oauth_basic_setup(extra):
     if env.get("RAILWAYSTATIONPHOTOS_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
             {
-                "apikey": env.get("RAILWAYSTATIONPHOTOS_APIKEY"),
             },
             extra or {},
         ])

@@ -36,8 +36,7 @@ class AdminInboxEntityTest < Minitest::Test
     admin_inbox_ref01_data = Helpers.to_map(Vs.getprop(
       Vs.getpath(setup[:data], "new.admin_inbox"), "admin_inbox_ref01"))
 
-    admin_inbox_ref01_data_result, err = admin_inbox_ref01_ent.create(admin_inbox_ref01_data, nil)
-    assert_nil err
+    admin_inbox_ref01_data_result = admin_inbox_ref01_ent.create(admin_inbox_ref01_data, nil)
     admin_inbox_ref01_data = Helpers.to_map(admin_inbox_ref01_data_result)
     assert !admin_inbox_ref01_data.nil?
     assert !admin_inbox_ref01_data["id"].nil?
@@ -78,7 +77,6 @@ def admin_inbox_basic_setup(extra)
     "RAILWAYSTATIONPHOTOS_TEST_ADMIN_INBOX_ENTID" => idmap,
     "RAILWAYSTATIONPHOTOS_TEST_LIVE" => "FALSE",
     "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN" => "FALSE",
-    "RAILWAYSTATIONPHOTOS_APIKEY" => "NONE",
   })
 
   idmap_resolved = Helpers.to_map(
@@ -90,7 +88,6 @@ def admin_inbox_basic_setup(extra)
   if env["RAILWAYSTATIONPHOTOS_TEST_LIVE"] == "TRUE"
     merged_opts = Vs.merge([
       {
-        "apikey" => env["RAILWAYSTATIONPHOTOS_APIKEY"],
       },
       extra || {},
     ])

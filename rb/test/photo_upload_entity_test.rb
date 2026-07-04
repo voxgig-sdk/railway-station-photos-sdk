@@ -36,8 +36,7 @@ class PhotoUploadEntityTest < Minitest::Test
     photo_upload_ref01_data = Helpers.to_map(Vs.getprop(
       Vs.getpath(setup[:data], "new.photo_upload"), "photo_upload_ref01"))
 
-    photo_upload_ref01_data_result, err = photo_upload_ref01_ent.create(photo_upload_ref01_data, nil)
-    assert_nil err
+    photo_upload_ref01_data_result = photo_upload_ref01_ent.create(photo_upload_ref01_data, nil)
     photo_upload_ref01_data = Helpers.to_map(photo_upload_ref01_data_result)
     assert !photo_upload_ref01_data.nil?
 
@@ -77,7 +76,6 @@ def photo_upload_basic_setup(extra)
     "RAILWAYSTATIONPHOTOS_TEST_PHOTO_UPLOAD_ENTID" => idmap,
     "RAILWAYSTATIONPHOTOS_TEST_LIVE" => "FALSE",
     "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN" => "FALSE",
-    "RAILWAYSTATIONPHOTOS_APIKEY" => "NONE",
   })
 
   idmap_resolved = Helpers.to_map(
@@ -89,7 +87,6 @@ def photo_upload_basic_setup(extra)
   if env["RAILWAYSTATIONPHOTOS_TEST_LIVE"] == "TRUE"
     merged_opts = Vs.merge([
       {
-        "apikey" => env["RAILWAYSTATIONPHOTOS_APIKEY"],
       },
       extra || {},
     ])

@@ -20,7 +20,6 @@ Create a new SDK client instance.
 | Name | Type | Description |
 | --- | --- | --- |
 | `options` | `dict` | SDK configuration options. |
-| `options["apikey"]` | `str` | API key for authentication. |
 | `options["base"]` | `str` | Base URL for API requests. |
 | `options["prefix"]` | `str` | URL prefix appended after base. |
 | `options["suffix"]` | `str` | URL suffix appended after path. |
@@ -114,9 +113,9 @@ Return a deep copy of the current SDK options.
 
 Return a copy of the SDK utility object.
 
-#### `direct(fetchargs=None) -> tuple`
+#### `direct(fetchargs=None) -> dict`
 
-Make a direct HTTP request to any API endpoint. Returns `(result, err)`.
+Make a direct HTTP request to any API endpoint. Returns a result `dict` with `ok`, `status`, `headers`, and `data` (or `err` on failure). This escape hatch never raises — branch on `result["ok"]`.
 
 **Parameters:**
 
@@ -129,11 +128,11 @@ Make a direct HTTP request to any API endpoint. Returns `(result, err)`.
 | `fetchargs["headers"]` | `dict` | Request headers (merged with defaults). |
 | `fetchargs["body"]` | `any` | Request body (dicts are JSON-serialized). |
 
-**Returns:** `(result_dict, err)`
+**Returns:** `result_dict`
 
-#### `prepare(fetchargs=None) -> tuple`
+#### `prepare(fetchargs=None) -> dict`
 
-Prepare a fetch definition without sending. Returns `(fetchdef, err)`.
+Prepare a fetch definition without sending. Returns the `fetchdef` and raises on error.
 
 
 ---
@@ -141,7 +140,7 @@ Prepare a fetch definition without sending. Returns `(fetchdef, err)`.
 ## AdminInboxEntity
 
 ```python
-admin_inbox = client.AdminInbox()
+admin_inbox = client.admin_inbox
 ```
 
 ### Fields
@@ -164,12 +163,12 @@ admin_inbox = client.AdminInbox()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> tuple`
+#### `create(reqdata, ctrl=None) -> dict`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-result, err = client.AdminInbox().create({
+result = client.admin_inbox.create({
     "command": # `$STRING`,
     "message": # `$STRING`,
     "status": # `$INTEGER`,
@@ -208,7 +207,7 @@ Return the entity name.
 ## CountryEntity
 
 ```python
-country = client.Country()
+country = client.country
 ```
 
 ### Fields
@@ -227,12 +226,12 @@ country = client.Country()
 
 ### Operations
 
-#### `list(reqmatch, ctrl=None) -> tuple`
+#### `list(reqmatch, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns a list and raises on error.
 
 ```python
-results, err = client.Country().list({})
+results = client.country.list({})
 ```
 
 ### Common Methods
@@ -267,7 +266,7 @@ Return the entity name.
 ## InboxEntity
 
 ```python
-inbox = client.Inbox()
+inbox = client.inbox
 ```
 
 ### Fields
@@ -294,30 +293,30 @@ inbox = client.Inbox()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> tuple`
+#### `create(reqdata, ctrl=None) -> dict`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-result, err = client.Inbox().create({
+result = client.inbox.create({
     "state": # `$STRING`,
 })
 ```
 
-#### `list(reqmatch, ctrl=None) -> tuple`
+#### `list(reqmatch, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns a list and raises on error.
 
 ```python
-results, err = client.Inbox().list({})
+results = client.inbox.list({})
 ```
 
-#### `remove(reqmatch, ctrl=None) -> tuple`
+#### `remove(reqmatch, ctrl=None) -> dict`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Raises on error.
 
 ```python
-result, err = client.Inbox().remove({"id": "inbox_id"})
+result = client.inbox.remove({"id": "inbox_id"})
 ```
 
 ### Common Methods
@@ -352,7 +351,7 @@ Return the entity name.
 ## InboxCountEntity
 
 ```python
-inbox_count = client.InboxCount()
+inbox_count = client.inbox_count
 ```
 
 ### Fields
@@ -363,12 +362,12 @@ inbox_count = client.InboxCount()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> tuple`
+#### `load(reqmatch, ctrl=None) -> dict`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result, err = client.InboxCount().load({"id": "inbox_count_id"})
+result = client.inbox_count.load({"id": "inbox_count_id"})
 ```
 
 ### Common Methods
@@ -403,7 +402,7 @@ Return the entity name.
 ## InboxEntryEntity
 
 ```python
-inbox_entry = client.InboxEntry()
+inbox_entry = client.inbox_entry
 ```
 
 ### Fields
@@ -435,12 +434,12 @@ inbox_entry = client.InboxEntry()
 
 ### Operations
 
-#### `list(reqmatch, ctrl=None) -> tuple`
+#### `list(reqmatch, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns a list and raises on error.
 
 ```python
-results, err = client.InboxEntry().list({})
+results = client.inbox_entry.list({})
 ```
 
 ### Common Methods
@@ -475,7 +474,7 @@ Return the entity name.
 ## InboxStateQueryEntity
 
 ```python
-inbox_state_query = client.InboxStateQuery()
+inbox_state_query = client.inbox_state_query
 ```
 
 ### Common Methods
@@ -510,7 +509,7 @@ Return the entity name.
 ## OAuthTokenEntity
 
 ```python
-o_auth_token = client.OAuthToken()
+o_auth_token = client.o_auth_token
 ```
 
 ### Fields
@@ -525,12 +524,12 @@ o_auth_token = client.OAuthToken()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> tuple`
+#### `create(reqdata, ctrl=None) -> dict`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-result, err = client.OAuthToken().create({
+result = client.o_auth_token.create({
     "access_token": # `$STRING`,
     "scope": # `$STRING`,
     "token_type": # `$STRING`,
@@ -569,26 +568,26 @@ Return the entity name.
 ## OauthEntity
 
 ```python
-oauth = client.Oauth()
+oauth = client.oauth
 ```
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> tuple`
+#### `create(reqdata, ctrl=None) -> dict`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-result, err = client.Oauth().create({
+result = client.oauth.create({
 })
 ```
 
-#### `load(reqmatch, ctrl=None) -> tuple`
+#### `load(reqmatch, ctrl=None) -> dict`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result, err = client.Oauth().load({"id": "oauth_id"})
+result = client.oauth.load({"id": "oauth_id"})
 ```
 
 ### Common Methods
@@ -623,17 +622,17 @@ Return the entity name.
 ## PhotoEntity
 
 ```python
-photo = client.Photo()
+photo = client.photo
 ```
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> tuple`
+#### `load(reqmatch, ctrl=None) -> dict`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result, err = client.Photo().load({"id": "photo_id"})
+result = client.photo.load({"id": "photo_id"})
 ```
 
 ### Common Methods
@@ -668,17 +667,17 @@ Return the entity name.
 ## PhotoDownloadEntity
 
 ```python
-photo_download = client.PhotoDownload()
+photo_download = client.photo_download
 ```
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> tuple`
+#### `load(reqmatch, ctrl=None) -> dict`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result, err = client.PhotoDownload().load({"id": "photo_download_id"})
+result = client.photo_download.load({"id": "photo_download_id"})
 ```
 
 ### Common Methods
@@ -713,7 +712,7 @@ Return the entity name.
 ## PhotoStationEntity
 
 ```python
-photo_station = client.PhotoStation()
+photo_station = client.photo_station
 ```
 
 ### Fields
@@ -727,20 +726,20 @@ photo_station = client.PhotoStation()
 
 ### Operations
 
-#### `list(reqmatch, ctrl=None) -> tuple`
+#### `list(reqmatch, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns a list and raises on error.
 
 ```python
-results, err = client.PhotoStation().list({})
+results = client.photo_station.list({})
 ```
 
-#### `load(reqmatch, ctrl=None) -> tuple`
+#### `load(reqmatch, ctrl=None) -> dict`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result, err = client.PhotoStation().load({"id": "photo_station_id"})
+result = client.photo_station.load({"id": "photo_station_id"})
 ```
 
 ### Common Methods
@@ -775,17 +774,17 @@ Return the entity name.
 ## PhotoUploadEntity
 
 ```python
-photo_upload = client.PhotoUpload()
+photo_upload = client.photo_upload
 ```
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> tuple`
+#### `create(reqdata, ctrl=None) -> dict`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-result, err = client.PhotoUpload().create({
+result = client.photo_upload.create({
 })
 ```
 
@@ -821,17 +820,17 @@ Return the entity name.
 ## PhotographerEntity
 
 ```python
-photographer = client.Photographer()
+photographer = client.photographer
 ```
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> tuple`
+#### `load(reqmatch, ctrl=None) -> dict`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result, err = client.Photographer().load({"id": "photographer_id"})
+result = client.photographer.load({"id": "photographer_id"})
 ```
 
 ### Common Methods
@@ -866,7 +865,7 @@ Return the entity name.
 ## ProfileEntity
 
 ```python
-profile = client.Profile()
+profile = client.profile
 ```
 
 ### Fields
@@ -901,12 +900,12 @@ profile = client.Profile()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> tuple`
+#### `create(reqdata, ctrl=None) -> dict`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-result, err = client.Profile().create({
+result = client.profile.create({
     "license": # `$STRING`,
     "new_password": # `$STRING`,
     "nickname": # `$STRING`,
@@ -914,20 +913,20 @@ result, err = client.Profile().create({
 })
 ```
 
-#### `load(reqmatch, ctrl=None) -> tuple`
+#### `load(reqmatch, ctrl=None) -> dict`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result, err = client.Profile().load({"id": "profile_id"})
+result = client.profile.load({"id": "profile_id"})
 ```
 
-#### `remove(reqmatch, ctrl=None) -> tuple`
+#### `remove(reqmatch, ctrl=None) -> dict`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Raises on error.
 
 ```python
-result, err = client.Profile().remove({"id": "profile_id"})
+result = client.profile.remove({"id": "profile_id"})
 ```
 
 ### Common Methods
@@ -962,7 +961,7 @@ Return the entity name.
 ## PublicInboxEntity
 
 ```python
-public_inbox = client.PublicInbox()
+public_inbox = client.public_inbox
 ```
 
 ### Fields
@@ -977,12 +976,12 @@ public_inbox = client.PublicInbox()
 
 ### Operations
 
-#### `list(reqmatch, ctrl=None) -> tuple`
+#### `list(reqmatch, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns a list and raises on error.
 
 ```python
-results, err = client.PublicInbox().list({})
+results = client.public_inbox.list({})
 ```
 
 ### Common Methods
@@ -1017,7 +1016,7 @@ Return the entity name.
 ## StatEntity
 
 ```python
-stat = client.Stat()
+stat = client.stat
 ```
 
 ### Fields
@@ -1032,12 +1031,12 @@ stat = client.Stat()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> tuple`
+#### `load(reqmatch, ctrl=None) -> dict`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result, err = client.Stat().load({"id": "stat_id"})
+result = client.stat.load({"id": "stat_id"})
 ```
 
 ### Common Methods

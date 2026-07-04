@@ -43,23 +43,20 @@ class ProfileEntityTest extends TestCase
         $profile_ref01_data = Helpers::to_map(Vs::getprop(
             Vs::getpath($setup["data"], "new.profile"), "profile_ref01"));
 
-        [$profile_ref01_data_result, $err] = $profile_ref01_ent->create($profile_ref01_data, null);
-        $this->assertNull($err);
+        $profile_ref01_data_result = $profile_ref01_ent->create($profile_ref01_data, null);
         $profile_ref01_data = Helpers::to_map($profile_ref01_data_result);
         $this->assertNotNull($profile_ref01_data);
 
         // LOAD
         $profile_ref01_match_dt0 = [];
-        [$profile_ref01_data_dt0_loaded, $err] = $profile_ref01_ent->load($profile_ref01_match_dt0, null);
-        $this->assertNull($err);
+        $profile_ref01_data_dt0_loaded = $profile_ref01_ent->load($profile_ref01_match_dt0, null);
         $this->assertNotNull($profile_ref01_data_dt0_loaded);
 
         // REMOVE
         $profile_ref01_match_rm0 = [
             "id" => $profile_ref01_data["id"],
         ];
-        [$_, $err] = $profile_ref01_ent->remove($profile_ref01_match_rm0, null);
-        $this->assertNull($err);
+        $profile_ref01_ent->remove($profile_ref01_match_rm0, null);
 
     }
 }
@@ -93,7 +90,6 @@ function profile_basic_setup($extra)
         "RAILWAYSTATIONPHOTOS_TEST_PROFILE_ENTID" => $idmap,
         "RAILWAYSTATIONPHOTOS_TEST_LIVE" => "FALSE",
         "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN" => "FALSE",
-        "RAILWAYSTATIONPHOTOS_APIKEY" => "NONE",
     ]);
 
     $idmap_resolved = Helpers::to_map(
@@ -105,7 +101,6 @@ function profile_basic_setup($extra)
     if ($env["RAILWAYSTATIONPHOTOS_TEST_LIVE"] === "TRUE") {
         $merged_opts = Vs::merge([
             [
-                "apikey" => $env["RAILWAYSTATIONPHOTOS_APIKEY"],
             ],
             $extra ?? [],
         ]);

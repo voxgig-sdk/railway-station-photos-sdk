@@ -14,9 +14,15 @@ import type {
   Control,
 } from '../types'
 
+import type {
+  Inbox,
+  InboxListMatch,
+  InboxCreateData,
+  InboxRemoveMatch,
+} from '../RailwayStationPhotosTypes'
 
 // TODO: needs Entity superclass
-class InboxEntity extends RailwayStationPhotosEntityBase {
+class InboxEntity extends RailwayStationPhotosEntityBase<Inbox> {
 
   constructor(client: RailwayStationPhotosSDK, entopts: any) {
     super(client, entopts)
@@ -33,7 +39,7 @@ class InboxEntity extends RailwayStationPhotosEntityBase {
 
 
 
-  async list(this: any, reqmatch?: any, ctrl?: Control) {
+  async list(this: any, reqmatch?: InboxListMatch, ctrl?: Control): Promise<Inbox[]> {
 
     const utility = this._utility
 
@@ -133,14 +139,16 @@ class InboxEntity extends RailwayStationPhotosEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Inbox[]> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }
 
 
 
-  async create(this: any, reqdata?: any, ctrl?: Control) {
+  async create(this: any, reqdata?: InboxCreateData, ctrl?: Control): Promise<Inbox> {
 
     const utility = this._utility
     const {
@@ -239,7 +247,9 @@ class InboxEntity extends RailwayStationPhotosEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Inbox> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }
@@ -247,7 +257,7 @@ class InboxEntity extends RailwayStationPhotosEntityBase {
 
 
 
-  async remove(this: any, reqmatch?: any, ctrl?: Control) {
+  async remove(this: any, reqmatch?: InboxRemoveMatch, ctrl?: Control): Promise<Inbox> {
 
     const utility = this._utility
 
@@ -352,7 +362,9 @@ class InboxEntity extends RailwayStationPhotosEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Inbox> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }

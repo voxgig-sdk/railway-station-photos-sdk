@@ -45,6 +45,7 @@ class InboxEntity
     end
   end
 
+  # @return [Inbox, Hash] the current Inbox data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,6 +58,7 @@ class InboxEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of Inbox fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
@@ -65,6 +67,11 @@ class InboxEntity
   
 
   
+  # List Inbox items matching the given filter.
+  #
+  # @param reqmatch [InboxListMatch, Hash, nil] match filter (any subset of Inbox fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Array<Inbox>, Array] the matching Inbox items; raises RailwayStationPhotosError on failure
   def list(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -85,6 +92,11 @@ class InboxEntity
 
 
   
+  # Create a new Inbox.
+  #
+  # @param reqdata [InboxCreateData, Hash, nil] body data
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Inbox, Hash] the created Inbox; raises RailwayStationPhotosError on failure
   def create(reqdata, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -109,6 +121,11 @@ class InboxEntity
   
 
   
+  # Remove an Inbox matching the given criteria.
+  #
+  # @param reqmatch [InboxRemoveMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Inbox, Hash] the removed Inbox; raises RailwayStationPhotosError on failure
   def remove(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({

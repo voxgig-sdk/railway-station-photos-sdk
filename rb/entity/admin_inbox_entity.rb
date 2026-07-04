@@ -45,6 +45,7 @@ class AdminInboxEntity
     end
   end
 
+  # @return [AdminInbox, Hash] the current AdminInbox data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,6 +58,7 @@ class AdminInboxEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of AdminInbox fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
@@ -67,6 +69,11 @@ class AdminInboxEntity
   
 
   
+  # Create a new AdminInbox.
+  #
+  # @param reqdata [AdminInboxCreateData, Hash, nil] body data
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [AdminInbox, Hash] the created AdminInbox; raises RailwayStationPhotosError on failure
   def create(reqdata, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({

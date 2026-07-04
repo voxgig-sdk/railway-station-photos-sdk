@@ -50,14 +50,12 @@ class TestPhotoStationEntity:
         photo_station_ref01_ent = client.PhotoStation(None)
         photo_station_ref01_match = {}
 
-        photo_station_ref01_list_result, err = photo_station_ref01_ent.list(photo_station_ref01_match, None)
-        assert err is None
+        photo_station_ref01_list_result = photo_station_ref01_ent.list(photo_station_ref01_match, None)
         assert isinstance(photo_station_ref01_list_result, list)
 
         # LOAD
         photo_station_ref01_match_dt0 = {}
-        photo_station_ref01_data_dt0_loaded, err = photo_station_ref01_ent.load(photo_station_ref01_match_dt0, None)
-        assert err is None
+        photo_station_ref01_data_dt0_loaded = photo_station_ref01_ent.load(photo_station_ref01_match_dt0, None)
         assert photo_station_ref01_data_dt0_loaded is not None
 
 
@@ -98,7 +96,6 @@ def _photo_station_basic_setup(extra):
         "RAILWAYSTATIONPHOTOS_TEST_PHOTO_STATION_ENTID": idmap,
         "RAILWAYSTATIONPHOTOS_TEST_LIVE": "FALSE",
         "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN": "FALSE",
-        "RAILWAYSTATIONPHOTOS_APIKEY": "NONE",
     })
 
     idmap_resolved = helpers.to_map(
@@ -109,7 +106,6 @@ def _photo_station_basic_setup(extra):
     if env.get("RAILWAYSTATIONPHOTOS_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
             {
-                "apikey": env.get("RAILWAYSTATIONPHOTOS_APIKEY"),
             },
             extra or {},
         ])

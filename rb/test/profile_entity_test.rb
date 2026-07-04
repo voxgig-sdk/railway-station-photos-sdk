@@ -36,23 +36,20 @@ class ProfileEntityTest < Minitest::Test
     profile_ref01_data = Helpers.to_map(Vs.getprop(
       Vs.getpath(setup[:data], "new.profile"), "profile_ref01"))
 
-    profile_ref01_data_result, err = profile_ref01_ent.create(profile_ref01_data, nil)
-    assert_nil err
+    profile_ref01_data_result = profile_ref01_ent.create(profile_ref01_data, nil)
     profile_ref01_data = Helpers.to_map(profile_ref01_data_result)
     assert !profile_ref01_data.nil?
 
     # LOAD
     profile_ref01_match_dt0 = {}
-    profile_ref01_data_dt0_loaded, err = profile_ref01_ent.load(profile_ref01_match_dt0, nil)
-    assert_nil err
+    profile_ref01_data_dt0_loaded = profile_ref01_ent.load(profile_ref01_match_dt0, nil)
     assert !profile_ref01_data_dt0_loaded.nil?
 
     # REMOVE
     profile_ref01_match_rm0 = {
       "id" => profile_ref01_data["id"],
     }
-    _, err = profile_ref01_ent.remove(profile_ref01_match_rm0, nil)
-    assert_nil err
+    profile_ref01_ent.remove(profile_ref01_match_rm0, nil)
 
   end
 end
@@ -90,7 +87,6 @@ def profile_basic_setup(extra)
     "RAILWAYSTATIONPHOTOS_TEST_PROFILE_ENTID" => idmap,
     "RAILWAYSTATIONPHOTOS_TEST_LIVE" => "FALSE",
     "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN" => "FALSE",
-    "RAILWAYSTATIONPHOTOS_APIKEY" => "NONE",
   })
 
   idmap_resolved = Helpers.to_map(
@@ -102,7 +98,6 @@ def profile_basic_setup(extra)
   if env["RAILWAYSTATIONPHOTOS_TEST_LIVE"] == "TRUE"
     merged_opts = Vs.merge([
       {
-        "apikey" => env["RAILWAYSTATIONPHOTOS_APIKEY"],
       },
       extra || {},
     ])

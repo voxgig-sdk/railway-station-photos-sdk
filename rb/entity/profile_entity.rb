@@ -45,6 +45,7 @@ class ProfileEntity
     end
   end
 
+  # @return [Profile, Hash] the current Profile data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,12 +58,18 @@ class ProfileEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of Profile fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
   end
 
   
+  # Load a single Profile.
+  #
+  # @param reqmatch [ProfileLoadMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Profile, Hash] the loaded Profile; raises RailwayStationPhotosError on failure
   def load(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -88,6 +95,11 @@ class ProfileEntity
   
 
   
+  # Create a new Profile.
+  #
+  # @param reqdata [ProfileCreateData, Hash, nil] body data
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Profile, Hash] the created Profile; raises RailwayStationPhotosError on failure
   def create(reqdata, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -112,6 +124,11 @@ class ProfileEntity
   
 
   
+  # Remove an Profile matching the given criteria.
+  #
+  # @param reqmatch [ProfileRemoveMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Profile, Hash] the removed Profile; raises RailwayStationPhotosError on failure
   def remove(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({

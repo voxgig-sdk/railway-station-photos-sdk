@@ -45,6 +45,7 @@ class PhotoUploadEntity
     end
   end
 
+  # @return [PhotoUpload, Hash] the current PhotoUpload data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,6 +58,7 @@ class PhotoUploadEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of PhotoUpload fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
@@ -67,6 +69,11 @@ class PhotoUploadEntity
   
 
   
+  # Create a new PhotoUpload.
+  #
+  # @param reqdata [PhotoUploadCreateData, Hash, nil] body data
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [PhotoUpload, Hash] the created PhotoUpload; raises RailwayStationPhotosError on failure
   def create(reqdata, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({

@@ -79,6 +79,10 @@ end
 
 
 
+---@param reqmatch ProfileLoadMatch
+---@param ctrl? table
+---@return Profile
+---@return string? err
 function ProfileEntity:load(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -106,6 +110,10 @@ end
 
 
 
+---@param reqdata ProfileCreateData
+---@param ctrl? table
+---@return Profile
+---@return string? err
 function ProfileEntity:create(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -130,6 +138,10 @@ end
 
 
 
+---@param reqmatch ProfileRemoveMatch
+---@param ctrl? table
+---@return Profile
+---@return string? err
 function ProfileEntity:remove(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

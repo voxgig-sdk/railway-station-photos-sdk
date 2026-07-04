@@ -43,14 +43,12 @@ class PhotoStationEntityTest < Minitest::Test
     photo_station_ref01_ent = client.PhotoStation(nil)
     photo_station_ref01_match = {}
 
-    photo_station_ref01_list_result, err = photo_station_ref01_ent.list(photo_station_ref01_match, nil)
-    assert_nil err
+    photo_station_ref01_list_result = photo_station_ref01_ent.list(photo_station_ref01_match, nil)
     assert photo_station_ref01_list_result.is_a?(Array)
 
     # LOAD
     photo_station_ref01_match_dt0 = {}
-    photo_station_ref01_data_dt0_loaded, err = photo_station_ref01_ent.load(photo_station_ref01_match_dt0, nil)
-    assert_nil err
+    photo_station_ref01_data_dt0_loaded = photo_station_ref01_ent.load(photo_station_ref01_match_dt0, nil)
     assert !photo_station_ref01_data_dt0_loaded.nil?
 
   end
@@ -89,7 +87,6 @@ def photo_station_basic_setup(extra)
     "RAILWAYSTATIONPHOTOS_TEST_PHOTO_STATION_ENTID" => idmap,
     "RAILWAYSTATIONPHOTOS_TEST_LIVE" => "FALSE",
     "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN" => "FALSE",
-    "RAILWAYSTATIONPHOTOS_APIKEY" => "NONE",
   })
 
   idmap_resolved = Helpers.to_map(
@@ -101,7 +98,6 @@ def photo_station_basic_setup(extra)
   if env["RAILWAYSTATIONPHOTOS_TEST_LIVE"] == "TRUE"
     merged_opts = Vs.merge([
       {
-        "apikey" => env["RAILWAYSTATIONPHOTOS_APIKEY"],
       },
       extra || {},
     ])

@@ -20,9 +20,6 @@ class RailwayStationPhotosConfig
             ],
             "options" => [
                 "base" => "https://api.railway-stations.org",
-                "auth" => [
-                    "prefix" => "Bearer",
-                ],
                 "headers" => [
           'content-type' => 'application/json',
         ],
@@ -548,6 +545,7 @@ class RailwayStationPhotosConfig
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$INTEGER`',
+                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -1065,6 +1063,7 @@ class RailwayStationPhotosConfig
                         'orig' => 'country',
                         'reqd' => true,
                         'type' => '`$STRING`',
+                        'index$' => 0,
                       ],
                       [
                         'active' => true,
@@ -1073,6 +1072,7 @@ class RailwayStationPhotosConfig
                         'orig' => 'filename',
                         'reqd' => true,
                         'type' => '`$STRING`',
+                        'index$' => 1,
                       ],
                     ],
                     'query' => [
@@ -1137,6 +1137,7 @@ class RailwayStationPhotosConfig
                         'orig' => 'filename',
                         'reqd' => true,
                         'type' => '`$STRING`',
+                        'index$' => 0,
                       ],
                     ],
                     'query' => [
@@ -1180,6 +1181,7 @@ class RailwayStationPhotosConfig
                         'orig' => 'filename',
                         'reqd' => true,
                         'type' => '`$STRING`',
+                        'index$' => 0,
                       ],
                     ],
                     'query' => [
@@ -1223,6 +1225,7 @@ class RailwayStationPhotosConfig
                         'orig' => 'filename',
                         'reqd' => true,
                         'type' => '`$STRING`',
+                        'index$' => 0,
                       ],
                     ],
                     'query' => [
@@ -1266,6 +1269,7 @@ class RailwayStationPhotosConfig
                         'orig' => 'filename',
                         'reqd' => true,
                         'type' => '`$STRING`',
+                        'index$' => 0,
                       ],
                     ],
                     'query' => [
@@ -1366,6 +1370,7 @@ class RailwayStationPhotosConfig
                         'orig' => 'country',
                         'reqd' => true,
                         'type' => '`$STRING`',
+                        'index$' => 0,
                       ],
                       [
                         'active' => true,
@@ -1374,6 +1379,7 @@ class RailwayStationPhotosConfig
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
+                        'index$' => 1,
                       ],
                     ],
                   ],
@@ -1445,6 +1451,7 @@ class RailwayStationPhotosConfig
                         'orig' => 'country',
                         'reqd' => true,
                         'type' => '`$STRING`',
+                        'index$' => 0,
                       ],
                     ],
                     'query' => [
@@ -1496,6 +1503,7 @@ class RailwayStationPhotosConfig
                         'orig' => 'photographer',
                         'reqd' => true,
                         'type' => '`$STRING`',
+                        'index$' => 0,
                       ],
                     ],
                     'query' => [
@@ -1944,6 +1952,7 @@ class RailwayStationPhotosConfig
                         'orig' => 'token',
                         'reqd' => true,
                         'type' => '`$STRING`',
+                        'index$' => 0,
                       ],
                     ],
                   ],

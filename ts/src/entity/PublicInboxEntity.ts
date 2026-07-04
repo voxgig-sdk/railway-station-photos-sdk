@@ -14,9 +14,13 @@ import type {
   Control,
 } from '../types'
 
+import type {
+  PublicInbox,
+  PublicInboxListMatch,
+} from '../RailwayStationPhotosTypes'
 
 // TODO: needs Entity superclass
-class PublicInboxEntity extends RailwayStationPhotosEntityBase {
+class PublicInboxEntity extends RailwayStationPhotosEntityBase<PublicInbox> {
 
   constructor(client: RailwayStationPhotosSDK, entopts: any) {
     super(client, entopts)
@@ -33,7 +37,7 @@ class PublicInboxEntity extends RailwayStationPhotosEntityBase {
 
 
 
-  async list(this: any, reqmatch?: any, ctrl?: Control) {
+  async list(this: any, reqmatch?: PublicInboxListMatch, ctrl?: Control): Promise<PublicInbox[]> {
 
     const utility = this._utility
 
@@ -133,7 +137,9 @@ class PublicInboxEntity extends RailwayStationPhotosEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<PublicInbox[]> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }

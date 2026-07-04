@@ -103,7 +103,7 @@ class RailwayStationPhotosSDK
         return $this->_rootctx;
     }
 
-    public function prepare(array $fetchargs = []): array
+    public function prepare(array $fetchargs = []): mixed
     {
         $utility = $this->_utility;
         $fetchargs = $fetchargs ?? [];
@@ -149,19 +149,27 @@ class RailwayStationPhotosSDK
 
         [$_, $err] = ($utility->prepare_auth)($ctx);
         if ($err) {
-            return [null, $err];
+            return ($utility->make_error)($ctx, $err);
         }
 
-        return ($utility->make_fetch_def)($ctx);
+        [$fetchdef, $fd_err] = ($utility->make_fetch_def)($ctx);
+        if ($fd_err) {
+            return ($utility->make_error)($ctx, $fd_err);
+        }
+        return $fetchdef;
     }
 
-    public function direct(array $fetchargs = []): array
+    public function direct(array $fetchargs = []): mixed
     {
         $utility = $this->_utility;
 
-        [$fetchdef, $err] = $this->prepare($fetchargs);
-        if ($err) {
-            return [["ok" => false, "err" => $err], null];
+        // direct() is the raw-HTTP escape hatch: it never throws, it returns
+        // an {ok, err, ...} dict. prepare() now raises on error, so catch it
+        // and surface the failure through the dict instead.
+        try {
+            $fetchdef = $this->prepare($fetchargs);
+        } catch (\Throwable $err) {
+            return ["ok" => false, "err" => $err];
         }
 
         $fetchargs = $fetchargs ?? [];
@@ -176,14 +184,14 @@ class RailwayStationPhotosSDK
         [$fetched, $fetch_err] = ($utility->fetcher)($ctx, $url, $fetchdef);
 
         if ($fetch_err) {
-            return [["ok" => false, "err" => $fetch_err], null];
+            return ["ok" => false, "err" => $fetch_err];
         }
 
         if ($fetched === null) {
-            return [[
+            return [
                 "ok" => false,
                 "err" => $ctx->make_error("direct_no_response", "response: undefined"),
-            ], null];
+            ];
         }
 
         if (is_array($fetched)) {
@@ -208,129 +216,305 @@ class RailwayStationPhotosSDK
                 }
             }
 
-            return [[
+            return [
                 "ok" => $status >= 200 && $status < 300,
                 "status" => $status,
                 "headers" => Struct::getprop($fetched, "headers"),
                 "data" => $json_data,
-            ], null];
+            ];
         }
 
-        return [[
+        return [
             "ok" => false,
             "err" => $ctx->make_error("direct_invalid", "invalid response type"),
-        ], null];
+        ];
     }
 
 
-    public function AdminInbox($data = null)
+    private $_admin_inbox = null;
+
+    // Idiomatic facade: $client->admin_inbox()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias AdminInbox() (PHP method
+    // names are case-insensitive).
+    public function admin_inbox($data = null)
     {
         require_once __DIR__ . '/entity/admin_inbox_entity.php';
+        if ($data === null) {
+            if ($this->_admin_inbox === null) {
+                $this->_admin_inbox = new AdminInboxEntity($this, null);
+            }
+            return $this->_admin_inbox;
+        }
         return new AdminInboxEntity($this, $data);
     }
 
 
-    public function Country($data = null)
+    private $_country = null;
+
+    // Idiomatic facade: $client->country()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias Country() (PHP method
+    // names are case-insensitive).
+    public function country($data = null)
     {
         require_once __DIR__ . '/entity/country_entity.php';
+        if ($data === null) {
+            if ($this->_country === null) {
+                $this->_country = new CountryEntity($this, null);
+            }
+            return $this->_country;
+        }
         return new CountryEntity($this, $data);
     }
 
 
-    public function Inbox($data = null)
+    private $_inbox = null;
+
+    // Idiomatic facade: $client->inbox()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias Inbox() (PHP method
+    // names are case-insensitive).
+    public function inbox($data = null)
     {
         require_once __DIR__ . '/entity/inbox_entity.php';
+        if ($data === null) {
+            if ($this->_inbox === null) {
+                $this->_inbox = new InboxEntity($this, null);
+            }
+            return $this->_inbox;
+        }
         return new InboxEntity($this, $data);
     }
 
 
-    public function InboxCount($data = null)
+    private $_inbox_count = null;
+
+    // Idiomatic facade: $client->inbox_count()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias InboxCount() (PHP method
+    // names are case-insensitive).
+    public function inbox_count($data = null)
     {
         require_once __DIR__ . '/entity/inbox_count_entity.php';
+        if ($data === null) {
+            if ($this->_inbox_count === null) {
+                $this->_inbox_count = new InboxCountEntity($this, null);
+            }
+            return $this->_inbox_count;
+        }
         return new InboxCountEntity($this, $data);
     }
 
 
-    public function InboxEntry($data = null)
+    private $_inbox_entry = null;
+
+    // Idiomatic facade: $client->inbox_entry()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias InboxEntry() (PHP method
+    // names are case-insensitive).
+    public function inbox_entry($data = null)
     {
         require_once __DIR__ . '/entity/inbox_entry_entity.php';
+        if ($data === null) {
+            if ($this->_inbox_entry === null) {
+                $this->_inbox_entry = new InboxEntryEntity($this, null);
+            }
+            return $this->_inbox_entry;
+        }
         return new InboxEntryEntity($this, $data);
     }
 
 
-    public function InboxStateQuery($data = null)
+    private $_inbox_state_query = null;
+
+    // Idiomatic facade: $client->inbox_state_query()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias InboxStateQuery() (PHP method
+    // names are case-insensitive).
+    public function inbox_state_query($data = null)
     {
         require_once __DIR__ . '/entity/inbox_state_query_entity.php';
+        if ($data === null) {
+            if ($this->_inbox_state_query === null) {
+                $this->_inbox_state_query = new InboxStateQueryEntity($this, null);
+            }
+            return $this->_inbox_state_query;
+        }
         return new InboxStateQueryEntity($this, $data);
     }
 
 
-    public function OAuthToken($data = null)
+    private $_o_auth_token = null;
+
+    // Idiomatic facade: $client->o_auth_token()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias OAuthToken() (PHP method
+    // names are case-insensitive).
+    public function o_auth_token($data = null)
     {
         require_once __DIR__ . '/entity/o_auth_token_entity.php';
+        if ($data === null) {
+            if ($this->_o_auth_token === null) {
+                $this->_o_auth_token = new OAuthTokenEntity($this, null);
+            }
+            return $this->_o_auth_token;
+        }
         return new OAuthTokenEntity($this, $data);
     }
 
 
-    public function Oauth($data = null)
+    private $_oauth = null;
+
+    // Idiomatic facade: $client->oauth()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias Oauth() (PHP method
+    // names are case-insensitive).
+    public function oauth($data = null)
     {
         require_once __DIR__ . '/entity/oauth_entity.php';
+        if ($data === null) {
+            if ($this->_oauth === null) {
+                $this->_oauth = new OauthEntity($this, null);
+            }
+            return $this->_oauth;
+        }
         return new OauthEntity($this, $data);
     }
 
 
-    public function Photo($data = null)
+    private $_photo = null;
+
+    // Idiomatic facade: $client->photo()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias Photo() (PHP method
+    // names are case-insensitive).
+    public function photo($data = null)
     {
         require_once __DIR__ . '/entity/photo_entity.php';
+        if ($data === null) {
+            if ($this->_photo === null) {
+                $this->_photo = new PhotoEntity($this, null);
+            }
+            return $this->_photo;
+        }
         return new PhotoEntity($this, $data);
     }
 
 
-    public function PhotoDownload($data = null)
+    private $_photo_download = null;
+
+    // Idiomatic facade: $client->photo_download()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias PhotoDownload() (PHP method
+    // names are case-insensitive).
+    public function photo_download($data = null)
     {
         require_once __DIR__ . '/entity/photo_download_entity.php';
+        if ($data === null) {
+            if ($this->_photo_download === null) {
+                $this->_photo_download = new PhotoDownloadEntity($this, null);
+            }
+            return $this->_photo_download;
+        }
         return new PhotoDownloadEntity($this, $data);
     }
 
 
-    public function PhotoStation($data = null)
+    private $_photo_station = null;
+
+    // Idiomatic facade: $client->photo_station()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias PhotoStation() (PHP method
+    // names are case-insensitive).
+    public function photo_station($data = null)
     {
         require_once __DIR__ . '/entity/photo_station_entity.php';
+        if ($data === null) {
+            if ($this->_photo_station === null) {
+                $this->_photo_station = new PhotoStationEntity($this, null);
+            }
+            return $this->_photo_station;
+        }
         return new PhotoStationEntity($this, $data);
     }
 
 
-    public function PhotoUpload($data = null)
+    private $_photo_upload = null;
+
+    // Idiomatic facade: $client->photo_upload()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias PhotoUpload() (PHP method
+    // names are case-insensitive).
+    public function photo_upload($data = null)
     {
         require_once __DIR__ . '/entity/photo_upload_entity.php';
+        if ($data === null) {
+            if ($this->_photo_upload === null) {
+                $this->_photo_upload = new PhotoUploadEntity($this, null);
+            }
+            return $this->_photo_upload;
+        }
         return new PhotoUploadEntity($this, $data);
     }
 
 
-    public function Photographer($data = null)
+    private $_photographer = null;
+
+    // Idiomatic facade: $client->photographer()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias Photographer() (PHP method
+    // names are case-insensitive).
+    public function photographer($data = null)
     {
         require_once __DIR__ . '/entity/photographer_entity.php';
+        if ($data === null) {
+            if ($this->_photographer === null) {
+                $this->_photographer = new PhotographerEntity($this, null);
+            }
+            return $this->_photographer;
+        }
         return new PhotographerEntity($this, $data);
     }
 
 
-    public function Profile($data = null)
+    private $_profile = null;
+
+    // Idiomatic facade: $client->profile()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias Profile() (PHP method
+    // names are case-insensitive).
+    public function profile($data = null)
     {
         require_once __DIR__ . '/entity/profile_entity.php';
+        if ($data === null) {
+            if ($this->_profile === null) {
+                $this->_profile = new ProfileEntity($this, null);
+            }
+            return $this->_profile;
+        }
         return new ProfileEntity($this, $data);
     }
 
 
-    public function PublicInbox($data = null)
+    private $_public_inbox = null;
+
+    // Idiomatic facade: $client->public_inbox()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias PublicInbox() (PHP method
+    // names are case-insensitive).
+    public function public_inbox($data = null)
     {
         require_once __DIR__ . '/entity/public_inbox_entity.php';
+        if ($data === null) {
+            if ($this->_public_inbox === null) {
+                $this->_public_inbox = new PublicInboxEntity($this, null);
+            }
+            return $this->_public_inbox;
+        }
         return new PublicInboxEntity($this, $data);
     }
 
 
-    public function Stat($data = null)
+    private $_stat = null;
+
+    // Idiomatic facade: $client->stat()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias Stat() (PHP method
+    // names are case-insensitive).
+    public function stat($data = null)
     {
         require_once __DIR__ . '/entity/stat_entity.php';
+        if ($data === null) {
+            if ($this->_stat === null) {
+                $this->_stat = new StatEntity($this, null);
+            }
+            return $this->_stat;
+        }
         return new StatEntity($this, $data);
     }
 

@@ -14,9 +14,12 @@ import type {
   Control,
 } from '../types'
 
+import type {
+  InboxStateQuery,
+} from '../RailwayStationPhotosTypes'
 
 // TODO: needs Entity superclass
-class InboxStateQueryEntity extends RailwayStationPhotosEntityBase {
+class InboxStateQueryEntity extends RailwayStationPhotosEntityBase<InboxStateQuery> {
 
   constructor(client: RailwayStationPhotosSDK, entopts: any) {
     super(client, entopts)

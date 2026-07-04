@@ -14,9 +14,13 @@ import type {
   Control,
 } from '../types'
 
+import type {
+  PhotoUpload,
+  PhotoUploadCreateData,
+} from '../RailwayStationPhotosTypes'
 
 // TODO: needs Entity superclass
-class PhotoUploadEntity extends RailwayStationPhotosEntityBase {
+class PhotoUploadEntity extends RailwayStationPhotosEntityBase<PhotoUpload> {
 
   constructor(client: RailwayStationPhotosSDK, entopts: any) {
     super(client, entopts)
@@ -34,7 +38,7 @@ class PhotoUploadEntity extends RailwayStationPhotosEntityBase {
 
 
 
-  async create(this: any, reqdata?: any, ctrl?: Control) {
+  async create(this: any, reqdata?: PhotoUploadCreateData, ctrl?: Control): Promise<PhotoUpload> {
 
     const utility = this._utility
     const {
@@ -133,7 +137,9 @@ class PhotoUploadEntity extends RailwayStationPhotosEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<PhotoUpload> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }

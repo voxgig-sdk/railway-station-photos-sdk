@@ -85,6 +85,27 @@ func (e *ProfileEntity) Match(args ...any) any {
 	return out
 }
 
+// DataTyped is the statically-typed accessor for this entity's data. With no
+// argument it returns the current data as an Profile; with an argument it
+// sets the data and returns the stored value. It delegates to the untyped Data
+// (identical runtime) and converts at the typed boundary.
+func (e *ProfileEntity) DataTyped(data ...Profile) Profile {
+	if len(data) > 0 {
+		return typedFrom[Profile](e.Data(asMap(data[0])))
+	}
+	return typedFrom[Profile](e.Data())
+}
+
+// MatchTyped mirrors DataTyped for the entity's match filter. The match is a
+// partial of the entity, so it round-trips through Profile (all fields
+// optional at the wire level).
+func (e *ProfileEntity) MatchTyped(match ...Profile) Profile {
+	if len(match) > 0 {
+		return typedFrom[Profile](e.Match(asMap(match[0])))
+	}
+	return typedFrom[Profile](e.Match())
+}
+
 
 func (e *ProfileEntity) Load(reqmatch map[string]any, ctrl map[string]any) (any, error) {
 	utility := e.utility
@@ -109,6 +130,17 @@ func (e *ProfileEntity) Load(reqmatch map[string]any, ctrl map[string]any) (any,
 			}
 		}
 	})
+}
+
+// LoadTyped is the statically-typed variant of Load: it takes an
+// ProfileLoadMatch and returns an Profile. It delegates to the untyped
+// Load (identical runtime) and converts at the typed boundary.
+func (e *ProfileEntity) LoadTyped(reqmatch ProfileLoadMatch, ctrl map[string]any) (Profile, error) {
+	res, err := e.Load(asMap(reqmatch), ctrl)
+	if err != nil {
+		return Profile{}, err
+	}
+	return typedFrom[Profile](res), nil
 }
 
 
@@ -139,6 +171,17 @@ func (e *ProfileEntity) Create(reqdata map[string]any, ctrl map[string]any) (any
 			}
 		}
 	})
+}
+
+// CreateTyped is the statically-typed variant of Create: it takes an
+// ProfileCreateData and returns an Profile. It delegates to the untyped
+// Create (identical runtime) and converts at the typed boundary.
+func (e *ProfileEntity) CreateTyped(reqdata ProfileCreateData, ctrl map[string]any) (Profile, error) {
+	res, err := e.Create(asMap(reqdata), ctrl)
+	if err != nil {
+		return Profile{}, err
+	}
+	return typedFrom[Profile](res), nil
 }
 
 
@@ -172,6 +215,17 @@ func (e *ProfileEntity) Remove(reqmatch map[string]any, ctrl map[string]any) (an
 			}
 		}
 	})
+}
+
+// RemoveTyped is the statically-typed variant of Remove: it takes an
+// ProfileRemoveMatch and returns an Profile. It delegates to the untyped
+// Remove (identical runtime) and converts at the typed boundary.
+func (e *ProfileEntity) RemoveTyped(reqmatch ProfileRemoveMatch, ctrl map[string]any) (Profile, error) {
+	res, err := e.Remove(asMap(reqmatch), ctrl)
+	if err != nil {
+		return Profile{}, err
+	}
+	return typedFrom[Profile](res), nil
 }
 
 

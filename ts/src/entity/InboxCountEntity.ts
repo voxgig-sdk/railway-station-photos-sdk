@@ -14,9 +14,13 @@ import type {
   Control,
 } from '../types'
 
+import type {
+  InboxCount,
+  InboxCountLoadMatch,
+} from '../RailwayStationPhotosTypes'
 
 // TODO: needs Entity superclass
-class InboxCountEntity extends RailwayStationPhotosEntityBase {
+class InboxCountEntity extends RailwayStationPhotosEntityBase<InboxCount> {
 
   constructor(client: RailwayStationPhotosSDK, entopts: any) {
     super(client, entopts)
@@ -32,7 +36,7 @@ class InboxCountEntity extends RailwayStationPhotosEntityBase {
 
 
 
-  async load(this: any, reqmatch?: any, ctrl?: Control) {
+  async load(this: any, reqmatch?: InboxCountLoadMatch, ctrl?: Control): Promise<InboxCount> {
 
     const utility = this._utility
 
@@ -136,7 +140,9 @@ class InboxCountEntity extends RailwayStationPhotosEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<InboxCount> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }

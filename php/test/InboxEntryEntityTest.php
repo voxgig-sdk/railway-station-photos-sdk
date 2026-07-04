@@ -50,8 +50,7 @@ class InboxEntryEntityTest extends TestCase
         $inbox_entry_ref01_ent = $client->InboxEntry(null);
         $inbox_entry_ref01_match = [];
 
-        [$inbox_entry_ref01_list_result, $err] = $inbox_entry_ref01_ent->list($inbox_entry_ref01_match, null);
-        $this->assertNull($err);
+        $inbox_entry_ref01_list_result = $inbox_entry_ref01_ent->list($inbox_entry_ref01_match, null);
         $this->assertIsArray($inbox_entry_ref01_list_result);
 
     }
@@ -86,7 +85,6 @@ function inbox_entry_basic_setup($extra)
         "RAILWAYSTATIONPHOTOS_TEST_INBOX_ENTRY_ENTID" => $idmap,
         "RAILWAYSTATIONPHOTOS_TEST_LIVE" => "FALSE",
         "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN" => "FALSE",
-        "RAILWAYSTATIONPHOTOS_APIKEY" => "NONE",
     ]);
 
     $idmap_resolved = Helpers::to_map(
@@ -98,7 +96,6 @@ function inbox_entry_basic_setup($extra)
     if ($env["RAILWAYSTATIONPHOTOS_TEST_LIVE"] === "TRUE") {
         $merged_opts = Vs::merge([
             [
-                "apikey" => $env["RAILWAYSTATIONPHOTOS_APIKEY"],
             ],
             $extra ?? [],
         ]);

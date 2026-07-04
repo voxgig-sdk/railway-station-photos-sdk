@@ -45,6 +45,7 @@ class StatEntity
     end
   end
 
+  # @return [Stat, Hash] the current Stat data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,12 +58,18 @@ class StatEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of Stat fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
   end
 
   
+  # Load a single Stat.
+  #
+  # @param reqmatch [StatLoadMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Stat, Hash] the loaded Stat; raises RailwayStationPhotosError on failure
   def load(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({

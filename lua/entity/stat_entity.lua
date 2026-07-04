@@ -79,6 +79,10 @@ end
 
 
 
+---@param reqmatch StatLoadMatch
+---@param ctrl? table
+---@return Stat
+---@return string? err
 function StatEntity:load(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

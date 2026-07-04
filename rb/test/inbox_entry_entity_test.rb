@@ -43,8 +43,7 @@ class InboxEntryEntityTest < Minitest::Test
     inbox_entry_ref01_ent = client.InboxEntry(nil)
     inbox_entry_ref01_match = {}
 
-    inbox_entry_ref01_list_result, err = inbox_entry_ref01_ent.list(inbox_entry_ref01_match, nil)
-    assert_nil err
+    inbox_entry_ref01_list_result = inbox_entry_ref01_ent.list(inbox_entry_ref01_match, nil)
     assert inbox_entry_ref01_list_result.is_a?(Array)
 
   end
@@ -83,7 +82,6 @@ def inbox_entry_basic_setup(extra)
     "RAILWAYSTATIONPHOTOS_TEST_INBOX_ENTRY_ENTID" => idmap,
     "RAILWAYSTATIONPHOTOS_TEST_LIVE" => "FALSE",
     "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN" => "FALSE",
-    "RAILWAYSTATIONPHOTOS_APIKEY" => "NONE",
   })
 
   idmap_resolved = Helpers.to_map(
@@ -95,7 +93,6 @@ def inbox_entry_basic_setup(extra)
   if env["RAILWAYSTATIONPHOTOS_TEST_LIVE"] == "TRUE"
     merged_opts = Vs.merge([
       {
-        "apikey" => env["RAILWAYSTATIONPHOTOS_APIKEY"],
       },
       extra || {},
     ])

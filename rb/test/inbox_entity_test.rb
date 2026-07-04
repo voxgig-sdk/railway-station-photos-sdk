@@ -36,8 +36,7 @@ class InboxEntityTest < Minitest::Test
     inbox_ref01_data = Helpers.to_map(Vs.getprop(
       Vs.getpath(setup[:data], "new.inbox"), "inbox_ref01"))
 
-    inbox_ref01_data_result, err = inbox_ref01_ent.create(inbox_ref01_data, nil)
-    assert_nil err
+    inbox_ref01_data_result = inbox_ref01_ent.create(inbox_ref01_data, nil)
     inbox_ref01_data = Helpers.to_map(inbox_ref01_data_result)
     assert !inbox_ref01_data.nil?
     assert !inbox_ref01_data["id"].nil?
@@ -45,8 +44,7 @@ class InboxEntityTest < Minitest::Test
     # LIST
     inbox_ref01_match = {}
 
-    inbox_ref01_list_result, err = inbox_ref01_ent.list(inbox_ref01_match, nil)
-    assert_nil err
+    inbox_ref01_list_result = inbox_ref01_ent.list(inbox_ref01_match, nil)
     assert inbox_ref01_list_result.is_a?(Array)
 
     found_item = Vs.select(
@@ -58,14 +56,12 @@ class InboxEntityTest < Minitest::Test
     inbox_ref01_match_rm0 = {
       "id" => inbox_ref01_data["id"],
     }
-    _, err = inbox_ref01_ent.remove(inbox_ref01_match_rm0, nil)
-    assert_nil err
+    inbox_ref01_ent.remove(inbox_ref01_match_rm0, nil)
 
     # LIST
     inbox_ref01_match_rt0 = {}
 
-    inbox_ref01_list_rt0_result, err = inbox_ref01_ent.list(inbox_ref01_match_rt0, nil)
-    assert_nil err
+    inbox_ref01_list_rt0_result = inbox_ref01_ent.list(inbox_ref01_match_rt0, nil)
     assert inbox_ref01_list_rt0_result.is_a?(Array)
 
     not_found_item = Vs.select(
@@ -109,7 +105,6 @@ def inbox_basic_setup(extra)
     "RAILWAYSTATIONPHOTOS_TEST_INBOX_ENTID" => idmap,
     "RAILWAYSTATIONPHOTOS_TEST_LIVE" => "FALSE",
     "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN" => "FALSE",
-    "RAILWAYSTATIONPHOTOS_APIKEY" => "NONE",
   })
 
   idmap_resolved = Helpers.to_map(
@@ -121,7 +116,6 @@ def inbox_basic_setup(extra)
   if env["RAILWAYSTATIONPHOTOS_TEST_LIVE"] == "TRUE"
     merged_opts = Vs.merge([
       {
-        "apikey" => env["RAILWAYSTATIONPHOTOS_APIKEY"],
       },
       extra || {},
     ])

@@ -14,9 +14,13 @@ import type {
   Control,
 } from '../types'
 
+import type {
+  Country,
+  CountryListMatch,
+} from '../RailwayStationPhotosTypes'
 
 // TODO: needs Entity superclass
-class CountryEntity extends RailwayStationPhotosEntityBase {
+class CountryEntity extends RailwayStationPhotosEntityBase<Country> {
 
   constructor(client: RailwayStationPhotosSDK, entopts: any) {
     super(client, entopts)
@@ -33,7 +37,7 @@ class CountryEntity extends RailwayStationPhotosEntityBase {
 
 
 
-  async list(this: any, reqmatch?: any, ctrl?: Control) {
+  async list(this: any, reqmatch?: CountryListMatch, ctrl?: Control): Promise<Country[]> {
 
     const utility = this._utility
 
@@ -133,7 +137,9 @@ class CountryEntity extends RailwayStationPhotosEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Country[]> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }

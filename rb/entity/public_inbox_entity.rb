@@ -45,6 +45,7 @@ class PublicInboxEntity
     end
   end
 
+  # @return [PublicInbox, Hash] the current PublicInbox data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,6 +58,7 @@ class PublicInboxEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of PublicInbox fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
@@ -65,6 +67,11 @@ class PublicInboxEntity
   
 
   
+  # List PublicInbox items matching the given filter.
+  #
+  # @param reqmatch [PublicInboxListMatch, Hash, nil] match filter (any subset of PublicInbox fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Array<PublicInbox>, Array] the matching PublicInbox items; raises RailwayStationPhotosError on failure
   def list(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({

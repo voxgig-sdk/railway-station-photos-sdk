@@ -49,8 +49,7 @@ class TestPhotoDownloadEntity:
         # LOAD
         photo_download_ref01_ent = client.PhotoDownload(None)
         photo_download_ref01_match_dt0 = {}
-        photo_download_ref01_data_dt0_loaded, err = photo_download_ref01_ent.load(photo_download_ref01_match_dt0, None)
-        assert err is None
+        photo_download_ref01_data_dt0_loaded = photo_download_ref01_ent.load(photo_download_ref01_match_dt0, None)
         assert photo_download_ref01_data_dt0_loaded is not None
 
 
@@ -91,7 +90,6 @@ def _photo_download_basic_setup(extra):
         "RAILWAYSTATIONPHOTOS_TEST_PHOTO_DOWNLOAD_ENTID": idmap,
         "RAILWAYSTATIONPHOTOS_TEST_LIVE": "FALSE",
         "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN": "FALSE",
-        "RAILWAYSTATIONPHOTOS_APIKEY": "NONE",
     })
 
     idmap_resolved = helpers.to_map(
@@ -102,7 +100,6 @@ def _photo_download_basic_setup(extra):
     if env.get("RAILWAYSTATIONPHOTOS_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
             {
-                "apikey": env.get("RAILWAYSTATIONPHOTOS_APIKEY"),
             },
             extra or {},
         ])

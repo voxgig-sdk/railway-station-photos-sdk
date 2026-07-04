@@ -36,15 +36,13 @@ class OauthEntityTest < Minitest::Test
     oauth_ref01_data = Helpers.to_map(Vs.getprop(
       Vs.getpath(setup[:data], "new.oauth"), "oauth_ref01"))
 
-    oauth_ref01_data_result, err = oauth_ref01_ent.create(oauth_ref01_data, nil)
-    assert_nil err
+    oauth_ref01_data_result = oauth_ref01_ent.create(oauth_ref01_data, nil)
     oauth_ref01_data = Helpers.to_map(oauth_ref01_data_result)
     assert !oauth_ref01_data.nil?
 
     # LOAD
     oauth_ref01_match_dt0 = {}
-    oauth_ref01_data_dt0_loaded, err = oauth_ref01_ent.load(oauth_ref01_match_dt0, nil)
-    assert_nil err
+    oauth_ref01_data_dt0_loaded = oauth_ref01_ent.load(oauth_ref01_match_dt0, nil)
     assert !oauth_ref01_data_dt0_loaded.nil?
 
   end
@@ -83,7 +81,6 @@ def oauth_basic_setup(extra)
     "RAILWAYSTATIONPHOTOS_TEST_OAUTH_ENTID" => idmap,
     "RAILWAYSTATIONPHOTOS_TEST_LIVE" => "FALSE",
     "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN" => "FALSE",
-    "RAILWAYSTATIONPHOTOS_APIKEY" => "NONE",
   })
 
   idmap_resolved = Helpers.to_map(
@@ -95,7 +92,6 @@ def oauth_basic_setup(extra)
   if env["RAILWAYSTATIONPHOTOS_TEST_LIVE"] == "TRUE"
     merged_opts = Vs.merge([
       {
-        "apikey" => env["RAILWAYSTATIONPHOTOS_APIKEY"],
       },
       extra || {},
     ])

@@ -14,9 +14,13 @@ import type {
   Control,
 } from '../types'
 
+import type {
+  InboxEntry,
+  InboxEntryListMatch,
+} from '../RailwayStationPhotosTypes'
 
 // TODO: needs Entity superclass
-class InboxEntryEntity extends RailwayStationPhotosEntityBase {
+class InboxEntryEntity extends RailwayStationPhotosEntityBase<InboxEntry> {
 
   constructor(client: RailwayStationPhotosSDK, entopts: any) {
     super(client, entopts)
@@ -33,7 +37,7 @@ class InboxEntryEntity extends RailwayStationPhotosEntityBase {
 
 
 
-  async list(this: any, reqmatch?: any, ctrl?: Control) {
+  async list(this: any, reqmatch?: InboxEntryListMatch, ctrl?: Control): Promise<InboxEntry[]> {
 
     const utility = this._utility
 
@@ -133,7 +137,9 @@ class InboxEntryEntity extends RailwayStationPhotosEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<InboxEntry[]> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }

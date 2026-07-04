@@ -45,6 +45,7 @@ class InboxStateQueryEntity
     end
   end
 
+  # @return [InboxStateQuery, Hash] the current InboxStateQuery data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,6 +58,7 @@ class InboxStateQueryEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of InboxStateQuery fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)

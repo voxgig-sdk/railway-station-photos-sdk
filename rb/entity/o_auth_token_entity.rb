@@ -45,6 +45,7 @@ class OAuthTokenEntity
     end
   end
 
+  # @return [OAuthToken, Hash] the current OAuthToken data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,6 +58,7 @@ class OAuthTokenEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of OAuthToken fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
@@ -67,6 +69,11 @@ class OAuthTokenEntity
   
 
   
+  # Create a new OAuthToken.
+  #
+  # @param reqdata [OAuthTokenCreateData, Hash, nil] body data
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [OAuthToken, Hash] the created OAuthToken; raises RailwayStationPhotosError on failure
   def create(reqdata, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({

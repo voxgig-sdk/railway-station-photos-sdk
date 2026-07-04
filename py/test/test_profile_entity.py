@@ -44,23 +44,19 @@ class TestProfileEntity:
         profile_ref01_data = helpers.to_map(vs.getprop(
             vs.getpath(setup["data"], "new.profile"), "profile_ref01"))
 
-        profile_ref01_data_result, err = profile_ref01_ent.create(profile_ref01_data, None)
-        assert err is None
-        profile_ref01_data = helpers.to_map(profile_ref01_data_result)
+        profile_ref01_data = helpers.to_map(profile_ref01_ent.create(profile_ref01_data, None))
         assert profile_ref01_data is not None
 
         # LOAD
         profile_ref01_match_dt0 = {}
-        profile_ref01_data_dt0_loaded, err = profile_ref01_ent.load(profile_ref01_match_dt0, None)
-        assert err is None
+        profile_ref01_data_dt0_loaded = profile_ref01_ent.load(profile_ref01_match_dt0, None)
         assert profile_ref01_data_dt0_loaded is not None
 
         # REMOVE
         profile_ref01_match_rm0 = {
             "id": profile_ref01_data["id"],
         }
-        _, err = profile_ref01_ent.remove(profile_ref01_match_rm0, None)
-        assert err is None
+        profile_ref01_ent.remove(profile_ref01_match_rm0, None)
 
 
 
@@ -100,7 +96,6 @@ def _profile_basic_setup(extra):
         "RAILWAYSTATIONPHOTOS_TEST_PROFILE_ENTID": idmap,
         "RAILWAYSTATIONPHOTOS_TEST_LIVE": "FALSE",
         "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN": "FALSE",
-        "RAILWAYSTATIONPHOTOS_APIKEY": "NONE",
     })
 
     idmap_resolved = helpers.to_map(
@@ -111,7 +106,6 @@ def _profile_basic_setup(extra):
     if env.get("RAILWAYSTATIONPHOTOS_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
             {
-                "apikey": env.get("RAILWAYSTATIONPHOTOS_APIKEY"),
             },
             extra or {},
         ])

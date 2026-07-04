@@ -55,6 +55,9 @@ class InboxCountEntity
         return new InboxCountEntity($this->_client, $opts);
     }
 
+    /**
+     * @param InboxCount|array $args InboxCount data (assoc-array) to store.
+     */
     public function data_set($args): void
     {
         if ($args) {
@@ -63,12 +66,18 @@ class InboxCountEntity
         }
     }
 
+    /**
+     * @return InboxCount|array The current InboxCount data as an assoc-array.
+     */
     public function data_get()
     {
         ($this->_utility->feature_hook)($this->_entctx, "GetData");
         return Struct::clone($this->_data);
     }
 
+    /**
+     * @param array $args Match filter (any subset of InboxCount fields).
+     */
     public function match_set($args): void
     {
         if ($args) {
@@ -77,6 +86,9 @@ class InboxCountEntity
         }
     }
 
+    /**
+     * @return array The current match filter (any subset of InboxCount fields).
+     */
     public function match_get()
     {
         ($this->_utility->feature_hook)($this->_entctx, "GetMatch");
@@ -84,7 +96,16 @@ class InboxCountEntity
     }
 
     
-    public function load($reqmatch, $ctrl = null): array
+    /**
+     * Load a single InboxCount.
+     *
+     * @param InboxCountLoadMatch|array|null $reqmatch Match criteria (id/query
+     *   fields) as an assoc-array; a typed InboxCountLoadMatch names the shape.
+     * @param mixed $ctrl Optional per-call control overrides.
+     * @return InboxCount|array The loaded InboxCount as an assoc-array at the
+     *   SDK boundary; throws RailwayStationPhotosError on failure (item-5 convention).
+     */
+    public function load(?array $reqmatch = null, $ctrl = null): mixed
     {
         $utility = $this->_utility;
         $ctx = ($utility->make_context)([
@@ -117,7 +138,7 @@ class InboxCountEntity
 
     
 
-    private function _run_op($ctx, callable $post_done): array
+    private function _run_op($ctx, callable $post_done): mixed
     {
         $utility = $this->_utility;
 

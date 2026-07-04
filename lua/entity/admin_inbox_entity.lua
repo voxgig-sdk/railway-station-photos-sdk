@@ -83,6 +83,10 @@ end
 
 
 
+---@param reqdata AdminInboxCreateData
+---@param ctrl? table
+---@return AdminInbox
+---@return string? err
 function AdminInboxEntity:create(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

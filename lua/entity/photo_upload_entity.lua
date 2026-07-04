@@ -83,6 +83,10 @@ end
 
 
 
+---@param reqdata PhotoUploadCreateData
+---@param ctrl? table
+---@return PhotoUpload
+---@return string? err
 function PhotoUploadEntity:create(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

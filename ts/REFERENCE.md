@@ -18,7 +18,6 @@ Create a new SDK client instance.
 | Name | Type | Description |
 | --- | --- | --- |
 | `options` | `object` | SDK configuration options. |
-| `options.apikey` | `string` | API key for authentication. |
 | `options.base` | `string` | Base URL for API requests. |
 | `options.prefix` | `string` | URL prefix appended after base. |
 | `options.suffix` | `string` | URL suffix appended after path. |
@@ -290,7 +289,7 @@ Alias for `RailwayStationPhotosSDK.test()`.
 ## AdminInboxEntity
 
 ```ts
-const admin_inbox = client.AdminInbox()
+const admin_inbox = client.admin_inbox
 ```
 
 ### Fields
@@ -318,7 +317,7 @@ const admin_inbox = client.AdminInbox()
 Create a new entity with the given data.
 
 ```ts
-const result = await client.AdminInbox().create({
+const result = await client.admin_inbox.create({
   command: /* `$STRING` */,
   message: /* `$STRING` */,
   status: /* `$INTEGER` */,
@@ -356,7 +355,7 @@ Return a copy of the entity options.
 ## CountryEntity
 
 ```ts
-const country = client.Country()
+const country = client.country
 ```
 
 ### Fields
@@ -380,7 +379,7 @@ const country = client.Country()
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.Country().list()
+const results = await client.country.list()
 ```
 
 ### Common Methods
@@ -414,7 +413,7 @@ Return a copy of the entity options.
 ## InboxEntity
 
 ```ts
-const inbox = client.Inbox()
+const inbox = client.inbox
 ```
 
 ### Fields
@@ -446,7 +445,7 @@ const inbox = client.Inbox()
 Create a new entity with the given data.
 
 ```ts
-const result = await client.Inbox().create({
+const result = await client.inbox.create({
   state: /* `$STRING` */,
 })
 ```
@@ -456,7 +455,7 @@ const result = await client.Inbox().create({
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.Inbox().list()
+const results = await client.inbox.list()
 ```
 
 #### `remove(match: object, ctrl?: object)`
@@ -464,7 +463,7 @@ const results = await client.Inbox().list()
 Remove the entity matching the given criteria.
 
 ```ts
-const result = await client.Inbox().remove({ id: 'inbox_id' })
+const result = await client.inbox.remove({ id: 'inbox_id' })
 ```
 
 ### Common Methods
@@ -498,7 +497,7 @@ Return a copy of the entity options.
 ## InboxCountEntity
 
 ```ts
-const inbox_count = client.InboxCount()
+const inbox_count = client.inbox_count
 ```
 
 ### Fields
@@ -514,7 +513,7 @@ const inbox_count = client.InboxCount()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.InboxCount().load({ id: 'inbox_count_id' })
+const result = await client.inbox_count.load({ id: 'inbox_count_id' })
 ```
 
 ### Common Methods
@@ -548,7 +547,7 @@ Return a copy of the entity options.
 ## InboxEntryEntity
 
 ```ts
-const inbox_entry = client.InboxEntry()
+const inbox_entry = client.inbox_entry
 ```
 
 ### Fields
@@ -585,7 +584,7 @@ const inbox_entry = client.InboxEntry()
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.InboxEntry().list()
+const results = await client.inbox_entry.list()
 ```
 
 ### Common Methods
@@ -619,7 +618,7 @@ Return a copy of the entity options.
 ## InboxStateQueryEntity
 
 ```ts
-const inbox_state_query = client.InboxStateQuery()
+const inbox_state_query = client.inbox_state_query
 ```
 
 ### Common Methods
@@ -653,7 +652,7 @@ Return a copy of the entity options.
 ## OAuthTokenEntity
 
 ```ts
-const o_auth_token = client.OAuthToken()
+const o_auth_token = client.o_auth_token
 ```
 
 ### Fields
@@ -673,7 +672,7 @@ const o_auth_token = client.OAuthToken()
 Create a new entity with the given data.
 
 ```ts
-const result = await client.OAuthToken().create({
+const result = await client.o_auth_token.create({
   access_token: /* `$STRING` */,
   scope: /* `$STRING` */,
   token_type: /* `$STRING` */,
@@ -711,7 +710,7 @@ Return a copy of the entity options.
 ## OauthEntity
 
 ```ts
-const oauth = client.Oauth()
+const oauth = client.oauth
 ```
 
 ### Operations
@@ -721,7 +720,7 @@ const oauth = client.Oauth()
 Create a new entity with the given data.
 
 ```ts
-const result = await client.Oauth().create({
+const result = await client.oauth.create({
 })
 ```
 
@@ -730,7 +729,7 @@ const result = await client.Oauth().create({
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Oauth().load({ id: 'oauth_id' })
+const result = await client.oauth.load({ id: 'oauth_id' })
 ```
 
 ### Common Methods
@@ -764,7 +763,7 @@ Return a copy of the entity options.
 ## PhotoEntity
 
 ```ts
-const photo = client.Photo()
+const photo = client.photo
 ```
 
 ### Operations
@@ -774,7 +773,7 @@ const photo = client.Photo()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Photo().load({ id: 'photo_id' })
+const result = await client.photo.load({ id: 'photo_id' })
 ```
 
 ### Common Methods
@@ -808,7 +807,7 @@ Return a copy of the entity options.
 ## PhotoDownloadEntity
 
 ```ts
-const photo_download = client.PhotoDownload()
+const photo_download = client.photo_download
 ```
 
 ### Operations
@@ -818,7 +817,7 @@ const photo_download = client.PhotoDownload()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.PhotoDownload().load({ id: 'photo_download_id' })
+const result = await client.photo_download.load({ id: 'photo_download_id' })
 ```
 
 ### Common Methods
@@ -852,7 +851,7 @@ Return a copy of the entity options.
 ## PhotoStationEntity
 
 ```ts
-const photo_station = client.PhotoStation()
+const photo_station = client.photo_station
 ```
 
 ### Fields
@@ -871,7 +870,7 @@ const photo_station = client.PhotoStation()
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.PhotoStation().list()
+const results = await client.photo_station.list()
 ```
 
 #### `load(match: object, ctrl?: object)`
@@ -879,7 +878,7 @@ const results = await client.PhotoStation().list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.PhotoStation().load({ id: 'photo_station_id' })
+const result = await client.photo_station.load({ id: 'photo_station_id' })
 ```
 
 ### Common Methods
@@ -913,7 +912,7 @@ Return a copy of the entity options.
 ## PhotoUploadEntity
 
 ```ts
-const photo_upload = client.PhotoUpload()
+const photo_upload = client.photo_upload
 ```
 
 ### Operations
@@ -923,7 +922,7 @@ const photo_upload = client.PhotoUpload()
 Create a new entity with the given data.
 
 ```ts
-const result = await client.PhotoUpload().create({
+const result = await client.photo_upload.create({
 })
 ```
 
@@ -958,7 +957,7 @@ Return a copy of the entity options.
 ## PhotographerEntity
 
 ```ts
-const photographer = client.Photographer()
+const photographer = client.photographer
 ```
 
 ### Operations
@@ -968,7 +967,7 @@ const photographer = client.Photographer()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Photographer().load({ id: 'photographer_id' })
+const result = await client.photographer.load({ id: 'photographer_id' })
 ```
 
 ### Common Methods
@@ -1002,7 +1001,7 @@ Return a copy of the entity options.
 ## ProfileEntity
 
 ```ts
-const profile = client.Profile()
+const profile = client.profile
 ```
 
 ### Fields
@@ -1042,7 +1041,7 @@ const profile = client.Profile()
 Create a new entity with the given data.
 
 ```ts
-const result = await client.Profile().create({
+const result = await client.profile.create({
   license: /* `$STRING` */,
   new_password: /* `$STRING` */,
   nickname: /* `$STRING` */,
@@ -1055,7 +1054,7 @@ const result = await client.Profile().create({
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Profile().load({ id: 'profile_id' })
+const result = await client.profile.load({ id: 'profile_id' })
 ```
 
 #### `remove(match: object, ctrl?: object)`
@@ -1063,7 +1062,7 @@ const result = await client.Profile().load({ id: 'profile_id' })
 Remove the entity matching the given criteria.
 
 ```ts
-const result = await client.Profile().remove({ id: 'profile_id' })
+const result = await client.profile.remove({ id: 'profile_id' })
 ```
 
 ### Common Methods
@@ -1097,7 +1096,7 @@ Return a copy of the entity options.
 ## PublicInboxEntity
 
 ```ts
-const public_inbox = client.PublicInbox()
+const public_inbox = client.public_inbox
 ```
 
 ### Fields
@@ -1117,7 +1116,7 @@ const public_inbox = client.PublicInbox()
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.PublicInbox().list()
+const results = await client.public_inbox.list()
 ```
 
 ### Common Methods
@@ -1151,7 +1150,7 @@ Return a copy of the entity options.
 ## StatEntity
 
 ```ts
-const stat = client.Stat()
+const stat = client.stat
 ```
 
 ### Fields
@@ -1171,7 +1170,7 @@ const stat = client.Stat()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Stat().load({ id: 'stat_id' })
+const result = await client.stat.load({ id: 'stat_id' })
 ```
 
 ### Common Methods

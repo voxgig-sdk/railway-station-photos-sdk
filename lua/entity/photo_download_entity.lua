@@ -79,6 +79,10 @@ end
 
 
 
+---@param reqmatch PhotoDownloadLoadMatch
+---@param ctrl? table
+---@return PhotoDownload
+---@return string? err
 function PhotoDownloadEntity:load(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

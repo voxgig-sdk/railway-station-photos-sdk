@@ -49,8 +49,7 @@ class StatEntityTest extends TestCase
         // LOAD
         $stat_ref01_ent = $client->Stat(null);
         $stat_ref01_match_dt0 = [];
-        [$stat_ref01_data_dt0_loaded, $err] = $stat_ref01_ent->load($stat_ref01_match_dt0, null);
-        $this->assertNull($err);
+        $stat_ref01_data_dt0_loaded = $stat_ref01_ent->load($stat_ref01_match_dt0, null);
         $this->assertNotNull($stat_ref01_data_dt0_loaded);
 
     }
@@ -85,7 +84,6 @@ function stat_basic_setup($extra)
         "RAILWAYSTATIONPHOTOS_TEST_STAT_ENTID" => $idmap,
         "RAILWAYSTATIONPHOTOS_TEST_LIVE" => "FALSE",
         "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN" => "FALSE",
-        "RAILWAYSTATIONPHOTOS_APIKEY" => "NONE",
     ]);
 
     $idmap_resolved = Helpers::to_map(
@@ -97,7 +95,6 @@ function stat_basic_setup($extra)
     if ($env["RAILWAYSTATIONPHOTOS_TEST_LIVE"] === "TRUE") {
         $merged_opts = Vs::merge([
             [
-                "apikey" => $env["RAILWAYSTATIONPHOTOS_APIKEY"],
             ],
             $extra ?? [],
         ]);

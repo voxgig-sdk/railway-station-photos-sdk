@@ -44,17 +44,14 @@ class TestInboxEntity:
         inbox_ref01_data = helpers.to_map(vs.getprop(
             vs.getpath(setup["data"], "new.inbox"), "inbox_ref01"))
 
-        inbox_ref01_data_result, err = inbox_ref01_ent.create(inbox_ref01_data, None)
-        assert err is None
-        inbox_ref01_data = helpers.to_map(inbox_ref01_data_result)
+        inbox_ref01_data = helpers.to_map(inbox_ref01_ent.create(inbox_ref01_data, None))
         assert inbox_ref01_data is not None
         assert inbox_ref01_data["id"] is not None
 
         # LIST
         inbox_ref01_match = {}
 
-        inbox_ref01_list_result, err = inbox_ref01_ent.list(inbox_ref01_match, None)
-        assert err is None
+        inbox_ref01_list_result = inbox_ref01_ent.list(inbox_ref01_match, None)
         assert isinstance(inbox_ref01_list_result, list)
 
         found_item = vs.select(
@@ -66,14 +63,12 @@ class TestInboxEntity:
         inbox_ref01_match_rm0 = {
             "id": inbox_ref01_data["id"],
         }
-        _, err = inbox_ref01_ent.remove(inbox_ref01_match_rm0, None)
-        assert err is None
+        inbox_ref01_ent.remove(inbox_ref01_match_rm0, None)
 
         # LIST
         inbox_ref01_match_rt0 = {}
 
-        inbox_ref01_list_rt0_result, err = inbox_ref01_ent.list(inbox_ref01_match_rt0, None)
-        assert err is None
+        inbox_ref01_list_rt0_result = inbox_ref01_ent.list(inbox_ref01_match_rt0, None)
         assert isinstance(inbox_ref01_list_rt0_result, list)
 
         not_found_item = vs.select(
@@ -119,7 +114,6 @@ def _inbox_basic_setup(extra):
         "RAILWAYSTATIONPHOTOS_TEST_INBOX_ENTID": idmap,
         "RAILWAYSTATIONPHOTOS_TEST_LIVE": "FALSE",
         "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN": "FALSE",
-        "RAILWAYSTATIONPHOTOS_APIKEY": "NONE",
     })
 
     idmap_resolved = helpers.to_map(
@@ -130,7 +124,6 @@ def _inbox_basic_setup(extra):
     if env.get("RAILWAYSTATIONPHOTOS_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
             {
-                "apikey": env.get("RAILWAYSTATIONPHOTOS_APIKEY"),
             },
             extra or {},
         ])

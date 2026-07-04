@@ -1,7 +1,12 @@
 # RailwayStationPhotos SDK InboxStateQuery entity
 
+from __future__ import annotations
+
 from utility.voxgig_struct import voxgig_struct as vs
 from core import helpers
+from railwaystationphotos_types import (
+    InboxStateQuery,
+)
 
 
 class InboxStateQueryEntity:
@@ -44,7 +49,7 @@ class InboxStateQueryEntity:
             self._data = helpers.to_map(vs.clone(args)) or {}
             self._utility.feature_hook(self._entctx, "SetData")
 
-    def data_get(self):
+    def data_get(self) -> InboxStateQuery:
         self._utility.feature_hook(self._entctx, "GetData")
         return vs.clone(self._data)
 
@@ -53,7 +58,7 @@ class InboxStateQueryEntity:
             self._match = helpers.to_map(vs.clone(args)) or {}
             self._utility.feature_hook(self._entctx, "SetMatch")
 
-    def match_get(self):
+    def match_get(self) -> InboxStateQuery:
         self._utility.feature_hook(self._entctx, "GetMatch")
         return vs.clone(self._match)
 

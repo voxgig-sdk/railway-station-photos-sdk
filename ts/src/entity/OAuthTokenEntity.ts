@@ -14,9 +14,13 @@ import type {
   Control,
 } from '../types'
 
+import type {
+  OAuthToken,
+  OAuthTokenCreateData,
+} from '../RailwayStationPhotosTypes'
 
 // TODO: needs Entity superclass
-class OAuthTokenEntity extends RailwayStationPhotosEntityBase {
+class OAuthTokenEntity extends RailwayStationPhotosEntityBase<OAuthToken> {
 
   constructor(client: RailwayStationPhotosSDK, entopts: any) {
     super(client, entopts)
@@ -34,7 +38,7 @@ class OAuthTokenEntity extends RailwayStationPhotosEntityBase {
 
 
 
-  async create(this: any, reqdata?: any, ctrl?: Control) {
+  async create(this: any, reqdata?: OAuthTokenCreateData, ctrl?: Control): Promise<OAuthToken> {
 
     const utility = this._utility
     const {
@@ -133,7 +137,9 @@ class OAuthTokenEntity extends RailwayStationPhotosEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<OAuthToken> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }

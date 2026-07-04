@@ -45,6 +45,7 @@ class PhotoDownloadEntity
     end
   end
 
+  # @return [PhotoDownload, Hash] the current PhotoDownload data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,12 +58,18 @@ class PhotoDownloadEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of PhotoDownload fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
   end
 
   
+  # Load a single PhotoDownload.
+  #
+  # @param reqmatch [PhotoDownloadLoadMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [PhotoDownload, Hash] the loaded PhotoDownload; raises RailwayStationPhotosError on failure
   def load(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({

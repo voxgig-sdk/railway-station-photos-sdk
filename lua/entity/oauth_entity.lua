@@ -79,6 +79,10 @@ end
 
 
 
+---@param reqmatch OauthLoadMatch
+---@param ctrl? table
+---@return Oauth
+---@return string? err
 function OauthEntity:load(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -106,6 +110,10 @@ end
 
 
 
+---@param reqdata OauthCreateData
+---@param ctrl? table
+---@return Oauth
+---@return string? err
 function OauthEntity:create(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

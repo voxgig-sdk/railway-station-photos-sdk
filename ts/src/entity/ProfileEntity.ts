@@ -14,9 +14,15 @@ import type {
   Control,
 } from '../types'
 
+import type {
+  Profile,
+  ProfileLoadMatch,
+  ProfileCreateData,
+  ProfileRemoveMatch,
+} from '../RailwayStationPhotosTypes'
 
 // TODO: needs Entity superclass
-class ProfileEntity extends RailwayStationPhotosEntityBase {
+class ProfileEntity extends RailwayStationPhotosEntityBase<Profile> {
 
   constructor(client: RailwayStationPhotosSDK, entopts: any) {
     super(client, entopts)
@@ -32,7 +38,7 @@ class ProfileEntity extends RailwayStationPhotosEntityBase {
 
 
 
-  async load(this: any, reqmatch?: any, ctrl?: Control) {
+  async load(this: any, reqmatch?: ProfileLoadMatch, ctrl?: Control): Promise<Profile> {
 
     const utility = this._utility
 
@@ -136,7 +142,9 @@ class ProfileEntity extends RailwayStationPhotosEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Profile> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }
@@ -144,7 +152,7 @@ class ProfileEntity extends RailwayStationPhotosEntityBase {
 
 
 
-  async create(this: any, reqdata?: any, ctrl?: Control) {
+  async create(this: any, reqdata?: ProfileCreateData, ctrl?: Control): Promise<Profile> {
 
     const utility = this._utility
     const {
@@ -243,7 +251,9 @@ class ProfileEntity extends RailwayStationPhotosEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Profile> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }
@@ -251,7 +261,7 @@ class ProfileEntity extends RailwayStationPhotosEntityBase {
 
 
 
-  async remove(this: any, reqmatch?: any, ctrl?: Control) {
+  async remove(this: any, reqmatch?: ProfileRemoveMatch, ctrl?: Control): Promise<Profile> {
 
     const utility = this._utility
 
@@ -356,7 +366,9 @@ class ProfileEntity extends RailwayStationPhotosEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Profile> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }

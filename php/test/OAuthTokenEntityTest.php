@@ -43,8 +43,7 @@ class OAuthTokenEntityTest extends TestCase
         $o_auth_token_ref01_data = Helpers::to_map(Vs::getprop(
             Vs::getpath($setup["data"], "new.o_auth_token"), "o_auth_token_ref01"));
 
-        [$o_auth_token_ref01_data_result, $err] = $o_auth_token_ref01_ent->create($o_auth_token_ref01_data, null);
-        $this->assertNull($err);
+        $o_auth_token_ref01_data_result = $o_auth_token_ref01_ent->create($o_auth_token_ref01_data, null);
         $o_auth_token_ref01_data = Helpers::to_map($o_auth_token_ref01_data_result);
         $this->assertNotNull($o_auth_token_ref01_data);
 
@@ -80,7 +79,6 @@ function o_auth_token_basic_setup($extra)
         "RAILWAYSTATIONPHOTOS_TEST_O_AUTH_TOKEN_ENTID" => $idmap,
         "RAILWAYSTATIONPHOTOS_TEST_LIVE" => "FALSE",
         "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN" => "FALSE",
-        "RAILWAYSTATIONPHOTOS_APIKEY" => "NONE",
     ]);
 
     $idmap_resolved = Helpers::to_map(
@@ -92,7 +90,6 @@ function o_auth_token_basic_setup($extra)
     if ($env["RAILWAYSTATIONPHOTOS_TEST_LIVE"] === "TRUE") {
         $merged_opts = Vs::merge([
             [
-                "apikey" => $env["RAILWAYSTATIONPHOTOS_APIKEY"],
             ],
             $extra ?? [],
         ]);

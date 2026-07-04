@@ -14,9 +14,13 @@ import type {
   Control,
 } from '../types'
 
+import type {
+  Photographer,
+  PhotographerLoadMatch,
+} from '../RailwayStationPhotosTypes'
 
 // TODO: needs Entity superclass
-class PhotographerEntity extends RailwayStationPhotosEntityBase {
+class PhotographerEntity extends RailwayStationPhotosEntityBase<Photographer> {
 
   constructor(client: RailwayStationPhotosSDK, entopts: any) {
     super(client, entopts)
@@ -32,7 +36,7 @@ class PhotographerEntity extends RailwayStationPhotosEntityBase {
 
 
 
-  async load(this: any, reqmatch?: any, ctrl?: Control) {
+  async load(this: any, reqmatch?: PhotographerLoadMatch, ctrl?: Control): Promise<Photographer> {
 
     const utility = this._utility
 
@@ -136,7 +140,9 @@ class PhotographerEntity extends RailwayStationPhotosEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Photographer> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }

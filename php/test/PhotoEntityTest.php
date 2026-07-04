@@ -49,8 +49,7 @@ class PhotoEntityTest extends TestCase
         // LOAD
         $photo_ref01_ent = $client->Photo(null);
         $photo_ref01_match_dt0 = [];
-        [$photo_ref01_data_dt0_loaded, $err] = $photo_ref01_ent->load($photo_ref01_match_dt0, null);
-        $this->assertNull($err);
+        $photo_ref01_data_dt0_loaded = $photo_ref01_ent->load($photo_ref01_match_dt0, null);
         $this->assertNotNull($photo_ref01_data_dt0_loaded);
 
     }
@@ -85,7 +84,6 @@ function photo_basic_setup($extra)
         "RAILWAYSTATIONPHOTOS_TEST_PHOTO_ENTID" => $idmap,
         "RAILWAYSTATIONPHOTOS_TEST_LIVE" => "FALSE",
         "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN" => "FALSE",
-        "RAILWAYSTATIONPHOTOS_APIKEY" => "NONE",
     ]);
 
     $idmap_resolved = Helpers::to_map(
@@ -97,7 +95,6 @@ function photo_basic_setup($extra)
     if ($env["RAILWAYSTATIONPHOTOS_TEST_LIVE"] === "TRUE") {
         $merged_opts = Vs::merge([
             [
-                "apikey" => $env["RAILWAYSTATIONPHOTOS_APIKEY"],
             ],
             $extra ?? [],
         ]);
