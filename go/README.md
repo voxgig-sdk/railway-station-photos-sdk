@@ -30,32 +30,31 @@ go mod edit -replace github.com/voxgig-sdk/railway-station-photos-sdk/go=../rail
 This tutorial walks through creating a client, listing entities, and
 loading a specific record.
 
-### 1. Create a client
+### Quickstart
+
+A complete program: create a client, then call the entity operations.
+Each operation returns `(value, error)` — the value is the data itself
+(there is no `{ok, data}` wrapper), so check `err` and use the value
+directly.
 
 ```go
 package main
 
 import (
     "fmt"
-
     sdk "github.com/voxgig-sdk/railway-station-photos-sdk/go"
-    "github.com/voxgig-sdk/railway-station-photos-sdk/go/core"
 )
 
 func main() {
     client := sdk.New()
-```
 
-### 4. Create, update, and remove
-
-```go
-// Create
-created, _ := client.AdminInbox(nil).Create(
-    map[string]any{"name": "Example"}, nil,
-)
-cm := core.ToMapAny(created)
-newID := core.ToMapAny(cm["data"])["id"]
-
+    // Create a admininbox.
+    created, err := client.AdminInbox(nil).Create(map[string]any{"name": "Example"}, nil)
+    if err != nil {
+        panic(err)
+    }
+    fmt.Println(created)
+}
 ```
 
 
@@ -105,10 +104,13 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-result, err := client.AdminInbox(nil).Load(
+admininbox, err := client.AdminInbox(nil).Load(
     map[string]any{"id": "test01"}, nil,
 )
-// result contains mock response data
+if err != nil {
+    panic(err)
+}
+fmt.Println(admininbox) // the loaded mock data
 ```
 
 ### Use a custom fetch function
@@ -185,14 +187,14 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `GetUtility` | `() *Utility` | Copy of the SDK utility object. |
 | `Prepare` | `(fetchargs map[string]any) (map[string]any, error)` | Build an HTTP request definition without sending. |
 | `Direct` | `(fetchargs map[string]any) (map[string]any, error)` | Build and send an HTTP request. |
-| `AdminInbox` | `(data map[string]any) RailwayStationPhotosEntity` | Create a AdminInbox entity instance. |
+| `AdminInbox` | `(data map[string]any) RailwayStationPhotosEntity` | Create an AdminInbox entity instance. |
 | `Country` | `(data map[string]any) RailwayStationPhotosEntity` | Create a Country entity instance. |
-| `Inbox` | `(data map[string]any) RailwayStationPhotosEntity` | Create a Inbox entity instance. |
-| `InboxCount` | `(data map[string]any) RailwayStationPhotosEntity` | Create a InboxCount entity instance. |
-| `InboxEntry` | `(data map[string]any) RailwayStationPhotosEntity` | Create a InboxEntry entity instance. |
-| `InboxStateQuery` | `(data map[string]any) RailwayStationPhotosEntity` | Create a InboxStateQuery entity instance. |
-| `OAuthToken` | `(data map[string]any) RailwayStationPhotosEntity` | Create a OAuthToken entity instance. |
-| `Oauth` | `(data map[string]any) RailwayStationPhotosEntity` | Create a Oauth entity instance. |
+| `Inbox` | `(data map[string]any) RailwayStationPhotosEntity` | Create an Inbox entity instance. |
+| `InboxCount` | `(data map[string]any) RailwayStationPhotosEntity` | Create an InboxCount entity instance. |
+| `InboxEntry` | `(data map[string]any) RailwayStationPhotosEntity` | Create an InboxEntry entity instance. |
+| `InboxStateQuery` | `(data map[string]any) RailwayStationPhotosEntity` | Create an InboxStateQuery entity instance. |
+| `OAuthToken` | `(data map[string]any) RailwayStationPhotosEntity` | Create an OAuthToken entity instance. |
+| `Oauth` | `(data map[string]any) RailwayStationPhotosEntity` | Create an Oauth entity instance. |
 | `Photo` | `(data map[string]any) RailwayStationPhotosEntity` | Create a Photo entity instance. |
 | `PhotoDownload` | `(data map[string]any) RailwayStationPhotosEntity` | Create a PhotoDownload entity instance. |
 | `PhotoStation` | `(data map[string]any) RailwayStationPhotosEntity` | Create a PhotoStation entity instance. |
@@ -220,17 +222,24 @@ All entities implement the `RailwayStationPhotosEntity` interface.
 
 ### Result shape
 
-Entity operations return `(any, error)`. The `any` value is a
-`map[string]any` with these keys:
+Entity operations return `(value, error)`. The `value` is the
+operation's data **directly** — there is no wrapper:
 
-| Key | Type | Description |
-| --- | --- | --- |
-| `"ok"` | `bool` | `true` if the HTTP status is 2xx. |
-| `"status"` | `int` | HTTP status code. |
-| `"headers"` | `map[string]any` | Response headers. |
-| `"data"` | `any` | Parsed JSON response body. |
+| Operation | `value` |
+| --- | --- |
+| `Load` / `Create` / `Update` / `Remove` | the entity record (`map[string]any`) |
+| `List` | a `[]any` of entity records |
 
-On error, `"ok"` is `false` and `"err"` contains the error value.
+Check `err` first, then use the value directly (or the typed
+`...Typed` variants, which return the entity's model struct and a typed
+slice):
+
+    admininbox, err := client.AdminInbox(nil).Load(map[string]any{"id": "example_id"}, nil)
+    if err != nil { /* handle */ }
+    // admininbox is the loaded record
+
+Only `Direct()` returns a response envelope — a `map[string]any` with
+`"ok"`, `"status"`, `"headers"`, and `"data"` keys.
 
 ### Entities
 
@@ -540,7 +549,11 @@ Create an instance: `country := client.Country(nil)`
 #### Example: List
 
 ```go
-results, err := client.Country(nil).List(nil, nil)
+countrys, err := client.Country(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(countrys) // the array of records
 ```
 
 
@@ -581,7 +594,11 @@ Create an instance: `inbox := client.Inbox(nil)`
 #### Example: List
 
 ```go
-results, err := client.Inbox(nil).List(nil, nil)
+inboxs, err := client.Inbox(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(inboxs) // the array of records
 ```
 
 #### Example: Create
@@ -612,7 +629,11 @@ Create an instance: `inbox_count := client.InboxCount(nil)`
 #### Example: Load
 
 ```go
-result, err := client.InboxCount(nil).Load(map[string]any{"id": "inbox_count_id"}, nil)
+inbox_count, err := client.InboxCount(nil).Load(map[string]any{"id": "inbox_count_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(inbox_count) // the loaded record
 ```
 
 
@@ -656,7 +677,11 @@ Create an instance: `inbox_entry := client.InboxEntry(nil)`
 #### Example: List
 
 ```go
-results, err := client.InboxEntry(nil).List(nil, nil)
+inbox_entrys, err := client.InboxEntry(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(inbox_entrys) // the array of records
 ```
 
 
@@ -710,7 +735,11 @@ Create an instance: `oauth := client.Oauth(nil)`
 #### Example: Load
 
 ```go
-result, err := client.Oauth(nil).Load(map[string]any{"id": "oauth_id"}, nil)
+oauth, err := client.Oauth(nil).Load(map[string]any{"id": "oauth_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(oauth) // the loaded record
 ```
 
 #### Example: Create
@@ -734,7 +763,11 @@ Create an instance: `photo := client.Photo(nil)`
 #### Example: Load
 
 ```go
-result, err := client.Photo(nil).Load(map[string]any{"id": "photo_id"}, nil)
+photo, err := client.Photo(nil).Load(map[string]any{"id": "photo_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(photo) // the loaded record
 ```
 
 
@@ -751,7 +784,11 @@ Create an instance: `photo_download := client.PhotoDownload(nil)`
 #### Example: Load
 
 ```go
-result, err := client.PhotoDownload(nil).Load(map[string]any{"id": "photo_download_id"}, nil)
+photo_download, err := client.PhotoDownload(nil).Load(map[string]any{"id": "photo_download_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(photo_download) // the loaded record
 ```
 
 
@@ -778,13 +815,21 @@ Create an instance: `photo_station := client.PhotoStation(nil)`
 #### Example: Load
 
 ```go
-result, err := client.PhotoStation(nil).Load(map[string]any{"id": "photo_station_id"}, nil)
+photo_station, err := client.PhotoStation(nil).Load(map[string]any{"id": "photo_station_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(photo_station) // the loaded record
 ```
 
 #### Example: List
 
 ```go
-results, err := client.PhotoStation(nil).List(nil, nil)
+photo_stations, err := client.PhotoStation(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(photo_stations) // the array of records
 ```
 
 
@@ -819,7 +864,11 @@ Create an instance: `photographer := client.Photographer(nil)`
 #### Example: Load
 
 ```go
-result, err := client.Photographer(nil).Load(map[string]any{"id": "photographer_id"}, nil)
+photographer, err := client.Photographer(nil).Load(map[string]any{"id": "photographer_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(photographer) // the loaded record
 ```
 
 
@@ -853,7 +902,11 @@ Create an instance: `profile := client.Profile(nil)`
 #### Example: Load
 
 ```go
-result, err := client.Profile(nil).Load(map[string]any{"id": "profile_id"}, nil)
+profile, err := client.Profile(nil).Load(map[string]any{"id": "profile_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(profile) // the loaded record
 ```
 
 #### Example: Create
@@ -891,7 +944,11 @@ Create an instance: `public_inbox := client.PublicInbox(nil)`
 #### Example: List
 
 ```go
-results, err := client.PublicInbox(nil).List(nil, nil)
+public_inboxs, err := client.PublicInbox(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(public_inboxs) // the array of records
 ```
 
 
@@ -918,7 +975,11 @@ Create an instance: `stat := client.Stat(nil)`
 #### Example: Load
 
 ```go
-result, err := client.Stat(nil).Load(map[string]any{"id": "stat_id"}, nil)
+stat, err := client.Stat(nil).Load(map[string]any{"id": "stat_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(stat) // the loaded record
 ```
 
 

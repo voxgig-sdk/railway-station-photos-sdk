@@ -143,7 +143,7 @@ same parameters as `direct()`.
 ## AdminInboxEntity
 
 ```lua
-local admin_inbox = client:admin_inbox(nil)
+local admin_inbox = client:AdminInbox(nil)
 ```
 
 ### Fields
@@ -171,7 +171,7 @@ local admin_inbox = client:admin_inbox(nil)
 Create a new entity with the given data.
 
 ```lua
-local result, err = client:admin_inbox():create({
+local result, err = client:AdminInbox():create({
   command = --[[ `$STRING` ]],
   message = --[[ `$STRING` ]],
   status = --[[ `$INTEGER` ]],
@@ -211,7 +211,7 @@ Return the entity name.
 ## CountryEntity
 
 ```lua
-local country = client:country(nil)
+local country = client:Country(nil)
 ```
 
 ### Fields
@@ -235,7 +235,7 @@ local country = client:country(nil)
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:country():list()
+local results, err = client:Country():list()
 ```
 
 ### Common Methods
@@ -271,7 +271,7 @@ Return the entity name.
 ## InboxEntity
 
 ```lua
-local inbox = client:inbox(nil)
+local inbox = client:Inbox(nil)
 ```
 
 ### Fields
@@ -303,7 +303,7 @@ local inbox = client:inbox(nil)
 Create a new entity with the given data.
 
 ```lua
-local result, err = client:inbox():create({
+local result, err = client:Inbox():create({
   state = --[[ `$STRING` ]],
 })
 ```
@@ -313,7 +313,7 @@ local result, err = client:inbox():create({
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:inbox():list()
+local results, err = client:Inbox():list()
 ```
 
 #### `remove(reqmatch, ctrl) -> any, err`
@@ -321,7 +321,7 @@ local results, err = client:inbox():list()
 Remove the entity matching the given criteria.
 
 ```lua
-local result, err = client:inbox():remove({ id = "inbox_id" })
+local result, err = client:Inbox():remove({ id = "inbox_id" })
 ```
 
 ### Common Methods
@@ -357,7 +357,7 @@ Return the entity name.
 ## InboxCountEntity
 
 ```lua
-local inbox_count = client:inbox_count(nil)
+local inbox_count = client:InboxCount(nil)
 ```
 
 ### Fields
@@ -373,7 +373,7 @@ local inbox_count = client:inbox_count(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:inbox_count():load({ id = "inbox_count_id" })
+local result, err = client:InboxCount():load({ id = "inbox_count_id" })
 ```
 
 ### Common Methods
@@ -409,7 +409,7 @@ Return the entity name.
 ## InboxEntryEntity
 
 ```lua
-local inbox_entry = client:inbox_entry(nil)
+local inbox_entry = client:InboxEntry(nil)
 ```
 
 ### Fields
@@ -446,7 +446,7 @@ local inbox_entry = client:inbox_entry(nil)
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:inbox_entry():list()
+local results, err = client:InboxEntry():list()
 ```
 
 ### Common Methods
@@ -482,7 +482,7 @@ Return the entity name.
 ## InboxStateQueryEntity
 
 ```lua
-local inbox_state_query = client:inbox_state_query(nil)
+local inbox_state_query = client:InboxStateQuery(nil)
 ```
 
 ### Common Methods
@@ -518,7 +518,7 @@ Return the entity name.
 ## OAuthTokenEntity
 
 ```lua
-local o_auth_token = client:o_auth_token(nil)
+local o_auth_token = client:OAuthToken(nil)
 ```
 
 ### Fields
@@ -538,7 +538,7 @@ local o_auth_token = client:o_auth_token(nil)
 Create a new entity with the given data.
 
 ```lua
-local result, err = client:o_auth_token():create({
+local result, err = client:OAuthToken():create({
   access_token = --[[ `$STRING` ]],
   scope = --[[ `$STRING` ]],
   token_type = --[[ `$STRING` ]],
@@ -578,7 +578,7 @@ Return the entity name.
 ## OauthEntity
 
 ```lua
-local oauth = client:oauth(nil)
+local oauth = client:Oauth(nil)
 ```
 
 ### Operations
@@ -588,7 +588,7 @@ local oauth = client:oauth(nil)
 Create a new entity with the given data.
 
 ```lua
-local result, err = client:oauth():create({
+local result, err = client:Oauth():create({
 })
 ```
 
@@ -597,7 +597,7 @@ local result, err = client:oauth():create({
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:oauth():load({ id = "oauth_id" })
+local result, err = client:Oauth():load({ id = "oauth_id" })
 ```
 
 ### Common Methods
@@ -633,7 +633,7 @@ Return the entity name.
 ## PhotoEntity
 
 ```lua
-local photo = client:photo(nil)
+local photo = client:Photo(nil)
 ```
 
 ### Operations
@@ -643,7 +643,7 @@ local photo = client:photo(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:photo():load({ id = "photo_id" })
+local result, err = client:Photo():load({ id = "photo_id" })
 ```
 
 ### Common Methods
@@ -679,7 +679,7 @@ Return the entity name.
 ## PhotoDownloadEntity
 
 ```lua
-local photo_download = client:photo_download(nil)
+local photo_download = client:PhotoDownload(nil)
 ```
 
 ### Operations
@@ -689,7 +689,7 @@ local photo_download = client:photo_download(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:photo_download():load({ id = "photo_download_id" })
+local result, err = client:PhotoDownload():load({ id = "photo_download_id" })
 ```
 
 ### Common Methods
@@ -725,7 +725,7 @@ Return the entity name.
 ## PhotoStationEntity
 
 ```lua
-local photo_station = client:photo_station(nil)
+local photo_station = client:PhotoStation(nil)
 ```
 
 ### Fields
@@ -744,7 +744,7 @@ local photo_station = client:photo_station(nil)
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:photo_station():list()
+local results, err = client:PhotoStation():list()
 ```
 
 #### `load(reqmatch, ctrl) -> any, err`
@@ -752,7 +752,7 @@ local results, err = client:photo_station():list()
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:photo_station():load({ id = "photo_station_id" })
+local result, err = client:PhotoStation():load({ id = "photo_station_id" })
 ```
 
 ### Common Methods
@@ -788,7 +788,7 @@ Return the entity name.
 ## PhotoUploadEntity
 
 ```lua
-local photo_upload = client:photo_upload(nil)
+local photo_upload = client:PhotoUpload(nil)
 ```
 
 ### Operations
@@ -798,7 +798,7 @@ local photo_upload = client:photo_upload(nil)
 Create a new entity with the given data.
 
 ```lua
-local result, err = client:photo_upload():create({
+local result, err = client:PhotoUpload():create({
 })
 ```
 
@@ -835,7 +835,7 @@ Return the entity name.
 ## PhotographerEntity
 
 ```lua
-local photographer = client:photographer(nil)
+local photographer = client:Photographer(nil)
 ```
 
 ### Operations
@@ -845,7 +845,7 @@ local photographer = client:photographer(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:photographer():load({ id = "photographer_id" })
+local result, err = client:Photographer():load({ id = "photographer_id" })
 ```
 
 ### Common Methods
@@ -881,7 +881,7 @@ Return the entity name.
 ## ProfileEntity
 
 ```lua
-local profile = client:profile(nil)
+local profile = client:Profile(nil)
 ```
 
 ### Fields
@@ -921,7 +921,7 @@ local profile = client:profile(nil)
 Create a new entity with the given data.
 
 ```lua
-local result, err = client:profile():create({
+local result, err = client:Profile():create({
   license = --[[ `$STRING` ]],
   new_password = --[[ `$STRING` ]],
   nickname = --[[ `$STRING` ]],
@@ -934,7 +934,7 @@ local result, err = client:profile():create({
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:profile():load({ id = "profile_id" })
+local result, err = client:Profile():load({ id = "profile_id" })
 ```
 
 #### `remove(reqmatch, ctrl) -> any, err`
@@ -942,7 +942,7 @@ local result, err = client:profile():load({ id = "profile_id" })
 Remove the entity matching the given criteria.
 
 ```lua
-local result, err = client:profile():remove({ id = "profile_id" })
+local result, err = client:Profile():remove({ id = "profile_id" })
 ```
 
 ### Common Methods
@@ -978,7 +978,7 @@ Return the entity name.
 ## PublicInboxEntity
 
 ```lua
-local public_inbox = client:public_inbox(nil)
+local public_inbox = client:PublicInbox(nil)
 ```
 
 ### Fields
@@ -998,7 +998,7 @@ local public_inbox = client:public_inbox(nil)
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:public_inbox():list()
+local results, err = client:PublicInbox():list()
 ```
 
 ### Common Methods
@@ -1034,7 +1034,7 @@ Return the entity name.
 ## StatEntity
 
 ```lua
-local stat = client:stat(nil)
+local stat = client:Stat(nil)
 ```
 
 ### Fields
@@ -1054,7 +1054,7 @@ local stat = client:stat(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:stat():load({ id = "stat_id" })
+local result, err = client:Stat():load({ id = "stat_id" })
 ```
 
 ### Common Methods

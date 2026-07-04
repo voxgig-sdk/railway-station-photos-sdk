@@ -219,224 +219,112 @@ class RailwayStationPhotosSDK {
 
 
 
-  _admin_inbox?: AdminInboxEntity
-
-  // Idiomatic facade: `client.admin_inbox.list()` / `client.admin_inbox.load({ id })`.
-  get admin_inbox(): AdminInboxEntity {
-    return (this._admin_inbox ??= new AdminInboxEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.admin_inbox` instead. */
+  // Entity access: `client.AdminInbox().list()` / `client.AdminInbox().load({ id })`.
   AdminInbox(data?: any) {
     const self = this
     return new AdminInboxEntity(self,data)
   }
 
 
-  _country?: CountryEntity
-
-  // Idiomatic facade: `client.country.list()` / `client.country.load({ id })`.
-  get country(): CountryEntity {
-    return (this._country ??= new CountryEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.country` instead. */
+  // Entity access: `client.Country().list()` / `client.Country().load({ id })`.
   Country(data?: any) {
     const self = this
     return new CountryEntity(self,data)
   }
 
 
-  _inbox?: InboxEntity
-
-  // Idiomatic facade: `client.inbox.list()` / `client.inbox.load({ id })`.
-  get inbox(): InboxEntity {
-    return (this._inbox ??= new InboxEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.inbox` instead. */
+  // Entity access: `client.Inbox().list()` / `client.Inbox().load({ id })`.
   Inbox(data?: any) {
     const self = this
     return new InboxEntity(self,data)
   }
 
 
-  _inbox_count?: InboxCountEntity
-
-  // Idiomatic facade: `client.inbox_count.list()` / `client.inbox_count.load({ id })`.
-  get inbox_count(): InboxCountEntity {
-    return (this._inbox_count ??= new InboxCountEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.inbox_count` instead. */
+  // Entity access: `client.InboxCount().list()` / `client.InboxCount().load({ id })`.
   InboxCount(data?: any) {
     const self = this
     return new InboxCountEntity(self,data)
   }
 
 
-  _inbox_entry?: InboxEntryEntity
-
-  // Idiomatic facade: `client.inbox_entry.list()` / `client.inbox_entry.load({ id })`.
-  get inbox_entry(): InboxEntryEntity {
-    return (this._inbox_entry ??= new InboxEntryEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.inbox_entry` instead. */
+  // Entity access: `client.InboxEntry().list()` / `client.InboxEntry().load({ id })`.
   InboxEntry(data?: any) {
     const self = this
     return new InboxEntryEntity(self,data)
   }
 
 
-  _inbox_state_query?: InboxStateQueryEntity
-
-  // Idiomatic facade: `client.inbox_state_query.list()` / `client.inbox_state_query.load({ id })`.
-  get inbox_state_query(): InboxStateQueryEntity {
-    return (this._inbox_state_query ??= new InboxStateQueryEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.inbox_state_query` instead. */
+  // Entity access: `client.InboxStateQuery().list()` / `client.InboxStateQuery().load({ id })`.
   InboxStateQuery(data?: any) {
     const self = this
     return new InboxStateQueryEntity(self,data)
   }
 
 
-  _o_auth_token?: OAuthTokenEntity
-
-  // Idiomatic facade: `client.o_auth_token.list()` / `client.o_auth_token.load({ id })`.
-  get o_auth_token(): OAuthTokenEntity {
-    return (this._o_auth_token ??= new OAuthTokenEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.o_auth_token` instead. */
+  // Entity access: `client.OAuthToken().list()` / `client.OAuthToken().load({ id })`.
   OAuthToken(data?: any) {
     const self = this
     return new OAuthTokenEntity(self,data)
   }
 
 
-  _oauth?: OauthEntity
-
-  // Idiomatic facade: `client.oauth.list()` / `client.oauth.load({ id })`.
-  get oauth(): OauthEntity {
-    return (this._oauth ??= new OauthEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.oauth` instead. */
+  // Entity access: `client.Oauth().list()` / `client.Oauth().load({ id })`.
   Oauth(data?: any) {
     const self = this
     return new OauthEntity(self,data)
   }
 
 
-  _photo?: PhotoEntity
-
-  // Idiomatic facade: `client.photo.list()` / `client.photo.load({ id })`.
-  get photo(): PhotoEntity {
-    return (this._photo ??= new PhotoEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.photo` instead. */
+  // Entity access: `client.Photo().list()` / `client.Photo().load({ id })`.
   Photo(data?: any) {
     const self = this
     return new PhotoEntity(self,data)
   }
 
 
-  _photo_download?: PhotoDownloadEntity
-
-  // Idiomatic facade: `client.photo_download.list()` / `client.photo_download.load({ id })`.
-  get photo_download(): PhotoDownloadEntity {
-    return (this._photo_download ??= new PhotoDownloadEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.photo_download` instead. */
+  // Entity access: `client.PhotoDownload().list()` / `client.PhotoDownload().load({ id })`.
   PhotoDownload(data?: any) {
     const self = this
     return new PhotoDownloadEntity(self,data)
   }
 
 
-  _photo_station?: PhotoStationEntity
-
-  // Idiomatic facade: `client.photo_station.list()` / `client.photo_station.load({ id })`.
-  get photo_station(): PhotoStationEntity {
-    return (this._photo_station ??= new PhotoStationEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.photo_station` instead. */
+  // Entity access: `client.PhotoStation().list()` / `client.PhotoStation().load({ id })`.
   PhotoStation(data?: any) {
     const self = this
     return new PhotoStationEntity(self,data)
   }
 
 
-  _photo_upload?: PhotoUploadEntity
-
-  // Idiomatic facade: `client.photo_upload.list()` / `client.photo_upload.load({ id })`.
-  get photo_upload(): PhotoUploadEntity {
-    return (this._photo_upload ??= new PhotoUploadEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.photo_upload` instead. */
+  // Entity access: `client.PhotoUpload().list()` / `client.PhotoUpload().load({ id })`.
   PhotoUpload(data?: any) {
     const self = this
     return new PhotoUploadEntity(self,data)
   }
 
 
-  _photographer?: PhotographerEntity
-
-  // Idiomatic facade: `client.photographer.list()` / `client.photographer.load({ id })`.
-  get photographer(): PhotographerEntity {
-    return (this._photographer ??= new PhotographerEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.photographer` instead. */
+  // Entity access: `client.Photographer().list()` / `client.Photographer().load({ id })`.
   Photographer(data?: any) {
     const self = this
     return new PhotographerEntity(self,data)
   }
 
 
-  _profile?: ProfileEntity
-
-  // Idiomatic facade: `client.profile.list()` / `client.profile.load({ id })`.
-  get profile(): ProfileEntity {
-    return (this._profile ??= new ProfileEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.profile` instead. */
+  // Entity access: `client.Profile().list()` / `client.Profile().load({ id })`.
   Profile(data?: any) {
     const self = this
     return new ProfileEntity(self,data)
   }
 
 
-  _public_inbox?: PublicInboxEntity
-
-  // Idiomatic facade: `client.public_inbox.list()` / `client.public_inbox.load({ id })`.
-  get public_inbox(): PublicInboxEntity {
-    return (this._public_inbox ??= new PublicInboxEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.public_inbox` instead. */
+  // Entity access: `client.PublicInbox().list()` / `client.PublicInbox().load({ id })`.
   PublicInbox(data?: any) {
     const self = this
     return new PublicInboxEntity(self,data)
   }
 
 
-  _stat?: StatEntity
-
-  // Idiomatic facade: `client.stat.list()` / `client.stat.load({ id })`.
-  get stat(): StatEntity {
-    return (this._stat ??= new StatEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.stat` instead. */
+  // Entity access: `client.Stat().list()` / `client.Stat().load({ id })`.
   Stat(data?: any) {
     const self = this
     return new StatEntity(self,data)

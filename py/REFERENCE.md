@@ -140,7 +140,7 @@ Prepare a fetch definition without sending. Returns the `fetchdef` and raises on
 ## AdminInboxEntity
 
 ```python
-admin_inbox = client.admin_inbox
+admin_inbox = client.AdminInbox()
 ```
 
 ### Fields
@@ -168,10 +168,10 @@ admin_inbox = client.admin_inbox
 Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-result = client.admin_inbox.create({
-    "command": # `$STRING`,
-    "message": # `$STRING`,
-    "status": # `$INTEGER`,
+result = client.AdminInbox().create({
+    "command": ...,  # `$STRING`
+    "message": ...,  # `$STRING`
+    "status": ...,  # `$INTEGER`
 })
 ```
 
@@ -207,7 +207,7 @@ Return the entity name.
 ## CountryEntity
 
 ```python
-country = client.country
+country = client.Country()
 ```
 
 ### Fields
@@ -231,7 +231,9 @@ country = client.country
 List entities matching the given criteria. Returns a list and raises on error.
 
 ```python
-results = client.country.list({})
+results = client.Country().list({})
+for country in results:
+    print(country)
 ```
 
 ### Common Methods
@@ -266,7 +268,7 @@ Return the entity name.
 ## InboxEntity
 
 ```python
-inbox = client.inbox
+inbox = client.Inbox()
 ```
 
 ### Fields
@@ -298,8 +300,8 @@ inbox = client.inbox
 Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-result = client.inbox.create({
-    "state": # `$STRING`,
+result = client.Inbox().create({
+    "state": ...,  # `$STRING`
 })
 ```
 
@@ -308,7 +310,9 @@ result = client.inbox.create({
 List entities matching the given criteria. Returns a list and raises on error.
 
 ```python
-results = client.inbox.list({})
+results = client.Inbox().list({})
+for inbox in results:
+    print(inbox)
 ```
 
 #### `remove(reqmatch, ctrl=None) -> dict`
@@ -316,7 +320,7 @@ results = client.inbox.list({})
 Remove the entity matching the given criteria. Raises on error.
 
 ```python
-result = client.inbox.remove({"id": "inbox_id"})
+result = client.Inbox().remove({"id": "inbox_id"})
 ```
 
 ### Common Methods
@@ -351,7 +355,7 @@ Return the entity name.
 ## InboxCountEntity
 
 ```python
-inbox_count = client.inbox_count
+inbox_count = client.InboxCount()
 ```
 
 ### Fields
@@ -367,7 +371,7 @@ inbox_count = client.inbox_count
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.inbox_count.load({"id": "inbox_count_id"})
+result = client.InboxCount().load({"id": "inbox_count_id"})
 ```
 
 ### Common Methods
@@ -402,7 +406,7 @@ Return the entity name.
 ## InboxEntryEntity
 
 ```python
-inbox_entry = client.inbox_entry
+inbox_entry = client.InboxEntry()
 ```
 
 ### Fields
@@ -439,7 +443,9 @@ inbox_entry = client.inbox_entry
 List entities matching the given criteria. Returns a list and raises on error.
 
 ```python
-results = client.inbox_entry.list({})
+results = client.InboxEntry().list({})
+for inbox_entry in results:
+    print(inbox_entry)
 ```
 
 ### Common Methods
@@ -474,7 +480,7 @@ Return the entity name.
 ## InboxStateQueryEntity
 
 ```python
-inbox_state_query = client.inbox_state_query
+inbox_state_query = client.InboxStateQuery()
 ```
 
 ### Common Methods
@@ -509,7 +515,7 @@ Return the entity name.
 ## OAuthTokenEntity
 
 ```python
-o_auth_token = client.o_auth_token
+o_auth_token = client.OAuthToken()
 ```
 
 ### Fields
@@ -529,10 +535,10 @@ o_auth_token = client.o_auth_token
 Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-result = client.o_auth_token.create({
-    "access_token": # `$STRING`,
-    "scope": # `$STRING`,
-    "token_type": # `$STRING`,
+result = client.OAuthToken().create({
+    "access_token": ...,  # `$STRING`
+    "scope": ...,  # `$STRING`
+    "token_type": ...,  # `$STRING`
 })
 ```
 
@@ -568,7 +574,7 @@ Return the entity name.
 ## OauthEntity
 
 ```python
-oauth = client.oauth
+oauth = client.Oauth()
 ```
 
 ### Operations
@@ -578,7 +584,7 @@ oauth = client.oauth
 Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-result = client.oauth.create({
+result = client.Oauth().create({
 })
 ```
 
@@ -587,7 +593,7 @@ result = client.oauth.create({
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.oauth.load({"id": "oauth_id"})
+result = client.Oauth().load({"id": "oauth_id"})
 ```
 
 ### Common Methods
@@ -622,7 +628,7 @@ Return the entity name.
 ## PhotoEntity
 
 ```python
-photo = client.photo
+photo = client.Photo()
 ```
 
 ### Operations
@@ -632,7 +638,7 @@ photo = client.photo
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.photo.load({"id": "photo_id"})
+result = client.Photo().load({"id": "photo_id"})
 ```
 
 ### Common Methods
@@ -667,7 +673,7 @@ Return the entity name.
 ## PhotoDownloadEntity
 
 ```python
-photo_download = client.photo_download
+photo_download = client.PhotoDownload()
 ```
 
 ### Operations
@@ -677,7 +683,7 @@ photo_download = client.photo_download
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.photo_download.load({"id": "photo_download_id"})
+result = client.PhotoDownload().load({"id": "photo_download_id"})
 ```
 
 ### Common Methods
@@ -712,7 +718,7 @@ Return the entity name.
 ## PhotoStationEntity
 
 ```python
-photo_station = client.photo_station
+photo_station = client.PhotoStation()
 ```
 
 ### Fields
@@ -731,7 +737,9 @@ photo_station = client.photo_station
 List entities matching the given criteria. Returns a list and raises on error.
 
 ```python
-results = client.photo_station.list({})
+results = client.PhotoStation().list({})
+for photo_station in results:
+    print(photo_station)
 ```
 
 #### `load(reqmatch, ctrl=None) -> dict`
@@ -739,7 +747,7 @@ results = client.photo_station.list({})
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.photo_station.load({"id": "photo_station_id"})
+result = client.PhotoStation().load({"id": "photo_station_id"})
 ```
 
 ### Common Methods
@@ -774,7 +782,7 @@ Return the entity name.
 ## PhotoUploadEntity
 
 ```python
-photo_upload = client.photo_upload
+photo_upload = client.PhotoUpload()
 ```
 
 ### Operations
@@ -784,7 +792,7 @@ photo_upload = client.photo_upload
 Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-result = client.photo_upload.create({
+result = client.PhotoUpload().create({
 })
 ```
 
@@ -820,7 +828,7 @@ Return the entity name.
 ## PhotographerEntity
 
 ```python
-photographer = client.photographer
+photographer = client.Photographer()
 ```
 
 ### Operations
@@ -830,7 +838,7 @@ photographer = client.photographer
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.photographer.load({"id": "photographer_id"})
+result = client.Photographer().load({"id": "photographer_id"})
 ```
 
 ### Common Methods
@@ -865,7 +873,7 @@ Return the entity name.
 ## ProfileEntity
 
 ```python
-profile = client.profile
+profile = client.Profile()
 ```
 
 ### Fields
@@ -905,11 +913,11 @@ profile = client.profile
 Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-result = client.profile.create({
-    "license": # `$STRING`,
-    "new_password": # `$STRING`,
-    "nickname": # `$STRING`,
-    "photo_owner": # `$BOOLEAN`,
+result = client.Profile().create({
+    "license": ...,  # `$STRING`
+    "new_password": ...,  # `$STRING`
+    "nickname": ...,  # `$STRING`
+    "photo_owner": ...,  # `$BOOLEAN`
 })
 ```
 
@@ -918,7 +926,7 @@ result = client.profile.create({
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.profile.load({"id": "profile_id"})
+result = client.Profile().load({"id": "profile_id"})
 ```
 
 #### `remove(reqmatch, ctrl=None) -> dict`
@@ -926,7 +934,7 @@ result = client.profile.load({"id": "profile_id"})
 Remove the entity matching the given criteria. Raises on error.
 
 ```python
-result = client.profile.remove({"id": "profile_id"})
+result = client.Profile().remove({"id": "profile_id"})
 ```
 
 ### Common Methods
@@ -961,7 +969,7 @@ Return the entity name.
 ## PublicInboxEntity
 
 ```python
-public_inbox = client.public_inbox
+public_inbox = client.PublicInbox()
 ```
 
 ### Fields
@@ -981,7 +989,9 @@ public_inbox = client.public_inbox
 List entities matching the given criteria. Returns a list and raises on error.
 
 ```python
-results = client.public_inbox.list({})
+results = client.PublicInbox().list({})
+for public_inbox in results:
+    print(public_inbox)
 ```
 
 ### Common Methods
@@ -1016,7 +1026,7 @@ Return the entity name.
 ## StatEntity
 
 ```python
-stat = client.stat
+stat = client.Stat()
 ```
 
 ### Fields
@@ -1036,7 +1046,7 @@ stat = client.stat
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.stat.load({"id": "stat_id"})
+result = client.Stat().load({"id": "stat_id"})
 ```
 
 ### Common Methods

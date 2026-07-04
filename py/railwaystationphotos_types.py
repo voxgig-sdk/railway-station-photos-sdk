@@ -4,381 +4,372 @@
 # params (op.<name>.points[].args.params[]). Field/param types come from the
 # canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 # @voxgig/apidef VALID_CANON). Do not edit by hand.
+#
+# These are TypedDicts, not dataclasses: the SDK ops return/accept plain dicts
+# at runtime, and a TypedDict IS a dict shape, so the types match the runtime.
+# Optional (req:false) keys are modelled as TypedDict key-optionality
+# (total=False), split into a required base + total=False subclass when a type
+# has both required and optional keys.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import Optional, Any
+from typing import TypedDict, Any
 
 
-@dataclass
-class AdminInbox:
+class AdminInboxRequired(TypedDict):
     command: str
     id: int
     message: str
     status: int
-    active: Optional[bool] = None
-    conflict_resolution: Optional[str] = None
-    country_code: Optional[str] = None
-    ds100: Optional[str] = None
-    lat: Optional[float] = None
-    lon: Optional[float] = None
-    reject_reason: Optional[str] = None
-    station_id: Optional[str] = None
-    title: Optional[str] = None
 
 
-@dataclass
-class AdminInboxCreateData:
-    active: Optional[bool] = None
-    command: Optional[str] = None
-    conflict_resolution: Optional[str] = None
-    country_code: Optional[str] = None
-    ds100: Optional[str] = None
-    id: Optional[int] = None
-    lat: Optional[float] = None
-    lon: Optional[float] = None
-    message: Optional[str] = None
-    reject_reason: Optional[str] = None
-    station_id: Optional[str] = None
-    status: Optional[int] = None
-    title: Optional[str] = None
+class AdminInbox(AdminInboxRequired, total=False):
+    active: bool
+    conflict_resolution: str
+    country_code: str
+    ds100: str
+    lat: float
+    lon: float
+    reject_reason: str
+    station_id: str
+    title: str
 
 
-@dataclass
-class Country:
+class AdminInboxCreateData(TypedDict, total=False):
+    active: bool
+    command: str
+    conflict_resolution: str
+    country_code: str
+    ds100: str
+    id: int
+    lat: float
+    lon: float
+    message: str
+    reject_reason: str
+    station_id: str
+    status: int
+    title: str
+
+
+class CountryRequired(TypedDict):
     active: bool
     allow_photo_upload: bool
     code: str
     name: str
-    email: Optional[str] = None
-    message: Optional[str] = None
-    override_license: Optional[str] = None
-    provider_app: Optional[list] = None
-    timetable_url_template: Optional[str] = None
 
 
-@dataclass
-class CountryListMatch:
-    active: Optional[bool] = None
-    allow_photo_upload: Optional[bool] = None
-    code: Optional[str] = None
-    email: Optional[str] = None
-    message: Optional[str] = None
-    name: Optional[str] = None
-    override_license: Optional[str] = None
-    provider_app: Optional[list] = None
-    timetable_url_template: Optional[str] = None
+class Country(CountryRequired, total=False):
+    email: str
+    message: str
+    override_license: str
+    provider_app: list
+    timetable_url_template: str
 
 
-@dataclass
-class Inbox:
+class CountryListMatch(TypedDict, total=False):
+    active: bool
+    allow_photo_upload: bool
+    code: str
+    email: str
+    message: str
+    name: str
+    override_license: str
+    provider_app: list
+    timetable_url_template: str
+
+
+class InboxRequired(TypedDict):
     id: int
     state: str
-    comment: Optional[str] = None
-    country_code: Optional[str] = None
-    crc32: Optional[int] = None
-    created_at: Optional[int] = None
-    filename: Optional[str] = None
-    inbox_url: Optional[str] = None
-    lat: Optional[float] = None
-    lon: Optional[float] = None
-    new_lat: Optional[float] = None
-    new_lon: Optional[float] = None
-    new_title: Optional[str] = None
-    problem_report_type: Optional[str] = None
-    rejected_reason: Optional[str] = None
-    station_id: Optional[str] = None
-    title: Optional[str] = None
 
 
-@dataclass
-class InboxListMatch:
-    comment: Optional[str] = None
-    country_code: Optional[str] = None
-    crc32: Optional[int] = None
-    created_at: Optional[int] = None
-    filename: Optional[str] = None
-    id: Optional[int] = None
-    inbox_url: Optional[str] = None
-    lat: Optional[float] = None
-    lon: Optional[float] = None
-    new_lat: Optional[float] = None
-    new_lon: Optional[float] = None
-    new_title: Optional[str] = None
-    problem_report_type: Optional[str] = None
-    rejected_reason: Optional[str] = None
-    state: Optional[str] = None
-    station_id: Optional[str] = None
-    title: Optional[str] = None
+class Inbox(InboxRequired, total=False):
+    comment: str
+    country_code: str
+    crc32: int
+    created_at: int
+    filename: str
+    inbox_url: str
+    lat: float
+    lon: float
+    new_lat: float
+    new_lon: float
+    new_title: str
+    problem_report_type: str
+    rejected_reason: str
+    station_id: str
+    title: str
 
 
-@dataclass
-class InboxCreateData:
-    comment: Optional[str] = None
-    country_code: Optional[str] = None
-    crc32: Optional[int] = None
-    created_at: Optional[int] = None
-    filename: Optional[str] = None
-    id: Optional[int] = None
-    inbox_url: Optional[str] = None
-    lat: Optional[float] = None
-    lon: Optional[float] = None
-    new_lat: Optional[float] = None
-    new_lon: Optional[float] = None
-    new_title: Optional[str] = None
-    problem_report_type: Optional[str] = None
-    rejected_reason: Optional[str] = None
-    state: Optional[str] = None
-    station_id: Optional[str] = None
-    title: Optional[str] = None
+class InboxListMatch(TypedDict, total=False):
+    comment: str
+    country_code: str
+    crc32: int
+    created_at: int
+    filename: str
+    id: int
+    inbox_url: str
+    lat: float
+    lon: float
+    new_lat: float
+    new_lon: float
+    new_title: str
+    problem_report_type: str
+    rejected_reason: str
+    state: str
+    station_id: str
+    title: str
 
 
-@dataclass
-class InboxRemoveMatch:
+class InboxCreateData(TypedDict, total=False):
+    comment: str
+    country_code: str
+    crc32: int
+    created_at: int
+    filename: str
+    id: int
+    inbox_url: str
+    lat: float
+    lon: float
+    new_lat: float
+    new_lon: float
+    new_title: str
+    problem_report_type: str
+    rejected_reason: str
+    state: str
+    station_id: str
+    title: str
+
+
+class InboxRemoveMatch(TypedDict):
     id: int
 
 
-@dataclass
-class InboxCount:
+class InboxCount(TypedDict):
     pending_inbox_entry: int
 
 
-@dataclass
-class InboxCountLoadMatch:
-    pending_inbox_entry: Optional[int] = None
+class InboxCountLoadMatch(TypedDict, total=False):
+    pending_inbox_entry: int
 
 
-@dataclass
-class InboxEntry:
+class InboxEntryRequired(TypedDict):
     comment: str
     created_at: int
     done: bool
     has_photo: bool
     id: int
     photographer_nickname: str
-    active: Optional[bool] = None
-    country_code: Optional[str] = None
-    filename: Optional[str] = None
-    has_conflict: Optional[bool] = None
-    inbox_url: Optional[str] = None
-    is_processed: Optional[bool] = None
-    lat: Optional[float] = None
-    lon: Optional[float] = None
-    new_lat: Optional[float] = None
-    new_lon: Optional[float] = None
-    new_title: Optional[str] = None
-    photo_id: Optional[int] = None
-    photographer_email: Optional[str] = None
-    problem_report_type: Optional[str] = None
-    station_id: Optional[str] = None
-    title: Optional[str] = None
 
 
-@dataclass
-class InboxEntryListMatch:
-    active: Optional[bool] = None
-    comment: Optional[str] = None
-    country_code: Optional[str] = None
-    created_at: Optional[int] = None
-    done: Optional[bool] = None
-    filename: Optional[str] = None
-    has_conflict: Optional[bool] = None
-    has_photo: Optional[bool] = None
-    id: Optional[int] = None
-    inbox_url: Optional[str] = None
-    is_processed: Optional[bool] = None
-    lat: Optional[float] = None
-    lon: Optional[float] = None
-    new_lat: Optional[float] = None
-    new_lon: Optional[float] = None
-    new_title: Optional[str] = None
-    photo_id: Optional[int] = None
-    photographer_email: Optional[str] = None
-    photographer_nickname: Optional[str] = None
-    problem_report_type: Optional[str] = None
-    station_id: Optional[str] = None
-    title: Optional[str] = None
+class InboxEntry(InboxEntryRequired, total=False):
+    active: bool
+    country_code: str
+    filename: str
+    has_conflict: bool
+    inbox_url: str
+    is_processed: bool
+    lat: float
+    lon: float
+    new_lat: float
+    new_lon: float
+    new_title: str
+    photo_id: int
+    photographer_email: str
+    problem_report_type: str
+    station_id: str
+    title: str
 
 
-@dataclass
-class InboxStateQuery:
+class InboxEntryListMatch(TypedDict, total=False):
+    active: bool
+    comment: str
+    country_code: str
+    created_at: int
+    done: bool
+    filename: str
+    has_conflict: bool
+    has_photo: bool
+    id: int
+    inbox_url: str
+    is_processed: bool
+    lat: float
+    lon: float
+    new_lat: float
+    new_lon: float
+    new_title: str
+    photo_id: int
+    photographer_email: str
+    photographer_nickname: str
+    problem_report_type: str
+    station_id: str
+    title: str
+
+
+class InboxStateQuery(TypedDict):
     pass
 
 
-@dataclass
-class OAuthToken:
+class OAuthTokenRequired(TypedDict):
     access_token: str
     scope: str
     token_type: str
-    expires_in: Optional[int] = None
-    refresh_token: Optional[str] = None
 
 
-@dataclass
-class OAuthTokenCreateData:
-    access_token: Optional[str] = None
-    expires_in: Optional[int] = None
-    refresh_token: Optional[str] = None
-    scope: Optional[str] = None
-    token_type: Optional[str] = None
+class OAuthToken(OAuthTokenRequired, total=False):
+    expires_in: int
+    refresh_token: str
 
 
-@dataclass
-class Oauth:
+class OAuthTokenCreateData(TypedDict, total=False):
+    access_token: str
+    expires_in: int
+    refresh_token: str
+    scope: str
+    token_type: str
+
+
+class Oauth(TypedDict):
     pass
 
 
-@dataclass
-class OauthLoadMatch:
+class OauthLoadMatch(TypedDict):
     pass
 
 
-@dataclass
-class OauthCreateData:
+class OauthCreateData(TypedDict):
     pass
 
 
-@dataclass
-class Photo:
+class Photo(TypedDict):
     pass
 
 
-@dataclass
-class PhotoLoadMatch:
+class PhotoLoadMatch(TypedDict):
     country: str
     filename: str
 
 
-@dataclass
-class PhotoDownload:
+class PhotoDownload(TypedDict):
     pass
 
 
-@dataclass
-class PhotoDownloadLoadMatch:
+class PhotoDownloadLoadMatch(TypedDict):
     filename: str
 
 
-@dataclass
-class PhotoStation:
+class PhotoStation(TypedDict):
     license: list
     photo_base_url: str
     photographer: list
     station: list
 
 
-@dataclass
-class PhotoStationLoadMatch:
+class PhotoStationLoadMatch(TypedDict):
     country: str
     photographer: str
 
 
-@dataclass
-class PhotoStationListMatch:
+class PhotoStationListMatch(TypedDict):
     country: str
     id: str
 
 
-@dataclass
-class PhotoUpload:
+class PhotoUpload(TypedDict):
     pass
 
 
-@dataclass
-class PhotoUploadCreateData:
+class PhotoUploadCreateData(TypedDict):
     pass
 
 
-@dataclass
-class Photographer:
+class Photographer(TypedDict):
     pass
 
 
-@dataclass
-class PhotographerLoadMatch:
+class PhotographerLoadMatch(TypedDict):
     pass
 
 
-@dataclass
-class Profile:
+class ProfileRequired(TypedDict):
     license: str
     new_password: str
     nickname: str
     photo_owner: bool
-    admin: Optional[bool] = None
-    anonymous: Optional[bool] = None
-    email: Optional[str] = None
-    email_verified: Optional[bool] = None
-    link: Optional[str] = None
-    send_notification: Optional[bool] = None
 
 
-@dataclass
-class ProfileLoadMatch:
+class Profile(ProfileRequired, total=False):
+    admin: bool
+    anonymous: bool
+    email: str
+    email_verified: bool
+    link: str
+    send_notification: bool
+
+
+class ProfileLoadMatch(TypedDict):
     token: str
 
 
-@dataclass
-class ProfileCreateData:
-    admin: Optional[bool] = None
-    anonymous: Optional[bool] = None
-    email: Optional[str] = None
-    email_verified: Optional[bool] = None
-    license: Optional[str] = None
-    link: Optional[str] = None
-    new_password: Optional[str] = None
-    nickname: Optional[str] = None
-    photo_owner: Optional[bool] = None
-    send_notification: Optional[bool] = None
+class ProfileCreateData(TypedDict, total=False):
+    admin: bool
+    anonymous: bool
+    email: str
+    email_verified: bool
+    license: str
+    link: str
+    new_password: str
+    nickname: str
+    photo_owner: bool
+    send_notification: bool
 
 
-@dataclass
-class ProfileRemoveMatch:
-    admin: Optional[bool] = None
-    anonymous: Optional[bool] = None
-    email: Optional[str] = None
-    email_verified: Optional[bool] = None
-    license: Optional[str] = None
-    link: Optional[str] = None
-    new_password: Optional[str] = None
-    nickname: Optional[str] = None
-    photo_owner: Optional[bool] = None
-    send_notification: Optional[bool] = None
+class ProfileRemoveMatch(TypedDict, total=False):
+    admin: bool
+    anonymous: bool
+    email: str
+    email_verified: bool
+    license: str
+    link: str
+    new_password: str
+    nickname: str
+    photo_owner: bool
+    send_notification: bool
 
 
-@dataclass
-class PublicInbox:
+class PublicInboxRequired(TypedDict):
     lat: float
     lon: float
     title: str
-    country_code: Optional[str] = None
-    station_id: Optional[str] = None
 
 
-@dataclass
-class PublicInboxListMatch:
-    country_code: Optional[str] = None
-    lat: Optional[float] = None
-    lon: Optional[float] = None
-    station_id: Optional[str] = None
-    title: Optional[str] = None
+class PublicInbox(PublicInboxRequired, total=False):
+    country_code: str
+    station_id: str
 
 
-@dataclass
-class Stat:
+class PublicInboxListMatch(TypedDict, total=False):
+    country_code: str
+    lat: float
+    lon: float
+    station_id: str
+    title: str
+
+
+class StatRequired(TypedDict):
     photographer: int
     total: int
     with_photo: int
     without_photo: int
-    country_code: Optional[str] = None
 
 
-@dataclass
-class StatLoadMatch:
-    country_code: Optional[str] = None
-    photographer: Optional[int] = None
-    total: Optional[int] = None
-    with_photo: Optional[int] = None
-    without_photo: Optional[int] = None
+class Stat(StatRequired, total=False):
+    country_code: str
 
+
+class StatLoadMatch(TypedDict, total=False):
+    country_code: str
+    photographer: int
+    total: int
+    with_photo: int
+    without_photo: int

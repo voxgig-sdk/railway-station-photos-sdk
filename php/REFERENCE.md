@@ -145,7 +145,7 @@ Prepare a fetch definition without sending the request. Returns the
 ## AdminInboxEntity
 
 ```php
-$admin_inbox = $client->admin_inbox();
+$admin_inbox = $client->AdminInbox();
 ```
 
 ### Fields
@@ -173,7 +173,7 @@ $admin_inbox = $client->admin_inbox();
 Create a new entity with the given data. Throws on error.
 
 ```php
-$result = $client->admin_inbox()->create([
+$result = $client->AdminInbox()->create([
   "command" => /* `$STRING` */,
   "message" => /* `$STRING` */,
   "status" => /* `$INTEGER` */,
@@ -213,7 +213,7 @@ Return the entity name.
 ## CountryEntity
 
 ```php
-$country = $client->country();
+$country = $client->Country();
 ```
 
 ### Fields
@@ -237,7 +237,7 @@ $country = $client->country();
 List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-$results = $client->country()->list([]);
+$results = $client->Country()->list([]);
 ```
 
 ### Common Methods
@@ -273,7 +273,7 @@ Return the entity name.
 ## InboxEntity
 
 ```php
-$inbox = $client->inbox();
+$inbox = $client->Inbox();
 ```
 
 ### Fields
@@ -305,7 +305,7 @@ $inbox = $client->inbox();
 Create a new entity with the given data. Throws on error.
 
 ```php
-$result = $client->inbox()->create([
+$result = $client->Inbox()->create([
   "state" => /* `$STRING` */,
 ]);
 ```
@@ -315,7 +315,7 @@ $result = $client->inbox()->create([
 List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-$results = $client->inbox()->list([]);
+$results = $client->Inbox()->list([]);
 ```
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
@@ -323,7 +323,7 @@ $results = $client->inbox()->list([]);
 Remove the entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->inbox()->remove(["id" => "inbox_id"]);
+$result = $client->Inbox()->remove(["id" => "inbox_id"]);
 ```
 
 ### Common Methods
@@ -359,7 +359,7 @@ Return the entity name.
 ## InboxCountEntity
 
 ```php
-$inbox_count = $client->inbox_count();
+$inbox_count = $client->InboxCount();
 ```
 
 ### Fields
@@ -375,7 +375,7 @@ $inbox_count = $client->inbox_count();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->inbox_count()->load(["id" => "inbox_count_id"]);
+$result = $client->InboxCount()->load(["id" => "inbox_count_id"]);
 ```
 
 ### Common Methods
@@ -411,7 +411,7 @@ Return the entity name.
 ## InboxEntryEntity
 
 ```php
-$inbox_entry = $client->inbox_entry();
+$inbox_entry = $client->InboxEntry();
 ```
 
 ### Fields
@@ -448,7 +448,7 @@ $inbox_entry = $client->inbox_entry();
 List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-$results = $client->inbox_entry()->list([]);
+$results = $client->InboxEntry()->list([]);
 ```
 
 ### Common Methods
@@ -484,7 +484,7 @@ Return the entity name.
 ## InboxStateQueryEntity
 
 ```php
-$inbox_state_query = $client->inbox_state_query();
+$inbox_state_query = $client->InboxStateQuery();
 ```
 
 ### Common Methods
@@ -520,7 +520,7 @@ Return the entity name.
 ## OAuthTokenEntity
 
 ```php
-$o_auth_token = $client->o_auth_token();
+$o_auth_token = $client->OAuthToken();
 ```
 
 ### Fields
@@ -540,7 +540,7 @@ $o_auth_token = $client->o_auth_token();
 Create a new entity with the given data. Throws on error.
 
 ```php
-$result = $client->o_auth_token()->create([
+$result = $client->OAuthToken()->create([
   "access_token" => /* `$STRING` */,
   "scope" => /* `$STRING` */,
   "token_type" => /* `$STRING` */,
@@ -580,7 +580,7 @@ Return the entity name.
 ## OauthEntity
 
 ```php
-$oauth = $client->oauth();
+$oauth = $client->Oauth();
 ```
 
 ### Operations
@@ -590,7 +590,7 @@ $oauth = $client->oauth();
 Create a new entity with the given data. Throws on error.
 
 ```php
-$result = $client->oauth()->create([
+$result = $client->Oauth()->create([
 ]);
 ```
 
@@ -599,7 +599,7 @@ $result = $client->oauth()->create([
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->oauth()->load(["id" => "oauth_id"]);
+$result = $client->Oauth()->load(["id" => "oauth_id"]);
 ```
 
 ### Common Methods
@@ -635,7 +635,7 @@ Return the entity name.
 ## PhotoEntity
 
 ```php
-$photo = $client->photo();
+$photo = $client->Photo();
 ```
 
 ### Operations
@@ -645,7 +645,7 @@ $photo = $client->photo();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->photo()->load(["id" => "photo_id"]);
+$result = $client->Photo()->load(["id" => "photo_id"]);
 ```
 
 ### Common Methods
@@ -681,7 +681,7 @@ Return the entity name.
 ## PhotoDownloadEntity
 
 ```php
-$photo_download = $client->photo_download();
+$photo_download = $client->PhotoDownload();
 ```
 
 ### Operations
@@ -691,7 +691,7 @@ $photo_download = $client->photo_download();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->photo_download()->load(["id" => "photo_download_id"]);
+$result = $client->PhotoDownload()->load(["id" => "photo_download_id"]);
 ```
 
 ### Common Methods
@@ -727,7 +727,7 @@ Return the entity name.
 ## PhotoStationEntity
 
 ```php
-$photo_station = $client->photo_station();
+$photo_station = $client->PhotoStation();
 ```
 
 ### Fields
@@ -746,7 +746,7 @@ $photo_station = $client->photo_station();
 List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-$results = $client->photo_station()->list([]);
+$results = $client->PhotoStation()->list([]);
 ```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
@@ -754,7 +754,7 @@ $results = $client->photo_station()->list([]);
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->photo_station()->load(["id" => "photo_station_id"]);
+$result = $client->PhotoStation()->load(["id" => "photo_station_id"]);
 ```
 
 ### Common Methods
@@ -790,7 +790,7 @@ Return the entity name.
 ## PhotoUploadEntity
 
 ```php
-$photo_upload = $client->photo_upload();
+$photo_upload = $client->PhotoUpload();
 ```
 
 ### Operations
@@ -800,7 +800,7 @@ $photo_upload = $client->photo_upload();
 Create a new entity with the given data. Throws on error.
 
 ```php
-$result = $client->photo_upload()->create([
+$result = $client->PhotoUpload()->create([
 ]);
 ```
 
@@ -837,7 +837,7 @@ Return the entity name.
 ## PhotographerEntity
 
 ```php
-$photographer = $client->photographer();
+$photographer = $client->Photographer();
 ```
 
 ### Operations
@@ -847,7 +847,7 @@ $photographer = $client->photographer();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->photographer()->load(["id" => "photographer_id"]);
+$result = $client->Photographer()->load(["id" => "photographer_id"]);
 ```
 
 ### Common Methods
@@ -883,7 +883,7 @@ Return the entity name.
 ## ProfileEntity
 
 ```php
-$profile = $client->profile();
+$profile = $client->Profile();
 ```
 
 ### Fields
@@ -923,7 +923,7 @@ $profile = $client->profile();
 Create a new entity with the given data. Throws on error.
 
 ```php
-$result = $client->profile()->create([
+$result = $client->Profile()->create([
   "license" => /* `$STRING` */,
   "new_password" => /* `$STRING` */,
   "nickname" => /* `$STRING` */,
@@ -936,7 +936,7 @@ $result = $client->profile()->create([
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->profile()->load(["id" => "profile_id"]);
+$result = $client->Profile()->load(["id" => "profile_id"]);
 ```
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
@@ -944,7 +944,7 @@ $result = $client->profile()->load(["id" => "profile_id"]);
 Remove the entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->profile()->remove(["id" => "profile_id"]);
+$result = $client->Profile()->remove(["id" => "profile_id"]);
 ```
 
 ### Common Methods
@@ -980,7 +980,7 @@ Return the entity name.
 ## PublicInboxEntity
 
 ```php
-$public_inbox = $client->public_inbox();
+$public_inbox = $client->PublicInbox();
 ```
 
 ### Fields
@@ -1000,7 +1000,7 @@ $public_inbox = $client->public_inbox();
 List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-$results = $client->public_inbox()->list([]);
+$results = $client->PublicInbox()->list([]);
 ```
 
 ### Common Methods
@@ -1036,7 +1036,7 @@ Return the entity name.
 ## StatEntity
 
 ```php
-$stat = $client->stat();
+$stat = $client->Stat();
 ```
 
 ### Fields
@@ -1056,7 +1056,7 @@ $stat = $client->stat();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->stat()->load(["id" => "stat_id"]);
+$result = $client->Stat()->load(["id" => "stat_id"]);
 ```
 
 ### Common Methods

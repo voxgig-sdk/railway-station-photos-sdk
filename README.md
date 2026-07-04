@@ -143,22 +143,27 @@ in-memory mock, so unit tests run offline.
 
 ```ts
 const client = RailwayStationPhotosSDK.test()
-const result = await client.admininbox.load({ id: 'test01' })
-// result.ok === true, result.data contains mock data
+const admininbox = await client.AdminInbox().load({ id: 1 })
+// admininbox is a bare AdminInbox populated with mock data
+console.log(admininbox)
 ```
 
 ### Python
 
 ```python
 client = RailwayStationPhotosSDK.test()
-result = client.admininbox.load({"id": "test01"})
+admininbox = client.AdminInbox().load({"id": "test01"})
+print(admininbox)
 ```
 
 ### PHP
 
 ```php
-$client = RailwayStationPhotosSDK::test();
-$result = $client->admininbox()->load(["id" => "test01"]);
+// Seed fixture data so offline calls resolve without a live server.
+$client = RailwayStationPhotosSDK::test([
+    "entity" => ["admininbox" => ["test01" => ["id" => "test01"]]],
+]);
+$admininbox = $client->AdminInbox()->load(["id" => "test01"]);
 ```
 
 ### Golang
@@ -173,15 +178,18 @@ result, err := client.AdminInbox(nil).Load(
 ### Ruby
 
 ```ruby
-client = RailwayStationPhotosSDK.test
-result = client.admininbox.load({ "id" => "test01" })
+# Seed fixture data so offline calls resolve without a live server.
+client = RailwayStationPhotosSDK.test({
+  "entity" => { "admininbox" => { "test01" => { "id" => "test01" } } },
+})
+admininbox = client.AdminInbox.load({ "id" => "test01" })
 ```
 
 ### Lua
 
 ```lua
 local client = sdk.test()
-local result, err = client:admininbox():load({ id = "test01" })
+local result, err = client:AdminInbox():load({ id = "test01" })
 ```
 
 ## How it works
@@ -229,6 +237,9 @@ const result = await client.direct({
   method: 'GET',
   params: { id: 'example' },
 })
+if (result instanceof Error) {
+  throw result
+}
 console.log(result.data)
 ```
 

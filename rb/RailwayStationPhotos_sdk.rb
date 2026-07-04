@@ -208,208 +208,112 @@ class RailwayStationPhotosSDK
   end
 
 
-  # Idiomatic facade: client.admin_inbox.list / client.admin_inbox.load({ "id" => ... })
-  def admin_inbox
-    require_relative 'entity/admin_inbox_entity'
-    @admin_inbox ||= AdminInboxEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.admin_inbox instead.
+  # Canonical facade: client.AdminInbox.list / client.AdminInbox.load({ "id" => ... })
   def AdminInbox(data = nil)
     require_relative 'entity/admin_inbox_entity'
     AdminInboxEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.country.list / client.country.load({ "id" => ... })
-  def country
-    require_relative 'entity/country_entity'
-    @country ||= CountryEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.country instead.
+  # Canonical facade: client.Country.list / client.Country.load({ "id" => ... })
   def Country(data = nil)
     require_relative 'entity/country_entity'
     CountryEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.inbox.list / client.inbox.load({ "id" => ... })
-  def inbox
-    require_relative 'entity/inbox_entity'
-    @inbox ||= InboxEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.inbox instead.
+  # Canonical facade: client.Inbox.list / client.Inbox.load({ "id" => ... })
   def Inbox(data = nil)
     require_relative 'entity/inbox_entity'
     InboxEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.inbox_count.list / client.inbox_count.load({ "id" => ... })
-  def inbox_count
-    require_relative 'entity/inbox_count_entity'
-    @inbox_count ||= InboxCountEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.inbox_count instead.
+  # Canonical facade: client.InboxCount.list / client.InboxCount.load({ "id" => ... })
   def InboxCount(data = nil)
     require_relative 'entity/inbox_count_entity'
     InboxCountEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.inbox_entry.list / client.inbox_entry.load({ "id" => ... })
-  def inbox_entry
-    require_relative 'entity/inbox_entry_entity'
-    @inbox_entry ||= InboxEntryEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.inbox_entry instead.
+  # Canonical facade: client.InboxEntry.list / client.InboxEntry.load({ "id" => ... })
   def InboxEntry(data = nil)
     require_relative 'entity/inbox_entry_entity'
     InboxEntryEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.inbox_state_query.list / client.inbox_state_query.load({ "id" => ... })
-  def inbox_state_query
-    require_relative 'entity/inbox_state_query_entity'
-    @inbox_state_query ||= InboxStateQueryEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.inbox_state_query instead.
+  # Canonical facade: client.InboxStateQuery.list / client.InboxStateQuery.load({ "id" => ... })
   def InboxStateQuery(data = nil)
     require_relative 'entity/inbox_state_query_entity'
     InboxStateQueryEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.o_auth_token.list / client.o_auth_token.load({ "id" => ... })
-  def o_auth_token
-    require_relative 'entity/o_auth_token_entity'
-    @o_auth_token ||= OAuthTokenEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.o_auth_token instead.
+  # Canonical facade: client.OAuthToken.list / client.OAuthToken.load({ "id" => ... })
   def OAuthToken(data = nil)
     require_relative 'entity/o_auth_token_entity'
     OAuthTokenEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.oauth.list / client.oauth.load({ "id" => ... })
-  def oauth
-    require_relative 'entity/oauth_entity'
-    @oauth ||= OauthEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.oauth instead.
+  # Canonical facade: client.Oauth.list / client.Oauth.load({ "id" => ... })
   def Oauth(data = nil)
     require_relative 'entity/oauth_entity'
     OauthEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.photo.list / client.photo.load({ "id" => ... })
-  def photo
-    require_relative 'entity/photo_entity'
-    @photo ||= PhotoEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.photo instead.
+  # Canonical facade: client.Photo.list / client.Photo.load({ "id" => ... })
   def Photo(data = nil)
     require_relative 'entity/photo_entity'
     PhotoEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.photo_download.list / client.photo_download.load({ "id" => ... })
-  def photo_download
-    require_relative 'entity/photo_download_entity'
-    @photo_download ||= PhotoDownloadEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.photo_download instead.
+  # Canonical facade: client.PhotoDownload.list / client.PhotoDownload.load({ "id" => ... })
   def PhotoDownload(data = nil)
     require_relative 'entity/photo_download_entity'
     PhotoDownloadEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.photo_station.list / client.photo_station.load({ "id" => ... })
-  def photo_station
-    require_relative 'entity/photo_station_entity'
-    @photo_station ||= PhotoStationEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.photo_station instead.
+  # Canonical facade: client.PhotoStation.list / client.PhotoStation.load({ "id" => ... })
   def PhotoStation(data = nil)
     require_relative 'entity/photo_station_entity'
     PhotoStationEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.photo_upload.list / client.photo_upload.load({ "id" => ... })
-  def photo_upload
-    require_relative 'entity/photo_upload_entity'
-    @photo_upload ||= PhotoUploadEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.photo_upload instead.
+  # Canonical facade: client.PhotoUpload.list / client.PhotoUpload.load({ "id" => ... })
   def PhotoUpload(data = nil)
     require_relative 'entity/photo_upload_entity'
     PhotoUploadEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.photographer.list / client.photographer.load({ "id" => ... })
-  def photographer
-    require_relative 'entity/photographer_entity'
-    @photographer ||= PhotographerEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.photographer instead.
+  # Canonical facade: client.Photographer.list / client.Photographer.load({ "id" => ... })
   def Photographer(data = nil)
     require_relative 'entity/photographer_entity'
     PhotographerEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.profile.list / client.profile.load({ "id" => ... })
-  def profile
-    require_relative 'entity/profile_entity'
-    @profile ||= ProfileEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.profile instead.
+  # Canonical facade: client.Profile.list / client.Profile.load({ "id" => ... })
   def Profile(data = nil)
     require_relative 'entity/profile_entity'
     ProfileEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.public_inbox.list / client.public_inbox.load({ "id" => ... })
-  def public_inbox
-    require_relative 'entity/public_inbox_entity'
-    @public_inbox ||= PublicInboxEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.public_inbox instead.
+  # Canonical facade: client.PublicInbox.list / client.PublicInbox.load({ "id" => ... })
   def PublicInbox(data = nil)
     require_relative 'entity/public_inbox_entity'
     PublicInboxEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.stat.list / client.stat.load({ "id" => ... })
-  def stat
-    require_relative 'entity/stat_entity'
-    @stat ||= StatEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.stat instead.
+  # Canonical facade: client.Stat.list / client.Stat.load({ "id" => ... })
   def Stat(data = nil)
     require_relative 'entity/stat_entity'
     StatEntity.new(self, data)

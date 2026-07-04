@@ -31,8 +31,8 @@ const client = new RailwayStationPhotosSDK()
 ### 4. Create, update, and remove
 
 ```ts
-// Create
-const created = await client.admininbox.create({
+// Create — returns the created AdminInbox
+const created = await client.AdminInbox().create({
   name: 'Example',
 })
 
@@ -52,6 +52,9 @@ const result = await client.direct({
   params: { id: 'example' },
 })
 
+if (result instanceof Error) {
+  throw result
+}
 if (result.ok) {
   console.log(result.status)  // 200
   console.log(result.data)    // response body
@@ -80,9 +83,9 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = RailwayStationPhotosSDK.test()
 
-const result = await client.admininbox.load({ id: 'test01' })
-// result.ok === true
-// result.data contains mock response data
+const admininbox = await client.AdminInbox().load({ id: 'test01' })
+// admininbox is a bare entity populated with mock response data
+console.log(admininbox)
 ```
 
 You can also use the instance method:
@@ -97,7 +100,7 @@ const testClient = client.tester()
 Entity instances remember their last match and data:
 
 ```ts
-const entity = client.admininbox
+const entity = client.AdminInbox()
 
 // First call sets internal match
 await entity.load({ id: 'example' })
@@ -175,14 +178,14 @@ new RailwayStationPhotosSDK(options?: {
 | `utility()` | `Utility` | Deep copy of the SDK utility object. |
 | `prepare(fetchargs?)` | `Promise<FetchDef>` | Build an HTTP request definition without sending it. |
 | `direct(fetchargs?)` | `Promise<DirectResult>` | Build and send an HTTP request. |
-| `AdminInbox(data?)` | `AdminInboxEntity` | Create a AdminInbox entity instance. |
+| `AdminInbox(data?)` | `AdminInboxEntity` | Create an AdminInbox entity instance. |
 | `Country(data?)` | `CountryEntity` | Create a Country entity instance. |
-| `Inbox(data?)` | `InboxEntity` | Create a Inbox entity instance. |
-| `InboxCount(data?)` | `InboxCountEntity` | Create a InboxCount entity instance. |
-| `InboxEntry(data?)` | `InboxEntryEntity` | Create a InboxEntry entity instance. |
-| `InboxStateQuery(data?)` | `InboxStateQueryEntity` | Create a InboxStateQuery entity instance. |
-| `OAuthToken(data?)` | `OAuthTokenEntity` | Create a OAuthToken entity instance. |
-| `Oauth(data?)` | `OauthEntity` | Create a Oauth entity instance. |
+| `Inbox(data?)` | `InboxEntity` | Create an Inbox entity instance. |
+| `InboxCount(data?)` | `InboxCountEntity` | Create an InboxCount entity instance. |
+| `InboxEntry(data?)` | `InboxEntryEntity` | Create an InboxEntry entity instance. |
+| `InboxStateQuery(data?)` | `InboxStateQueryEntity` | Create an InboxStateQuery entity instance. |
+| `OAuthToken(data?)` | `OAuthTokenEntity` | Create an OAuthToken entity instance. |
+| `Oauth(data?)` | `OauthEntity` | Create an Oauth entity instance. |
 | `Photo(data?)` | `PhotoEntity` | Create a Photo entity instance. |
 | `PhotoDownload(data?)` | `PhotoDownloadEntity` | Create a PhotoDownload entity instance. |
 | `PhotoStation(data?)` | `PhotoStationEntity` | Create a PhotoStation entity instance. |
@@ -207,29 +210,30 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `load(reqmatch?, ctrl?): Promise<Result>` | Load a single entity by match criteria. |
-| `list` | `list(reqmatch?, ctrl?): Promise<Result>` | List entities matching the criteria. |
-| `create` | `create(reqdata?, ctrl?): Promise<Result>` | Create a new entity. |
-| `update` | `update(reqdata?, ctrl?): Promise<Result>` | Update an existing entity. |
-| `remove` | `remove(reqmatch?, ctrl?): Promise<Result>` | Remove an entity. |
+| `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria. |
+| `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria. |
+| `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity. |
+| `update` | `update(reqdata?, ctrl?): Promise<Entity>` | Update an existing entity. |
+| `remove` | `remove(reqmatch?, ctrl?): Promise<void>` | Remove an entity. |
 | `data` | `data(data?): any` | Get or set entity data. |
 | `match` | `match(match?): any` | Get or set entity match criteria. |
 | `make` | `make(): Entity` | Create a new instance with the same options. |
 | `client` | `client(): RailwayStationPhotosSDK` | Return the parent SDK client. |
 | `entopts` | `entopts(): object` | Return a copy of the entity options. |
 
-#### Result shape
+#### Return values
 
-All entity operations return a Result object:
+Entity operations resolve to the entity data directly — there is no
+result envelope:
 
-```ts
-{
-  ok: boolean      // true if the HTTP status is 2xx
-  status: number   // HTTP status code
-  headers: object  // response headers
-  data: any        // parsed JSON response body
-}
-```
+- `load`, `create` and `update` resolve to a single entity object.
+- `list` resolves to an **array** of entity objects (iterate it directly;
+  there is no `.data` and no `.ok`).
+- `remove` resolves to `void`.
+
+On a failed request these methods **throw**, so wrap calls in
+`try`/`catch` to handle errors. Only `direct()` returns the result
+envelope described below.
 
 ### DirectResult shape
 
@@ -503,7 +507,7 @@ API path: `/stats`
 
 ### AdminInbox
 
-Create an instance: `const admin_inbox = client.admin_inbox`
+Create an instance: `const admin_inbox = client.AdminInbox()`
 
 #### Operations
 
@@ -532,7 +536,7 @@ Create an instance: `const admin_inbox = client.admin_inbox`
 #### Example: Create
 
 ```ts
-const admin_inbox = await client.admin_inbox.create({
+const admin_inbox = await client.AdminInbox().create({
   command: /* `$STRING` */,
   message: /* `$STRING` */,
   status: /* `$INTEGER` */,
@@ -542,7 +546,7 @@ const admin_inbox = await client.admin_inbox.create({
 
 ### Country
 
-Create an instance: `const country = client.country`
+Create an instance: `const country = client.Country()`
 
 #### Operations
 
@@ -567,13 +571,13 @@ Create an instance: `const country = client.country`
 #### Example: List
 
 ```ts
-const countrys = await client.country.list()
+const countrys = await client.Country().list()
 ```
 
 
 ### Inbox
 
-Create an instance: `const inbox = client.inbox`
+Create an instance: `const inbox = client.Inbox()`
 
 #### Operations
 
@@ -608,13 +612,13 @@ Create an instance: `const inbox = client.inbox`
 #### Example: List
 
 ```ts
-const inboxs = await client.inbox.list()
+const inboxs = await client.Inbox().list()
 ```
 
 #### Example: Create
 
 ```ts
-const inbox = await client.inbox.create({
+const inbox = await client.Inbox().create({
   state: /* `$STRING` */,
 })
 ```
@@ -622,7 +626,7 @@ const inbox = await client.inbox.create({
 
 ### InboxCount
 
-Create an instance: `const inbox_count = client.inbox_count`
+Create an instance: `const inbox_count = client.InboxCount()`
 
 #### Operations
 
@@ -639,13 +643,13 @@ Create an instance: `const inbox_count = client.inbox_count`
 #### Example: Load
 
 ```ts
-const inbox_count = await client.inbox_count.load({ id: 'inbox_count_id' })
+const inbox_count = await client.InboxCount().load({ id: 'inbox_count_id' })
 ```
 
 
 ### InboxEntry
 
-Create an instance: `const inbox_entry = client.inbox_entry`
+Create an instance: `const inbox_entry = client.InboxEntry()`
 
 #### Operations
 
@@ -683,18 +687,18 @@ Create an instance: `const inbox_entry = client.inbox_entry`
 #### Example: List
 
 ```ts
-const inbox_entrys = await client.inbox_entry.list()
+const inbox_entrys = await client.InboxEntry().list()
 ```
 
 
 ### InboxStateQuery
 
-Create an instance: `const inbox_state_query = client.inbox_state_query`
+Create an instance: `const inbox_state_query = client.InboxStateQuery()`
 
 
 ### OAuthToken
 
-Create an instance: `const o_auth_token = client.o_auth_token`
+Create an instance: `const o_auth_token = client.OAuthToken()`
 
 #### Operations
 
@@ -715,7 +719,7 @@ Create an instance: `const o_auth_token = client.o_auth_token`
 #### Example: Create
 
 ```ts
-const o_auth_token = await client.o_auth_token.create({
+const o_auth_token = await client.OAuthToken().create({
   access_token: /* `$STRING` */,
   scope: /* `$STRING` */,
   token_type: /* `$STRING` */,
@@ -725,7 +729,7 @@ const o_auth_token = await client.o_auth_token.create({
 
 ### Oauth
 
-Create an instance: `const oauth = client.oauth`
+Create an instance: `const oauth = client.Oauth()`
 
 #### Operations
 
@@ -737,20 +741,20 @@ Create an instance: `const oauth = client.oauth`
 #### Example: Load
 
 ```ts
-const oauth = await client.oauth.load({ id: 'oauth_id' })
+const oauth = await client.Oauth().load({ id: 'oauth_id' })
 ```
 
 #### Example: Create
 
 ```ts
-const oauth = await client.oauth.create({
+const oauth = await client.Oauth().create({
 })
 ```
 
 
 ### Photo
 
-Create an instance: `const photo = client.photo`
+Create an instance: `const photo = client.Photo()`
 
 #### Operations
 
@@ -761,13 +765,13 @@ Create an instance: `const photo = client.photo`
 #### Example: Load
 
 ```ts
-const photo = await client.photo.load({ id: 'photo_id' })
+const photo = await client.Photo().load({ id: 'photo_id' })
 ```
 
 
 ### PhotoDownload
 
-Create an instance: `const photo_download = client.photo_download`
+Create an instance: `const photo_download = client.PhotoDownload()`
 
 #### Operations
 
@@ -778,13 +782,13 @@ Create an instance: `const photo_download = client.photo_download`
 #### Example: Load
 
 ```ts
-const photo_download = await client.photo_download.load({ id: 'photo_download_id' })
+const photo_download = await client.PhotoDownload().load({ id: 'photo_download_id' })
 ```
 
 
 ### PhotoStation
 
-Create an instance: `const photo_station = client.photo_station`
+Create an instance: `const photo_station = client.PhotoStation()`
 
 #### Operations
 
@@ -805,19 +809,19 @@ Create an instance: `const photo_station = client.photo_station`
 #### Example: Load
 
 ```ts
-const photo_station = await client.photo_station.load({ id: 'photo_station_id' })
+const photo_station = await client.PhotoStation().load({ id: 'photo_station_id' })
 ```
 
 #### Example: List
 
 ```ts
-const photo_stations = await client.photo_station.list()
+const photo_stations = await client.PhotoStation().list()
 ```
 
 
 ### PhotoUpload
 
-Create an instance: `const photo_upload = client.photo_upload`
+Create an instance: `const photo_upload = client.PhotoUpload()`
 
 #### Operations
 
@@ -828,14 +832,14 @@ Create an instance: `const photo_upload = client.photo_upload`
 #### Example: Create
 
 ```ts
-const photo_upload = await client.photo_upload.create({
+const photo_upload = await client.PhotoUpload().create({
 })
 ```
 
 
 ### Photographer
 
-Create an instance: `const photographer = client.photographer`
+Create an instance: `const photographer = client.Photographer()`
 
 #### Operations
 
@@ -846,13 +850,13 @@ Create an instance: `const photographer = client.photographer`
 #### Example: Load
 
 ```ts
-const photographer = await client.photographer.load({ id: 'photographer_id' })
+const photographer = await client.Photographer().load({ id: 'photographer_id' })
 ```
 
 
 ### Profile
 
-Create an instance: `const profile = client.profile`
+Create an instance: `const profile = client.Profile()`
 
 #### Operations
 
@@ -880,13 +884,13 @@ Create an instance: `const profile = client.profile`
 #### Example: Load
 
 ```ts
-const profile = await client.profile.load({ id: 'profile_id' })
+const profile = await client.Profile().load({ id: 'profile_id' })
 ```
 
 #### Example: Create
 
 ```ts
-const profile = await client.profile.create({
+const profile = await client.Profile().create({
   license: /* `$STRING` */,
   new_password: /* `$STRING` */,
   nickname: /* `$STRING` */,
@@ -897,7 +901,7 @@ const profile = await client.profile.create({
 
 ### PublicInbox
 
-Create an instance: `const public_inbox = client.public_inbox`
+Create an instance: `const public_inbox = client.PublicInbox()`
 
 #### Operations
 
@@ -918,13 +922,13 @@ Create an instance: `const public_inbox = client.public_inbox`
 #### Example: List
 
 ```ts
-const public_inboxs = await client.public_inbox.list()
+const public_inboxs = await client.PublicInbox().list()
 ```
 
 
 ### Stat
 
-Create an instance: `const stat = client.stat`
+Create an instance: `const stat = client.Stat()`
 
 #### Operations
 
@@ -945,7 +949,7 @@ Create an instance: `const stat = client.stat`
 #### Example: Load
 
 ```ts
-const stat = await client.stat.load({ id: 'stat_id' })
+const stat = await client.Stat().load({ id: 'stat_id' })
 ```
 
 
@@ -1016,7 +1020,7 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const admininbox = client.admininbox
+const admininbox = client.AdminInbox()
 await admininbox.load({ id: "example_id" })
 
 // admininbox.data() now returns the loaded admininbox data

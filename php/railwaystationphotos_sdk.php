@@ -233,10 +233,10 @@ class RailwayStationPhotosSDK
 
     private $_admin_inbox = null;
 
-    // Idiomatic facade: $client->admin_inbox()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias AdminInbox() (PHP method
-    // names are case-insensitive).
-    public function admin_inbox($data = null)
+    // Canonical facade: $client->AdminInbox()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->admin_inbox()
+    // resolves here too.
+    public function AdminInbox($data = null)
     {
         require_once __DIR__ . '/entity/admin_inbox_entity.php';
         if ($data === null) {
@@ -251,10 +251,10 @@ class RailwayStationPhotosSDK
 
     private $_country = null;
 
-    // Idiomatic facade: $client->country()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias Country() (PHP method
-    // names are case-insensitive).
-    public function country($data = null)
+    // Canonical facade: $client->Country()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->country()
+    // resolves here too.
+    public function Country($data = null)
     {
         require_once __DIR__ . '/entity/country_entity.php';
         if ($data === null) {
@@ -269,10 +269,10 @@ class RailwayStationPhotosSDK
 
     private $_inbox = null;
 
-    // Idiomatic facade: $client->inbox()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias Inbox() (PHP method
-    // names are case-insensitive).
-    public function inbox($data = null)
+    // Canonical facade: $client->Inbox()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->inbox()
+    // resolves here too.
+    public function Inbox($data = null)
     {
         require_once __DIR__ . '/entity/inbox_entity.php';
         if ($data === null) {
@@ -287,10 +287,10 @@ class RailwayStationPhotosSDK
 
     private $_inbox_count = null;
 
-    // Idiomatic facade: $client->inbox_count()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias InboxCount() (PHP method
-    // names are case-insensitive).
-    public function inbox_count($data = null)
+    // Canonical facade: $client->InboxCount()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->inbox_count()
+    // resolves here too.
+    public function InboxCount($data = null)
     {
         require_once __DIR__ . '/entity/inbox_count_entity.php';
         if ($data === null) {
@@ -305,10 +305,10 @@ class RailwayStationPhotosSDK
 
     private $_inbox_entry = null;
 
-    // Idiomatic facade: $client->inbox_entry()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias InboxEntry() (PHP method
-    // names are case-insensitive).
-    public function inbox_entry($data = null)
+    // Canonical facade: $client->InboxEntry()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->inbox_entry()
+    // resolves here too.
+    public function InboxEntry($data = null)
     {
         require_once __DIR__ . '/entity/inbox_entry_entity.php';
         if ($data === null) {
@@ -323,10 +323,10 @@ class RailwayStationPhotosSDK
 
     private $_inbox_state_query = null;
 
-    // Idiomatic facade: $client->inbox_state_query()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias InboxStateQuery() (PHP method
-    // names are case-insensitive).
-    public function inbox_state_query($data = null)
+    // Canonical facade: $client->InboxStateQuery()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->inbox_state_query()
+    // resolves here too.
+    public function InboxStateQuery($data = null)
     {
         require_once __DIR__ . '/entity/inbox_state_query_entity.php';
         if ($data === null) {
@@ -341,10 +341,10 @@ class RailwayStationPhotosSDK
 
     private $_o_auth_token = null;
 
-    // Idiomatic facade: $client->o_auth_token()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias OAuthToken() (PHP method
-    // names are case-insensitive).
-    public function o_auth_token($data = null)
+    // Canonical facade: $client->OAuthToken()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->o_auth_token()
+    // resolves here too.
+    public function OAuthToken($data = null)
     {
         require_once __DIR__ . '/entity/o_auth_token_entity.php';
         if ($data === null) {
@@ -359,10 +359,10 @@ class RailwayStationPhotosSDK
 
     private $_oauth = null;
 
-    // Idiomatic facade: $client->oauth()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias Oauth() (PHP method
-    // names are case-insensitive).
-    public function oauth($data = null)
+    // Canonical facade: $client->Oauth()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->oauth()
+    // resolves here too.
+    public function Oauth($data = null)
     {
         require_once __DIR__ . '/entity/oauth_entity.php';
         if ($data === null) {
@@ -377,10 +377,10 @@ class RailwayStationPhotosSDK
 
     private $_photo = null;
 
-    // Idiomatic facade: $client->photo()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias Photo() (PHP method
-    // names are case-insensitive).
-    public function photo($data = null)
+    // Canonical facade: $client->Photo()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->photo()
+    // resolves here too.
+    public function Photo($data = null)
     {
         require_once __DIR__ . '/entity/photo_entity.php';
         if ($data === null) {
@@ -395,10 +395,10 @@ class RailwayStationPhotosSDK
 
     private $_photo_download = null;
 
-    // Idiomatic facade: $client->photo_download()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias PhotoDownload() (PHP method
-    // names are case-insensitive).
-    public function photo_download($data = null)
+    // Canonical facade: $client->PhotoDownload()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->photo_download()
+    // resolves here too.
+    public function PhotoDownload($data = null)
     {
         require_once __DIR__ . '/entity/photo_download_entity.php';
         if ($data === null) {
@@ -413,10 +413,10 @@ class RailwayStationPhotosSDK
 
     private $_photo_station = null;
 
-    // Idiomatic facade: $client->photo_station()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias PhotoStation() (PHP method
-    // names are case-insensitive).
-    public function photo_station($data = null)
+    // Canonical facade: $client->PhotoStation()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->photo_station()
+    // resolves here too.
+    public function PhotoStation($data = null)
     {
         require_once __DIR__ . '/entity/photo_station_entity.php';
         if ($data === null) {
@@ -431,10 +431,10 @@ class RailwayStationPhotosSDK
 
     private $_photo_upload = null;
 
-    // Idiomatic facade: $client->photo_upload()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias PhotoUpload() (PHP method
-    // names are case-insensitive).
-    public function photo_upload($data = null)
+    // Canonical facade: $client->PhotoUpload()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->photo_upload()
+    // resolves here too.
+    public function PhotoUpload($data = null)
     {
         require_once __DIR__ . '/entity/photo_upload_entity.php';
         if ($data === null) {
@@ -449,10 +449,10 @@ class RailwayStationPhotosSDK
 
     private $_photographer = null;
 
-    // Idiomatic facade: $client->photographer()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias Photographer() (PHP method
-    // names are case-insensitive).
-    public function photographer($data = null)
+    // Canonical facade: $client->Photographer()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->photographer()
+    // resolves here too.
+    public function Photographer($data = null)
     {
         require_once __DIR__ . '/entity/photographer_entity.php';
         if ($data === null) {
@@ -467,10 +467,10 @@ class RailwayStationPhotosSDK
 
     private $_profile = null;
 
-    // Idiomatic facade: $client->profile()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias Profile() (PHP method
-    // names are case-insensitive).
-    public function profile($data = null)
+    // Canonical facade: $client->Profile()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->profile()
+    // resolves here too.
+    public function Profile($data = null)
     {
         require_once __DIR__ . '/entity/profile_entity.php';
         if ($data === null) {
@@ -485,10 +485,10 @@ class RailwayStationPhotosSDK
 
     private $_public_inbox = null;
 
-    // Idiomatic facade: $client->public_inbox()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias PublicInbox() (PHP method
-    // names are case-insensitive).
-    public function public_inbox($data = null)
+    // Canonical facade: $client->PublicInbox()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->public_inbox()
+    // resolves here too.
+    public function PublicInbox($data = null)
     {
         require_once __DIR__ . '/entity/public_inbox_entity.php';
         if ($data === null) {
@@ -503,10 +503,10 @@ class RailwayStationPhotosSDK
 
     private $_stat = null;
 
-    // Idiomatic facade: $client->stat()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias Stat() (PHP method
-    // names are case-insensitive).
-    public function stat($data = null)
+    // Canonical facade: $client->Stat()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->stat()
+    // resolves here too.
+    public function Stat($data = null)
     {
         require_once __DIR__ . '/entity/stat_entity.php';
         if ($data === null) {

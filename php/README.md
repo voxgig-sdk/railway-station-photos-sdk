@@ -32,8 +32,8 @@ $client = new RailwayStationPhotosSDK();
 ### 4. Create, update, and remove
 
 ```php
-// Create
-$created = $client->admininbox()->create(["name" => "Example"]);
+// create() returns the bare created AdminInbox record.
+$created = $client->AdminInbox()->create(["name" => "Example"]);
 
 ```
 
@@ -78,13 +78,17 @@ print_r($fetchdef["headers"]);
 
 ### Use test mode
 
-Create a mock client for unit testing — no server required:
+Create a mock client for unit testing — no server required. Seed fixture
+data via the `entity` option so offline calls resolve without a live server:
 
 ```php
-$client = RailwayStationPhotosSDK::test();
+$client = RailwayStationPhotosSDK::test([
+    "entity" => ["admininbox" => ["test01" => ["id" => "test01"]]],
+]);
 
-$result = $client->admininbox()->load(["id" => "test01"]);
-// $result contains mock response data
+// load() returns the bare mock record (throws on error).
+$admininbox = $client->AdminInbox()->load(["id" => "test01"]);
+print_r($admininbox);
 ```
 
 ### Use a custom fetch function
@@ -163,14 +167,14 @@ Creates a test-mode client with mock transport. Both arguments may be `null`.
 | `get_utility` | `(): Utility` | Copy of the SDK utility object. |
 | `prepare` | `(array $fetchargs): array` | Build an HTTP request definition without sending. |
 | `direct` | `(array $fetchargs): array` | Build and send an HTTP request. |
-| `AdminInbox` | `($data): AdminInboxEntity` | Create a AdminInbox entity instance. |
+| `AdminInbox` | `($data): AdminInboxEntity` | Create an AdminInbox entity instance. |
 | `Country` | `($data): CountryEntity` | Create a Country entity instance. |
-| `Inbox` | `($data): InboxEntity` | Create a Inbox entity instance. |
-| `InboxCount` | `($data): InboxCountEntity` | Create a InboxCount entity instance. |
-| `InboxEntry` | `($data): InboxEntryEntity` | Create a InboxEntry entity instance. |
-| `InboxStateQuery` | `($data): InboxStateQueryEntity` | Create a InboxStateQuery entity instance. |
-| `OAuthToken` | `($data): OAuthTokenEntity` | Create a OAuthToken entity instance. |
-| `Oauth` | `($data): OauthEntity` | Create a Oauth entity instance. |
+| `Inbox` | `($data): InboxEntity` | Create an Inbox entity instance. |
+| `InboxCount` | `($data): InboxCountEntity` | Create an InboxCount entity instance. |
+| `InboxEntry` | `($data): InboxEntryEntity` | Create an InboxEntry entity instance. |
+| `InboxStateQuery` | `($data): InboxStateQueryEntity` | Create an InboxStateQuery entity instance. |
+| `OAuthToken` | `($data): OAuthTokenEntity` | Create an OAuthToken entity instance. |
+| `Oauth` | `($data): OauthEntity` | Create an Oauth entity instance. |
 | `Photo` | `($data): PhotoEntity` | Create a Photo entity instance. |
 | `PhotoDownload` | `($data): PhotoDownloadEntity` | Create a PhotoDownload entity instance. |
 | `PhotoStation` | `($data): PhotoStationEntity` | Create a PhotoStation entity instance. |
@@ -460,7 +464,7 @@ API path: `/stats`
 
 ### AdminInbox
 
-Create an instance: `const admin_inbox = client.admin_inbox`
+Create an instance: `$admin_inbox = $client->AdminInbox();`
 
 #### Operations
 
@@ -488,18 +492,18 @@ Create an instance: `const admin_inbox = client.admin_inbox`
 
 #### Example: Create
 
-```ts
-const admin_inbox = await client.admin_inbox.create({
-  command: /* `$STRING` */,
-  message: /* `$STRING` */,
-  status: /* `$INTEGER` */,
-})
+```php
+$admin_inbox = $client->AdminInbox()->create([
+    "command" => null, // `$STRING`
+    "message" => null, // `$STRING`
+    "status" => null, // `$INTEGER`
+]);
 ```
 
 
 ### Country
 
-Create an instance: `const country = client.country`
+Create an instance: `$country = $client->Country();`
 
 #### Operations
 
@@ -523,14 +527,15 @@ Create an instance: `const country = client.country`
 
 #### Example: List
 
-```ts
-const countrys = await client.country.list()
+```php
+// list() returns an array of Country records (throws on error).
+$countrys = $client->Country()->list();
 ```
 
 
 ### Inbox
 
-Create an instance: `const inbox = client.inbox`
+Create an instance: `$inbox = $client->Inbox();`
 
 #### Operations
 
@@ -564,22 +569,23 @@ Create an instance: `const inbox = client.inbox`
 
 #### Example: List
 
-```ts
-const inboxs = await client.inbox.list()
+```php
+// list() returns an array of Inbox records (throws on error).
+$inboxs = $client->Inbox()->list();
 ```
 
 #### Example: Create
 
-```ts
-const inbox = await client.inbox.create({
-  state: /* `$STRING` */,
-})
+```php
+$inbox = $client->Inbox()->create([
+    "state" => null, // `$STRING`
+]);
 ```
 
 
 ### InboxCount
 
-Create an instance: `const inbox_count = client.inbox_count`
+Create an instance: `$inbox_count = $client->InboxCount();`
 
 #### Operations
 
@@ -595,14 +601,15 @@ Create an instance: `const inbox_count = client.inbox_count`
 
 #### Example: Load
 
-```ts
-const inbox_count = await client.inbox_count.load({ id: 'inbox_count_id' })
+```php
+// load() returns the bare InboxCount record (throws on error).
+$inbox_count = $client->InboxCount()->load(["id" => "inbox_count_id"]);
 ```
 
 
 ### InboxEntry
 
-Create an instance: `const inbox_entry = client.inbox_entry`
+Create an instance: `$inbox_entry = $client->InboxEntry();`
 
 #### Operations
 
@@ -639,19 +646,20 @@ Create an instance: `const inbox_entry = client.inbox_entry`
 
 #### Example: List
 
-```ts
-const inbox_entrys = await client.inbox_entry.list()
+```php
+// list() returns an array of InboxEntry records (throws on error).
+$inbox_entrys = $client->InboxEntry()->list();
 ```
 
 
 ### InboxStateQuery
 
-Create an instance: `const inbox_state_query = client.inbox_state_query`
+Create an instance: `$inbox_state_query = $client->InboxStateQuery();`
 
 
 ### OAuthToken
 
-Create an instance: `const o_auth_token = client.o_auth_token`
+Create an instance: `$o_auth_token = $client->OAuthToken();`
 
 #### Operations
 
@@ -671,18 +679,18 @@ Create an instance: `const o_auth_token = client.o_auth_token`
 
 #### Example: Create
 
-```ts
-const o_auth_token = await client.o_auth_token.create({
-  access_token: /* `$STRING` */,
-  scope: /* `$STRING` */,
-  token_type: /* `$STRING` */,
-})
+```php
+$o_auth_token = $client->OAuthToken()->create([
+    "access_token" => null, // `$STRING`
+    "scope" => null, // `$STRING`
+    "token_type" => null, // `$STRING`
+]);
 ```
 
 
 ### Oauth
 
-Create an instance: `const oauth = client.oauth`
+Create an instance: `$oauth = $client->Oauth();`
 
 #### Operations
 
@@ -693,21 +701,22 @@ Create an instance: `const oauth = client.oauth`
 
 #### Example: Load
 
-```ts
-const oauth = await client.oauth.load({ id: 'oauth_id' })
+```php
+// load() returns the bare Oauth record (throws on error).
+$oauth = $client->Oauth()->load(["id" => "oauth_id"]);
 ```
 
 #### Example: Create
 
-```ts
-const oauth = await client.oauth.create({
-})
+```php
+$oauth = $client->Oauth()->create([
+]);
 ```
 
 
 ### Photo
 
-Create an instance: `const photo = client.photo`
+Create an instance: `$photo = $client->Photo();`
 
 #### Operations
 
@@ -717,14 +726,15 @@ Create an instance: `const photo = client.photo`
 
 #### Example: Load
 
-```ts
-const photo = await client.photo.load({ id: 'photo_id' })
+```php
+// load() returns the bare Photo record (throws on error).
+$photo = $client->Photo()->load(["id" => "photo_id"]);
 ```
 
 
 ### PhotoDownload
 
-Create an instance: `const photo_download = client.photo_download`
+Create an instance: `$photo_download = $client->PhotoDownload();`
 
 #### Operations
 
@@ -734,14 +744,15 @@ Create an instance: `const photo_download = client.photo_download`
 
 #### Example: Load
 
-```ts
-const photo_download = await client.photo_download.load({ id: 'photo_download_id' })
+```php
+// load() returns the bare PhotoDownload record (throws on error).
+$photo_download = $client->PhotoDownload()->load(["id" => "photo_download_id"]);
 ```
 
 
 ### PhotoStation
 
-Create an instance: `const photo_station = client.photo_station`
+Create an instance: `$photo_station = $client->PhotoStation();`
 
 #### Operations
 
@@ -761,20 +772,22 @@ Create an instance: `const photo_station = client.photo_station`
 
 #### Example: Load
 
-```ts
-const photo_station = await client.photo_station.load({ id: 'photo_station_id' })
+```php
+// load() returns the bare PhotoStation record (throws on error).
+$photo_station = $client->PhotoStation()->load(["id" => "photo_station_id"]);
 ```
 
 #### Example: List
 
-```ts
-const photo_stations = await client.photo_station.list()
+```php
+// list() returns an array of PhotoStation records (throws on error).
+$photo_stations = $client->PhotoStation()->list();
 ```
 
 
 ### PhotoUpload
 
-Create an instance: `const photo_upload = client.photo_upload`
+Create an instance: `$photo_upload = $client->PhotoUpload();`
 
 #### Operations
 
@@ -784,15 +797,15 @@ Create an instance: `const photo_upload = client.photo_upload`
 
 #### Example: Create
 
-```ts
-const photo_upload = await client.photo_upload.create({
-})
+```php
+$photo_upload = $client->PhotoUpload()->create([
+]);
 ```
 
 
 ### Photographer
 
-Create an instance: `const photographer = client.photographer`
+Create an instance: `$photographer = $client->Photographer();`
 
 #### Operations
 
@@ -802,14 +815,15 @@ Create an instance: `const photographer = client.photographer`
 
 #### Example: Load
 
-```ts
-const photographer = await client.photographer.load({ id: 'photographer_id' })
+```php
+// load() returns the bare Photographer record (throws on error).
+$photographer = $client->Photographer()->load(["id" => "photographer_id"]);
 ```
 
 
 ### Profile
 
-Create an instance: `const profile = client.profile`
+Create an instance: `$profile = $client->Profile();`
 
 #### Operations
 
@@ -836,25 +850,26 @@ Create an instance: `const profile = client.profile`
 
 #### Example: Load
 
-```ts
-const profile = await client.profile.load({ id: 'profile_id' })
+```php
+// load() returns the bare Profile record (throws on error).
+$profile = $client->Profile()->load(["id" => "profile_id"]);
 ```
 
 #### Example: Create
 
-```ts
-const profile = await client.profile.create({
-  license: /* `$STRING` */,
-  new_password: /* `$STRING` */,
-  nickname: /* `$STRING` */,
-  photo_owner: /* `$BOOLEAN` */,
-})
+```php
+$profile = $client->Profile()->create([
+    "license" => null, // `$STRING`
+    "new_password" => null, // `$STRING`
+    "nickname" => null, // `$STRING`
+    "photo_owner" => null, // `$BOOLEAN`
+]);
 ```
 
 
 ### PublicInbox
 
-Create an instance: `const public_inbox = client.public_inbox`
+Create an instance: `$public_inbox = $client->PublicInbox();`
 
 #### Operations
 
@@ -874,14 +889,15 @@ Create an instance: `const public_inbox = client.public_inbox`
 
 #### Example: List
 
-```ts
-const public_inboxs = await client.public_inbox.list()
+```php
+// list() returns an array of PublicInbox records (throws on error).
+$public_inboxs = $client->PublicInbox()->list();
 ```
 
 
 ### Stat
 
-Create an instance: `const stat = client.stat`
+Create an instance: `$stat = $client->Stat();`
 
 #### Operations
 
@@ -901,8 +917,9 @@ Create an instance: `const stat = client.stat`
 
 #### Example: Load
 
-```ts
-const stat = await client.stat.load({ id: 'stat_id' })
+```php
+// load() returns the bare Stat record (throws on error).
+$stat = $client->Stat()->load(["id" => "stat_id"]);
 ```
 
 
@@ -977,7 +994,7 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```php
-$admininbox = $client->admininbox();
+$admininbox = $client->AdminInbox();
 $admininbox->load(["id" => "example_id"]);
 
 // $admininbox->dataGet() now returns the loaded admininbox data
