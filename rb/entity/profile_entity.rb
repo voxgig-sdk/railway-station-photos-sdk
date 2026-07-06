@@ -67,10 +67,12 @@ class ProfileEntity
   
   # Load a single Profile.
   #
-  # @param reqmatch [ProfileLoadMatch, Hash, nil] match criteria (id/query fields)
+  # @param reqmatch [ProfileLoadMatch, Hash, nil] match criteria (id/query fields);
+  #   optional — an entity with no id-like key loads with no match (nil is treated
+  #   as an empty match, so client.Profile.load works with no args).
   # @param ctrl [Object, nil] optional per-call control
   # @return [Profile, Hash] the loaded Profile; raises RailwayStationPhotosError on failure
-  def load(reqmatch, ctrl = nil)
+  def load(reqmatch = nil, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
       "opname" => "load",
@@ -129,7 +131,7 @@ class ProfileEntity
   # @param reqmatch [ProfileRemoveMatch, Hash, nil] match criteria (id/query fields)
   # @param ctrl [Object, nil] optional per-call control
   # @return [Profile, Hash] the removed Profile; raises RailwayStationPhotosError on failure
-  def remove(reqmatch, ctrl = nil)
+  def remove(reqmatch = nil, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
       "opname" => "remove",

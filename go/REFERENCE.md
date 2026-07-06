@@ -157,19 +157,19 @@ admin_inbox := client.AdminInbox(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `active` | ``$BOOLEAN`` | No |  |
-| `command` | ``$STRING`` | Yes |  |
-| `conflict_resolution` | ``$STRING`` | No |  |
-| `country_code` | ``$STRING`` | No |  |
-| `ds100` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `lat` | ``$NUMBER`` | No |  |
-| `lon` | ``$NUMBER`` | No |  |
-| `message` | ``$STRING`` | Yes |  |
-| `reject_reason` | ``$STRING`` | No |  |
-| `station_id` | ``$STRING`` | No |  |
-| `status` | ``$INTEGER`` | Yes |  |
-| `title` | ``$STRING`` | No |  |
+| `active` | `bool` | No |  |
+| `command` | `string` | Yes |  |
+| `conflict_resolution` | `string` | No |  |
+| `country_code` | `string` | No |  |
+| `ds100` | `string` | No |  |
+| `id` | `int` | Yes |  |
+| `lat` | `float64` | No |  |
+| `lon` | `float64` | No |  |
+| `message` | `string` | Yes |  |
+| `reject_reason` | `string` | No |  |
+| `station_id` | `string` | No |  |
+| `status` | `int` | Yes |  |
+| `title` | `string` | No |  |
 
 ### Operations
 
@@ -179,9 +179,9 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.AdminInbox(nil).Create(map[string]any{
-    "command": /* `$STRING` */,
-    "message": /* `$STRING` */,
-    "status": /* `$INTEGER` */,
+    "command": /* string */,
+    "message": /* string */,
+    "status": /* int */,
 }, nil)
 ```
 
@@ -219,15 +219,15 @@ country := client.Country(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `active` | ``$BOOLEAN`` | Yes |  |
-| `allow_photo_upload` | ``$BOOLEAN`` | Yes |  |
-| `code` | ``$STRING`` | Yes |  |
-| `email` | ``$STRING`` | No |  |
-| `message` | ``$STRING`` | No |  |
-| `name` | ``$STRING`` | Yes |  |
-| `override_license` | ``$STRING`` | No |  |
-| `provider_app` | ``$ARRAY`` | No |  |
-| `timetable_url_template` | ``$STRING`` | No |  |
+| `active` | `bool` | Yes |  |
+| `allow_photo_upload` | `bool` | Yes |  |
+| `code` | `string` | Yes |  |
+| `email` | `string` | No |  |
+| `message` | `string` | No |  |
+| `name` | `string` | Yes |  |
+| `override_license` | `string` | No |  |
+| `provider_app` | `[]any` | No |  |
+| `timetable_url_template` | `string` | No |  |
 
 ### Operations
 
@@ -273,23 +273,23 @@ inbox := client.Inbox(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `comment` | ``$STRING`` | No |  |
-| `country_code` | ``$STRING`` | No |  |
-| `crc32` | ``$INTEGER`` | No |  |
-| `created_at` | ``$INTEGER`` | No |  |
-| `filename` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `inbox_url` | ``$STRING`` | No |  |
-| `lat` | ``$NUMBER`` | No |  |
-| `lon` | ``$NUMBER`` | No |  |
-| `new_lat` | ``$NUMBER`` | No |  |
-| `new_lon` | ``$NUMBER`` | No |  |
-| `new_title` | ``$STRING`` | No |  |
-| `problem_report_type` | ``$STRING`` | No |  |
-| `rejected_reason` | ``$STRING`` | No |  |
-| `state` | ``$STRING`` | Yes |  |
-| `station_id` | ``$STRING`` | No |  |
-| `title` | ``$STRING`` | No |  |
+| `comment` | `string` | No |  |
+| `country_code` | `string` | No |  |
+| `crc32` | `int` | No |  |
+| `created_at` | `int` | No |  |
+| `filename` | `string` | No |  |
+| `id` | `int` | Yes |  |
+| `inbox_url` | `string` | No |  |
+| `lat` | `float64` | No |  |
+| `lon` | `float64` | No |  |
+| `new_lat` | `float64` | No |  |
+| `new_lon` | `float64` | No |  |
+| `new_title` | `string` | No |  |
+| `problem_report_type` | `string` | No |  |
+| `rejected_reason` | `string` | No |  |
+| `state` | `string` | Yes |  |
+| `station_id` | `string` | No |  |
+| `title` | `string` | No |  |
 
 ### Operations
 
@@ -299,7 +299,7 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.Inbox(nil).Create(map[string]any{
-    "state": /* `$STRING` */,
+    "state": /* string */,
 }, nil)
 ```
 
@@ -316,7 +316,7 @@ results, err := client.Inbox(nil).List(nil, nil)
 Remove the entity matching the given criteria.
 
 ```go
-result, err := client.Inbox(nil).Remove(map[string]any{"id": "inbox_id"}, nil)
+result, err := client.Inbox(nil).Remove(nil, nil)
 ```
 
 ### Common Methods
@@ -353,7 +353,7 @@ inbox_count := client.InboxCount(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `pending_inbox_entry` | ``$INTEGER`` | Yes |  |
+| `pending_inbox_entry` | `int` | Yes |  |
 
 ### Operations
 
@@ -362,7 +362,7 @@ inbox_count := client.InboxCount(nil)
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.InboxCount(nil).Load(map[string]any{"id": "inbox_count_id"}, nil)
+result, err := client.InboxCount(nil).Load(nil, nil)
 ```
 
 ### Common Methods
@@ -399,28 +399,28 @@ inbox_entry := client.InboxEntry(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `active` | ``$BOOLEAN`` | No |  |
-| `comment` | ``$STRING`` | Yes |  |
-| `country_code` | ``$STRING`` | No |  |
-| `created_at` | ``$INTEGER`` | Yes |  |
-| `done` | ``$BOOLEAN`` | Yes |  |
-| `filename` | ``$STRING`` | No |  |
-| `has_conflict` | ``$BOOLEAN`` | No |  |
-| `has_photo` | ``$BOOLEAN`` | Yes |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `inbox_url` | ``$STRING`` | No |  |
-| `is_processed` | ``$BOOLEAN`` | No |  |
-| `lat` | ``$NUMBER`` | No |  |
-| `lon` | ``$NUMBER`` | No |  |
-| `new_lat` | ``$NUMBER`` | No |  |
-| `new_lon` | ``$NUMBER`` | No |  |
-| `new_title` | ``$STRING`` | No |  |
-| `photo_id` | ``$INTEGER`` | No |  |
-| `photographer_email` | ``$STRING`` | No |  |
-| `photographer_nickname` | ``$STRING`` | Yes |  |
-| `problem_report_type` | ``$STRING`` | No |  |
-| `station_id` | ``$STRING`` | No |  |
-| `title` | ``$STRING`` | No |  |
+| `active` | `bool` | No |  |
+| `comment` | `string` | Yes |  |
+| `country_code` | `string` | No |  |
+| `created_at` | `int` | Yes |  |
+| `done` | `bool` | Yes |  |
+| `filename` | `string` | No |  |
+| `has_conflict` | `bool` | No |  |
+| `has_photo` | `bool` | Yes |  |
+| `id` | `int` | Yes |  |
+| `inbox_url` | `string` | No |  |
+| `is_processed` | `bool` | No |  |
+| `lat` | `float64` | No |  |
+| `lon` | `float64` | No |  |
+| `new_lat` | `float64` | No |  |
+| `new_lon` | `float64` | No |  |
+| `new_title` | `string` | No |  |
+| `photo_id` | `int` | No |  |
+| `photographer_email` | `string` | No |  |
+| `photographer_nickname` | `string` | Yes |  |
+| `problem_report_type` | `string` | No |  |
+| `station_id` | `string` | No |  |
+| `title` | `string` | No |  |
 
 ### Operations
 
@@ -496,11 +496,11 @@ o_auth_token := client.OAuthToken(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `access_token` | ``$STRING`` | Yes |  |
-| `expires_in` | ``$INTEGER`` | No |  |
-| `refresh_token` | ``$STRING`` | No |  |
-| `scope` | ``$STRING`` | Yes |  |
-| `token_type` | ``$STRING`` | Yes |  |
+| `access_token` | `string` | Yes |  |
+| `expires_in` | `int` | No |  |
+| `refresh_token` | `string` | No |  |
+| `scope` | `string` | Yes |  |
+| `token_type` | `string` | Yes |  |
 
 ### Operations
 
@@ -510,9 +510,9 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.OAuthToken(nil).Create(map[string]any{
-    "access_token": /* `$STRING` */,
-    "scope": /* `$STRING` */,
-    "token_type": /* `$STRING` */,
+    "access_token": /* string */,
+    "scope": /* string */,
+    "token_type": /* string */,
 }, nil)
 ```
 
@@ -562,7 +562,7 @@ result, err := client.Oauth(nil).Create(map[string]any{
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.Oauth(nil).Load(map[string]any{"id": "oauth_id"}, nil)
+result, err := client.Oauth(nil).Load(nil, nil)
 ```
 
 ### Common Methods
@@ -602,7 +602,7 @@ photo := client.Photo(nil)
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.Photo(nil).Load(map[string]any{"id": "photo_id"}, nil)
+result, err := client.Photo(nil).Load(nil, nil)
 ```
 
 ### Common Methods
@@ -642,7 +642,7 @@ photo_download := client.PhotoDownload(nil)
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.PhotoDownload(nil).Load(map[string]any{"id": "photo_download_id"}, nil)
+result, err := client.PhotoDownload(nil).Load(nil, nil)
 ```
 
 ### Common Methods
@@ -679,10 +679,10 @@ photo_station := client.PhotoStation(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `license` | ``$ARRAY`` | Yes |  |
-| `photo_base_url` | ``$STRING`` | Yes |  |
-| `photographer` | ``$ARRAY`` | Yes |  |
-| `station` | ``$ARRAY`` | Yes |  |
+| `license` | `[]any` | Yes |  |
+| `photo_base_url` | `string` | Yes |  |
+| `photographer` | `[]any` | Yes |  |
+| `station` | `[]any` | Yes |  |
 
 ### Operations
 
@@ -699,7 +699,7 @@ results, err := client.PhotoStation(nil).List(nil, nil)
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.PhotoStation(nil).Load(map[string]any{"id": "photo_station_id"}, nil)
+result, err := client.PhotoStation(nil).Load(nil, nil)
 ```
 
 ### Common Methods
@@ -780,7 +780,7 @@ photographer := client.Photographer(nil)
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.Photographer(nil).Load(map[string]any{"id": "photographer_id"}, nil)
+result, err := client.Photographer(nil).Load(nil, nil)
 ```
 
 ### Common Methods
@@ -817,31 +817,31 @@ profile := client.Profile(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `admin` | ``$BOOLEAN`` | No |  |
-| `anonymous` | ``$BOOLEAN`` | No |  |
-| `email` | ``$STRING`` | No |  |
-| `email_verified` | ``$BOOLEAN`` | No |  |
-| `license` | ``$STRING`` | Yes |  |
-| `link` | ``$STRING`` | No |  |
-| `new_password` | ``$STRING`` | Yes |  |
-| `nickname` | ``$STRING`` | Yes |  |
-| `photo_owner` | ``$BOOLEAN`` | Yes |  |
-| `send_notification` | ``$BOOLEAN`` | No |  |
+| `admin` | `bool` | No |  |
+| `anonymous` | `bool` | No |  |
+| `email` | `string` | No |  |
+| `email_verified` | `bool` | No |  |
+| `license` | `string` | Yes |  |
+| `link` | `string` | No |  |
+| `new_password` | `string` | Yes |  |
+| `nickname` | `string` | Yes |  |
+| `photo_owner` | `bool` | Yes |  |
+| `send_notification` | `bool` | No |  |
 
 ### Field Usage by Operation
 
-| Field | load | list | create | update | remove |
-| --- | --- | --- | --- | --- | --- |
-| `admin` | - | - | - | - | - |
-| `anonymous` | - | - | - | - | - |
-| `email` | - | - | Yes | - | - |
-| `email_verified` | - | - | - | - | - |
-| `license` | - | - | Yes | - | - |
-| `link` | - | - | - | - | - |
-| `new_password` | - | - | - | - | - |
-| `nickname` | - | - | - | - | - |
-| `photo_owner` | - | - | Yes | - | - |
-| `send_notification` | - | - | - | - | - |
+| Field | load | create | remove |
+| --- | --- | --- | --- |
+| `admin` | - | - | - |
+| `anonymous` | - | - | - |
+| `email` | - | Yes | - |
+| `email_verified` | - | - | - |
+| `license` | - | Yes | - |
+| `link` | - | - | - |
+| `new_password` | - | - | - |
+| `nickname` | - | - | - |
+| `photo_owner` | - | Yes | - |
+| `send_notification` | - | - | - |
 
 ### Operations
 
@@ -851,10 +851,10 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.Profile(nil).Create(map[string]any{
-    "license": /* `$STRING` */,
-    "new_password": /* `$STRING` */,
-    "nickname": /* `$STRING` */,
-    "photo_owner": /* `$BOOLEAN` */,
+    "license": /* string */,
+    "new_password": /* string */,
+    "nickname": /* string */,
+    "photo_owner": /* bool */,
 }, nil)
 ```
 
@@ -863,7 +863,7 @@ result, err := client.Profile(nil).Create(map[string]any{
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.Profile(nil).Load(map[string]any{"id": "profile_id"}, nil)
+result, err := client.Profile(nil).Load(nil, nil)
 ```
 
 #### `Remove(reqmatch, ctrl map[string]any) (any, error)`
@@ -871,7 +871,7 @@ result, err := client.Profile(nil).Load(map[string]any{"id": "profile_id"}, nil)
 Remove the entity matching the given criteria.
 
 ```go
-result, err := client.Profile(nil).Remove(map[string]any{"id": "profile_id"}, nil)
+result, err := client.Profile(nil).Remove(nil, nil)
 ```
 
 ### Common Methods
@@ -908,11 +908,11 @@ public_inbox := client.PublicInbox(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `country_code` | ``$STRING`` | No |  |
-| `lat` | ``$NUMBER`` | Yes |  |
-| `lon` | ``$NUMBER`` | Yes |  |
-| `station_id` | ``$STRING`` | No |  |
-| `title` | ``$STRING`` | Yes |  |
+| `country_code` | `string` | No |  |
+| `lat` | `float64` | Yes |  |
+| `lon` | `float64` | Yes |  |
+| `station_id` | `string` | No |  |
+| `title` | `string` | Yes |  |
 
 ### Operations
 
@@ -958,11 +958,11 @@ stat := client.Stat(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `country_code` | ``$STRING`` | No |  |
-| `photographer` | ``$INTEGER`` | Yes |  |
-| `total` | ``$INTEGER`` | Yes |  |
-| `with_photo` | ``$INTEGER`` | Yes |  |
-| `without_photo` | ``$INTEGER`` | Yes |  |
+| `country_code` | `string` | No |  |
+| `photographer` | `int` | Yes |  |
+| `total` | `int` | Yes |  |
+| `with_photo` | `int` | Yes |  |
+| `without_photo` | `int` | Yes |  |
 
 ### Operations
 
@@ -971,7 +971,7 @@ stat := client.Stat(nil)
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.Stat(nil).Load(map[string]any{"id": "stat_id"}, nil)
+result, err := client.Stat(nil).Load(nil, nil)
 ```
 
 ### Common Methods

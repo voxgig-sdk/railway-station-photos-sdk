@@ -8,7 +8,7 @@ Complete API reference for the RailwayStationPhotos Ruby SDK.
 ### Constructor
 
 ```ruby
-require_relative 'railway-station-photos_sdk'
+require_relative 'RailwayStationPhotos_sdk'
 
 client = RailwayStationPhotosSDK.new(options)
 ```
@@ -153,19 +153,19 @@ admin_inbox = client.AdminInbox
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `active` | ``$BOOLEAN`` | No |  |
-| `command` | ``$STRING`` | Yes |  |
-| `conflict_resolution` | ``$STRING`` | No |  |
-| `country_code` | ``$STRING`` | No |  |
-| `ds100` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `lat` | ``$NUMBER`` | No |  |
-| `lon` | ``$NUMBER`` | No |  |
-| `message` | ``$STRING`` | Yes |  |
-| `reject_reason` | ``$STRING`` | No |  |
-| `station_id` | ``$STRING`` | No |  |
-| `status` | ``$INTEGER`` | Yes |  |
-| `title` | ``$STRING`` | No |  |
+| `active` | `Boolean` | No |  |
+| `command` | `String` | Yes |  |
+| `conflict_resolution` | `String` | No |  |
+| `country_code` | `String` | No |  |
+| `ds100` | `String` | No |  |
+| `id` | `Integer` | Yes |  |
+| `lat` | `Float` | No |  |
+| `lon` | `Float` | No |  |
+| `message` | `String` | Yes |  |
+| `reject_reason` | `String` | No |  |
+| `station_id` | `String` | No |  |
+| `status` | `Integer` | Yes |  |
+| `title` | `String` | No |  |
 
 ### Operations
 
@@ -175,9 +175,9 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.AdminInbox.create({
-  "command" => # `$STRING`,
-  "message" => # `$STRING`,
-  "status" => # `$INTEGER`,
+  "command" => "example", # String
+  "message" => "example", # String
+  "status" => 1, # Integer
 })
 ```
 
@@ -221,24 +221,24 @@ country = client.Country
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `active` | ``$BOOLEAN`` | Yes |  |
-| `allow_photo_upload` | ``$BOOLEAN`` | Yes |  |
-| `code` | ``$STRING`` | Yes |  |
-| `email` | ``$STRING`` | No |  |
-| `message` | ``$STRING`` | No |  |
-| `name` | ``$STRING`` | Yes |  |
-| `override_license` | ``$STRING`` | No |  |
-| `provider_app` | ``$ARRAY`` | No |  |
-| `timetable_url_template` | ``$STRING`` | No |  |
+| `active` | `Boolean` | Yes |  |
+| `allow_photo_upload` | `Boolean` | Yes |  |
+| `code` | `String` | Yes |  |
+| `email` | `String` | No |  |
+| `message` | `String` | No |  |
+| `name` | `String` | Yes |  |
+| `override_license` | `String` | No |  |
+| `provider_app` | `Array` | No |  |
+| `timetable_url_template` | `String` | No |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl = nil) -> Array`
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria. Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
 
 ```ruby
-results = client.Country.list(nil)
+results = client.Country.list
 ```
 
 ### Common Methods
@@ -281,23 +281,23 @@ inbox = client.Inbox
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `comment` | ``$STRING`` | No |  |
-| `country_code` | ``$STRING`` | No |  |
-| `crc32` | ``$INTEGER`` | No |  |
-| `created_at` | ``$INTEGER`` | No |  |
-| `filename` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `inbox_url` | ``$STRING`` | No |  |
-| `lat` | ``$NUMBER`` | No |  |
-| `lon` | ``$NUMBER`` | No |  |
-| `new_lat` | ``$NUMBER`` | No |  |
-| `new_lon` | ``$NUMBER`` | No |  |
-| `new_title` | ``$STRING`` | No |  |
-| `problem_report_type` | ``$STRING`` | No |  |
-| `rejected_reason` | ``$STRING`` | No |  |
-| `state` | ``$STRING`` | Yes |  |
-| `station_id` | ``$STRING`` | No |  |
-| `title` | ``$STRING`` | No |  |
+| `comment` | `String` | No |  |
+| `country_code` | `String` | No |  |
+| `crc32` | `Integer` | No |  |
+| `created_at` | `Integer` | No |  |
+| `filename` | `String` | No |  |
+| `id` | `Integer` | Yes |  |
+| `inbox_url` | `String` | No |  |
+| `lat` | `Float` | No |  |
+| `lon` | `Float` | No |  |
+| `new_lat` | `Float` | No |  |
+| `new_lon` | `Float` | No |  |
+| `new_title` | `String` | No |  |
+| `problem_report_type` | `String` | No |  |
+| `rejected_reason` | `String` | No |  |
+| `state` | `String` | Yes |  |
+| `station_id` | `String` | No |  |
+| `title` | `String` | No |  |
 
 ### Operations
 
@@ -307,16 +307,16 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.Inbox.create({
-  "state" => # `$STRING`,
+  "state" => "example", # String
 })
 ```
 
-#### `list(reqmatch, ctrl = nil) -> Array`
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria. Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
 
 ```ruby
-results = client.Inbox.list(nil)
+results = client.Inbox.list
 ```
 
 #### `remove(reqmatch, ctrl = nil) -> result`
@@ -324,7 +324,7 @@ results = client.Inbox.list(nil)
 Remove the entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.Inbox.remove({ "id" => "inbox_id" })
+result = client.Inbox.remove()
 ```
 
 ### Common Methods
@@ -367,7 +367,7 @@ inbox_count = client.InboxCount
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `pending_inbox_entry` | ``$INTEGER`` | Yes |  |
+| `pending_inbox_entry` | `Integer` | Yes |  |
 
 ### Operations
 
@@ -376,7 +376,7 @@ inbox_count = client.InboxCount
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.InboxCount.load({ "id" => "inbox_count_id" })
+result = client.InboxCount.load()
 ```
 
 ### Common Methods
@@ -419,37 +419,37 @@ inbox_entry = client.InboxEntry
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `active` | ``$BOOLEAN`` | No |  |
-| `comment` | ``$STRING`` | Yes |  |
-| `country_code` | ``$STRING`` | No |  |
-| `created_at` | ``$INTEGER`` | Yes |  |
-| `done` | ``$BOOLEAN`` | Yes |  |
-| `filename` | ``$STRING`` | No |  |
-| `has_conflict` | ``$BOOLEAN`` | No |  |
-| `has_photo` | ``$BOOLEAN`` | Yes |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `inbox_url` | ``$STRING`` | No |  |
-| `is_processed` | ``$BOOLEAN`` | No |  |
-| `lat` | ``$NUMBER`` | No |  |
-| `lon` | ``$NUMBER`` | No |  |
-| `new_lat` | ``$NUMBER`` | No |  |
-| `new_lon` | ``$NUMBER`` | No |  |
-| `new_title` | ``$STRING`` | No |  |
-| `photo_id` | ``$INTEGER`` | No |  |
-| `photographer_email` | ``$STRING`` | No |  |
-| `photographer_nickname` | ``$STRING`` | Yes |  |
-| `problem_report_type` | ``$STRING`` | No |  |
-| `station_id` | ``$STRING`` | No |  |
-| `title` | ``$STRING`` | No |  |
+| `active` | `Boolean` | No |  |
+| `comment` | `String` | Yes |  |
+| `country_code` | `String` | No |  |
+| `created_at` | `Integer` | Yes |  |
+| `done` | `Boolean` | Yes |  |
+| `filename` | `String` | No |  |
+| `has_conflict` | `Boolean` | No |  |
+| `has_photo` | `Boolean` | Yes |  |
+| `id` | `Integer` | Yes |  |
+| `inbox_url` | `String` | No |  |
+| `is_processed` | `Boolean` | No |  |
+| `lat` | `Float` | No |  |
+| `lon` | `Float` | No |  |
+| `new_lat` | `Float` | No |  |
+| `new_lon` | `Float` | No |  |
+| `new_title` | `String` | No |  |
+| `photo_id` | `Integer` | No |  |
+| `photographer_email` | `String` | No |  |
+| `photographer_nickname` | `String` | Yes |  |
+| `problem_report_type` | `String` | No |  |
+| `station_id` | `String` | No |  |
+| `title` | `String` | No |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl = nil) -> Array`
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria. Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
 
 ```ruby
-results = client.InboxEntry.list(nil)
+results = client.InboxEntry.list
 ```
 
 ### Common Methods
@@ -528,11 +528,11 @@ o_auth_token = client.OAuthToken
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `access_token` | ``$STRING`` | Yes |  |
-| `expires_in` | ``$INTEGER`` | No |  |
-| `refresh_token` | ``$STRING`` | No |  |
-| `scope` | ``$STRING`` | Yes |  |
-| `token_type` | ``$STRING`` | Yes |  |
+| `access_token` | `String` | Yes |  |
+| `expires_in` | `Integer` | No |  |
+| `refresh_token` | `String` | No |  |
+| `scope` | `String` | Yes |  |
+| `token_type` | `String` | Yes |  |
 
 ### Operations
 
@@ -542,9 +542,9 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.OAuthToken.create({
-  "access_token" => # `$STRING`,
-  "scope" => # `$STRING`,
-  "token_type" => # `$STRING`,
+  "access_token" => "example", # String
+  "scope" => "example", # String
+  "token_type" => "example", # String
 })
 ```
 
@@ -600,7 +600,7 @@ result = client.Oauth.create({
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.Oauth.load({ "id" => "oauth_id" })
+result = client.Oauth.load()
 ```
 
 ### Common Methods
@@ -646,7 +646,7 @@ photo = client.Photo
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.Photo.load({ "id" => "photo_id" })
+result = client.Photo.load()
 ```
 
 ### Common Methods
@@ -692,7 +692,7 @@ photo_download = client.PhotoDownload
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.PhotoDownload.load({ "id" => "photo_download_id" })
+result = client.PhotoDownload.load()
 ```
 
 ### Common Methods
@@ -735,19 +735,19 @@ photo_station = client.PhotoStation
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `license` | ``$ARRAY`` | Yes |  |
-| `photo_base_url` | ``$STRING`` | Yes |  |
-| `photographer` | ``$ARRAY`` | Yes |  |
-| `station` | ``$ARRAY`` | Yes |  |
+| `license` | `Array` | Yes |  |
+| `photo_base_url` | `String` | Yes |  |
+| `photographer` | `Array` | Yes |  |
+| `station` | `Array` | Yes |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl = nil) -> Array`
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria. Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
 
 ```ruby
-results = client.PhotoStation.list(nil)
+results = client.PhotoStation.list
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
@@ -755,7 +755,7 @@ results = client.PhotoStation.list(nil)
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.PhotoStation.load({ "id" => "photo_station_id" })
+result = client.PhotoStation.load()
 ```
 
 ### Common Methods
@@ -848,7 +848,7 @@ photographer = client.Photographer
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.Photographer.load({ "id" => "photographer_id" })
+result = client.Photographer.load()
 ```
 
 ### Common Methods
@@ -891,31 +891,31 @@ profile = client.Profile
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `admin` | ``$BOOLEAN`` | No |  |
-| `anonymous` | ``$BOOLEAN`` | No |  |
-| `email` | ``$STRING`` | No |  |
-| `email_verified` | ``$BOOLEAN`` | No |  |
-| `license` | ``$STRING`` | Yes |  |
-| `link` | ``$STRING`` | No |  |
-| `new_password` | ``$STRING`` | Yes |  |
-| `nickname` | ``$STRING`` | Yes |  |
-| `photo_owner` | ``$BOOLEAN`` | Yes |  |
-| `send_notification` | ``$BOOLEAN`` | No |  |
+| `admin` | `Boolean` | No |  |
+| `anonymous` | `Boolean` | No |  |
+| `email` | `String` | No |  |
+| `email_verified` | `Boolean` | No |  |
+| `license` | `String` | Yes |  |
+| `link` | `String` | No |  |
+| `new_password` | `String` | Yes |  |
+| `nickname` | `String` | Yes |  |
+| `photo_owner` | `Boolean` | Yes |  |
+| `send_notification` | `Boolean` | No |  |
 
 ### Field Usage by Operation
 
-| Field | load | list | create | update | remove |
-| --- | --- | --- | --- | --- | --- |
-| `admin` | - | - | - | - | - |
-| `anonymous` | - | - | - | - | - |
-| `email` | - | - | Yes | - | - |
-| `email_verified` | - | - | - | - | - |
-| `license` | - | - | Yes | - | - |
-| `link` | - | - | - | - | - |
-| `new_password` | - | - | - | - | - |
-| `nickname` | - | - | - | - | - |
-| `photo_owner` | - | - | Yes | - | - |
-| `send_notification` | - | - | - | - | - |
+| Field | load | create | remove |
+| --- | --- | --- | --- |
+| `admin` | - | - | - |
+| `anonymous` | - | - | - |
+| `email` | - | Yes | - |
+| `email_verified` | - | - | - |
+| `license` | - | Yes | - |
+| `link` | - | - | - |
+| `new_password` | - | - | - |
+| `nickname` | - | - | - |
+| `photo_owner` | - | Yes | - |
+| `send_notification` | - | - | - |
 
 ### Operations
 
@@ -925,10 +925,10 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.Profile.create({
-  "license" => # `$STRING`,
-  "new_password" => # `$STRING`,
-  "nickname" => # `$STRING`,
-  "photo_owner" => # `$BOOLEAN`,
+  "license" => "example", # String
+  "new_password" => "example", # String
+  "nickname" => "example", # String
+  "photo_owner" => true, # Boolean
 })
 ```
 
@@ -937,7 +937,7 @@ result = client.Profile.create({
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.Profile.load({ "id" => "profile_id" })
+result = client.Profile.load()
 ```
 
 #### `remove(reqmatch, ctrl = nil) -> result`
@@ -945,7 +945,7 @@ result = client.Profile.load({ "id" => "profile_id" })
 Remove the entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.Profile.remove({ "id" => "profile_id" })
+result = client.Profile.remove()
 ```
 
 ### Common Methods
@@ -988,20 +988,20 @@ public_inbox = client.PublicInbox
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `country_code` | ``$STRING`` | No |  |
-| `lat` | ``$NUMBER`` | Yes |  |
-| `lon` | ``$NUMBER`` | Yes |  |
-| `station_id` | ``$STRING`` | No |  |
-| `title` | ``$STRING`` | Yes |  |
+| `country_code` | `String` | No |  |
+| `lat` | `Float` | Yes |  |
+| `lon` | `Float` | Yes |  |
+| `station_id` | `String` | No |  |
+| `title` | `String` | Yes |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl = nil) -> Array`
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria. Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
 
 ```ruby
-results = client.PublicInbox.list(nil)
+results = client.PublicInbox.list
 ```
 
 ### Common Methods
@@ -1044,11 +1044,11 @@ stat = client.Stat
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `country_code` | ``$STRING`` | No |  |
-| `photographer` | ``$INTEGER`` | Yes |  |
-| `total` | ``$INTEGER`` | Yes |  |
-| `with_photo` | ``$INTEGER`` | Yes |  |
-| `without_photo` | ``$INTEGER`` | Yes |  |
+| `country_code` | `String` | No |  |
+| `photographer` | `Integer` | Yes |  |
+| `total` | `Integer` | Yes |  |
+| `with_photo` | `Integer` | Yes |  |
+| `without_photo` | `Integer` | Yes |  |
 
 ### Operations
 
@@ -1057,7 +1057,7 @@ stat = client.Stat
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.Stat.load({ "id" => "stat_id" })
+result = client.Stat.load()
 ```
 
 ### Common Methods

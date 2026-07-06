@@ -65,13 +65,13 @@ AdminInbox = Struct.new(
   keyword_init: true
 )
 
-# Match filter for AdminInbox#create (any subset of AdminInbox fields).
+# Request payload for AdminInbox#create.
 #
 # @!attribute [rw] active
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] command
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] conflict_resolution
 #   @return [String, nil]
@@ -83,7 +83,7 @@ AdminInbox = Struct.new(
 #   @return [String, nil]
 #
 # @!attribute [rw] id
-#   @return [Integer, nil]
+#   @return [Integer]
 #
 # @!attribute [rw] lat
 #   @return [Float, nil]
@@ -92,7 +92,7 @@ AdminInbox = Struct.new(
 #   @return [Float, nil]
 #
 # @!attribute [rw] message
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] reject_reason
 #   @return [String, nil]
@@ -101,7 +101,7 @@ AdminInbox = Struct.new(
 #   @return [String, nil]
 #
 # @!attribute [rw] status
-#   @return [Integer, nil]
+#   @return [Integer]
 #
 # @!attribute [rw] title
 #   @return [String, nil]
@@ -163,7 +163,7 @@ Country = Struct.new(
   keyword_init: true
 )
 
-# Match filter for Country#list (any subset of Country fields).
+# Request payload for Country#list.
 #
 # @!attribute [rw] active
 #   @return [Boolean, nil]
@@ -277,7 +277,7 @@ Inbox = Struct.new(
   keyword_init: true
 )
 
-# Match filter for Inbox#list (any subset of Inbox fields).
+# Request payload for Inbox#list.
 #
 # @!attribute [rw] comment
 #   @return [String, nil]
@@ -350,7 +350,7 @@ InboxListMatch = Struct.new(
   keyword_init: true
 )
 
-# Match filter for Inbox#create (any subset of Inbox fields).
+# Request payload for Inbox#create.
 #
 # @!attribute [rw] comment
 #   @return [String, nil]
@@ -368,7 +368,7 @@ InboxListMatch = Struct.new(
 #   @return [String, nil]
 #
 # @!attribute [rw] id
-#   @return [Integer, nil]
+#   @return [Integer]
 #
 # @!attribute [rw] inbox_url
 #   @return [String, nil]
@@ -395,7 +395,7 @@ InboxListMatch = Struct.new(
 #   @return [String, nil]
 #
 # @!attribute [rw] state
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] station_id
 #   @return [String, nil]
@@ -441,7 +441,7 @@ InboxCount = Struct.new(
   keyword_init: true
 )
 
-# Match filter for InboxCount#load (any subset of InboxCount fields).
+# Request payload for InboxCount#load.
 #
 # @!attribute [rw] pending_inbox_entry
 #   @return [Integer, nil]
@@ -543,7 +543,7 @@ InboxEntry = Struct.new(
   keyword_init: true
 )
 
-# Match filter for InboxEntry#list (any subset of InboxEntry fields).
+# Request payload for InboxEntry#list.
 #
 # @!attribute [rw] active
 #   @return [Boolean, nil]
@@ -665,10 +665,10 @@ OAuthToken = Struct.new(
   keyword_init: true
 )
 
-# Match filter for OAuthToken#create (any subset of OAuthToken fields).
+# Request payload for OAuthToken#create.
 #
 # @!attribute [rw] access_token
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] expires_in
 #   @return [Integer, nil]
@@ -677,10 +677,10 @@ OAuthToken = Struct.new(
 #   @return [String, nil]
 #
 # @!attribute [rw] scope
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] token_type
-#   @return [String, nil]
+#   @return [String]
 OAuthTokenCreateData = Struct.new(
   :access_token,
   :expires_in,
@@ -694,11 +694,11 @@ OAuthTokenCreateData = Struct.new(
 class Oauth
 end
 
-# Match filter for Oauth#load (any subset of Oauth fields).
+# Request payload for Oauth#load.
 class OauthLoadMatch
 end
 
-# Match filter for Oauth#create (any subset of Oauth fields).
+# Request payload for Oauth#create.
 class OauthCreateData
 end
 
@@ -783,7 +783,7 @@ PhotoStationListMatch = Struct.new(
 class PhotoUpload
 end
 
-# Match filter for PhotoUpload#create (any subset of PhotoUpload fields).
+# Request payload for PhotoUpload#create.
 class PhotoUploadCreateData
 end
 
@@ -791,7 +791,7 @@ end
 class Photographer
 end
 
-# Match filter for Photographer#load (any subset of Photographer fields).
+# Request payload for Photographer#load.
 class PhotographerLoadMatch
 end
 
@@ -849,7 +849,7 @@ ProfileLoadMatch = Struct.new(
   keyword_init: true
 )
 
-# Match filter for Profile#create (any subset of Profile fields).
+# Request payload for Profile#create.
 #
 # @!attribute [rw] admin
 #   @return [Boolean, nil]
@@ -864,19 +864,19 @@ ProfileLoadMatch = Struct.new(
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] license
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] link
 #   @return [String, nil]
 #
 # @!attribute [rw] new_password
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] nickname
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] photo_owner
-#   @return [Boolean, nil]
+#   @return [Boolean]
 #
 # @!attribute [rw] send_notification
 #   @return [Boolean, nil]
@@ -894,7 +894,7 @@ ProfileCreateData = Struct.new(
   keyword_init: true
 )
 
-# Match filter for Profile#remove (any subset of Profile fields).
+# Request payload for Profile#remove.
 #
 # @!attribute [rw] admin
 #   @return [Boolean, nil]
@@ -964,7 +964,7 @@ PublicInbox = Struct.new(
   keyword_init: true
 )
 
-# Match filter for PublicInbox#list (any subset of PublicInbox fields).
+# Request payload for PublicInbox#list.
 #
 # @!attribute [rw] country_code
 #   @return [String, nil]
@@ -1014,7 +1014,7 @@ Stat = Struct.new(
   keyword_init: true
 )
 
-# Match filter for Stat#load (any subset of Stat fields).
+# Request payload for Stat#load.
 #
 # @!attribute [rw] country_code
 #   @return [String, nil]

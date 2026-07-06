@@ -35,19 +35,22 @@ class AdminInbox(AdminInboxRequired, total=False):
     title: str
 
 
-class AdminInboxCreateData(TypedDict, total=False):
-    active: bool
+class AdminInboxCreateDataRequired(TypedDict):
     command: str
+    id: int
+    message: str
+    status: int
+
+
+class AdminInboxCreateData(AdminInboxCreateDataRequired, total=False):
+    active: bool
     conflict_resolution: str
     country_code: str
     ds100: str
-    id: int
     lat: float
     lon: float
-    message: str
     reject_reason: str
     station_id: str
-    status: int
     title: str
 
 
@@ -121,13 +124,17 @@ class InboxListMatch(TypedDict, total=False):
     title: str
 
 
-class InboxCreateData(TypedDict, total=False):
+class InboxCreateDataRequired(TypedDict):
+    id: int
+    state: str
+
+
+class InboxCreateData(InboxCreateDataRequired, total=False):
     comment: str
     country_code: str
     crc32: int
     created_at: int
     filename: str
-    id: int
     inbox_url: str
     lat: float
     lon: float
@@ -136,7 +143,6 @@ class InboxCreateData(TypedDict, total=False):
     new_title: str
     problem_report_type: str
     rejected_reason: str
-    state: str
     station_id: str
     title: str
 
@@ -221,12 +227,15 @@ class OAuthToken(OAuthTokenRequired, total=False):
     refresh_token: str
 
 
-class OAuthTokenCreateData(TypedDict, total=False):
+class OAuthTokenCreateDataRequired(TypedDict):
     access_token: str
-    expires_in: int
-    refresh_token: str
     scope: str
     token_type: str
+
+
+class OAuthTokenCreateData(OAuthTokenCreateDataRequired, total=False):
+    expires_in: int
+    refresh_token: str
 
 
 class Oauth(TypedDict):
@@ -311,16 +320,19 @@ class ProfileLoadMatch(TypedDict):
     token: str
 
 
-class ProfileCreateData(TypedDict, total=False):
+class ProfileCreateDataRequired(TypedDict):
+    license: str
+    new_password: str
+    nickname: str
+    photo_owner: bool
+
+
+class ProfileCreateData(ProfileCreateDataRequired, total=False):
     admin: bool
     anonymous: bool
     email: str
     email_verified: bool
-    license: str
     link: str
-    new_password: str
-    nickname: str
-    photo_owner: bool
     send_notification: bool
 
 

@@ -30,21 +30,21 @@ class AdminInbox
     public ?string $title = null;
 }
 
-/** Match filter for AdminInbox#create (any subset of AdminInbox fields). */
+/** Request payload for AdminInbox#create. */
 class AdminInboxCreateData
 {
     public ?bool $active = null;
-    public ?string $command = null;
+    public string $command;
     public ?string $conflict_resolution = null;
     public ?string $country_code = null;
     public ?string $ds100 = null;
-    public ?int $id = null;
+    public int $id;
     public ?float $lat = null;
     public ?float $lon = null;
-    public ?string $message = null;
+    public string $message;
     public ?string $reject_reason = null;
     public ?string $station_id = null;
-    public ?int $status = null;
+    public int $status;
     public ?string $title = null;
 }
 
@@ -62,7 +62,7 @@ class Country
     public ?string $timetable_url_template = null;
 }
 
-/** Match filter for Country#list (any subset of Country fields). */
+/** Request payload for Country#list. */
 class CountryListMatch
 {
     public ?bool $active = null;
@@ -98,7 +98,7 @@ class Inbox
     public ?string $title = null;
 }
 
-/** Match filter for Inbox#list (any subset of Inbox fields). */
+/** Request payload for Inbox#list. */
 class InboxListMatch
 {
     public ?string $comment = null;
@@ -120,7 +120,7 @@ class InboxListMatch
     public ?string $title = null;
 }
 
-/** Match filter for Inbox#create (any subset of Inbox fields). */
+/** Request payload for Inbox#create. */
 class InboxCreateData
 {
     public ?string $comment = null;
@@ -128,7 +128,7 @@ class InboxCreateData
     public ?int $crc32 = null;
     public ?int $created_at = null;
     public ?string $filename = null;
-    public ?int $id = null;
+    public int $id;
     public ?string $inbox_url = null;
     public ?float $lat = null;
     public ?float $lon = null;
@@ -137,7 +137,7 @@ class InboxCreateData
     public ?string $new_title = null;
     public ?string $problem_report_type = null;
     public ?string $rejected_reason = null;
-    public ?string $state = null;
+    public string $state;
     public ?string $station_id = null;
     public ?string $title = null;
 }
@@ -154,7 +154,7 @@ class InboxCount
     public int $pending_inbox_entry;
 }
 
-/** Match filter for InboxCount#load (any subset of InboxCount fields). */
+/** Request payload for InboxCount#load. */
 class InboxCountLoadMatch
 {
     public ?int $pending_inbox_entry = null;
@@ -187,7 +187,7 @@ class InboxEntry
     public ?string $title = null;
 }
 
-/** Match filter for InboxEntry#list (any subset of InboxEntry fields). */
+/** Request payload for InboxEntry#list. */
 class InboxEntryListMatch
 {
     public ?bool $active = null;
@@ -229,14 +229,14 @@ class OAuthToken
     public string $token_type;
 }
 
-/** Match filter for OAuthToken#create (any subset of OAuthToken fields). */
+/** Request payload for OAuthToken#create. */
 class OAuthTokenCreateData
 {
-    public ?string $access_token = null;
+    public string $access_token;
     public ?int $expires_in = null;
     public ?string $refresh_token = null;
-    public ?string $scope = null;
-    public ?string $token_type = null;
+    public string $scope;
+    public string $token_type;
 }
 
 /** Oauth entity data model. */
@@ -244,12 +244,12 @@ class Oauth
 {
 }
 
-/** Match filter for Oauth#load (any subset of Oauth fields). */
+/** Request payload for Oauth#load. */
 class OauthLoadMatch
 {
 }
 
-/** Match filter for Oauth#create (any subset of Oauth fields). */
+/** Request payload for Oauth#create. */
 class OauthCreateData
 {
 }
@@ -305,7 +305,7 @@ class PhotoUpload
 {
 }
 
-/** Match filter for PhotoUpload#create (any subset of PhotoUpload fields). */
+/** Request payload for PhotoUpload#create. */
 class PhotoUploadCreateData
 {
 }
@@ -315,7 +315,7 @@ class Photographer
 {
 }
 
-/** Match filter for Photographer#load (any subset of Photographer fields). */
+/** Request payload for Photographer#load. */
 class PhotographerLoadMatch
 {
 }
@@ -341,22 +341,22 @@ class ProfileLoadMatch
     public string $token;
 }
 
-/** Match filter for Profile#create (any subset of Profile fields). */
+/** Request payload for Profile#create. */
 class ProfileCreateData
 {
     public ?bool $admin = null;
     public ?bool $anonymous = null;
     public ?string $email = null;
     public ?bool $email_verified = null;
-    public ?string $license = null;
+    public string $license;
     public ?string $link = null;
-    public ?string $new_password = null;
-    public ?string $nickname = null;
-    public ?bool $photo_owner = null;
+    public string $new_password;
+    public string $nickname;
+    public bool $photo_owner;
     public ?bool $send_notification = null;
 }
 
-/** Match filter for Profile#remove (any subset of Profile fields). */
+/** Request payload for Profile#remove. */
 class ProfileRemoveMatch
 {
     public ?bool $admin = null;
@@ -381,7 +381,7 @@ class PublicInbox
     public string $title;
 }
 
-/** Match filter for PublicInbox#list (any subset of PublicInbox fields). */
+/** Request payload for PublicInbox#list. */
 class PublicInboxListMatch
 {
     public ?string $country_code = null;
@@ -401,7 +401,7 @@ class Stat
     public int $without_photo;
 }
 
-/** Match filter for Stat#load (any subset of Stat fields). */
+/** Request payload for Stat#load. */
 class StatLoadMatch
 {
     public ?string $country_code = null;

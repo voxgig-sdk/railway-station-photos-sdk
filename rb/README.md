@@ -4,6 +4,8 @@
 
 The Ruby SDK for the RailwayStationPhotos API — an entity-oriented client using idiomatic Ruby conventions.
 
+The SDK exposes the API as capitalised, semantic **Entities** — for example `client.AdminInbox` — with named operations (`list`/`load`/`create`/`remove`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
+
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
 
@@ -32,8 +34,35 @@ client = RailwayStationPhotosSDK.new
 
 ```ruby
 # create returns the bare created AdminInbox record.
-created = client.AdminInbox.create({ "name" => "Example" })
+created = client.AdminInbox.create({ "command" => "example", "message" => "example", "status" => 1 })
 
+```
+
+
+## Error handling
+
+Entity operations raise on failure, so rescue them:
+
+```ruby
+begin
+  admininbox = client.AdminInbox.create({ "command" => "example", "message" => "example", "status" => 1 })
+rescue => err
+  warn "create failed: #{err}"
+end
+```
+
+`direct` does **not** raise — it returns the result hash. Branch on
+`ok`; on failure `status` holds the HTTP status (for error responses) and
+`err` holds a transport error, so read both defensively:
+
+```ruby
+result = client.direct({
+  "path" => "/api/resource/{id}",
+  "method" => "GET",
+  "params" => { "id" => "example_id" },
+})
+
+warn "request failed: #{result["err"] || "HTTP #{result["status"]}"}" unless result["ok"]
 ```
 
 
@@ -54,7 +83,9 @@ if result["ok"]
   puts result["status"]  # 200
   puts result["data"]    # response body
 else
-  warn result["err"]
+  # On an HTTP error status there is no err (only a transport failure sets
+  # it), so fall back to the status code.
+  warn(result["err"] || "HTTP #{result["status"]}")
 end
 ```
 
@@ -77,16 +108,13 @@ end
 
 ### Use test mode
 
-Create a mock client for unit testing — no server required. Seed fixture
-data via the `entity` option so offline calls resolve without a live server:
+Create a mock client for unit testing — no server required:
 
 ```ruby
-client = RailwayStationPhotosSDK.test({
-  "entity" => { "admininbox" => { "test01" => { "id" => "test01" } } },
-})
+client = RailwayStationPhotosSDK.test
 
-# load returns the bare mock record (raises on error).
-admininbox = client.AdminInbox.load({ "id" => "test01" })
+# Entity ops return the bare mock record (raises on error).
+admininbox = client.AdminInbox.create({ "command" => "example", "message" => "example", "status" => 1 })
 puts admininbox
 ```
 
@@ -187,9 +215,8 @@ All entities share the same interface.
 | Method | Signature | Description |
 | --- | --- | --- |
 | `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria. Raises on error. |
-| `list` | `(reqmatch, ctrl) -> Array` | List entities matching the criteria. Raises on error. |
+| `list` | `(reqmatch = nil, ctrl) -> Array` | List entities matching the criteria (call with no argument to list all). Raises on error. |
 | `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
-| `update` | `(reqdata, ctrl) -> any` | Update an existing entity. Raises on error. |
 | `remove` | `(reqmatch, ctrl) -> any` | Remove an entity. Raises on error. |
 | `data_get` | `() -> Hash` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
@@ -471,27 +498,27 @@ Create an instance: `admin_inbox = client.AdminInbox`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `active` | ``$BOOLEAN`` |  |
-| `command` | ``$STRING`` |  |
-| `conflict_resolution` | ``$STRING`` |  |
-| `country_code` | ``$STRING`` |  |
-| `ds100` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `lat` | ``$NUMBER`` |  |
-| `lon` | ``$NUMBER`` |  |
-| `message` | ``$STRING`` |  |
-| `reject_reason` | ``$STRING`` |  |
-| `station_id` | ``$STRING`` |  |
-| `status` | ``$INTEGER`` |  |
-| `title` | ``$STRING`` |  |
+| `active` | `Boolean` |  |
+| `command` | `String` |  |
+| `conflict_resolution` | `String` |  |
+| `country_code` | `String` |  |
+| `ds100` | `String` |  |
+| `id` | `Integer` |  |
+| `lat` | `Float` |  |
+| `lon` | `Float` |  |
+| `message` | `String` |  |
+| `reject_reason` | `String` |  |
+| `station_id` | `String` |  |
+| `status` | `Integer` |  |
+| `title` | `String` |  |
 
 #### Example: Create
 
 ```ruby
 admin_inbox = client.AdminInbox.create({
-  "command" => nil, # `$STRING`
-  "message" => nil, # `$STRING`
-  "status" => nil, # `$INTEGER`
+  "command" => "example", # String
+  "message" => "example", # String
+  "status" => 1, # Integer
 })
 ```
 
@@ -510,15 +537,15 @@ Create an instance: `country = client.Country`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `active` | ``$BOOLEAN`` |  |
-| `allow_photo_upload` | ``$BOOLEAN`` |  |
-| `code` | ``$STRING`` |  |
-| `email` | ``$STRING`` |  |
-| `message` | ``$STRING`` |  |
-| `name` | ``$STRING`` |  |
-| `override_license` | ``$STRING`` |  |
-| `provider_app` | ``$ARRAY`` |  |
-| `timetable_url_template` | ``$STRING`` |  |
+| `active` | `Boolean` |  |
+| `allow_photo_upload` | `Boolean` |  |
+| `code` | `String` |  |
+| `email` | `String` |  |
+| `message` | `String` |  |
+| `name` | `String` |  |
+| `override_license` | `String` |  |
+| `provider_app` | `Array` |  |
+| `timetable_url_template` | `String` |  |
 
 #### Example: List
 
@@ -544,23 +571,23 @@ Create an instance: `inbox = client.Inbox`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `comment` | ``$STRING`` |  |
-| `country_code` | ``$STRING`` |  |
-| `crc32` | ``$INTEGER`` |  |
-| `created_at` | ``$INTEGER`` |  |
-| `filename` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `inbox_url` | ``$STRING`` |  |
-| `lat` | ``$NUMBER`` |  |
-| `lon` | ``$NUMBER`` |  |
-| `new_lat` | ``$NUMBER`` |  |
-| `new_lon` | ``$NUMBER`` |  |
-| `new_title` | ``$STRING`` |  |
-| `problem_report_type` | ``$STRING`` |  |
-| `rejected_reason` | ``$STRING`` |  |
-| `state` | ``$STRING`` |  |
-| `station_id` | ``$STRING`` |  |
-| `title` | ``$STRING`` |  |
+| `comment` | `String` |  |
+| `country_code` | `String` |  |
+| `crc32` | `Integer` |  |
+| `created_at` | `Integer` |  |
+| `filename` | `String` |  |
+| `id` | `Integer` |  |
+| `inbox_url` | `String` |  |
+| `lat` | `Float` |  |
+| `lon` | `Float` |  |
+| `new_lat` | `Float` |  |
+| `new_lon` | `Float` |  |
+| `new_title` | `String` |  |
+| `problem_report_type` | `String` |  |
+| `rejected_reason` | `String` |  |
+| `state` | `String` |  |
+| `station_id` | `String` |  |
+| `title` | `String` |  |
 
 #### Example: List
 
@@ -573,7 +600,7 @@ inboxs = client.Inbox.list
 
 ```ruby
 inbox = client.Inbox.create({
-  "state" => nil, # `$STRING`
+  "state" => "example", # String
 })
 ```
 
@@ -592,13 +619,13 @@ Create an instance: `inbox_count = client.InboxCount`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `pending_inbox_entry` | ``$INTEGER`` |  |
+| `pending_inbox_entry` | `Integer` |  |
 
 #### Example: Load
 
 ```ruby
 # load returns the bare InboxCount record (raises on error).
-inbox_count = client.InboxCount.load({ "id" => "inbox_count_id" })
+inbox_count = client.InboxCount.load()
 ```
 
 
@@ -616,28 +643,28 @@ Create an instance: `inbox_entry = client.InboxEntry`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `active` | ``$BOOLEAN`` |  |
-| `comment` | ``$STRING`` |  |
-| `country_code` | ``$STRING`` |  |
-| `created_at` | ``$INTEGER`` |  |
-| `done` | ``$BOOLEAN`` |  |
-| `filename` | ``$STRING`` |  |
-| `has_conflict` | ``$BOOLEAN`` |  |
-| `has_photo` | ``$BOOLEAN`` |  |
-| `id` | ``$INTEGER`` |  |
-| `inbox_url` | ``$STRING`` |  |
-| `is_processed` | ``$BOOLEAN`` |  |
-| `lat` | ``$NUMBER`` |  |
-| `lon` | ``$NUMBER`` |  |
-| `new_lat` | ``$NUMBER`` |  |
-| `new_lon` | ``$NUMBER`` |  |
-| `new_title` | ``$STRING`` |  |
-| `photo_id` | ``$INTEGER`` |  |
-| `photographer_email` | ``$STRING`` |  |
-| `photographer_nickname` | ``$STRING`` |  |
-| `problem_report_type` | ``$STRING`` |  |
-| `station_id` | ``$STRING`` |  |
-| `title` | ``$STRING`` |  |
+| `active` | `Boolean` |  |
+| `comment` | `String` |  |
+| `country_code` | `String` |  |
+| `created_at` | `Integer` |  |
+| `done` | `Boolean` |  |
+| `filename` | `String` |  |
+| `has_conflict` | `Boolean` |  |
+| `has_photo` | `Boolean` |  |
+| `id` | `Integer` |  |
+| `inbox_url` | `String` |  |
+| `is_processed` | `Boolean` |  |
+| `lat` | `Float` |  |
+| `lon` | `Float` |  |
+| `new_lat` | `Float` |  |
+| `new_lon` | `Float` |  |
+| `new_title` | `String` |  |
+| `photo_id` | `Integer` |  |
+| `photographer_email` | `String` |  |
+| `photographer_nickname` | `String` |  |
+| `problem_report_type` | `String` |  |
+| `station_id` | `String` |  |
+| `title` | `String` |  |
 
 #### Example: List
 
@@ -666,19 +693,19 @@ Create an instance: `o_auth_token = client.OAuthToken`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `access_token` | ``$STRING`` |  |
-| `expires_in` | ``$INTEGER`` |  |
-| `refresh_token` | ``$STRING`` |  |
-| `scope` | ``$STRING`` |  |
-| `token_type` | ``$STRING`` |  |
+| `access_token` | `String` |  |
+| `expires_in` | `Integer` |  |
+| `refresh_token` | `String` |  |
+| `scope` | `String` |  |
+| `token_type` | `String` |  |
 
 #### Example: Create
 
 ```ruby
 o_auth_token = client.OAuthToken.create({
-  "access_token" => nil, # `$STRING`
-  "scope" => nil, # `$STRING`
-  "token_type" => nil, # `$STRING`
+  "access_token" => "example", # String
+  "scope" => "example", # String
+  "token_type" => "example", # String
 })
 ```
 
@@ -698,7 +725,7 @@ Create an instance: `oauth = client.Oauth`
 
 ```ruby
 # load returns the bare Oauth record (raises on error).
-oauth = client.Oauth.load({ "id" => "oauth_id" })
+oauth = client.Oauth.load()
 ```
 
 #### Example: Create
@@ -723,7 +750,7 @@ Create an instance: `photo = client.Photo`
 
 ```ruby
 # load returns the bare Photo record (raises on error).
-photo = client.Photo.load({ "id" => "photo_id" })
+photo = client.Photo.load()
 ```
 
 
@@ -741,7 +768,7 @@ Create an instance: `photo_download = client.PhotoDownload`
 
 ```ruby
 # load returns the bare PhotoDownload record (raises on error).
-photo_download = client.PhotoDownload.load({ "id" => "photo_download_id" })
+photo_download = client.PhotoDownload.load()
 ```
 
 
@@ -760,16 +787,16 @@ Create an instance: `photo_station = client.PhotoStation`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `license` | ``$ARRAY`` |  |
-| `photo_base_url` | ``$STRING`` |  |
-| `photographer` | ``$ARRAY`` |  |
-| `station` | ``$ARRAY`` |  |
+| `license` | `Array` |  |
+| `photo_base_url` | `String` |  |
+| `photographer` | `Array` |  |
+| `station` | `Array` |  |
 
 #### Example: Load
 
 ```ruby
 # load returns the bare PhotoStation record (raises on error).
-photo_station = client.PhotoStation.load({ "id" => "photo_station_id" })
+photo_station = client.PhotoStation.load()
 ```
 
 #### Example: List
@@ -812,7 +839,7 @@ Create an instance: `photographer = client.Photographer`
 
 ```ruby
 # load returns the bare Photographer record (raises on error).
-photographer = client.Photographer.load({ "id" => "photographer_id" })
+photographer = client.Photographer.load()
 ```
 
 
@@ -832,32 +859,32 @@ Create an instance: `profile = client.Profile`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `admin` | ``$BOOLEAN`` |  |
-| `anonymous` | ``$BOOLEAN`` |  |
-| `email` | ``$STRING`` |  |
-| `email_verified` | ``$BOOLEAN`` |  |
-| `license` | ``$STRING`` |  |
-| `link` | ``$STRING`` |  |
-| `new_password` | ``$STRING`` |  |
-| `nickname` | ``$STRING`` |  |
-| `photo_owner` | ``$BOOLEAN`` |  |
-| `send_notification` | ``$BOOLEAN`` |  |
+| `admin` | `Boolean` |  |
+| `anonymous` | `Boolean` |  |
+| `email` | `String` |  |
+| `email_verified` | `Boolean` |  |
+| `license` | `String` |  |
+| `link` | `String` |  |
+| `new_password` | `String` |  |
+| `nickname` | `String` |  |
+| `photo_owner` | `Boolean` |  |
+| `send_notification` | `Boolean` |  |
 
 #### Example: Load
 
 ```ruby
 # load returns the bare Profile record (raises on error).
-profile = client.Profile.load({ "id" => "profile_id" })
+profile = client.Profile.load()
 ```
 
 #### Example: Create
 
 ```ruby
 profile = client.Profile.create({
-  "license" => nil, # `$STRING`
-  "new_password" => nil, # `$STRING`
-  "nickname" => nil, # `$STRING`
-  "photo_owner" => nil, # `$BOOLEAN`
+  "license" => "example", # String
+  "new_password" => "example", # String
+  "nickname" => "example", # String
+  "photo_owner" => true, # Boolean
 })
 ```
 
@@ -876,11 +903,11 @@ Create an instance: `public_inbox = client.PublicInbox`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `country_code` | ``$STRING`` |  |
-| `lat` | ``$NUMBER`` |  |
-| `lon` | ``$NUMBER`` |  |
-| `station_id` | ``$STRING`` |  |
-| `title` | ``$STRING`` |  |
+| `country_code` | `String` |  |
+| `lat` | `Float` |  |
+| `lon` | `Float` |  |
+| `station_id` | `String` |  |
+| `title` | `String` |  |
 
 #### Example: List
 
@@ -904,26 +931,30 @@ Create an instance: `stat = client.Stat`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `country_code` | ``$STRING`` |  |
-| `photographer` | ``$INTEGER`` |  |
-| `total` | ``$INTEGER`` |  |
-| `with_photo` | ``$INTEGER`` |  |
-| `without_photo` | ``$INTEGER`` |  |
+| `country_code` | `String` |  |
+| `photographer` | `Integer` |  |
+| `total` | `Integer` |  |
+| `with_photo` | `Integer` |  |
+| `without_photo` | `Integer` |  |
 
 #### Example: Load
 
 ```ruby
 # load returns the bare Stat record (raises on error).
-stat = client.Stat.load({ "id" => "stat_id" })
+stat = client.Stat.load()
 ```
 
 
-## Explanation
+## Advanced
+
+> The sections above cover everyday use. The material below explains the
+> SDK's internals — useful when extending it with custom features, but not
+> needed for normal use.
 
 ### The operation pipeline
 
-Every entity operation (load, list, create, update, remove) follows a
-six-stage pipeline. Each stage fires a feature hook before executing:
+Every entity operation follows a six-stage pipeline. Each stage fires a
+feature hook before executing:
 
 ```
 PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
@@ -940,8 +971,9 @@ PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
 - **PreDone**: Final stage before returning to the caller. Entity
   state (match, data) is updated here.
 
-If any stage returns an error, the pipeline short-circuits and the
-error is returned to the caller as a second return value.
+If any stage errors, the pipeline short-circuits and the error surfaces
+to the caller — see [Error handling](#error-handling) for how that looks
+in this language.
 
 ### Features and hooks
 
@@ -985,14 +1017,14 @@ when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `load`, the entity
+Entity instances are stateful. After a successful `create`, the entity
 stores the returned data and match criteria internally.
 
 ```ruby
 admininbox = client.AdminInbox
-admininbox.load({ "id" => "example_id" })
+admininbox.create({ "command" => "example", "message" => "example", "status" => 1 })
 
-# admininbox.data_get now returns the loaded admininbox data
+# admininbox.data_get now returns the admininbox data from the last create
 # admininbox.match_get returns the last match criteria
 ```
 

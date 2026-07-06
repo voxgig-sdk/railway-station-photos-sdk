@@ -150,19 +150,19 @@ local admin_inbox = client:AdminInbox(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `active` | ``$BOOLEAN`` | No |  |
-| `command` | ``$STRING`` | Yes |  |
-| `conflict_resolution` | ``$STRING`` | No |  |
-| `country_code` | ``$STRING`` | No |  |
-| `ds100` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `lat` | ``$NUMBER`` | No |  |
-| `lon` | ``$NUMBER`` | No |  |
-| `message` | ``$STRING`` | Yes |  |
-| `reject_reason` | ``$STRING`` | No |  |
-| `station_id` | ``$STRING`` | No |  |
-| `status` | ``$INTEGER`` | Yes |  |
-| `title` | ``$STRING`` | No |  |
+| `active` | `boolean` | No |  |
+| `command` | `string` | Yes |  |
+| `conflict_resolution` | `string` | No |  |
+| `country_code` | `string` | No |  |
+| `ds100` | `string` | No |  |
+| `id` | `number` | Yes |  |
+| `lat` | `number` | No |  |
+| `lon` | `number` | No |  |
+| `message` | `string` | Yes |  |
+| `reject_reason` | `string` | No |  |
+| `station_id` | `string` | No |  |
+| `status` | `number` | Yes |  |
+| `title` | `string` | No |  |
 
 ### Operations
 
@@ -172,9 +172,9 @@ Create a new entity with the given data.
 
 ```lua
 local result, err = client:AdminInbox():create({
-  command = --[[ `$STRING` ]],
-  message = --[[ `$STRING` ]],
-  status = --[[ `$INTEGER` ]],
+  command = --[[ string ]],
+  message = --[[ string ]],
+  status = --[[ number ]],
 })
 ```
 
@@ -218,15 +218,15 @@ local country = client:Country(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `active` | ``$BOOLEAN`` | Yes |  |
-| `allow_photo_upload` | ``$BOOLEAN`` | Yes |  |
-| `code` | ``$STRING`` | Yes |  |
-| `email` | ``$STRING`` | No |  |
-| `message` | ``$STRING`` | No |  |
-| `name` | ``$STRING`` | Yes |  |
-| `override_license` | ``$STRING`` | No |  |
-| `provider_app` | ``$ARRAY`` | No |  |
-| `timetable_url_template` | ``$STRING`` | No |  |
+| `active` | `boolean` | Yes |  |
+| `allow_photo_upload` | `boolean` | Yes |  |
+| `code` | `string` | Yes |  |
+| `email` | `string` | No |  |
+| `message` | `string` | No |  |
+| `name` | `string` | Yes |  |
+| `override_license` | `string` | No |  |
+| `provider_app` | `table` | No |  |
+| `timetable_url_template` | `string` | No |  |
 
 ### Operations
 
@@ -278,23 +278,23 @@ local inbox = client:Inbox(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `comment` | ``$STRING`` | No |  |
-| `country_code` | ``$STRING`` | No |  |
-| `crc32` | ``$INTEGER`` | No |  |
-| `created_at` | ``$INTEGER`` | No |  |
-| `filename` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `inbox_url` | ``$STRING`` | No |  |
-| `lat` | ``$NUMBER`` | No |  |
-| `lon` | ``$NUMBER`` | No |  |
-| `new_lat` | ``$NUMBER`` | No |  |
-| `new_lon` | ``$NUMBER`` | No |  |
-| `new_title` | ``$STRING`` | No |  |
-| `problem_report_type` | ``$STRING`` | No |  |
-| `rejected_reason` | ``$STRING`` | No |  |
-| `state` | ``$STRING`` | Yes |  |
-| `station_id` | ``$STRING`` | No |  |
-| `title` | ``$STRING`` | No |  |
+| `comment` | `string` | No |  |
+| `country_code` | `string` | No |  |
+| `crc32` | `number` | No |  |
+| `created_at` | `number` | No |  |
+| `filename` | `string` | No |  |
+| `id` | `number` | Yes |  |
+| `inbox_url` | `string` | No |  |
+| `lat` | `number` | No |  |
+| `lon` | `number` | No |  |
+| `new_lat` | `number` | No |  |
+| `new_lon` | `number` | No |  |
+| `new_title` | `string` | No |  |
+| `problem_report_type` | `string` | No |  |
+| `rejected_reason` | `string` | No |  |
+| `state` | `string` | Yes |  |
+| `station_id` | `string` | No |  |
+| `title` | `string` | No |  |
 
 ### Operations
 
@@ -304,7 +304,7 @@ Create a new entity with the given data.
 
 ```lua
 local result, err = client:Inbox():create({
-  state = --[[ `$STRING` ]],
+  state = --[[ string ]],
 })
 ```
 
@@ -321,7 +321,7 @@ local results, err = client:Inbox():list()
 Remove the entity matching the given criteria.
 
 ```lua
-local result, err = client:Inbox():remove({ id = "inbox_id" })
+local result, err = client:Inbox():remove()
 ```
 
 ### Common Methods
@@ -364,7 +364,7 @@ local inbox_count = client:InboxCount(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `pending_inbox_entry` | ``$INTEGER`` | Yes |  |
+| `pending_inbox_entry` | `number` | Yes |  |
 
 ### Operations
 
@@ -373,7 +373,7 @@ local inbox_count = client:InboxCount(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:InboxCount():load({ id = "inbox_count_id" })
+local result, err = client:InboxCount():load()
 ```
 
 ### Common Methods
@@ -416,28 +416,28 @@ local inbox_entry = client:InboxEntry(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `active` | ``$BOOLEAN`` | No |  |
-| `comment` | ``$STRING`` | Yes |  |
-| `country_code` | ``$STRING`` | No |  |
-| `created_at` | ``$INTEGER`` | Yes |  |
-| `done` | ``$BOOLEAN`` | Yes |  |
-| `filename` | ``$STRING`` | No |  |
-| `has_conflict` | ``$BOOLEAN`` | No |  |
-| `has_photo` | ``$BOOLEAN`` | Yes |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `inbox_url` | ``$STRING`` | No |  |
-| `is_processed` | ``$BOOLEAN`` | No |  |
-| `lat` | ``$NUMBER`` | No |  |
-| `lon` | ``$NUMBER`` | No |  |
-| `new_lat` | ``$NUMBER`` | No |  |
-| `new_lon` | ``$NUMBER`` | No |  |
-| `new_title` | ``$STRING`` | No |  |
-| `photo_id` | ``$INTEGER`` | No |  |
-| `photographer_email` | ``$STRING`` | No |  |
-| `photographer_nickname` | ``$STRING`` | Yes |  |
-| `problem_report_type` | ``$STRING`` | No |  |
-| `station_id` | ``$STRING`` | No |  |
-| `title` | ``$STRING`` | No |  |
+| `active` | `boolean` | No |  |
+| `comment` | `string` | Yes |  |
+| `country_code` | `string` | No |  |
+| `created_at` | `number` | Yes |  |
+| `done` | `boolean` | Yes |  |
+| `filename` | `string` | No |  |
+| `has_conflict` | `boolean` | No |  |
+| `has_photo` | `boolean` | Yes |  |
+| `id` | `number` | Yes |  |
+| `inbox_url` | `string` | No |  |
+| `is_processed` | `boolean` | No |  |
+| `lat` | `number` | No |  |
+| `lon` | `number` | No |  |
+| `new_lat` | `number` | No |  |
+| `new_lon` | `number` | No |  |
+| `new_title` | `string` | No |  |
+| `photo_id` | `number` | No |  |
+| `photographer_email` | `string` | No |  |
+| `photographer_nickname` | `string` | Yes |  |
+| `problem_report_type` | `string` | No |  |
+| `station_id` | `string` | No |  |
+| `title` | `string` | No |  |
 
 ### Operations
 
@@ -525,11 +525,11 @@ local o_auth_token = client:OAuthToken(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `access_token` | ``$STRING`` | Yes |  |
-| `expires_in` | ``$INTEGER`` | No |  |
-| `refresh_token` | ``$STRING`` | No |  |
-| `scope` | ``$STRING`` | Yes |  |
-| `token_type` | ``$STRING`` | Yes |  |
+| `access_token` | `string` | Yes |  |
+| `expires_in` | `number` | No |  |
+| `refresh_token` | `string` | No |  |
+| `scope` | `string` | Yes |  |
+| `token_type` | `string` | Yes |  |
 
 ### Operations
 
@@ -539,9 +539,9 @@ Create a new entity with the given data.
 
 ```lua
 local result, err = client:OAuthToken():create({
-  access_token = --[[ `$STRING` ]],
-  scope = --[[ `$STRING` ]],
-  token_type = --[[ `$STRING` ]],
+  access_token = --[[ string ]],
+  scope = --[[ string ]],
+  token_type = --[[ string ]],
 })
 ```
 
@@ -597,7 +597,7 @@ local result, err = client:Oauth():create({
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Oauth():load({ id = "oauth_id" })
+local result, err = client:Oauth():load()
 ```
 
 ### Common Methods
@@ -643,7 +643,7 @@ local photo = client:Photo(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Photo():load({ id = "photo_id" })
+local result, err = client:Photo():load()
 ```
 
 ### Common Methods
@@ -689,7 +689,7 @@ local photo_download = client:PhotoDownload(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:PhotoDownload():load({ id = "photo_download_id" })
+local result, err = client:PhotoDownload():load()
 ```
 
 ### Common Methods
@@ -732,10 +732,10 @@ local photo_station = client:PhotoStation(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `license` | ``$ARRAY`` | Yes |  |
-| `photo_base_url` | ``$STRING`` | Yes |  |
-| `photographer` | ``$ARRAY`` | Yes |  |
-| `station` | ``$ARRAY`` | Yes |  |
+| `license` | `table` | Yes |  |
+| `photo_base_url` | `string` | Yes |  |
+| `photographer` | `table` | Yes |  |
+| `station` | `table` | Yes |  |
 
 ### Operations
 
@@ -752,7 +752,7 @@ local results, err = client:PhotoStation():list()
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:PhotoStation():load({ id = "photo_station_id" })
+local result, err = client:PhotoStation():load()
 ```
 
 ### Common Methods
@@ -845,7 +845,7 @@ local photographer = client:Photographer(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Photographer():load({ id = "photographer_id" })
+local result, err = client:Photographer():load()
 ```
 
 ### Common Methods
@@ -888,31 +888,31 @@ local profile = client:Profile(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `admin` | ``$BOOLEAN`` | No |  |
-| `anonymous` | ``$BOOLEAN`` | No |  |
-| `email` | ``$STRING`` | No |  |
-| `email_verified` | ``$BOOLEAN`` | No |  |
-| `license` | ``$STRING`` | Yes |  |
-| `link` | ``$STRING`` | No |  |
-| `new_password` | ``$STRING`` | Yes |  |
-| `nickname` | ``$STRING`` | Yes |  |
-| `photo_owner` | ``$BOOLEAN`` | Yes |  |
-| `send_notification` | ``$BOOLEAN`` | No |  |
+| `admin` | `boolean` | No |  |
+| `anonymous` | `boolean` | No |  |
+| `email` | `string` | No |  |
+| `email_verified` | `boolean` | No |  |
+| `license` | `string` | Yes |  |
+| `link` | `string` | No |  |
+| `new_password` | `string` | Yes |  |
+| `nickname` | `string` | Yes |  |
+| `photo_owner` | `boolean` | Yes |  |
+| `send_notification` | `boolean` | No |  |
 
 ### Field Usage by Operation
 
-| Field | load | list | create | update | remove |
-| --- | --- | --- | --- | --- | --- |
-| `admin` | - | - | - | - | - |
-| `anonymous` | - | - | - | - | - |
-| `email` | - | - | Yes | - | - |
-| `email_verified` | - | - | - | - | - |
-| `license` | - | - | Yes | - | - |
-| `link` | - | - | - | - | - |
-| `new_password` | - | - | - | - | - |
-| `nickname` | - | - | - | - | - |
-| `photo_owner` | - | - | Yes | - | - |
-| `send_notification` | - | - | - | - | - |
+| Field | load | create | remove |
+| --- | --- | --- | --- |
+| `admin` | - | - | - |
+| `anonymous` | - | - | - |
+| `email` | - | Yes | - |
+| `email_verified` | - | - | - |
+| `license` | - | Yes | - |
+| `link` | - | - | - |
+| `new_password` | - | - | - |
+| `nickname` | - | - | - |
+| `photo_owner` | - | Yes | - |
+| `send_notification` | - | - | - |
 
 ### Operations
 
@@ -922,10 +922,10 @@ Create a new entity with the given data.
 
 ```lua
 local result, err = client:Profile():create({
-  license = --[[ `$STRING` ]],
-  new_password = --[[ `$STRING` ]],
-  nickname = --[[ `$STRING` ]],
-  photo_owner = --[[ `$BOOLEAN` ]],
+  license = --[[ string ]],
+  new_password = --[[ string ]],
+  nickname = --[[ string ]],
+  photo_owner = --[[ boolean ]],
 })
 ```
 
@@ -934,7 +934,7 @@ local result, err = client:Profile():create({
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Profile():load({ id = "profile_id" })
+local result, err = client:Profile():load()
 ```
 
 #### `remove(reqmatch, ctrl) -> any, err`
@@ -942,7 +942,7 @@ local result, err = client:Profile():load({ id = "profile_id" })
 Remove the entity matching the given criteria.
 
 ```lua
-local result, err = client:Profile():remove({ id = "profile_id" })
+local result, err = client:Profile():remove()
 ```
 
 ### Common Methods
@@ -985,11 +985,11 @@ local public_inbox = client:PublicInbox(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `country_code` | ``$STRING`` | No |  |
-| `lat` | ``$NUMBER`` | Yes |  |
-| `lon` | ``$NUMBER`` | Yes |  |
-| `station_id` | ``$STRING`` | No |  |
-| `title` | ``$STRING`` | Yes |  |
+| `country_code` | `string` | No |  |
+| `lat` | `number` | Yes |  |
+| `lon` | `number` | Yes |  |
+| `station_id` | `string` | No |  |
+| `title` | `string` | Yes |  |
 
 ### Operations
 
@@ -1041,11 +1041,11 @@ local stat = client:Stat(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `country_code` | ``$STRING`` | No |  |
-| `photographer` | ``$INTEGER`` | Yes |  |
-| `total` | ``$INTEGER`` | Yes |  |
-| `with_photo` | ``$INTEGER`` | Yes |  |
-| `without_photo` | ``$INTEGER`` | Yes |  |
+| `country_code` | `string` | No |  |
+| `photographer` | `number` | Yes |  |
+| `total` | `number` | Yes |  |
+| `with_photo` | `number` | Yes |  |
+| `without_photo` | `number` | Yes |  |
 
 ### Operations
 
@@ -1054,7 +1054,7 @@ local stat = client:Stat(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Stat():load({ id = "stat_id" })
+local result, err = client:Stat():load()
 ```
 
 ### Common Methods

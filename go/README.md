@@ -4,6 +4,8 @@
 
 The Golang SDK for the RailwayStationPhotos API — an entity-oriented client using standard Go conventions. No generics required; data flows as `map[string]any`.
 
+It exposes the API as capitalised, semantic **Entities** — e.g. `client.AdminInbox(nil)` — each with the same small set of operations (`List`, `Load`, `Create`, `Remove`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
+
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
 
@@ -49,12 +51,41 @@ func main() {
     client := sdk.New()
 
     // Create a admininbox.
-    created, err := client.AdminInbox(nil).Create(map[string]any{"name": "Example"}, nil)
+    created, err := client.AdminInbox(nil).Create(map[string]any{"command": "example", "message": "example", "status": 1}, nil)
     if err != nil {
         panic(err)
     }
     fmt.Println(created)
 }
+```
+
+
+## Error handling
+
+Every entity operation returns `(value, error)`. Check `err` before
+using the value — there is no exception to catch:
+
+```go
+admininbox, err := client.AdminInbox(nil).Create(map[string]any{"command": "example", "message": "example", "status": 1}, nil)
+if err != nil {
+    // handle err
+    return
+}
+_ = admininbox
+```
+
+`Direct` follows the same `(value, error)` convention:
+
+```go
+result, err := client.Direct(map[string]any{
+    "path":   "/api/resource/{id}",
+    "method": "GET",
+    "params": map[string]any{"id": "example_id"},
+})
+if err != nil {
+    // handle err
+}
+_ = result
 ```
 
 
@@ -104,13 +135,13 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-admininbox, err := client.AdminInbox(nil).Load(
-    map[string]any{"id": "test01"}, nil,
+admininbox, err := client.AdminInbox(nil).Create(
+    map[string]any{"command": "example", "message": "example", "status": 1}, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(admininbox) // the loaded mock data
+fmt.Println(admininbox) // the returned mock data
 ```
 
 ### Use a custom fetch function
@@ -213,7 +244,6 @@ All entities implement the `RailwayStationPhotosEntity` interface.
 | `Load` | `(reqmatch, ctrl map[string]any) (any, error)` | Load a single entity by match criteria. |
 | `List` | `(reqmatch, ctrl map[string]any) (any, error)` | List entities matching the criteria. |
 | `Create` | `(reqdata, ctrl map[string]any) (any, error)` | Create a new entity. |
-| `Update` | `(reqdata, ctrl map[string]any) (any, error)` | Update an existing entity. |
 | `Remove` | `(reqmatch, ctrl map[string]any) (any, error)` | Remove an entity. |
 | `Data` | `(args ...any) any` | Get or set entity data. |
 | `Match` | `(args ...any) any` | Get or set entity match criteria. |
@@ -227,16 +257,16 @@ operation's data **directly** — there is no wrapper:
 
 | Operation | `value` |
 | --- | --- |
-| `Load` / `Create` / `Update` / `Remove` | the entity record (`map[string]any`) |
+| `Load` / `Create` / `Remove` | the entity record (`map[string]any`) |
 | `List` | a `[]any` of entity records |
 
 Check `err` first, then use the value directly (or the typed
 `...Typed` variants, which return the entity's model struct and a typed
 slice):
 
-    admininbox, err := client.AdminInbox(nil).Load(map[string]any{"id": "example_id"}, nil)
+    admininbox, err := client.AdminInbox(nil).Create(map[string]any{/* fields */}, nil)
     if err != nil { /* handle */ }
-    // admininbox is the loaded record
+    // admininbox is the returned record
 
 Only `Direct()` returns a response envelope — a `map[string]any` with
 `"ok"`, `"status"`, `"headers"`, and `"data"` keys.
@@ -497,27 +527,27 @@ Create an instance: `admin_inbox := client.AdminInbox(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `active` | ``$BOOLEAN`` |  |
-| `command` | ``$STRING`` |  |
-| `conflict_resolution` | ``$STRING`` |  |
-| `country_code` | ``$STRING`` |  |
-| `ds100` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `lat` | ``$NUMBER`` |  |
-| `lon` | ``$NUMBER`` |  |
-| `message` | ``$STRING`` |  |
-| `reject_reason` | ``$STRING`` |  |
-| `station_id` | ``$STRING`` |  |
-| `status` | ``$INTEGER`` |  |
-| `title` | ``$STRING`` |  |
+| `active` | `bool` |  |
+| `command` | `string` |  |
+| `conflict_resolution` | `string` |  |
+| `country_code` | `string` |  |
+| `ds100` | `string` |  |
+| `id` | `int` |  |
+| `lat` | `float64` |  |
+| `lon` | `float64` |  |
+| `message` | `string` |  |
+| `reject_reason` | `string` |  |
+| `station_id` | `string` |  |
+| `status` | `int` |  |
+| `title` | `string` |  |
 
 #### Example: Create
 
 ```go
 result, err := client.AdminInbox(nil).Create(map[string]any{
-    "command": /* `$STRING` */,
-    "message": /* `$STRING` */,
-    "status": /* `$INTEGER` */,
+    "command": /* string */,
+    "message": /* string */,
+    "status": /* int */,
 }, nil)
 ```
 
@@ -536,15 +566,15 @@ Create an instance: `country := client.Country(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `active` | ``$BOOLEAN`` |  |
-| `allow_photo_upload` | ``$BOOLEAN`` |  |
-| `code` | ``$STRING`` |  |
-| `email` | ``$STRING`` |  |
-| `message` | ``$STRING`` |  |
-| `name` | ``$STRING`` |  |
-| `override_license` | ``$STRING`` |  |
-| `provider_app` | ``$ARRAY`` |  |
-| `timetable_url_template` | ``$STRING`` |  |
+| `active` | `bool` |  |
+| `allow_photo_upload` | `bool` |  |
+| `code` | `string` |  |
+| `email` | `string` |  |
+| `message` | `string` |  |
+| `name` | `string` |  |
+| `override_license` | `string` |  |
+| `provider_app` | `[]any` |  |
+| `timetable_url_template` | `string` |  |
 
 #### Example: List
 
@@ -573,23 +603,23 @@ Create an instance: `inbox := client.Inbox(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `comment` | ``$STRING`` |  |
-| `country_code` | ``$STRING`` |  |
-| `crc32` | ``$INTEGER`` |  |
-| `created_at` | ``$INTEGER`` |  |
-| `filename` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `inbox_url` | ``$STRING`` |  |
-| `lat` | ``$NUMBER`` |  |
-| `lon` | ``$NUMBER`` |  |
-| `new_lat` | ``$NUMBER`` |  |
-| `new_lon` | ``$NUMBER`` |  |
-| `new_title` | ``$STRING`` |  |
-| `problem_report_type` | ``$STRING`` |  |
-| `rejected_reason` | ``$STRING`` |  |
-| `state` | ``$STRING`` |  |
-| `station_id` | ``$STRING`` |  |
-| `title` | ``$STRING`` |  |
+| `comment` | `string` |  |
+| `country_code` | `string` |  |
+| `crc32` | `int` |  |
+| `created_at` | `int` |  |
+| `filename` | `string` |  |
+| `id` | `int` |  |
+| `inbox_url` | `string` |  |
+| `lat` | `float64` |  |
+| `lon` | `float64` |  |
+| `new_lat` | `float64` |  |
+| `new_lon` | `float64` |  |
+| `new_title` | `string` |  |
+| `problem_report_type` | `string` |  |
+| `rejected_reason` | `string` |  |
+| `state` | `string` |  |
+| `station_id` | `string` |  |
+| `title` | `string` |  |
 
 #### Example: List
 
@@ -605,7 +635,7 @@ fmt.Println(inboxs) // the array of records
 
 ```go
 result, err := client.Inbox(nil).Create(map[string]any{
-    "state": /* `$STRING` */,
+    "state": /* string */,
 }, nil)
 ```
 
@@ -624,12 +654,12 @@ Create an instance: `inbox_count := client.InboxCount(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `pending_inbox_entry` | ``$INTEGER`` |  |
+| `pending_inbox_entry` | `int` |  |
 
 #### Example: Load
 
 ```go
-inbox_count, err := client.InboxCount(nil).Load(map[string]any{"id": "inbox_count_id"}, nil)
+inbox_count, err := client.InboxCount(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
@@ -651,28 +681,28 @@ Create an instance: `inbox_entry := client.InboxEntry(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `active` | ``$BOOLEAN`` |  |
-| `comment` | ``$STRING`` |  |
-| `country_code` | ``$STRING`` |  |
-| `created_at` | ``$INTEGER`` |  |
-| `done` | ``$BOOLEAN`` |  |
-| `filename` | ``$STRING`` |  |
-| `has_conflict` | ``$BOOLEAN`` |  |
-| `has_photo` | ``$BOOLEAN`` |  |
-| `id` | ``$INTEGER`` |  |
-| `inbox_url` | ``$STRING`` |  |
-| `is_processed` | ``$BOOLEAN`` |  |
-| `lat` | ``$NUMBER`` |  |
-| `lon` | ``$NUMBER`` |  |
-| `new_lat` | ``$NUMBER`` |  |
-| `new_lon` | ``$NUMBER`` |  |
-| `new_title` | ``$STRING`` |  |
-| `photo_id` | ``$INTEGER`` |  |
-| `photographer_email` | ``$STRING`` |  |
-| `photographer_nickname` | ``$STRING`` |  |
-| `problem_report_type` | ``$STRING`` |  |
-| `station_id` | ``$STRING`` |  |
-| `title` | ``$STRING`` |  |
+| `active` | `bool` |  |
+| `comment` | `string` |  |
+| `country_code` | `string` |  |
+| `created_at` | `int` |  |
+| `done` | `bool` |  |
+| `filename` | `string` |  |
+| `has_conflict` | `bool` |  |
+| `has_photo` | `bool` |  |
+| `id` | `int` |  |
+| `inbox_url` | `string` |  |
+| `is_processed` | `bool` |  |
+| `lat` | `float64` |  |
+| `lon` | `float64` |  |
+| `new_lat` | `float64` |  |
+| `new_lon` | `float64` |  |
+| `new_title` | `string` |  |
+| `photo_id` | `int` |  |
+| `photographer_email` | `string` |  |
+| `photographer_nickname` | `string` |  |
+| `problem_report_type` | `string` |  |
+| `station_id` | `string` |  |
+| `title` | `string` |  |
 
 #### Example: List
 
@@ -704,19 +734,19 @@ Create an instance: `o_auth_token := client.OAuthToken(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `access_token` | ``$STRING`` |  |
-| `expires_in` | ``$INTEGER`` |  |
-| `refresh_token` | ``$STRING`` |  |
-| `scope` | ``$STRING`` |  |
-| `token_type` | ``$STRING`` |  |
+| `access_token` | `string` |  |
+| `expires_in` | `int` |  |
+| `refresh_token` | `string` |  |
+| `scope` | `string` |  |
+| `token_type` | `string` |  |
 
 #### Example: Create
 
 ```go
 result, err := client.OAuthToken(nil).Create(map[string]any{
-    "access_token": /* `$STRING` */,
-    "scope": /* `$STRING` */,
-    "token_type": /* `$STRING` */,
+    "access_token": /* string */,
+    "scope": /* string */,
+    "token_type": /* string */,
 }, nil)
 ```
 
@@ -735,7 +765,7 @@ Create an instance: `oauth := client.Oauth(nil)`
 #### Example: Load
 
 ```go
-oauth, err := client.Oauth(nil).Load(map[string]any{"id": "oauth_id"}, nil)
+oauth, err := client.Oauth(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
@@ -763,7 +793,7 @@ Create an instance: `photo := client.Photo(nil)`
 #### Example: Load
 
 ```go
-photo, err := client.Photo(nil).Load(map[string]any{"id": "photo_id"}, nil)
+photo, err := client.Photo(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
@@ -784,7 +814,7 @@ Create an instance: `photo_download := client.PhotoDownload(nil)`
 #### Example: Load
 
 ```go
-photo_download, err := client.PhotoDownload(nil).Load(map[string]any{"id": "photo_download_id"}, nil)
+photo_download, err := client.PhotoDownload(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
@@ -807,15 +837,15 @@ Create an instance: `photo_station := client.PhotoStation(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `license` | ``$ARRAY`` |  |
-| `photo_base_url` | ``$STRING`` |  |
-| `photographer` | ``$ARRAY`` |  |
-| `station` | ``$ARRAY`` |  |
+| `license` | `[]any` |  |
+| `photo_base_url` | `string` |  |
+| `photographer` | `[]any` |  |
+| `station` | `[]any` |  |
 
 #### Example: Load
 
 ```go
-photo_station, err := client.PhotoStation(nil).Load(map[string]any{"id": "photo_station_id"}, nil)
+photo_station, err := client.PhotoStation(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
@@ -864,7 +894,7 @@ Create an instance: `photographer := client.Photographer(nil)`
 #### Example: Load
 
 ```go
-photographer, err := client.Photographer(nil).Load(map[string]any{"id": "photographer_id"}, nil)
+photographer, err := client.Photographer(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
@@ -888,21 +918,21 @@ Create an instance: `profile := client.Profile(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `admin` | ``$BOOLEAN`` |  |
-| `anonymous` | ``$BOOLEAN`` |  |
-| `email` | ``$STRING`` |  |
-| `email_verified` | ``$BOOLEAN`` |  |
-| `license` | ``$STRING`` |  |
-| `link` | ``$STRING`` |  |
-| `new_password` | ``$STRING`` |  |
-| `nickname` | ``$STRING`` |  |
-| `photo_owner` | ``$BOOLEAN`` |  |
-| `send_notification` | ``$BOOLEAN`` |  |
+| `admin` | `bool` |  |
+| `anonymous` | `bool` |  |
+| `email` | `string` |  |
+| `email_verified` | `bool` |  |
+| `license` | `string` |  |
+| `link` | `string` |  |
+| `new_password` | `string` |  |
+| `nickname` | `string` |  |
+| `photo_owner` | `bool` |  |
+| `send_notification` | `bool` |  |
 
 #### Example: Load
 
 ```go
-profile, err := client.Profile(nil).Load(map[string]any{"id": "profile_id"}, nil)
+profile, err := client.Profile(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
@@ -913,10 +943,10 @@ fmt.Println(profile) // the loaded record
 
 ```go
 result, err := client.Profile(nil).Create(map[string]any{
-    "license": /* `$STRING` */,
-    "new_password": /* `$STRING` */,
-    "nickname": /* `$STRING` */,
-    "photo_owner": /* `$BOOLEAN` */,
+    "license": /* string */,
+    "new_password": /* string */,
+    "nickname": /* string */,
+    "photo_owner": /* bool */,
 }, nil)
 ```
 
@@ -935,11 +965,11 @@ Create an instance: `public_inbox := client.PublicInbox(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `country_code` | ``$STRING`` |  |
-| `lat` | ``$NUMBER`` |  |
-| `lon` | ``$NUMBER`` |  |
-| `station_id` | ``$STRING`` |  |
-| `title` | ``$STRING`` |  |
+| `country_code` | `string` |  |
+| `lat` | `float64` |  |
+| `lon` | `float64` |  |
+| `station_id` | `string` |  |
+| `title` | `string` |  |
 
 #### Example: List
 
@@ -966,16 +996,16 @@ Create an instance: `stat := client.Stat(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `country_code` | ``$STRING`` |  |
-| `photographer` | ``$INTEGER`` |  |
-| `total` | ``$INTEGER`` |  |
-| `with_photo` | ``$INTEGER`` |  |
-| `without_photo` | ``$INTEGER`` |  |
+| `country_code` | `string` |  |
+| `photographer` | `int` |  |
+| `total` | `int` |  |
+| `with_photo` | `int` |  |
+| `without_photo` | `int` |  |
 
 #### Example: Load
 
 ```go
-stat, err := client.Stat(nil).Load(map[string]any{"id": "stat_id"}, nil)
+stat, err := client.Stat(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
@@ -983,12 +1013,16 @@ fmt.Println(stat) // the loaded record
 ```
 
 
-## Explanation
+## Advanced
+
+> The sections above cover everyday use. The material below explains the
+> SDK's internals — useful when extending it with custom features, but not
+> needed for normal use.
 
 ### The operation pipeline
 
-Every entity operation (load, list, create, update, remove) follows a
-six-stage pipeline. Each stage fires a feature hook before executing:
+Every entity operation follows a six-stage pipeline. Each stage fires a
+feature hook before executing:
 
 ```
 PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
@@ -1005,9 +1039,9 @@ PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
 - **PreDone**: Final stage before returning to the caller. Entity
   state (match, data) is updated here.
 
-If any stage returns an error, the pipeline short-circuits and the
-error is returned to the caller. An unexpected panic triggers the
-`PreUnexpected` hook.
+If any stage errors, the pipeline short-circuits and the error surfaces
+to the caller — see [Error handling](#error-handling) for how that looks
+in this language.
 
 ### Features and hooks
 
@@ -1048,14 +1082,14 @@ like `core.ToMapAny`.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `Load`, the entity
+Entity instances are stateful. After a successful `Create`, the entity
 stores the returned data and match criteria internally.
 
 ```go
 admininbox := client.AdminInbox(nil)
-admininbox.Load(map[string]any{"id": "example_id"}, nil)
+admininbox.Create(map[string]any{"command": "example", "message": "example", "status": 1}, nil)
 
-// admininbox.Data() now returns the loaded admininbox data
+// admininbox.Data() now returns the admininbox data from the last create
 // admininbox.Match() returns the last match criteria
 ```
 

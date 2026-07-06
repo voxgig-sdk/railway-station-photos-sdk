@@ -4,6 +4,8 @@
 
 The PHP SDK for the RailwayStationPhotos API — an entity-oriented client using PHP conventions.
 
+The SDK exposes the API as capitalised, semantic **Entities** — for example `$client->AdminInbox()` — with named operations (`list`/`load`/`create`/`remove`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
+
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
 
@@ -33,8 +35,39 @@ $client = new RailwayStationPhotosSDK();
 
 ```php
 // create() returns the bare created AdminInbox record.
-$created = $client->AdminInbox()->create(["name" => "Example"]);
+$created = $client->AdminInbox()->create(["command" => "example", "message" => "example", "status" => 1]);
 
+```
+
+
+## Error handling
+
+Entity operations throw a `\Throwable` on failure, so wrap them in
+`try` / `catch`:
+
+```php
+try {
+    $admininbox = $client->AdminInbox()->create(["command" => "example", "message" => "example", "status" => 1]);
+} catch (\Throwable $err) {
+    echo "Error: " . $err->getMessage();
+}
+```
+
+`direct()` does **not** throw — it returns the result array. Branch on
+`ok`; on failure `status` holds the HTTP status (for error responses) and
+`err` holds a transport error, so read both defensively:
+
+```php
+$result = $client->direct([
+    "path" => "/api/resource/{id}",
+    "method" => "GET",
+    "params" => ["id" => "example_id"],
+]);
+
+if (! $result["ok"]) {
+    $err = $result["err"] ?? null;
+    echo "request failed: " . ($err ? $err->getMessage() : "HTTP " . $result["status"]);
+}
 ```
 
 
@@ -57,7 +90,10 @@ if ($result["ok"]) {
     echo $result["status"];  // 200
     print_r($result["data"]);  // response body
 } else {
-    echo "Error: " . $result["err"]->getMessage();
+    // On an HTTP error status there is no err (only a transport failure sets
+    // it), so fall back to the status code.
+    $err = $result["err"] ?? null;
+    echo "Error: " . ($err ? $err->getMessage() : "HTTP " . $result["status"]);
 }
 ```
 
@@ -78,16 +114,13 @@ print_r($fetchdef["headers"]);
 
 ### Use test mode
 
-Create a mock client for unit testing — no server required. Seed fixture
-data via the `entity` option so offline calls resolve without a live server:
+Create a mock client for unit testing — no server required:
 
 ```php
-$client = RailwayStationPhotosSDK::test([
-    "entity" => ["admininbox" => ["test01" => ["id" => "test01"]]],
-]);
+$client = RailwayStationPhotosSDK::test();
 
-// load() returns the bare mock record (throws on error).
-$admininbox = $client->AdminInbox()->load(["id" => "test01"]);
+// Entity ops return the bare mock record (throws on error).
+$admininbox = $client->AdminInbox()->create(["command" => "example", "message" => "example", "status" => 1]);
 print_r($admininbox);
 ```
 
@@ -191,9 +224,8 @@ All entities share the same interface.
 | Method | Signature | Description |
 | --- | --- | --- |
 | `load` | `($reqmatch, $ctrl): array` | Load a single entity by match criteria. |
-| `list` | `($reqmatch, $ctrl): array` | List entities matching the criteria. |
+| `list` | `(?array $reqmatch = null, $ctrl): array` | List entities matching the criteria (call with no argument to list all). |
 | `create` | `($reqdata, $ctrl): array` | Create a new entity. |
-| `update` | `($reqdata, $ctrl): array` | Update an existing entity. |
 | `remove` | `($reqmatch, $ctrl): array` | Remove an entity. |
 | `data_get` | `(): array` | Get entity data. |
 | `data_set` | `($data): void` | Set entity data. |
@@ -476,27 +508,27 @@ Create an instance: `$admin_inbox = $client->AdminInbox();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `active` | ``$BOOLEAN`` |  |
-| `command` | ``$STRING`` |  |
-| `conflict_resolution` | ``$STRING`` |  |
-| `country_code` | ``$STRING`` |  |
-| `ds100` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `lat` | ``$NUMBER`` |  |
-| `lon` | ``$NUMBER`` |  |
-| `message` | ``$STRING`` |  |
-| `reject_reason` | ``$STRING`` |  |
-| `station_id` | ``$STRING`` |  |
-| `status` | ``$INTEGER`` |  |
-| `title` | ``$STRING`` |  |
+| `active` | `bool` |  |
+| `command` | `string` |  |
+| `conflict_resolution` | `string` |  |
+| `country_code` | `string` |  |
+| `ds100` | `string` |  |
+| `id` | `int` |  |
+| `lat` | `float` |  |
+| `lon` | `float` |  |
+| `message` | `string` |  |
+| `reject_reason` | `string` |  |
+| `station_id` | `string` |  |
+| `status` | `int` |  |
+| `title` | `string` |  |
 
 #### Example: Create
 
 ```php
 $admin_inbox = $client->AdminInbox()->create([
-    "command" => null, // `$STRING`
-    "message" => null, // `$STRING`
-    "status" => null, // `$INTEGER`
+    "command" => null, // string
+    "message" => null, // string
+    "status" => null, // int
 ]);
 ```
 
@@ -515,15 +547,15 @@ Create an instance: `$country = $client->Country();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `active` | ``$BOOLEAN`` |  |
-| `allow_photo_upload` | ``$BOOLEAN`` |  |
-| `code` | ``$STRING`` |  |
-| `email` | ``$STRING`` |  |
-| `message` | ``$STRING`` |  |
-| `name` | ``$STRING`` |  |
-| `override_license` | ``$STRING`` |  |
-| `provider_app` | ``$ARRAY`` |  |
-| `timetable_url_template` | ``$STRING`` |  |
+| `active` | `bool` |  |
+| `allow_photo_upload` | `bool` |  |
+| `code` | `string` |  |
+| `email` | `string` |  |
+| `message` | `string` |  |
+| `name` | `string` |  |
+| `override_license` | `string` |  |
+| `provider_app` | `array` |  |
+| `timetable_url_template` | `string` |  |
 
 #### Example: List
 
@@ -549,23 +581,23 @@ Create an instance: `$inbox = $client->Inbox();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `comment` | ``$STRING`` |  |
-| `country_code` | ``$STRING`` |  |
-| `crc32` | ``$INTEGER`` |  |
-| `created_at` | ``$INTEGER`` |  |
-| `filename` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `inbox_url` | ``$STRING`` |  |
-| `lat` | ``$NUMBER`` |  |
-| `lon` | ``$NUMBER`` |  |
-| `new_lat` | ``$NUMBER`` |  |
-| `new_lon` | ``$NUMBER`` |  |
-| `new_title` | ``$STRING`` |  |
-| `problem_report_type` | ``$STRING`` |  |
-| `rejected_reason` | ``$STRING`` |  |
-| `state` | ``$STRING`` |  |
-| `station_id` | ``$STRING`` |  |
-| `title` | ``$STRING`` |  |
+| `comment` | `string` |  |
+| `country_code` | `string` |  |
+| `crc32` | `int` |  |
+| `created_at` | `int` |  |
+| `filename` | `string` |  |
+| `id` | `int` |  |
+| `inbox_url` | `string` |  |
+| `lat` | `float` |  |
+| `lon` | `float` |  |
+| `new_lat` | `float` |  |
+| `new_lon` | `float` |  |
+| `new_title` | `string` |  |
+| `problem_report_type` | `string` |  |
+| `rejected_reason` | `string` |  |
+| `state` | `string` |  |
+| `station_id` | `string` |  |
+| `title` | `string` |  |
 
 #### Example: List
 
@@ -578,7 +610,7 @@ $inboxs = $client->Inbox()->list();
 
 ```php
 $inbox = $client->Inbox()->create([
-    "state" => null, // `$STRING`
+    "state" => null, // string
 ]);
 ```
 
@@ -597,13 +629,13 @@ Create an instance: `$inbox_count = $client->InboxCount();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `pending_inbox_entry` | ``$INTEGER`` |  |
+| `pending_inbox_entry` | `int` |  |
 
 #### Example: Load
 
 ```php
 // load() returns the bare InboxCount record (throws on error).
-$inbox_count = $client->InboxCount()->load(["id" => "inbox_count_id"]);
+$inbox_count = $client->InboxCount()->load();
 ```
 
 
@@ -621,28 +653,28 @@ Create an instance: `$inbox_entry = $client->InboxEntry();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `active` | ``$BOOLEAN`` |  |
-| `comment` | ``$STRING`` |  |
-| `country_code` | ``$STRING`` |  |
-| `created_at` | ``$INTEGER`` |  |
-| `done` | ``$BOOLEAN`` |  |
-| `filename` | ``$STRING`` |  |
-| `has_conflict` | ``$BOOLEAN`` |  |
-| `has_photo` | ``$BOOLEAN`` |  |
-| `id` | ``$INTEGER`` |  |
-| `inbox_url` | ``$STRING`` |  |
-| `is_processed` | ``$BOOLEAN`` |  |
-| `lat` | ``$NUMBER`` |  |
-| `lon` | ``$NUMBER`` |  |
-| `new_lat` | ``$NUMBER`` |  |
-| `new_lon` | ``$NUMBER`` |  |
-| `new_title` | ``$STRING`` |  |
-| `photo_id` | ``$INTEGER`` |  |
-| `photographer_email` | ``$STRING`` |  |
-| `photographer_nickname` | ``$STRING`` |  |
-| `problem_report_type` | ``$STRING`` |  |
-| `station_id` | ``$STRING`` |  |
-| `title` | ``$STRING`` |  |
+| `active` | `bool` |  |
+| `comment` | `string` |  |
+| `country_code` | `string` |  |
+| `created_at` | `int` |  |
+| `done` | `bool` |  |
+| `filename` | `string` |  |
+| `has_conflict` | `bool` |  |
+| `has_photo` | `bool` |  |
+| `id` | `int` |  |
+| `inbox_url` | `string` |  |
+| `is_processed` | `bool` |  |
+| `lat` | `float` |  |
+| `lon` | `float` |  |
+| `new_lat` | `float` |  |
+| `new_lon` | `float` |  |
+| `new_title` | `string` |  |
+| `photo_id` | `int` |  |
+| `photographer_email` | `string` |  |
+| `photographer_nickname` | `string` |  |
+| `problem_report_type` | `string` |  |
+| `station_id` | `string` |  |
+| `title` | `string` |  |
 
 #### Example: List
 
@@ -671,19 +703,19 @@ Create an instance: `$o_auth_token = $client->OAuthToken();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `access_token` | ``$STRING`` |  |
-| `expires_in` | ``$INTEGER`` |  |
-| `refresh_token` | ``$STRING`` |  |
-| `scope` | ``$STRING`` |  |
-| `token_type` | ``$STRING`` |  |
+| `access_token` | `string` |  |
+| `expires_in` | `int` |  |
+| `refresh_token` | `string` |  |
+| `scope` | `string` |  |
+| `token_type` | `string` |  |
 
 #### Example: Create
 
 ```php
 $o_auth_token = $client->OAuthToken()->create([
-    "access_token" => null, // `$STRING`
-    "scope" => null, // `$STRING`
-    "token_type" => null, // `$STRING`
+    "access_token" => null, // string
+    "scope" => null, // string
+    "token_type" => null, // string
 ]);
 ```
 
@@ -703,7 +735,7 @@ Create an instance: `$oauth = $client->Oauth();`
 
 ```php
 // load() returns the bare Oauth record (throws on error).
-$oauth = $client->Oauth()->load(["id" => "oauth_id"]);
+$oauth = $client->Oauth()->load();
 ```
 
 #### Example: Create
@@ -728,7 +760,7 @@ Create an instance: `$photo = $client->Photo();`
 
 ```php
 // load() returns the bare Photo record (throws on error).
-$photo = $client->Photo()->load(["id" => "photo_id"]);
+$photo = $client->Photo()->load();
 ```
 
 
@@ -746,7 +778,7 @@ Create an instance: `$photo_download = $client->PhotoDownload();`
 
 ```php
 // load() returns the bare PhotoDownload record (throws on error).
-$photo_download = $client->PhotoDownload()->load(["id" => "photo_download_id"]);
+$photo_download = $client->PhotoDownload()->load();
 ```
 
 
@@ -765,16 +797,16 @@ Create an instance: `$photo_station = $client->PhotoStation();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `license` | ``$ARRAY`` |  |
-| `photo_base_url` | ``$STRING`` |  |
-| `photographer` | ``$ARRAY`` |  |
-| `station` | ``$ARRAY`` |  |
+| `license` | `array` |  |
+| `photo_base_url` | `string` |  |
+| `photographer` | `array` |  |
+| `station` | `array` |  |
 
 #### Example: Load
 
 ```php
 // load() returns the bare PhotoStation record (throws on error).
-$photo_station = $client->PhotoStation()->load(["id" => "photo_station_id"]);
+$photo_station = $client->PhotoStation()->load();
 ```
 
 #### Example: List
@@ -817,7 +849,7 @@ Create an instance: `$photographer = $client->Photographer();`
 
 ```php
 // load() returns the bare Photographer record (throws on error).
-$photographer = $client->Photographer()->load(["id" => "photographer_id"]);
+$photographer = $client->Photographer()->load();
 ```
 
 
@@ -837,32 +869,32 @@ Create an instance: `$profile = $client->Profile();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `admin` | ``$BOOLEAN`` |  |
-| `anonymous` | ``$BOOLEAN`` |  |
-| `email` | ``$STRING`` |  |
-| `email_verified` | ``$BOOLEAN`` |  |
-| `license` | ``$STRING`` |  |
-| `link` | ``$STRING`` |  |
-| `new_password` | ``$STRING`` |  |
-| `nickname` | ``$STRING`` |  |
-| `photo_owner` | ``$BOOLEAN`` |  |
-| `send_notification` | ``$BOOLEAN`` |  |
+| `admin` | `bool` |  |
+| `anonymous` | `bool` |  |
+| `email` | `string` |  |
+| `email_verified` | `bool` |  |
+| `license` | `string` |  |
+| `link` | `string` |  |
+| `new_password` | `string` |  |
+| `nickname` | `string` |  |
+| `photo_owner` | `bool` |  |
+| `send_notification` | `bool` |  |
 
 #### Example: Load
 
 ```php
 // load() returns the bare Profile record (throws on error).
-$profile = $client->Profile()->load(["id" => "profile_id"]);
+$profile = $client->Profile()->load();
 ```
 
 #### Example: Create
 
 ```php
 $profile = $client->Profile()->create([
-    "license" => null, // `$STRING`
-    "new_password" => null, // `$STRING`
-    "nickname" => null, // `$STRING`
-    "photo_owner" => null, // `$BOOLEAN`
+    "license" => null, // string
+    "new_password" => null, // string
+    "nickname" => null, // string
+    "photo_owner" => null, // bool
 ]);
 ```
 
@@ -881,11 +913,11 @@ Create an instance: `$public_inbox = $client->PublicInbox();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `country_code` | ``$STRING`` |  |
-| `lat` | ``$NUMBER`` |  |
-| `lon` | ``$NUMBER`` |  |
-| `station_id` | ``$STRING`` |  |
-| `title` | ``$STRING`` |  |
+| `country_code` | `string` |  |
+| `lat` | `float` |  |
+| `lon` | `float` |  |
+| `station_id` | `string` |  |
+| `title` | `string` |  |
 
 #### Example: List
 
@@ -909,26 +941,30 @@ Create an instance: `$stat = $client->Stat();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `country_code` | ``$STRING`` |  |
-| `photographer` | ``$INTEGER`` |  |
-| `total` | ``$INTEGER`` |  |
-| `with_photo` | ``$INTEGER`` |  |
-| `without_photo` | ``$INTEGER`` |  |
+| `country_code` | `string` |  |
+| `photographer` | `int` |  |
+| `total` | `int` |  |
+| `with_photo` | `int` |  |
+| `without_photo` | `int` |  |
 
 #### Example: Load
 
 ```php
 // load() returns the bare Stat record (throws on error).
-$stat = $client->Stat()->load(["id" => "stat_id"]);
+$stat = $client->Stat()->load();
 ```
 
 
-## Explanation
+## Advanced
+
+> The sections above cover everyday use. The material below explains the
+> SDK's internals — useful when extending it with custom features, but not
+> needed for normal use.
 
 ### The operation pipeline
 
-Every entity operation (load, list, create, update, remove) follows a
-six-stage pipeline. Each stage fires a feature hook before executing:
+Every entity operation follows a six-stage pipeline. Each stage fires a
+feature hook before executing:
 
 ```
 PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
@@ -945,8 +981,9 @@ PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
 - **PreDone**: Final stage before returning to the caller. Entity
   state (match, data) is updated here.
 
-If any stage returns an error, the pipeline short-circuits and the
-error is returned to the caller as the second element in the return array.
+If any stage errors, the pipeline short-circuits and the error surfaces
+to the caller — see [Error handling](#error-handling) for how that looks
+in this language.
 
 ### Features and hooks
 
@@ -990,15 +1027,15 @@ when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `load`, the entity
+Entity instances are stateful. After a successful `create`, the entity
 stores the returned data and match criteria internally.
 
 ```php
 $admininbox = $client->AdminInbox();
-$admininbox->load(["id" => "example_id"]);
+$admininbox->create(["command" => "example", "message" => "example", "status" => 1]);
 
-// $admininbox->dataGet() now returns the loaded admininbox data
-// $admininbox->matchGet() returns the last match criteria
+// $admininbox->data_get() now returns the admininbox data from the last create
+// $admininbox->match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

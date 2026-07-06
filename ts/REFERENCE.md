@@ -296,19 +296,19 @@ const admin_inbox = client.AdminInbox()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `active` | ``$BOOLEAN`` | No |  |
-| `command` | ``$STRING`` | Yes |  |
-| `conflict_resolution` | ``$STRING`` | No |  |
-| `country_code` | ``$STRING`` | No |  |
-| `ds100` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `lat` | ``$NUMBER`` | No |  |
-| `lon` | ``$NUMBER`` | No |  |
-| `message` | ``$STRING`` | Yes |  |
-| `reject_reason` | ``$STRING`` | No |  |
-| `station_id` | ``$STRING`` | No |  |
-| `status` | ``$INTEGER`` | Yes |  |
-| `title` | ``$STRING`` | No |  |
+| `active` | `boolean` | No |  |
+| `command` | `string` | Yes |  |
+| `conflict_resolution` | `string` | No |  |
+| `country_code` | `string` | No |  |
+| `ds100` | `string` | No |  |
+| `id` | `number` | Yes |  |
+| `lat` | `number` | No |  |
+| `lon` | `number` | No |  |
+| `message` | `string` | Yes |  |
+| `reject_reason` | `string` | No |  |
+| `station_id` | `string` | No |  |
+| `status` | `number` | Yes |  |
+| `title` | `string` | No |  |
 
 ### Operations
 
@@ -318,9 +318,9 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.AdminInbox().create({
-  command: /* `$STRING` */,
-  message: /* `$STRING` */,
-  status: /* `$INTEGER` */,
+  command: /* string */,
+  message: /* string */,
+  status: /* number */,
 })
 ```
 
@@ -362,15 +362,15 @@ const country = client.Country()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `active` | ``$BOOLEAN`` | Yes |  |
-| `allow_photo_upload` | ``$BOOLEAN`` | Yes |  |
-| `code` | ``$STRING`` | Yes |  |
-| `email` | ``$STRING`` | No |  |
-| `message` | ``$STRING`` | No |  |
-| `name` | ``$STRING`` | Yes |  |
-| `override_license` | ``$STRING`` | No |  |
-| `provider_app` | ``$ARRAY`` | No |  |
-| `timetable_url_template` | ``$STRING`` | No |  |
+| `active` | `boolean` | Yes |  |
+| `allow_photo_upload` | `boolean` | Yes |  |
+| `code` | `string` | Yes |  |
+| `email` | `string` | No |  |
+| `message` | `string` | No |  |
+| `name` | `string` | Yes |  |
+| `override_license` | `string` | No |  |
+| `provider_app` | `any[]` | No |  |
+| `timetable_url_template` | `string` | No |  |
 
 ### Operations
 
@@ -420,23 +420,23 @@ const inbox = client.Inbox()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `comment` | ``$STRING`` | No |  |
-| `country_code` | ``$STRING`` | No |  |
-| `crc32` | ``$INTEGER`` | No |  |
-| `created_at` | ``$INTEGER`` | No |  |
-| `filename` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `inbox_url` | ``$STRING`` | No |  |
-| `lat` | ``$NUMBER`` | No |  |
-| `lon` | ``$NUMBER`` | No |  |
-| `new_lat` | ``$NUMBER`` | No |  |
-| `new_lon` | ``$NUMBER`` | No |  |
-| `new_title` | ``$STRING`` | No |  |
-| `problem_report_type` | ``$STRING`` | No |  |
-| `rejected_reason` | ``$STRING`` | No |  |
-| `state` | ``$STRING`` | Yes |  |
-| `station_id` | ``$STRING`` | No |  |
-| `title` | ``$STRING`` | No |  |
+| `comment` | `string` | No |  |
+| `country_code` | `string` | No |  |
+| `crc32` | `number` | No |  |
+| `created_at` | `number` | No |  |
+| `filename` | `string` | No |  |
+| `id` | `number` | Yes |  |
+| `inbox_url` | `string` | No |  |
+| `lat` | `number` | No |  |
+| `lon` | `number` | No |  |
+| `new_lat` | `number` | No |  |
+| `new_lon` | `number` | No |  |
+| `new_title` | `string` | No |  |
+| `problem_report_type` | `string` | No |  |
+| `rejected_reason` | `string` | No |  |
+| `state` | `string` | Yes |  |
+| `station_id` | `string` | No |  |
+| `title` | `string` | No |  |
 
 ### Operations
 
@@ -446,7 +446,7 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.Inbox().create({
-  state: /* `$STRING` */,
+  state: /* string */,
 })
 ```
 
@@ -463,7 +463,7 @@ const results = await client.Inbox().list()
 Remove the entity matching the given criteria.
 
 ```ts
-const result = await client.Inbox().remove({ id: 'inbox_id' })
+const result = await client.Inbox().remove()
 ```
 
 ### Common Methods
@@ -504,7 +504,7 @@ const inbox_count = client.InboxCount()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `pending_inbox_entry` | ``$INTEGER`` | Yes |  |
+| `pending_inbox_entry` | `number` | Yes |  |
 
 ### Operations
 
@@ -513,7 +513,7 @@ const inbox_count = client.InboxCount()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.InboxCount().load({ id: 'inbox_count_id' })
+const result = await client.InboxCount().load()
 ```
 
 ### Common Methods
@@ -554,28 +554,28 @@ const inbox_entry = client.InboxEntry()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `active` | ``$BOOLEAN`` | No |  |
-| `comment` | ``$STRING`` | Yes |  |
-| `country_code` | ``$STRING`` | No |  |
-| `created_at` | ``$INTEGER`` | Yes |  |
-| `done` | ``$BOOLEAN`` | Yes |  |
-| `filename` | ``$STRING`` | No |  |
-| `has_conflict` | ``$BOOLEAN`` | No |  |
-| `has_photo` | ``$BOOLEAN`` | Yes |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `inbox_url` | ``$STRING`` | No |  |
-| `is_processed` | ``$BOOLEAN`` | No |  |
-| `lat` | ``$NUMBER`` | No |  |
-| `lon` | ``$NUMBER`` | No |  |
-| `new_lat` | ``$NUMBER`` | No |  |
-| `new_lon` | ``$NUMBER`` | No |  |
-| `new_title` | ``$STRING`` | No |  |
-| `photo_id` | ``$INTEGER`` | No |  |
-| `photographer_email` | ``$STRING`` | No |  |
-| `photographer_nickname` | ``$STRING`` | Yes |  |
-| `problem_report_type` | ``$STRING`` | No |  |
-| `station_id` | ``$STRING`` | No |  |
-| `title` | ``$STRING`` | No |  |
+| `active` | `boolean` | No |  |
+| `comment` | `string` | Yes |  |
+| `country_code` | `string` | No |  |
+| `created_at` | `number` | Yes |  |
+| `done` | `boolean` | Yes |  |
+| `filename` | `string` | No |  |
+| `has_conflict` | `boolean` | No |  |
+| `has_photo` | `boolean` | Yes |  |
+| `id` | `number` | Yes |  |
+| `inbox_url` | `string` | No |  |
+| `is_processed` | `boolean` | No |  |
+| `lat` | `number` | No |  |
+| `lon` | `number` | No |  |
+| `new_lat` | `number` | No |  |
+| `new_lon` | `number` | No |  |
+| `new_title` | `string` | No |  |
+| `photo_id` | `number` | No |  |
+| `photographer_email` | `string` | No |  |
+| `photographer_nickname` | `string` | Yes |  |
+| `problem_report_type` | `string` | No |  |
+| `station_id` | `string` | No |  |
+| `title` | `string` | No |  |
 
 ### Operations
 
@@ -659,11 +659,11 @@ const o_auth_token = client.OAuthToken()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `access_token` | ``$STRING`` | Yes |  |
-| `expires_in` | ``$INTEGER`` | No |  |
-| `refresh_token` | ``$STRING`` | No |  |
-| `scope` | ``$STRING`` | Yes |  |
-| `token_type` | ``$STRING`` | Yes |  |
+| `access_token` | `string` | Yes |  |
+| `expires_in` | `number` | No |  |
+| `refresh_token` | `string` | No |  |
+| `scope` | `string` | Yes |  |
+| `token_type` | `string` | Yes |  |
 
 ### Operations
 
@@ -673,9 +673,9 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.OAuthToken().create({
-  access_token: /* `$STRING` */,
-  scope: /* `$STRING` */,
-  token_type: /* `$STRING` */,
+  access_token: /* string */,
+  scope: /* string */,
+  token_type: /* string */,
 })
 ```
 
@@ -729,7 +729,7 @@ const result = await client.Oauth().create({
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Oauth().load({ id: 'oauth_id' })
+const result = await client.Oauth().load()
 ```
 
 ### Common Methods
@@ -773,7 +773,7 @@ const photo = client.Photo()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Photo().load({ id: 'photo_id' })
+const result = await client.Photo().load()
 ```
 
 ### Common Methods
@@ -817,7 +817,7 @@ const photo_download = client.PhotoDownload()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.PhotoDownload().load({ id: 'photo_download_id' })
+const result = await client.PhotoDownload().load()
 ```
 
 ### Common Methods
@@ -858,10 +858,10 @@ const photo_station = client.PhotoStation()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `license` | ``$ARRAY`` | Yes |  |
-| `photo_base_url` | ``$STRING`` | Yes |  |
-| `photographer` | ``$ARRAY`` | Yes |  |
-| `station` | ``$ARRAY`` | Yes |  |
+| `license` | `any[]` | Yes |  |
+| `photo_base_url` | `string` | Yes |  |
+| `photographer` | `any[]` | Yes |  |
+| `station` | `any[]` | Yes |  |
 
 ### Operations
 
@@ -878,7 +878,7 @@ const results = await client.PhotoStation().list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.PhotoStation().load({ id: 'photo_station_id' })
+const result = await client.PhotoStation().load()
 ```
 
 ### Common Methods
@@ -967,7 +967,7 @@ const photographer = client.Photographer()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Photographer().load({ id: 'photographer_id' })
+const result = await client.Photographer().load()
 ```
 
 ### Common Methods
@@ -1008,31 +1008,31 @@ const profile = client.Profile()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `admin` | ``$BOOLEAN`` | No |  |
-| `anonymous` | ``$BOOLEAN`` | No |  |
-| `email` | ``$STRING`` | No |  |
-| `email_verified` | ``$BOOLEAN`` | No |  |
-| `license` | ``$STRING`` | Yes |  |
-| `link` | ``$STRING`` | No |  |
-| `new_password` | ``$STRING`` | Yes |  |
-| `nickname` | ``$STRING`` | Yes |  |
-| `photo_owner` | ``$BOOLEAN`` | Yes |  |
-| `send_notification` | ``$BOOLEAN`` | No |  |
+| `admin` | `boolean` | No |  |
+| `anonymous` | `boolean` | No |  |
+| `email` | `string` | No |  |
+| `email_verified` | `boolean` | No |  |
+| `license` | `string` | Yes |  |
+| `link` | `string` | No |  |
+| `new_password` | `string` | Yes |  |
+| `nickname` | `string` | Yes |  |
+| `photo_owner` | `boolean` | Yes |  |
+| `send_notification` | `boolean` | No |  |
 
 ### Field Usage by Operation
 
-| Field | load | list | create | update | remove |
-| --- | --- | --- | --- | --- | --- |
-| `admin` | - | - | - | - | - |
-| `anonymous` | - | - | - | - | - |
-| `email` | - | - | Yes | - | - |
-| `email_verified` | - | - | - | - | - |
-| `license` | - | - | Yes | - | - |
-| `link` | - | - | - | - | - |
-| `new_password` | - | - | - | - | - |
-| `nickname` | - | - | - | - | - |
-| `photo_owner` | - | - | Yes | - | - |
-| `send_notification` | - | - | - | - | - |
+| Field | load | create | remove |
+| --- | --- | --- | --- |
+| `admin` | - | - | - |
+| `anonymous` | - | - | - |
+| `email` | - | Yes | - |
+| `email_verified` | - | - | - |
+| `license` | - | Yes | - |
+| `link` | - | - | - |
+| `new_password` | - | - | - |
+| `nickname` | - | - | - |
+| `photo_owner` | - | Yes | - |
+| `send_notification` | - | - | - |
 
 ### Operations
 
@@ -1042,10 +1042,10 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.Profile().create({
-  license: /* `$STRING` */,
-  new_password: /* `$STRING` */,
-  nickname: /* `$STRING` */,
-  photo_owner: /* `$BOOLEAN` */,
+  license: /* string */,
+  new_password: /* string */,
+  nickname: /* string */,
+  photo_owner: /* boolean */,
 })
 ```
 
@@ -1054,7 +1054,7 @@ const result = await client.Profile().create({
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Profile().load({ id: 'profile_id' })
+const result = await client.Profile().load()
 ```
 
 #### `remove(match: object, ctrl?: object)`
@@ -1062,7 +1062,7 @@ const result = await client.Profile().load({ id: 'profile_id' })
 Remove the entity matching the given criteria.
 
 ```ts
-const result = await client.Profile().remove({ id: 'profile_id' })
+const result = await client.Profile().remove()
 ```
 
 ### Common Methods
@@ -1103,11 +1103,11 @@ const public_inbox = client.PublicInbox()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `country_code` | ``$STRING`` | No |  |
-| `lat` | ``$NUMBER`` | Yes |  |
-| `lon` | ``$NUMBER`` | Yes |  |
-| `station_id` | ``$STRING`` | No |  |
-| `title` | ``$STRING`` | Yes |  |
+| `country_code` | `string` | No |  |
+| `lat` | `number` | Yes |  |
+| `lon` | `number` | Yes |  |
+| `station_id` | `string` | No |  |
+| `title` | `string` | Yes |  |
 
 ### Operations
 
@@ -1157,11 +1157,11 @@ const stat = client.Stat()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `country_code` | ``$STRING`` | No |  |
-| `photographer` | ``$INTEGER`` | Yes |  |
-| `total` | ``$INTEGER`` | Yes |  |
-| `with_photo` | ``$INTEGER`` | Yes |  |
-| `without_photo` | ``$INTEGER`` | Yes |  |
+| `country_code` | `string` | No |  |
+| `photographer` | `number` | Yes |  |
+| `total` | `number` | Yes |  |
+| `with_photo` | `number` | Yes |  |
+| `without_photo` | `number` | Yes |  |
 
 ### Operations
 
@@ -1170,7 +1170,7 @@ const stat = client.Stat()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Stat().load({ id: 'stat_id' })
+const result = await client.Stat().load()
 ```
 
 ### Common Methods

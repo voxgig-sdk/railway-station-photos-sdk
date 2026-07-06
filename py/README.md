@@ -4,6 +4,11 @@
 
 The Python SDK for the RailwayStationPhotos API — an entity-oriented client following Pythonic conventions.
 
+The SDK exposes the API as capitalised, semantic **Entities** — for example `client.AdminInbox()` — each
+carrying a small, uniform set of operations (`list`, `load`, `create`, `remove`) instead of raw URL
+paths and query strings. You work with named resources and verbs, which
+keeps the cognitive load low.
+
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
 
@@ -35,8 +40,36 @@ client = RailwayStationPhotosSDK()
 
 ```python
 # Create — returns the bare created record (a dict)
-created = client.AdminInbox().create({"name": "Example"})
+created = client.AdminInbox().create({"command": "example", "message": "example", "status": 1})
 
+```
+
+
+## Error handling
+
+Entity operations raise on failure, so wrap them in `try` / `except`:
+
+```python
+try:
+    admininbox = client.AdminInbox().create({ "command": "example", "message": "example", "status": 1 })
+    print(admininbox)
+except Exception as err:
+    print(f"create failed: {err}")
+```
+
+`direct()` does **not** raise — it returns the result envelope. Branch
+on `ok`; on failure `status` holds the HTTP status (for error responses)
+and `err` holds a transport error, so read both defensively:
+
+```python
+result = client.direct({
+    "path": "/api/resource/{id}",
+    "method": "GET",
+    "params": {"id": "example_id"},
+})
+
+if not result["ok"]:
+    print("request failed:", result.get("status"), result.get("err"))
 ```
 
 
@@ -57,7 +90,10 @@ if result["ok"]:
     print(result["status"])  # 200
     print(result["data"])    # response body
 else:
-    print(result["err"])     # error value
+    # A non-2xx response carries status + data (the error body); a
+    # transport-level failure carries err instead. Only one is present, so
+    # read both with .get() rather than indexing a key that may be absent.
+    print(result.get("status"), result.get("err"))
 ```
 
 ### Prepare a request without sending it
@@ -83,7 +119,7 @@ Create a mock client for unit testing — no server required:
 client = RailwayStationPhotosSDK.test()
 
 # Entity ops return the bare record and raise on error.
-admininbox = client.AdminInbox().load({"id": "test01"})
+admininbox = client.AdminInbox().create({"command": "example", "message": "example", "status": 1})
 # admininbox contains the mock response record
 ```
 
@@ -186,7 +222,6 @@ All entities share the same interface.
 | `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria. Raises on error. |
 | `list` | `(reqmatch, ctrl) -> list` | List entities matching the criteria. Raises on error. |
 | `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
-| `update` | `(reqdata, ctrl) -> any` | Update an existing entity. Raises on error. |
 | `remove` | `(reqmatch, ctrl) -> any` | Remove an entity. Raises on error. |
 | `data_get` | `() -> dict` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
@@ -469,27 +504,27 @@ Create an instance: `admin_inbox = client.AdminInbox()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `active` | ``$BOOLEAN`` |  |
-| `command` | ``$STRING`` |  |
-| `conflict_resolution` | ``$STRING`` |  |
-| `country_code` | ``$STRING`` |  |
-| `ds100` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `lat` | ``$NUMBER`` |  |
-| `lon` | ``$NUMBER`` |  |
-| `message` | ``$STRING`` |  |
-| `reject_reason` | ``$STRING`` |  |
-| `station_id` | ``$STRING`` |  |
-| `status` | ``$INTEGER`` |  |
-| `title` | ``$STRING`` |  |
+| `active` | `bool` |  |
+| `command` | `str` |  |
+| `conflict_resolution` | `str` |  |
+| `country_code` | `str` |  |
+| `ds100` | `str` |  |
+| `id` | `int` |  |
+| `lat` | `float` |  |
+| `lon` | `float` |  |
+| `message` | `str` |  |
+| `reject_reason` | `str` |  |
+| `station_id` | `str` |  |
+| `status` | `int` |  |
+| `title` | `str` |  |
 
 #### Example: Create
 
 ```python
 admin_inbox = client.AdminInbox().create({
-    "command": ...,  # `$STRING`
-    "message": ...,  # `$STRING`
-    "status": ...,  # `$INTEGER`
+    "command": "example",  # str
+    "message": "example",  # str
+    "status": 1,  # int
 })
 ```
 
@@ -502,26 +537,26 @@ Create an instance: `country = client.Country()`
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
+| `list()` | List entities, optionally matching the given criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `active` | ``$BOOLEAN`` |  |
-| `allow_photo_upload` | ``$BOOLEAN`` |  |
-| `code` | ``$STRING`` |  |
-| `email` | ``$STRING`` |  |
-| `message` | ``$STRING`` |  |
-| `name` | ``$STRING`` |  |
-| `override_license` | ``$STRING`` |  |
-| `provider_app` | ``$ARRAY`` |  |
-| `timetable_url_template` | ``$STRING`` |  |
+| `active` | `bool` |  |
+| `allow_photo_upload` | `bool` |  |
+| `code` | `str` |  |
+| `email` | `str` |  |
+| `message` | `str` |  |
+| `name` | `str` |  |
+| `override_license` | `str` |  |
+| `provider_app` | `list` |  |
+| `timetable_url_template` | `str` |  |
 
 #### Example: List
 
 ```python
-countrys = client.Country().list({})
+countrys = client.Country().list()
 ```
 
 
@@ -534,42 +569,42 @@ Create an instance: `inbox = client.Inbox()`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
-| `list(match)` | List entities matching the criteria. |
+| `list()` | List entities, optionally matching the given criteria. |
 | `remove(match)` | Remove the matching entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `comment` | ``$STRING`` |  |
-| `country_code` | ``$STRING`` |  |
-| `crc32` | ``$INTEGER`` |  |
-| `created_at` | ``$INTEGER`` |  |
-| `filename` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `inbox_url` | ``$STRING`` |  |
-| `lat` | ``$NUMBER`` |  |
-| `lon` | ``$NUMBER`` |  |
-| `new_lat` | ``$NUMBER`` |  |
-| `new_lon` | ``$NUMBER`` |  |
-| `new_title` | ``$STRING`` |  |
-| `problem_report_type` | ``$STRING`` |  |
-| `rejected_reason` | ``$STRING`` |  |
-| `state` | ``$STRING`` |  |
-| `station_id` | ``$STRING`` |  |
-| `title` | ``$STRING`` |  |
+| `comment` | `str` |  |
+| `country_code` | `str` |  |
+| `crc32` | `int` |  |
+| `created_at` | `int` |  |
+| `filename` | `str` |  |
+| `id` | `int` |  |
+| `inbox_url` | `str` |  |
+| `lat` | `float` |  |
+| `lon` | `float` |  |
+| `new_lat` | `float` |  |
+| `new_lon` | `float` |  |
+| `new_title` | `str` |  |
+| `problem_report_type` | `str` |  |
+| `rejected_reason` | `str` |  |
+| `state` | `str` |  |
+| `station_id` | `str` |  |
+| `title` | `str` |  |
 
 #### Example: List
 
 ```python
-inboxs = client.Inbox().list({})
+inboxs = client.Inbox().list()
 ```
 
 #### Example: Create
 
 ```python
 inbox = client.Inbox().create({
-    "state": ...,  # `$STRING`
+    "state": "example",  # str
 })
 ```
 
@@ -588,12 +623,12 @@ Create an instance: `inbox_count = client.InboxCount()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `pending_inbox_entry` | ``$INTEGER`` |  |
+| `pending_inbox_entry` | `int` |  |
 
 #### Example: Load
 
 ```python
-inbox_count = client.InboxCount().load({"id": "inbox_count_id"})
+inbox_count = client.InboxCount().load()
 ```
 
 
@@ -605,39 +640,39 @@ Create an instance: `inbox_entry = client.InboxEntry()`
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
+| `list()` | List entities, optionally matching the given criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `active` | ``$BOOLEAN`` |  |
-| `comment` | ``$STRING`` |  |
-| `country_code` | ``$STRING`` |  |
-| `created_at` | ``$INTEGER`` |  |
-| `done` | ``$BOOLEAN`` |  |
-| `filename` | ``$STRING`` |  |
-| `has_conflict` | ``$BOOLEAN`` |  |
-| `has_photo` | ``$BOOLEAN`` |  |
-| `id` | ``$INTEGER`` |  |
-| `inbox_url` | ``$STRING`` |  |
-| `is_processed` | ``$BOOLEAN`` |  |
-| `lat` | ``$NUMBER`` |  |
-| `lon` | ``$NUMBER`` |  |
-| `new_lat` | ``$NUMBER`` |  |
-| `new_lon` | ``$NUMBER`` |  |
-| `new_title` | ``$STRING`` |  |
-| `photo_id` | ``$INTEGER`` |  |
-| `photographer_email` | ``$STRING`` |  |
-| `photographer_nickname` | ``$STRING`` |  |
-| `problem_report_type` | ``$STRING`` |  |
-| `station_id` | ``$STRING`` |  |
-| `title` | ``$STRING`` |  |
+| `active` | `bool` |  |
+| `comment` | `str` |  |
+| `country_code` | `str` |  |
+| `created_at` | `int` |  |
+| `done` | `bool` |  |
+| `filename` | `str` |  |
+| `has_conflict` | `bool` |  |
+| `has_photo` | `bool` |  |
+| `id` | `int` |  |
+| `inbox_url` | `str` |  |
+| `is_processed` | `bool` |  |
+| `lat` | `float` |  |
+| `lon` | `float` |  |
+| `new_lat` | `float` |  |
+| `new_lon` | `float` |  |
+| `new_title` | `str` |  |
+| `photo_id` | `int` |  |
+| `photographer_email` | `str` |  |
+| `photographer_nickname` | `str` |  |
+| `problem_report_type` | `str` |  |
+| `station_id` | `str` |  |
+| `title` | `str` |  |
 
 #### Example: List
 
 ```python
-inbox_entrys = client.InboxEntry().list({})
+inbox_entrys = client.InboxEntry().list()
 ```
 
 
@@ -660,19 +695,19 @@ Create an instance: `o_auth_token = client.OAuthToken()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `access_token` | ``$STRING`` |  |
-| `expires_in` | ``$INTEGER`` |  |
-| `refresh_token` | ``$STRING`` |  |
-| `scope` | ``$STRING`` |  |
-| `token_type` | ``$STRING`` |  |
+| `access_token` | `str` |  |
+| `expires_in` | `int` |  |
+| `refresh_token` | `str` |  |
+| `scope` | `str` |  |
+| `token_type` | `str` |  |
 
 #### Example: Create
 
 ```python
 o_auth_token = client.OAuthToken().create({
-    "access_token": ...,  # `$STRING`
-    "scope": ...,  # `$STRING`
-    "token_type": ...,  # `$STRING`
+    "access_token": "example",  # str
+    "scope": "example",  # str
+    "token_type": "example",  # str
 })
 ```
 
@@ -691,7 +726,7 @@ Create an instance: `oauth = client.Oauth()`
 #### Example: Load
 
 ```python
-oauth = client.Oauth().load({"id": "oauth_id"})
+oauth = client.Oauth().load()
 ```
 
 #### Example: Create
@@ -715,7 +750,7 @@ Create an instance: `photo = client.Photo()`
 #### Example: Load
 
 ```python
-photo = client.Photo().load({"id": "photo_id"})
+photo = client.Photo().load()
 ```
 
 
@@ -732,7 +767,7 @@ Create an instance: `photo_download = client.PhotoDownload()`
 #### Example: Load
 
 ```python
-photo_download = client.PhotoDownload().load({"id": "photo_download_id"})
+photo_download = client.PhotoDownload().load()
 ```
 
 
@@ -744,28 +779,28 @@ Create an instance: `photo_station = client.PhotoStation()`
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
+| `list()` | List entities, optionally matching the given criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `license` | ``$ARRAY`` |  |
-| `photo_base_url` | ``$STRING`` |  |
-| `photographer` | ``$ARRAY`` |  |
-| `station` | ``$ARRAY`` |  |
+| `license` | `list` |  |
+| `photo_base_url` | `str` |  |
+| `photographer` | `list` |  |
+| `station` | `list` |  |
 
 #### Example: Load
 
 ```python
-photo_station = client.PhotoStation().load({"id": "photo_station_id"})
+photo_station = client.PhotoStation().load()
 ```
 
 #### Example: List
 
 ```python
-photo_stations = client.PhotoStation().list({})
+photo_stations = client.PhotoStation().list()
 ```
 
 
@@ -800,7 +835,7 @@ Create an instance: `photographer = client.Photographer()`
 #### Example: Load
 
 ```python
-photographer = client.Photographer().load({"id": "photographer_id"})
+photographer = client.Photographer().load()
 ```
 
 
@@ -820,31 +855,31 @@ Create an instance: `profile = client.Profile()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `admin` | ``$BOOLEAN`` |  |
-| `anonymous` | ``$BOOLEAN`` |  |
-| `email` | ``$STRING`` |  |
-| `email_verified` | ``$BOOLEAN`` |  |
-| `license` | ``$STRING`` |  |
-| `link` | ``$STRING`` |  |
-| `new_password` | ``$STRING`` |  |
-| `nickname` | ``$STRING`` |  |
-| `photo_owner` | ``$BOOLEAN`` |  |
-| `send_notification` | ``$BOOLEAN`` |  |
+| `admin` | `bool` |  |
+| `anonymous` | `bool` |  |
+| `email` | `str` |  |
+| `email_verified` | `bool` |  |
+| `license` | `str` |  |
+| `link` | `str` |  |
+| `new_password` | `str` |  |
+| `nickname` | `str` |  |
+| `photo_owner` | `bool` |  |
+| `send_notification` | `bool` |  |
 
 #### Example: Load
 
 ```python
-profile = client.Profile().load({"id": "profile_id"})
+profile = client.Profile().load()
 ```
 
 #### Example: Create
 
 ```python
 profile = client.Profile().create({
-    "license": ...,  # `$STRING`
-    "new_password": ...,  # `$STRING`
-    "nickname": ...,  # `$STRING`
-    "photo_owner": ...,  # `$BOOLEAN`
+    "license": "example",  # str
+    "new_password": "example",  # str
+    "nickname": "example",  # str
+    "photo_owner": True,  # bool
 })
 ```
 
@@ -857,22 +892,22 @@ Create an instance: `public_inbox = client.PublicInbox()`
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
+| `list()` | List entities, optionally matching the given criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `country_code` | ``$STRING`` |  |
-| `lat` | ``$NUMBER`` |  |
-| `lon` | ``$NUMBER`` |  |
-| `station_id` | ``$STRING`` |  |
-| `title` | ``$STRING`` |  |
+| `country_code` | `str` |  |
+| `lat` | `float` |  |
+| `lon` | `float` |  |
+| `station_id` | `str` |  |
+| `title` | `str` |  |
 
 #### Example: List
 
 ```python
-public_inboxs = client.PublicInbox().list({})
+public_inboxs = client.PublicInbox().list()
 ```
 
 
@@ -890,25 +925,29 @@ Create an instance: `stat = client.Stat()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `country_code` | ``$STRING`` |  |
-| `photographer` | ``$INTEGER`` |  |
-| `total` | ``$INTEGER`` |  |
-| `with_photo` | ``$INTEGER`` |  |
-| `without_photo` | ``$INTEGER`` |  |
+| `country_code` | `str` |  |
+| `photographer` | `int` |  |
+| `total` | `int` |  |
+| `with_photo` | `int` |  |
+| `without_photo` | `int` |  |
 
 #### Example: Load
 
 ```python
-stat = client.Stat().load({"id": "stat_id"})
+stat = client.Stat().load()
 ```
 
 
-## Explanation
+## Advanced
+
+> The sections above cover everyday use. The material below explains the
+> SDK's internals — useful when extending it with custom features, but not
+> needed for normal use.
 
 ### The operation pipeline
 
-Every entity operation (load, list, create, update, remove) follows a
-six-stage pipeline. Each stage fires a feature hook before executing:
+Every entity operation follows a six-stage pipeline. Each stage fires a
+feature hook before executing:
 
 ```
 PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
@@ -925,8 +964,9 @@ PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
 - **PreDone**: Final stage before returning to the caller. Entity
   state (match, data) is updated here.
 
-If any stage returns an error, the pipeline short-circuits and the
-error is returned to the caller as the second element in the return tuple.
+If any stage errors, the pipeline short-circuits and the error surfaces
+to the caller — see [Error handling](#error-handling) for how that looks
+in this language.
 
 ### Features and hooks
 
@@ -969,14 +1009,14 @@ Import entity or utility modules directly only when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `load`, the entity
+Entity instances are stateful. After a successful `create`, the entity
 stores the returned data and match criteria internally.
 
 ```python
 admininbox = client.AdminInbox()
-admininbox.load({"id": "example_id"})
+admininbox.create({ "command": "example", "message": "example", "status": 1 })
 
-# admininbox.data_get() now returns the loaded admininbox data
+# admininbox.data_get() now returns the admininbox data from the last create
 # admininbox.match_get() returns the last match criteria
 ```
 

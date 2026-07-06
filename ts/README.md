@@ -4,6 +4,11 @@
 
 The TypeScript SDK for the RailwayStationPhotos API — a type-safe, entity-oriented client with full async/await support.
 
+The API is exposed as capitalised, semantic **Entities** — e.g.
+`client.AdminInbox()` — each with a small set of operations (`list`, `load`, `create`, `remove`)
+instead of raw URL paths and query parameters. This keeps the surface
+predictable and low-friction for both humans and AI agents.
+
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
 
@@ -33,9 +38,40 @@ const client = new RailwayStationPhotosSDK()
 ```ts
 // Create — returns the created AdminInbox
 const created = await client.AdminInbox().create({
-  name: 'Example',
+  command: 'example_command',
+  message: 'example_message',
+  status: 1,
 })
 
+```
+
+
+## Error handling
+
+Entity operations reject on failure, so wrap them in `try` / `catch`:
+
+```ts
+try {
+  const admininbox = await client.AdminInbox().create({ command: "example", message: "example", status: 1 })
+  console.log(admininbox)
+} catch (err) {
+  console.error('create failed:', err)
+}
+```
+
+The low-level `direct()` method does **not** throw — it returns the
+value or an `Error`, so check the result before using it:
+
+```ts
+const result = await client.direct({
+  path: '/api/resource/{id}',
+  method: 'GET',
+  params: { id: 'example_id' },
+})
+
+if (result instanceof Error) {
+  throw result
+}
 ```
 
 
@@ -83,7 +119,7 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = RailwayStationPhotosSDK.test()
 
-const admininbox = await client.AdminInbox().load({ id: 'test01' })
+const admininbox = await client.AdminInbox().create({ command: 'example_command', message: 'example_message', status: 1 })
 // admininbox is a bare entity populated with mock response data
 console.log(admininbox)
 ```
@@ -102,12 +138,12 @@ Entity instances remember their last match and data:
 ```ts
 const entity = client.AdminInbox()
 
-// First call sets internal match
-await entity.load({ id: 'example' })
+// First call runs the operation and stores its result
+await entity.create({ command: 'example_command', message: 'example_message', status: 1 })
 
-// Subsequent calls reuse the stored match
+// Subsequent calls reuse the stored state
 const data = entity.data()
-console.log(data.id) // 'example'
+console.log(data.id)
 ```
 
 ### Add custom middleware
@@ -213,10 +249,9 @@ All entities share the same interface.
 | `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria. |
 | `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria. |
 | `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity. |
-| `update` | `update(reqdata?, ctrl?): Promise<Entity>` | Update an existing entity. |
 | `remove` | `remove(reqmatch?, ctrl?): Promise<void>` | Remove an entity. |
-| `data` | `data(data?): any` | Get or set entity data. |
-| `match` | `match(match?): any` | Get or set entity match criteria. |
+| `data` | `data(data?: Partial<Entity>): Entity` | Get or set entity data. |
+| `match` | `match(match?: Partial<Entity>): Partial<Entity>` | Get or set entity match criteria. |
 | `make` | `make(): Entity` | Create a new instance with the same options. |
 | `client` | `client(): RailwayStationPhotosSDK` | Return the parent SDK client. |
 | `entopts` | `entopts(): object` | Return a copy of the entity options. |
@@ -226,7 +261,7 @@ All entities share the same interface.
 Entity operations resolve to the entity data directly — there is no
 result envelope:
 
-- `load`, `create` and `update` resolve to a single entity object.
+- `load` and `create` resolve to a single entity object.
 - `list` resolves to an **array** of entity objects (iterate it directly;
   there is no `.data` and no `.ok`).
 - `remove` resolves to `void`.
@@ -519,27 +554,27 @@ Create an instance: `const admin_inbox = client.AdminInbox()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `active` | ``$BOOLEAN`` |  |
-| `command` | ``$STRING`` |  |
-| `conflict_resolution` | ``$STRING`` |  |
-| `country_code` | ``$STRING`` |  |
-| `ds100` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `lat` | ``$NUMBER`` |  |
-| `lon` | ``$NUMBER`` |  |
-| `message` | ``$STRING`` |  |
-| `reject_reason` | ``$STRING`` |  |
-| `station_id` | ``$STRING`` |  |
-| `status` | ``$INTEGER`` |  |
-| `title` | ``$STRING`` |  |
+| `active` | `boolean` |  |
+| `command` | `string` |  |
+| `conflict_resolution` | `string` |  |
+| `country_code` | `string` |  |
+| `ds100` | `string` |  |
+| `id` | `number` |  |
+| `lat` | `number` |  |
+| `lon` | `number` |  |
+| `message` | `string` |  |
+| `reject_reason` | `string` |  |
+| `station_id` | `string` |  |
+| `status` | `number` |  |
+| `title` | `string` |  |
 
 #### Example: Create
 
 ```ts
 const admin_inbox = await client.AdminInbox().create({
-  command: /* `$STRING` */,
-  message: /* `$STRING` */,
-  status: /* `$INTEGER` */,
+  command: /* string */,
+  message: /* string */,
+  status: /* number */,
 })
 ```
 
@@ -558,15 +593,15 @@ Create an instance: `const country = client.Country()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `active` | ``$BOOLEAN`` |  |
-| `allow_photo_upload` | ``$BOOLEAN`` |  |
-| `code` | ``$STRING`` |  |
-| `email` | ``$STRING`` |  |
-| `message` | ``$STRING`` |  |
-| `name` | ``$STRING`` |  |
-| `override_license` | ``$STRING`` |  |
-| `provider_app` | ``$ARRAY`` |  |
-| `timetable_url_template` | ``$STRING`` |  |
+| `active` | `boolean` |  |
+| `allow_photo_upload` | `boolean` |  |
+| `code` | `string` |  |
+| `email` | `string` |  |
+| `message` | `string` |  |
+| `name` | `string` |  |
+| `override_license` | `string` |  |
+| `provider_app` | `any[]` |  |
+| `timetable_url_template` | `string` |  |
 
 #### Example: List
 
@@ -591,23 +626,23 @@ Create an instance: `const inbox = client.Inbox()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `comment` | ``$STRING`` |  |
-| `country_code` | ``$STRING`` |  |
-| `crc32` | ``$INTEGER`` |  |
-| `created_at` | ``$INTEGER`` |  |
-| `filename` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `inbox_url` | ``$STRING`` |  |
-| `lat` | ``$NUMBER`` |  |
-| `lon` | ``$NUMBER`` |  |
-| `new_lat` | ``$NUMBER`` |  |
-| `new_lon` | ``$NUMBER`` |  |
-| `new_title` | ``$STRING`` |  |
-| `problem_report_type` | ``$STRING`` |  |
-| `rejected_reason` | ``$STRING`` |  |
-| `state` | ``$STRING`` |  |
-| `station_id` | ``$STRING`` |  |
-| `title` | ``$STRING`` |  |
+| `comment` | `string` |  |
+| `country_code` | `string` |  |
+| `crc32` | `number` |  |
+| `created_at` | `number` |  |
+| `filename` | `string` |  |
+| `id` | `number` |  |
+| `inbox_url` | `string` |  |
+| `lat` | `number` |  |
+| `lon` | `number` |  |
+| `new_lat` | `number` |  |
+| `new_lon` | `number` |  |
+| `new_title` | `string` |  |
+| `problem_report_type` | `string` |  |
+| `rejected_reason` | `string` |  |
+| `state` | `string` |  |
+| `station_id` | `string` |  |
+| `title` | `string` |  |
 
 #### Example: List
 
@@ -619,7 +654,7 @@ const inboxs = await client.Inbox().list()
 
 ```ts
 const inbox = await client.Inbox().create({
-  state: /* `$STRING` */,
+  state: /* string */,
 })
 ```
 
@@ -638,12 +673,12 @@ Create an instance: `const inbox_count = client.InboxCount()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `pending_inbox_entry` | ``$INTEGER`` |  |
+| `pending_inbox_entry` | `number` |  |
 
 #### Example: Load
 
 ```ts
-const inbox_count = await client.InboxCount().load({ id: 'inbox_count_id' })
+const inbox_count = await client.InboxCount().load()
 ```
 
 
@@ -661,28 +696,28 @@ Create an instance: `const inbox_entry = client.InboxEntry()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `active` | ``$BOOLEAN`` |  |
-| `comment` | ``$STRING`` |  |
-| `country_code` | ``$STRING`` |  |
-| `created_at` | ``$INTEGER`` |  |
-| `done` | ``$BOOLEAN`` |  |
-| `filename` | ``$STRING`` |  |
-| `has_conflict` | ``$BOOLEAN`` |  |
-| `has_photo` | ``$BOOLEAN`` |  |
-| `id` | ``$INTEGER`` |  |
-| `inbox_url` | ``$STRING`` |  |
-| `is_processed` | ``$BOOLEAN`` |  |
-| `lat` | ``$NUMBER`` |  |
-| `lon` | ``$NUMBER`` |  |
-| `new_lat` | ``$NUMBER`` |  |
-| `new_lon` | ``$NUMBER`` |  |
-| `new_title` | ``$STRING`` |  |
-| `photo_id` | ``$INTEGER`` |  |
-| `photographer_email` | ``$STRING`` |  |
-| `photographer_nickname` | ``$STRING`` |  |
-| `problem_report_type` | ``$STRING`` |  |
-| `station_id` | ``$STRING`` |  |
-| `title` | ``$STRING`` |  |
+| `active` | `boolean` |  |
+| `comment` | `string` |  |
+| `country_code` | `string` |  |
+| `created_at` | `number` |  |
+| `done` | `boolean` |  |
+| `filename` | `string` |  |
+| `has_conflict` | `boolean` |  |
+| `has_photo` | `boolean` |  |
+| `id` | `number` |  |
+| `inbox_url` | `string` |  |
+| `is_processed` | `boolean` |  |
+| `lat` | `number` |  |
+| `lon` | `number` |  |
+| `new_lat` | `number` |  |
+| `new_lon` | `number` |  |
+| `new_title` | `string` |  |
+| `photo_id` | `number` |  |
+| `photographer_email` | `string` |  |
+| `photographer_nickname` | `string` |  |
+| `problem_report_type` | `string` |  |
+| `station_id` | `string` |  |
+| `title` | `string` |  |
 
 #### Example: List
 
@@ -710,19 +745,19 @@ Create an instance: `const o_auth_token = client.OAuthToken()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `access_token` | ``$STRING`` |  |
-| `expires_in` | ``$INTEGER`` |  |
-| `refresh_token` | ``$STRING`` |  |
-| `scope` | ``$STRING`` |  |
-| `token_type` | ``$STRING`` |  |
+| `access_token` | `string` |  |
+| `expires_in` | `number` |  |
+| `refresh_token` | `string` |  |
+| `scope` | `string` |  |
+| `token_type` | `string` |  |
 
 #### Example: Create
 
 ```ts
 const o_auth_token = await client.OAuthToken().create({
-  access_token: /* `$STRING` */,
-  scope: /* `$STRING` */,
-  token_type: /* `$STRING` */,
+  access_token: /* string */,
+  scope: /* string */,
+  token_type: /* string */,
 })
 ```
 
@@ -741,7 +776,7 @@ Create an instance: `const oauth = client.Oauth()`
 #### Example: Load
 
 ```ts
-const oauth = await client.Oauth().load({ id: 'oauth_id' })
+const oauth = await client.Oauth().load()
 ```
 
 #### Example: Create
@@ -765,7 +800,7 @@ Create an instance: `const photo = client.Photo()`
 #### Example: Load
 
 ```ts
-const photo = await client.Photo().load({ id: 'photo_id' })
+const photo = await client.Photo().load()
 ```
 
 
@@ -782,7 +817,7 @@ Create an instance: `const photo_download = client.PhotoDownload()`
 #### Example: Load
 
 ```ts
-const photo_download = await client.PhotoDownload().load({ id: 'photo_download_id' })
+const photo_download = await client.PhotoDownload().load()
 ```
 
 
@@ -801,15 +836,15 @@ Create an instance: `const photo_station = client.PhotoStation()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `license` | ``$ARRAY`` |  |
-| `photo_base_url` | ``$STRING`` |  |
-| `photographer` | ``$ARRAY`` |  |
-| `station` | ``$ARRAY`` |  |
+| `license` | `any[]` |  |
+| `photo_base_url` | `string` |  |
+| `photographer` | `any[]` |  |
+| `station` | `any[]` |  |
 
 #### Example: Load
 
 ```ts
-const photo_station = await client.PhotoStation().load({ id: 'photo_station_id' })
+const photo_station = await client.PhotoStation().load()
 ```
 
 #### Example: List
@@ -850,7 +885,7 @@ Create an instance: `const photographer = client.Photographer()`
 #### Example: Load
 
 ```ts
-const photographer = await client.Photographer().load({ id: 'photographer_id' })
+const photographer = await client.Photographer().load()
 ```
 
 
@@ -870,31 +905,31 @@ Create an instance: `const profile = client.Profile()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `admin` | ``$BOOLEAN`` |  |
-| `anonymous` | ``$BOOLEAN`` |  |
-| `email` | ``$STRING`` |  |
-| `email_verified` | ``$BOOLEAN`` |  |
-| `license` | ``$STRING`` |  |
-| `link` | ``$STRING`` |  |
-| `new_password` | ``$STRING`` |  |
-| `nickname` | ``$STRING`` |  |
-| `photo_owner` | ``$BOOLEAN`` |  |
-| `send_notification` | ``$BOOLEAN`` |  |
+| `admin` | `boolean` |  |
+| `anonymous` | `boolean` |  |
+| `email` | `string` |  |
+| `email_verified` | `boolean` |  |
+| `license` | `string` |  |
+| `link` | `string` |  |
+| `new_password` | `string` |  |
+| `nickname` | `string` |  |
+| `photo_owner` | `boolean` |  |
+| `send_notification` | `boolean` |  |
 
 #### Example: Load
 
 ```ts
-const profile = await client.Profile().load({ id: 'profile_id' })
+const profile = await client.Profile().load()
 ```
 
 #### Example: Create
 
 ```ts
 const profile = await client.Profile().create({
-  license: /* `$STRING` */,
-  new_password: /* `$STRING` */,
-  nickname: /* `$STRING` */,
-  photo_owner: /* `$BOOLEAN` */,
+  license: /* string */,
+  new_password: /* string */,
+  nickname: /* string */,
+  photo_owner: /* boolean */,
 })
 ```
 
@@ -913,11 +948,11 @@ Create an instance: `const public_inbox = client.PublicInbox()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `country_code` | ``$STRING`` |  |
-| `lat` | ``$NUMBER`` |  |
-| `lon` | ``$NUMBER`` |  |
-| `station_id` | ``$STRING`` |  |
-| `title` | ``$STRING`` |  |
+| `country_code` | `string` |  |
+| `lat` | `number` |  |
+| `lon` | `number` |  |
+| `station_id` | `string` |  |
+| `title` | `string` |  |
 
 #### Example: List
 
@@ -940,25 +975,29 @@ Create an instance: `const stat = client.Stat()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `country_code` | ``$STRING`` |  |
-| `photographer` | ``$INTEGER`` |  |
-| `total` | ``$INTEGER`` |  |
-| `with_photo` | ``$INTEGER`` |  |
-| `without_photo` | ``$INTEGER`` |  |
+| `country_code` | `string` |  |
+| `photographer` | `number` |  |
+| `total` | `number` |  |
+| `with_photo` | `number` |  |
+| `without_photo` | `number` |  |
 
 #### Example: Load
 
 ```ts
-const stat = await client.Stat().load({ id: 'stat_id' })
+const stat = await client.Stat().load()
 ```
 
 
-## Explanation
+## Advanced
+
+> The sections above cover everyday use. The material below explains the
+> SDK's internals — useful when extending it with custom features, but not
+> needed for normal use.
 
 ### The operation pipeline
 
-Every entity operation (load, list, create, update, remove) follows a
-six-stage pipeline. Each stage fires a feature hook before executing:
+Every entity operation follows a six-stage pipeline. Each stage fires a
+feature hook before executing:
 
 ```
 PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
@@ -975,11 +1014,9 @@ PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
 - **PreDone**: Final stage before returning to the caller. Entity
   state (match, data) is updated here.
 
-If any stage returns an error, the pipeline short-circuits and the
-error is returned to the caller.
-
-An unexpected exception triggers the `PreUnexpected` hook before
-propagating.
+If any stage errors, the pipeline short-circuits and the error surfaces
+to the caller — see [Error handling](#error-handling) for how that looks
+in this language.
 
 ### Features and hooks
 
@@ -1015,16 +1052,16 @@ import { RailwayStationPhotosSDK } from '@voxgig-sdk/railway-station-photos'
 
 ### Entity state
 
-Entity instances are stateful. After a successful `load`, the entity
+Entity instances are stateful. After a successful `create`, the entity
 stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
 const admininbox = client.AdminInbox()
-await admininbox.load({ id: "example_id" })
+await admininbox.create({ command: "example", message: "example", status: 1 })
 
-// admininbox.data() now returns the loaded admininbox data
-// admininbox.match() returns { id: "example_id" }
+// admininbox.data() now returns the admininbox data from the last `create`
+// admininbox.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

@@ -65,8 +65,13 @@ class PhotoStationEntity:
         return vs.clone(self._match)
 
     
-    def load(self, reqmatch: PhotoStationLoadMatch, ctrl=None) -> PhotoStation:
+    def load(self, reqmatch=None, ctrl=None) -> PhotoStation:
         utility = self._utility
+        # reqmatch is optional: an entity with no id-like key loads with no
+        # match. Treat None as an empty match so client.PhotoStation().load()
+        # works with no args.
+        if reqmatch is None:
+            reqmatch = {}
         ctx = utility.make_context({
             "opname": "load",
             "ctrl": ctrl,
@@ -87,8 +92,12 @@ class PhotoStationEntity:
 
 
     
-    def list(self, reqmatch: PhotoStationListMatch, ctrl=None) -> list[PhotoStation]:
+    def list(self, reqmatch=None, ctrl=None) -> list[PhotoStation]:
         utility = self._utility
+        # reqmatch is optional: an omitted match lists all records. Treat None
+        # as an empty match so client.PhotoStation().list() works with no args.
+        if reqmatch is None:
+            reqmatch = {}
         ctx = utility.make_context({
             "opname": "list",
             "ctrl": ctrl,

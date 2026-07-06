@@ -221,97 +221,97 @@ class RailwayStationPhotosSDK:
 
 
     def AdminInbox(self, data=None) -> "AdminInboxEntity":
-        """Entity factory: client.AdminInbox().list({}) / client.AdminInbox().load({"id": ...})."""
+        """Entity factory: client.AdminInbox().list() / client.AdminInbox().load({"id": ...})."""
         from entity.admin_inbox_entity import AdminInboxEntity
         return AdminInboxEntity(self, data)
 
 
     def Country(self, data=None) -> "CountryEntity":
-        """Entity factory: client.Country().list({}) / client.Country().load({"id": ...})."""
+        """Entity factory: client.Country().list() / client.Country().load({"id": ...})."""
         from entity.country_entity import CountryEntity
         return CountryEntity(self, data)
 
 
     def Inbox(self, data=None) -> "InboxEntity":
-        """Entity factory: client.Inbox().list({}) / client.Inbox().load({"id": ...})."""
+        """Entity factory: client.Inbox().list() / client.Inbox().load({"id": ...})."""
         from entity.inbox_entity import InboxEntity
         return InboxEntity(self, data)
 
 
     def InboxCount(self, data=None) -> "InboxCountEntity":
-        """Entity factory: client.InboxCount().list({}) / client.InboxCount().load({"id": ...})."""
+        """Entity factory: client.InboxCount().list() / client.InboxCount().load({"id": ...})."""
         from entity.inbox_count_entity import InboxCountEntity
         return InboxCountEntity(self, data)
 
 
     def InboxEntry(self, data=None) -> "InboxEntryEntity":
-        """Entity factory: client.InboxEntry().list({}) / client.InboxEntry().load({"id": ...})."""
+        """Entity factory: client.InboxEntry().list() / client.InboxEntry().load({"id": ...})."""
         from entity.inbox_entry_entity import InboxEntryEntity
         return InboxEntryEntity(self, data)
 
 
     def InboxStateQuery(self, data=None) -> "InboxStateQueryEntity":
-        """Entity factory: client.InboxStateQuery().list({}) / client.InboxStateQuery().load({"id": ...})."""
+        """Entity factory: client.InboxStateQuery().list() / client.InboxStateQuery().load({"id": ...})."""
         from entity.inbox_state_query_entity import InboxStateQueryEntity
         return InboxStateQueryEntity(self, data)
 
 
     def OAuthToken(self, data=None) -> "OAuthTokenEntity":
-        """Entity factory: client.OAuthToken().list({}) / client.OAuthToken().load({"id": ...})."""
+        """Entity factory: client.OAuthToken().list() / client.OAuthToken().load({"id": ...})."""
         from entity.o_auth_token_entity import OAuthTokenEntity
         return OAuthTokenEntity(self, data)
 
 
     def Oauth(self, data=None) -> "OauthEntity":
-        """Entity factory: client.Oauth().list({}) / client.Oauth().load({"id": ...})."""
+        """Entity factory: client.Oauth().list() / client.Oauth().load({"id": ...})."""
         from entity.oauth_entity import OauthEntity
         return OauthEntity(self, data)
 
 
     def Photo(self, data=None) -> "PhotoEntity":
-        """Entity factory: client.Photo().list({}) / client.Photo().load({"id": ...})."""
+        """Entity factory: client.Photo().list() / client.Photo().load({"id": ...})."""
         from entity.photo_entity import PhotoEntity
         return PhotoEntity(self, data)
 
 
     def PhotoDownload(self, data=None) -> "PhotoDownloadEntity":
-        """Entity factory: client.PhotoDownload().list({}) / client.PhotoDownload().load({"id": ...})."""
+        """Entity factory: client.PhotoDownload().list() / client.PhotoDownload().load({"id": ...})."""
         from entity.photo_download_entity import PhotoDownloadEntity
         return PhotoDownloadEntity(self, data)
 
 
     def PhotoStation(self, data=None) -> "PhotoStationEntity":
-        """Entity factory: client.PhotoStation().list({}) / client.PhotoStation().load({"id": ...})."""
+        """Entity factory: client.PhotoStation().list() / client.PhotoStation().load({"id": ...})."""
         from entity.photo_station_entity import PhotoStationEntity
         return PhotoStationEntity(self, data)
 
 
     def PhotoUpload(self, data=None) -> "PhotoUploadEntity":
-        """Entity factory: client.PhotoUpload().list({}) / client.PhotoUpload().load({"id": ...})."""
+        """Entity factory: client.PhotoUpload().list() / client.PhotoUpload().load({"id": ...})."""
         from entity.photo_upload_entity import PhotoUploadEntity
         return PhotoUploadEntity(self, data)
 
 
     def Photographer(self, data=None) -> "PhotographerEntity":
-        """Entity factory: client.Photographer().list({}) / client.Photographer().load({"id": ...})."""
+        """Entity factory: client.Photographer().list() / client.Photographer().load({"id": ...})."""
         from entity.photographer_entity import PhotographerEntity
         return PhotographerEntity(self, data)
 
 
     def Profile(self, data=None) -> "ProfileEntity":
-        """Entity factory: client.Profile().list({}) / client.Profile().load({"id": ...})."""
+        """Entity factory: client.Profile().list() / client.Profile().load({"id": ...})."""
         from entity.profile_entity import ProfileEntity
         return ProfileEntity(self, data)
 
 
     def PublicInbox(self, data=None) -> "PublicInboxEntity":
-        """Entity factory: client.PublicInbox().list({}) / client.PublicInbox().load({"id": ...})."""
+        """Entity factory: client.PublicInbox().list() / client.PublicInbox().load({"id": ...})."""
         from entity.public_inbox_entity import PublicInboxEntity
         return PublicInboxEntity(self, data)
 
 
     def Stat(self, data=None) -> "StatEntity":
-        """Entity factory: client.Stat().list({}) / client.Stat().load({"id": ...})."""
+        """Entity factory: client.Stat().list() / client.Stat().load({"id": ...})."""
         from entity.stat_entity import StatEntity
         return StatEntity(self, data)
 

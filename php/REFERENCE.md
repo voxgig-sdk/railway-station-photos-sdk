@@ -8,7 +8,7 @@ Complete API reference for the RailwayStationPhotos PHP SDK.
 ### Constructor
 
 ```php
-require_once __DIR__ . '/railway-station-photos_sdk.php';
+require_once __DIR__ . '/railwaystationphotos_sdk.php';
 
 $client = new RailwayStationPhotosSDK($options);
 ```
@@ -105,11 +105,11 @@ Create a new `PublicInboxEntity` instance. Pass `null` for no initial data.
 
 Create a new `StatEntity` instance. Pass `null` for no initial data.
 
-#### `optionsMap(): array`
+#### `options_map(): array`
 
 Return a deep copy of the current SDK options.
 
-#### `getUtility(): ProjectNameUtility`
+#### `get_utility(): RailwayStationPhotosUtility`
 
 Return a copy of the SDK utility object.
 
@@ -152,19 +152,19 @@ $admin_inbox = $client->AdminInbox();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `active` | ``$BOOLEAN`` | No |  |
-| `command` | ``$STRING`` | Yes |  |
-| `conflict_resolution` | ``$STRING`` | No |  |
-| `country_code` | ``$STRING`` | No |  |
-| `ds100` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `lat` | ``$NUMBER`` | No |  |
-| `lon` | ``$NUMBER`` | No |  |
-| `message` | ``$STRING`` | Yes |  |
-| `reject_reason` | ``$STRING`` | No |  |
-| `station_id` | ``$STRING`` | No |  |
-| `status` | ``$INTEGER`` | Yes |  |
-| `title` | ``$STRING`` | No |  |
+| `active` | `bool` | No |  |
+| `command` | `string` | Yes |  |
+| `conflict_resolution` | `string` | No |  |
+| `country_code` | `string` | No |  |
+| `ds100` | `string` | No |  |
+| `id` | `int` | Yes |  |
+| `lat` | `float` | No |  |
+| `lon` | `float` | No |  |
+| `message` | `string` | Yes |  |
+| `reject_reason` | `string` | No |  |
+| `station_id` | `string` | No |  |
+| `status` | `int` | Yes |  |
+| `title` | `string` | No |  |
 
 ### Operations
 
@@ -174,27 +174,27 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->AdminInbox()->create([
-  "command" => /* `$STRING` */,
-  "message" => /* `$STRING` */,
-  "status" => /* `$INTEGER` */,
+  "command" => null, // string
+  "message" => null, // string
+  "status" => null, // int
 ]);
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -203,7 +203,7 @@ Set the entity match criteria.
 Create a new `AdminInboxEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -220,41 +220,41 @@ $country = $client->Country();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `active` | ``$BOOLEAN`` | Yes |  |
-| `allow_photo_upload` | ``$BOOLEAN`` | Yes |  |
-| `code` | ``$STRING`` | Yes |  |
-| `email` | ``$STRING`` | No |  |
-| `message` | ``$STRING`` | No |  |
-| `name` | ``$STRING`` | Yes |  |
-| `override_license` | ``$STRING`` | No |  |
-| `provider_app` | ``$ARRAY`` | No |  |
-| `timetable_url_template` | ``$STRING`` | No |  |
+| `active` | `bool` | Yes |  |
+| `allow_photo_upload` | `bool` | Yes |  |
+| `code` | `string` | Yes |  |
+| `email` | `string` | No |  |
+| `message` | `string` | No |  |
+| `name` | `string` | Yes |  |
+| `override_license` | `string` | No |  |
+| `provider_app` | `array` | No |  |
+| `timetable_url_template` | `string` | No |  |
 
 ### Operations
 
-#### `list(array $reqmatch, ?array $ctrl = null): mixed`
+#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria. Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
 
 ```php
-$results = $client->Country()->list([]);
+$results = $client->Country()->list();
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -263,7 +263,7 @@ Set the entity match criteria.
 Create a new `CountryEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -280,23 +280,23 @@ $inbox = $client->Inbox();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `comment` | ``$STRING`` | No |  |
-| `country_code` | ``$STRING`` | No |  |
-| `crc32` | ``$INTEGER`` | No |  |
-| `created_at` | ``$INTEGER`` | No |  |
-| `filename` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `inbox_url` | ``$STRING`` | No |  |
-| `lat` | ``$NUMBER`` | No |  |
-| `lon` | ``$NUMBER`` | No |  |
-| `new_lat` | ``$NUMBER`` | No |  |
-| `new_lon` | ``$NUMBER`` | No |  |
-| `new_title` | ``$STRING`` | No |  |
-| `problem_report_type` | ``$STRING`` | No |  |
-| `rejected_reason` | ``$STRING`` | No |  |
-| `state` | ``$STRING`` | Yes |  |
-| `station_id` | ``$STRING`` | No |  |
-| `title` | ``$STRING`` | No |  |
+| `comment` | `string` | No |  |
+| `country_code` | `string` | No |  |
+| `crc32` | `int` | No |  |
+| `created_at` | `int` | No |  |
+| `filename` | `string` | No |  |
+| `id` | `int` | Yes |  |
+| `inbox_url` | `string` | No |  |
+| `lat` | `float` | No |  |
+| `lon` | `float` | No |  |
+| `new_lat` | `float` | No |  |
+| `new_lon` | `float` | No |  |
+| `new_title` | `string` | No |  |
+| `problem_report_type` | `string` | No |  |
+| `rejected_reason` | `string` | No |  |
+| `state` | `string` | Yes |  |
+| `station_id` | `string` | No |  |
+| `title` | `string` | No |  |
 
 ### Operations
 
@@ -306,16 +306,16 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->Inbox()->create([
-  "state" => /* `$STRING` */,
+  "state" => null, // string
 ]);
 ```
 
-#### `list(array $reqmatch, ?array $ctrl = null): mixed`
+#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria. Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
 
 ```php
-$results = $client->Inbox()->list([]);
+$results = $client->Inbox()->list();
 ```
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
@@ -323,24 +323,24 @@ $results = $client->Inbox()->list([]);
 Remove the entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->Inbox()->remove(["id" => "inbox_id"]);
+$result = $client->Inbox()->remove();
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -349,7 +349,7 @@ Set the entity match criteria.
 Create a new `InboxEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -366,7 +366,7 @@ $inbox_count = $client->InboxCount();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `pending_inbox_entry` | ``$INTEGER`` | Yes |  |
+| `pending_inbox_entry` | `int` | Yes |  |
 
 ### Operations
 
@@ -375,24 +375,24 @@ $inbox_count = $client->InboxCount();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->InboxCount()->load(["id" => "inbox_count_id"]);
+$result = $client->InboxCount()->load();
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -401,7 +401,7 @@ Set the entity match criteria.
 Create a new `InboxCountEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -418,54 +418,54 @@ $inbox_entry = $client->InboxEntry();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `active` | ``$BOOLEAN`` | No |  |
-| `comment` | ``$STRING`` | Yes |  |
-| `country_code` | ``$STRING`` | No |  |
-| `created_at` | ``$INTEGER`` | Yes |  |
-| `done` | ``$BOOLEAN`` | Yes |  |
-| `filename` | ``$STRING`` | No |  |
-| `has_conflict` | ``$BOOLEAN`` | No |  |
-| `has_photo` | ``$BOOLEAN`` | Yes |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `inbox_url` | ``$STRING`` | No |  |
-| `is_processed` | ``$BOOLEAN`` | No |  |
-| `lat` | ``$NUMBER`` | No |  |
-| `lon` | ``$NUMBER`` | No |  |
-| `new_lat` | ``$NUMBER`` | No |  |
-| `new_lon` | ``$NUMBER`` | No |  |
-| `new_title` | ``$STRING`` | No |  |
-| `photo_id` | ``$INTEGER`` | No |  |
-| `photographer_email` | ``$STRING`` | No |  |
-| `photographer_nickname` | ``$STRING`` | Yes |  |
-| `problem_report_type` | ``$STRING`` | No |  |
-| `station_id` | ``$STRING`` | No |  |
-| `title` | ``$STRING`` | No |  |
+| `active` | `bool` | No |  |
+| `comment` | `string` | Yes |  |
+| `country_code` | `string` | No |  |
+| `created_at` | `int` | Yes |  |
+| `done` | `bool` | Yes |  |
+| `filename` | `string` | No |  |
+| `has_conflict` | `bool` | No |  |
+| `has_photo` | `bool` | Yes |  |
+| `id` | `int` | Yes |  |
+| `inbox_url` | `string` | No |  |
+| `is_processed` | `bool` | No |  |
+| `lat` | `float` | No |  |
+| `lon` | `float` | No |  |
+| `new_lat` | `float` | No |  |
+| `new_lon` | `float` | No |  |
+| `new_title` | `string` | No |  |
+| `photo_id` | `int` | No |  |
+| `photographer_email` | `string` | No |  |
+| `photographer_nickname` | `string` | Yes |  |
+| `problem_report_type` | `string` | No |  |
+| `station_id` | `string` | No |  |
+| `title` | `string` | No |  |
 
 ### Operations
 
-#### `list(array $reqmatch, ?array $ctrl = null): mixed`
+#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria. Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
 
 ```php
-$results = $client->InboxEntry()->list([]);
+$results = $client->InboxEntry()->list();
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -474,7 +474,7 @@ Set the entity match criteria.
 Create a new `InboxEntryEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -489,19 +489,19 @@ $inbox_state_query = $client->InboxStateQuery();
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -510,7 +510,7 @@ Set the entity match criteria.
 Create a new `InboxStateQueryEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -527,11 +527,11 @@ $o_auth_token = $client->OAuthToken();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `access_token` | ``$STRING`` | Yes |  |
-| `expires_in` | ``$INTEGER`` | No |  |
-| `refresh_token` | ``$STRING`` | No |  |
-| `scope` | ``$STRING`` | Yes |  |
-| `token_type` | ``$STRING`` | Yes |  |
+| `access_token` | `string` | Yes |  |
+| `expires_in` | `int` | No |  |
+| `refresh_token` | `string` | No |  |
+| `scope` | `string` | Yes |  |
+| `token_type` | `string` | Yes |  |
 
 ### Operations
 
@@ -541,27 +541,27 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->OAuthToken()->create([
-  "access_token" => /* `$STRING` */,
-  "scope" => /* `$STRING` */,
-  "token_type" => /* `$STRING` */,
+  "access_token" => null, // string
+  "scope" => null, // string
+  "token_type" => null, // string
 ]);
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -570,7 +570,7 @@ Set the entity match criteria.
 Create a new `OAuthTokenEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -599,24 +599,24 @@ $result = $client->Oauth()->create([
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->Oauth()->load(["id" => "oauth_id"]);
+$result = $client->Oauth()->load();
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -625,7 +625,7 @@ Set the entity match criteria.
 Create a new `OauthEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -645,24 +645,24 @@ $photo = $client->Photo();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->Photo()->load(["id" => "photo_id"]);
+$result = $client->Photo()->load();
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -671,7 +671,7 @@ Set the entity match criteria.
 Create a new `PhotoEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -691,24 +691,24 @@ $photo_download = $client->PhotoDownload();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->PhotoDownload()->load(["id" => "photo_download_id"]);
+$result = $client->PhotoDownload()->load();
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -717,7 +717,7 @@ Set the entity match criteria.
 Create a new `PhotoDownloadEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -734,19 +734,19 @@ $photo_station = $client->PhotoStation();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `license` | ``$ARRAY`` | Yes |  |
-| `photo_base_url` | ``$STRING`` | Yes |  |
-| `photographer` | ``$ARRAY`` | Yes |  |
-| `station` | ``$ARRAY`` | Yes |  |
+| `license` | `array` | Yes |  |
+| `photo_base_url` | `string` | Yes |  |
+| `photographer` | `array` | Yes |  |
+| `station` | `array` | Yes |  |
 
 ### Operations
 
-#### `list(array $reqmatch, ?array $ctrl = null): mixed`
+#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria. Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
 
 ```php
-$results = $client->PhotoStation()->list([]);
+$results = $client->PhotoStation()->list();
 ```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
@@ -754,24 +754,24 @@ $results = $client->PhotoStation()->list([]);
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->PhotoStation()->load(["id" => "photo_station_id"]);
+$result = $client->PhotoStation()->load();
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -780,7 +780,7 @@ Set the entity match criteria.
 Create a new `PhotoStationEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -806,19 +806,19 @@ $result = $client->PhotoUpload()->create([
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -827,7 +827,7 @@ Set the entity match criteria.
 Create a new `PhotoUploadEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -847,24 +847,24 @@ $photographer = $client->Photographer();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->Photographer()->load(["id" => "photographer_id"]);
+$result = $client->Photographer()->load();
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -873,7 +873,7 @@ Set the entity match criteria.
 Create a new `PhotographerEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -890,31 +890,31 @@ $profile = $client->Profile();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `admin` | ``$BOOLEAN`` | No |  |
-| `anonymous` | ``$BOOLEAN`` | No |  |
-| `email` | ``$STRING`` | No |  |
-| `email_verified` | ``$BOOLEAN`` | No |  |
-| `license` | ``$STRING`` | Yes |  |
-| `link` | ``$STRING`` | No |  |
-| `new_password` | ``$STRING`` | Yes |  |
-| `nickname` | ``$STRING`` | Yes |  |
-| `photo_owner` | ``$BOOLEAN`` | Yes |  |
-| `send_notification` | ``$BOOLEAN`` | No |  |
+| `admin` | `bool` | No |  |
+| `anonymous` | `bool` | No |  |
+| `email` | `string` | No |  |
+| `email_verified` | `bool` | No |  |
+| `license` | `string` | Yes |  |
+| `link` | `string` | No |  |
+| `new_password` | `string` | Yes |  |
+| `nickname` | `string` | Yes |  |
+| `photo_owner` | `bool` | Yes |  |
+| `send_notification` | `bool` | No |  |
 
 ### Field Usage by Operation
 
-| Field | load | list | create | update | remove |
-| --- | --- | --- | --- | --- | --- |
-| `admin` | - | - | - | - | - |
-| `anonymous` | - | - | - | - | - |
-| `email` | - | - | Yes | - | - |
-| `email_verified` | - | - | - | - | - |
-| `license` | - | - | Yes | - | - |
-| `link` | - | - | - | - | - |
-| `new_password` | - | - | - | - | - |
-| `nickname` | - | - | - | - | - |
-| `photo_owner` | - | - | Yes | - | - |
-| `send_notification` | - | - | - | - | - |
+| Field | load | create | remove |
+| --- | --- | --- | --- |
+| `admin` | - | - | - |
+| `anonymous` | - | - | - |
+| `email` | - | Yes | - |
+| `email_verified` | - | - | - |
+| `license` | - | Yes | - |
+| `link` | - | - | - |
+| `new_password` | - | - | - |
+| `nickname` | - | - | - |
+| `photo_owner` | - | Yes | - |
+| `send_notification` | - | - | - |
 
 ### Operations
 
@@ -924,10 +924,10 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->Profile()->create([
-  "license" => /* `$STRING` */,
-  "new_password" => /* `$STRING` */,
-  "nickname" => /* `$STRING` */,
-  "photo_owner" => /* `$BOOLEAN` */,
+  "license" => null, // string
+  "new_password" => null, // string
+  "nickname" => null, // string
+  "photo_owner" => null, // bool
 ]);
 ```
 
@@ -936,7 +936,7 @@ $result = $client->Profile()->create([
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->Profile()->load(["id" => "profile_id"]);
+$result = $client->Profile()->load();
 ```
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
@@ -944,24 +944,24 @@ $result = $client->Profile()->load(["id" => "profile_id"]);
 Remove the entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->Profile()->remove(["id" => "profile_id"]);
+$result = $client->Profile()->remove();
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -970,7 +970,7 @@ Set the entity match criteria.
 Create a new `ProfileEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -987,37 +987,37 @@ $public_inbox = $client->PublicInbox();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `country_code` | ``$STRING`` | No |  |
-| `lat` | ``$NUMBER`` | Yes |  |
-| `lon` | ``$NUMBER`` | Yes |  |
-| `station_id` | ``$STRING`` | No |  |
-| `title` | ``$STRING`` | Yes |  |
+| `country_code` | `string` | No |  |
+| `lat` | `float` | Yes |  |
+| `lon` | `float` | Yes |  |
+| `station_id` | `string` | No |  |
+| `title` | `string` | Yes |  |
 
 ### Operations
 
-#### `list(array $reqmatch, ?array $ctrl = null): mixed`
+#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria. Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
 
 ```php
-$results = $client->PublicInbox()->list([]);
+$results = $client->PublicInbox()->list();
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -1026,7 +1026,7 @@ Set the entity match criteria.
 Create a new `PublicInboxEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -1043,11 +1043,11 @@ $stat = $client->Stat();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `country_code` | ``$STRING`` | No |  |
-| `photographer` | ``$INTEGER`` | Yes |  |
-| `total` | ``$INTEGER`` | Yes |  |
-| `with_photo` | ``$INTEGER`` | Yes |  |
-| `without_photo` | ``$INTEGER`` | Yes |  |
+| `country_code` | `string` | No |  |
+| `photographer` | `int` | Yes |  |
+| `total` | `int` | Yes |  |
+| `with_photo` | `int` | Yes |  |
+| `without_photo` | `int` | Yes |  |
 
 ### Operations
 
@@ -1056,24 +1056,24 @@ $stat = $client->Stat();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->Stat()->load(["id" => "stat_id"]);
+$result = $client->Stat()->load();
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -1082,7 +1082,7 @@ Set the entity match criteria.
 Create a new `StatEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 

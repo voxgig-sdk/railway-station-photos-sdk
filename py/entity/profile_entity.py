@@ -66,8 +66,13 @@ class ProfileEntity:
         return vs.clone(self._match)
 
     
-    def load(self, reqmatch: ProfileLoadMatch, ctrl=None) -> Profile:
+    def load(self, reqmatch=None, ctrl=None) -> Profile:
         utility = self._utility
+        # reqmatch is optional: an entity with no id-like key loads with no
+        # match. Treat None as an empty match so client.Profile().load()
+        # works with no args.
+        if reqmatch is None:
+            reqmatch = {}
         ctx = utility.make_context({
             "opname": "load",
             "ctrl": ctrl,
@@ -112,8 +117,13 @@ class ProfileEntity:
     
 
     
-    def remove(self, reqmatch: ProfileRemoveMatch, ctrl=None) -> Profile:
+    def remove(self, reqmatch=None, ctrl=None) -> Profile:
         utility = self._utility
+        # reqmatch is optional: an entity with no id-like key removes with no
+        # match. Treat None as an empty match so client.Profile().remove()
+        # works with no args.
+        if reqmatch is None:
+            reqmatch = {}
         ctx = utility.make_context({
             "opname": "remove",
             "ctrl": ctrl,

@@ -4,6 +4,8 @@
 
 The Lua SDK for the RailwayStationPhotos API — an entity-oriented client using Lua conventions.
 
+It exposes the API as capitalised, semantic **Entities** — e.g. `client:AdminInbox()` — each with the same small set of operations (`list`, `load`, `create`, `remove`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
+
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
 
@@ -35,9 +37,31 @@ local client = sdk.new()
 
 ```lua
 -- Create
-local created, err = client:AdminInbox():create({ name = "Example" })
+local created, err = client:AdminInbox():create({ command = "example", message = "example", status = 1 })
 if err then error(err) end
 
+```
+
+
+## Error handling
+
+Entity operations return `(value, err)`. Check `err` before using
+the value:
+
+```lua
+local admininbox, err = client:AdminInbox():create({ command = "example", message = "example", status = 1 })
+if err then error(err) end
+```
+
+`direct` follows the same `(value, err)` convention:
+
+```lua
+local result, err = client:direct({
+  path = "/api/resource/{id}",
+  method = "GET",
+  params = { id = "example_id" },
+})
+if err then error(err) end
 ```
 
 
@@ -83,8 +107,8 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:AdminInbox():load({ id = "test01" })
--- result is the loaded data; err is set on failure
+local result, err = client:AdminInbox():create({ command = "example", message = "example", status = 1 })
+-- result is the returned data; err is set on failure
 ```
 
 ### Use a custom fetch function
@@ -188,7 +212,6 @@ All entities share the same interface.
 | `load` | `(reqmatch, ctrl) -> any, err` | Load a single entity by match criteria. |
 | `list` | `(reqmatch, ctrl) -> any, err` | List entities matching the criteria. |
 | `create` | `(reqdata, ctrl) -> any, err` | Create a new entity. |
-| `update` | `(reqdata, ctrl) -> any, err` | Update an existing entity. |
 | `remove` | `(reqmatch, ctrl) -> any, err` | Remove an entity. |
 | `data_get` | `() -> table` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
@@ -204,12 +227,12 @@ data **directly** — there is no wrapper:
 
 | Operation | `value` |
 | --- | --- |
-| `load` / `create` / `update` / `remove` | the entity record (a `table`) |
+| `load` / `create` / `remove` | the entity record (a `table`) |
 | `list` | an array (`table`) of entity records |
 
 Check `err` first (it is non-`nil` on failure), then use `value`:
 
-    local admin_inbox, err = client:AdminInbox():load({ id = "example_id" })
+    local admin_inbox, err = client:AdminInbox():load()
     if err then error(err) end
     -- admin_inbox is the loaded record
 
@@ -472,27 +495,27 @@ Create an instance: `local admin_inbox = client:AdminInbox(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `active` | ``$BOOLEAN`` |  |
-| `command` | ``$STRING`` |  |
-| `conflict_resolution` | ``$STRING`` |  |
-| `country_code` | ``$STRING`` |  |
-| `ds100` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `lat` | ``$NUMBER`` |  |
-| `lon` | ``$NUMBER`` |  |
-| `message` | ``$STRING`` |  |
-| `reject_reason` | ``$STRING`` |  |
-| `station_id` | ``$STRING`` |  |
-| `status` | ``$INTEGER`` |  |
-| `title` | ``$STRING`` |  |
+| `active` | `boolean` |  |
+| `command` | `string` |  |
+| `conflict_resolution` | `string` |  |
+| `country_code` | `string` |  |
+| `ds100` | `string` |  |
+| `id` | `number` |  |
+| `lat` | `number` |  |
+| `lon` | `number` |  |
+| `message` | `string` |  |
+| `reject_reason` | `string` |  |
+| `station_id` | `string` |  |
+| `status` | `number` |  |
+| `title` | `string` |  |
 
 #### Example: Create
 
 ```lua
 local admin_inbox, err = client:AdminInbox():create({
-  command = nil, -- `$STRING`
-  message = nil, -- `$STRING`
-  status = nil, -- `$INTEGER`
+  command = nil, -- string
+  message = nil, -- string
+  status = nil, -- number
 })
 ```
 
@@ -511,15 +534,15 @@ Create an instance: `local country = client:Country(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `active` | ``$BOOLEAN`` |  |
-| `allow_photo_upload` | ``$BOOLEAN`` |  |
-| `code` | ``$STRING`` |  |
-| `email` | ``$STRING`` |  |
-| `message` | ``$STRING`` |  |
-| `name` | ``$STRING`` |  |
-| `override_license` | ``$STRING`` |  |
-| `provider_app` | ``$ARRAY`` |  |
-| `timetable_url_template` | ``$STRING`` |  |
+| `active` | `boolean` |  |
+| `allow_photo_upload` | `boolean` |  |
+| `code` | `string` |  |
+| `email` | `string` |  |
+| `message` | `string` |  |
+| `name` | `string` |  |
+| `override_license` | `string` |  |
+| `provider_app` | `table` |  |
+| `timetable_url_template` | `string` |  |
 
 #### Example: List
 
@@ -544,23 +567,23 @@ Create an instance: `local inbox = client:Inbox(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `comment` | ``$STRING`` |  |
-| `country_code` | ``$STRING`` |  |
-| `crc32` | ``$INTEGER`` |  |
-| `created_at` | ``$INTEGER`` |  |
-| `filename` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `inbox_url` | ``$STRING`` |  |
-| `lat` | ``$NUMBER`` |  |
-| `lon` | ``$NUMBER`` |  |
-| `new_lat` | ``$NUMBER`` |  |
-| `new_lon` | ``$NUMBER`` |  |
-| `new_title` | ``$STRING`` |  |
-| `problem_report_type` | ``$STRING`` |  |
-| `rejected_reason` | ``$STRING`` |  |
-| `state` | ``$STRING`` |  |
-| `station_id` | ``$STRING`` |  |
-| `title` | ``$STRING`` |  |
+| `comment` | `string` |  |
+| `country_code` | `string` |  |
+| `crc32` | `number` |  |
+| `created_at` | `number` |  |
+| `filename` | `string` |  |
+| `id` | `number` |  |
+| `inbox_url` | `string` |  |
+| `lat` | `number` |  |
+| `lon` | `number` |  |
+| `new_lat` | `number` |  |
+| `new_lon` | `number` |  |
+| `new_title` | `string` |  |
+| `problem_report_type` | `string` |  |
+| `rejected_reason` | `string` |  |
+| `state` | `string` |  |
+| `station_id` | `string` |  |
+| `title` | `string` |  |
 
 #### Example: List
 
@@ -572,7 +595,7 @@ local inboxs, err = client:Inbox():list()
 
 ```lua
 local inbox, err = client:Inbox():create({
-  state = nil, -- `$STRING`
+  state = nil, -- string
 })
 ```
 
@@ -591,12 +614,12 @@ Create an instance: `local inbox_count = client:InboxCount(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `pending_inbox_entry` | ``$INTEGER`` |  |
+| `pending_inbox_entry` | `number` |  |
 
 #### Example: Load
 
 ```lua
-local inbox_count, err = client:InboxCount():load({ id = "inbox_count_id" })
+local inbox_count, err = client:InboxCount():load()
 ```
 
 
@@ -614,28 +637,28 @@ Create an instance: `local inbox_entry = client:InboxEntry(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `active` | ``$BOOLEAN`` |  |
-| `comment` | ``$STRING`` |  |
-| `country_code` | ``$STRING`` |  |
-| `created_at` | ``$INTEGER`` |  |
-| `done` | ``$BOOLEAN`` |  |
-| `filename` | ``$STRING`` |  |
-| `has_conflict` | ``$BOOLEAN`` |  |
-| `has_photo` | ``$BOOLEAN`` |  |
-| `id` | ``$INTEGER`` |  |
-| `inbox_url` | ``$STRING`` |  |
-| `is_processed` | ``$BOOLEAN`` |  |
-| `lat` | ``$NUMBER`` |  |
-| `lon` | ``$NUMBER`` |  |
-| `new_lat` | ``$NUMBER`` |  |
-| `new_lon` | ``$NUMBER`` |  |
-| `new_title` | ``$STRING`` |  |
-| `photo_id` | ``$INTEGER`` |  |
-| `photographer_email` | ``$STRING`` |  |
-| `photographer_nickname` | ``$STRING`` |  |
-| `problem_report_type` | ``$STRING`` |  |
-| `station_id` | ``$STRING`` |  |
-| `title` | ``$STRING`` |  |
+| `active` | `boolean` |  |
+| `comment` | `string` |  |
+| `country_code` | `string` |  |
+| `created_at` | `number` |  |
+| `done` | `boolean` |  |
+| `filename` | `string` |  |
+| `has_conflict` | `boolean` |  |
+| `has_photo` | `boolean` |  |
+| `id` | `number` |  |
+| `inbox_url` | `string` |  |
+| `is_processed` | `boolean` |  |
+| `lat` | `number` |  |
+| `lon` | `number` |  |
+| `new_lat` | `number` |  |
+| `new_lon` | `number` |  |
+| `new_title` | `string` |  |
+| `photo_id` | `number` |  |
+| `photographer_email` | `string` |  |
+| `photographer_nickname` | `string` |  |
+| `problem_report_type` | `string` |  |
+| `station_id` | `string` |  |
+| `title` | `string` |  |
 
 #### Example: List
 
@@ -663,19 +686,19 @@ Create an instance: `local o_auth_token = client:OAuthToken(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `access_token` | ``$STRING`` |  |
-| `expires_in` | ``$INTEGER`` |  |
-| `refresh_token` | ``$STRING`` |  |
-| `scope` | ``$STRING`` |  |
-| `token_type` | ``$STRING`` |  |
+| `access_token` | `string` |  |
+| `expires_in` | `number` |  |
+| `refresh_token` | `string` |  |
+| `scope` | `string` |  |
+| `token_type` | `string` |  |
 
 #### Example: Create
 
 ```lua
 local o_auth_token, err = client:OAuthToken():create({
-  access_token = nil, -- `$STRING`
-  scope = nil, -- `$STRING`
-  token_type = nil, -- `$STRING`
+  access_token = nil, -- string
+  scope = nil, -- string
+  token_type = nil, -- string
 })
 ```
 
@@ -694,7 +717,7 @@ Create an instance: `local oauth = client:Oauth(nil)`
 #### Example: Load
 
 ```lua
-local oauth, err = client:Oauth():load({ id = "oauth_id" })
+local oauth, err = client:Oauth():load()
 ```
 
 #### Example: Create
@@ -718,7 +741,7 @@ Create an instance: `local photo = client:Photo(nil)`
 #### Example: Load
 
 ```lua
-local photo, err = client:Photo():load({ id = "photo_id" })
+local photo, err = client:Photo():load()
 ```
 
 
@@ -735,7 +758,7 @@ Create an instance: `local photo_download = client:PhotoDownload(nil)`
 #### Example: Load
 
 ```lua
-local photo_download, err = client:PhotoDownload():load({ id = "photo_download_id" })
+local photo_download, err = client:PhotoDownload():load()
 ```
 
 
@@ -754,15 +777,15 @@ Create an instance: `local photo_station = client:PhotoStation(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `license` | ``$ARRAY`` |  |
-| `photo_base_url` | ``$STRING`` |  |
-| `photographer` | ``$ARRAY`` |  |
-| `station` | ``$ARRAY`` |  |
+| `license` | `table` |  |
+| `photo_base_url` | `string` |  |
+| `photographer` | `table` |  |
+| `station` | `table` |  |
 
 #### Example: Load
 
 ```lua
-local photo_station, err = client:PhotoStation():load({ id = "photo_station_id" })
+local photo_station, err = client:PhotoStation():load()
 ```
 
 #### Example: List
@@ -803,7 +826,7 @@ Create an instance: `local photographer = client:Photographer(nil)`
 #### Example: Load
 
 ```lua
-local photographer, err = client:Photographer():load({ id = "photographer_id" })
+local photographer, err = client:Photographer():load()
 ```
 
 
@@ -823,31 +846,31 @@ Create an instance: `local profile = client:Profile(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `admin` | ``$BOOLEAN`` |  |
-| `anonymous` | ``$BOOLEAN`` |  |
-| `email` | ``$STRING`` |  |
-| `email_verified` | ``$BOOLEAN`` |  |
-| `license` | ``$STRING`` |  |
-| `link` | ``$STRING`` |  |
-| `new_password` | ``$STRING`` |  |
-| `nickname` | ``$STRING`` |  |
-| `photo_owner` | ``$BOOLEAN`` |  |
-| `send_notification` | ``$BOOLEAN`` |  |
+| `admin` | `boolean` |  |
+| `anonymous` | `boolean` |  |
+| `email` | `string` |  |
+| `email_verified` | `boolean` |  |
+| `license` | `string` |  |
+| `link` | `string` |  |
+| `new_password` | `string` |  |
+| `nickname` | `string` |  |
+| `photo_owner` | `boolean` |  |
+| `send_notification` | `boolean` |  |
 
 #### Example: Load
 
 ```lua
-local profile, err = client:Profile():load({ id = "profile_id" })
+local profile, err = client:Profile():load()
 ```
 
 #### Example: Create
 
 ```lua
 local profile, err = client:Profile():create({
-  license = nil, -- `$STRING`
-  new_password = nil, -- `$STRING`
-  nickname = nil, -- `$STRING`
-  photo_owner = nil, -- `$BOOLEAN`
+  license = nil, -- string
+  new_password = nil, -- string
+  nickname = nil, -- string
+  photo_owner = nil, -- boolean
 })
 ```
 
@@ -866,11 +889,11 @@ Create an instance: `local public_inbox = client:PublicInbox(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `country_code` | ``$STRING`` |  |
-| `lat` | ``$NUMBER`` |  |
-| `lon` | ``$NUMBER`` |  |
-| `station_id` | ``$STRING`` |  |
-| `title` | ``$STRING`` |  |
+| `country_code` | `string` |  |
+| `lat` | `number` |  |
+| `lon` | `number` |  |
+| `station_id` | `string` |  |
+| `title` | `string` |  |
 
 #### Example: List
 
@@ -893,25 +916,29 @@ Create an instance: `local stat = client:Stat(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `country_code` | ``$STRING`` |  |
-| `photographer` | ``$INTEGER`` |  |
-| `total` | ``$INTEGER`` |  |
-| `with_photo` | ``$INTEGER`` |  |
-| `without_photo` | ``$INTEGER`` |  |
+| `country_code` | `string` |  |
+| `photographer` | `number` |  |
+| `total` | `number` |  |
+| `with_photo` | `number` |  |
+| `without_photo` | `number` |  |
 
 #### Example: Load
 
 ```lua
-local stat, err = client:Stat():load({ id = "stat_id" })
+local stat, err = client:Stat():load()
 ```
 
 
-## Explanation
+## Advanced
+
+> The sections above cover everyday use. The material below explains the
+> SDK's internals — useful when extending it with custom features, but not
+> needed for normal use.
 
 ### The operation pipeline
 
-Every entity operation (load, list, create, update, remove) follows a
-six-stage pipeline. Each stage fires a feature hook before executing:
+Every entity operation follows a six-stage pipeline. Each stage fires a
+feature hook before executing:
 
 ```
 PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
@@ -928,8 +955,9 @@ PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
 - **PreDone**: Final stage before returning to the caller. Entity
   state (match, data) is updated here.
 
-If any stage returns an error, the pipeline short-circuits and the
-error is returned to the caller as a second return value.
+If any stage errors, the pipeline short-circuits and the error surfaces
+to the caller — see [Error handling](#error-handling) for how that looks
+in this language.
 
 ### Features and hooks
 
@@ -973,14 +1001,14 @@ when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `load`, the entity
+Entity instances are stateful. After a successful `create`, the entity
 stores the returned data and match criteria internally.
 
 ```lua
 local admininbox = client:AdminInbox()
-admininbox:load({ id = "example_id" })
+admininbox:create({ command = "example", message = "example", status = 1 })
 
--- admininbox:data_get() now returns the loaded admininbox data
+-- admininbox:data_get() now returns the admininbox data from the last create
 -- admininbox:match_get() returns the last match criteria
 ```
 

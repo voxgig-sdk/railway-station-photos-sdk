@@ -8,7 +8,7 @@ Complete API reference for the RailwayStationPhotos Python SDK.
 ### Constructor
 
 ```python
-from railway-station-photos_sdk import RailwayStationPhotosSDK
+from railwaystationphotos_sdk import RailwayStationPhotosSDK
 
 client = RailwayStationPhotosSDK(options)
 ```
@@ -147,19 +147,19 @@ admin_inbox = client.AdminInbox()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `active` | ``$BOOLEAN`` | No |  |
-| `command` | ``$STRING`` | Yes |  |
-| `conflict_resolution` | ``$STRING`` | No |  |
-| `country_code` | ``$STRING`` | No |  |
-| `ds100` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `lat` | ``$NUMBER`` | No |  |
-| `lon` | ``$NUMBER`` | No |  |
-| `message` | ``$STRING`` | Yes |  |
-| `reject_reason` | ``$STRING`` | No |  |
-| `station_id` | ``$STRING`` | No |  |
-| `status` | ``$INTEGER`` | Yes |  |
-| `title` | ``$STRING`` | No |  |
+| `active` | `bool` | No |  |
+| `command` | `str` | Yes |  |
+| `conflict_resolution` | `str` | No |  |
+| `country_code` | `str` | No |  |
+| `ds100` | `str` | No |  |
+| `id` | `int` | Yes |  |
+| `lat` | `float` | No |  |
+| `lon` | `float` | No |  |
+| `message` | `str` | Yes |  |
+| `reject_reason` | `str` | No |  |
+| `station_id` | `str` | No |  |
+| `status` | `int` | Yes |  |
+| `title` | `str` | No |  |
 
 ### Operations
 
@@ -169,9 +169,9 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.AdminInbox().create({
-    "command": ...,  # `$STRING`
-    "message": ...,  # `$STRING`
-    "status": ...,  # `$INTEGER`
+    "command": "example",  # str
+    "message": "example",  # str
+    "status": 1,  # int
 })
 ```
 
@@ -214,24 +214,24 @@ country = client.Country()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `active` | ``$BOOLEAN`` | Yes |  |
-| `allow_photo_upload` | ``$BOOLEAN`` | Yes |  |
-| `code` | ``$STRING`` | Yes |  |
-| `email` | ``$STRING`` | No |  |
-| `message` | ``$STRING`` | No |  |
-| `name` | ``$STRING`` | Yes |  |
-| `override_license` | ``$STRING`` | No |  |
-| `provider_app` | ``$ARRAY`` | No |  |
-| `timetable_url_template` | ``$STRING`` | No |  |
+| `active` | `bool` | Yes |  |
+| `allow_photo_upload` | `bool` | Yes |  |
+| `code` | `str` | Yes |  |
+| `email` | `str` | No |  |
+| `message` | `str` | No |  |
+| `name` | `str` | Yes |  |
+| `override_license` | `str` | No |  |
+| `provider_app` | `list` | No |  |
+| `timetable_url_template` | `str` | No |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.Country().list({})
+results = client.Country().list()
 for country in results:
     print(country)
 ```
@@ -275,23 +275,23 @@ inbox = client.Inbox()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `comment` | ``$STRING`` | No |  |
-| `country_code` | ``$STRING`` | No |  |
-| `crc32` | ``$INTEGER`` | No |  |
-| `created_at` | ``$INTEGER`` | No |  |
-| `filename` | ``$STRING`` | No |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `inbox_url` | ``$STRING`` | No |  |
-| `lat` | ``$NUMBER`` | No |  |
-| `lon` | ``$NUMBER`` | No |  |
-| `new_lat` | ``$NUMBER`` | No |  |
-| `new_lon` | ``$NUMBER`` | No |  |
-| `new_title` | ``$STRING`` | No |  |
-| `problem_report_type` | ``$STRING`` | No |  |
-| `rejected_reason` | ``$STRING`` | No |  |
-| `state` | ``$STRING`` | Yes |  |
-| `station_id` | ``$STRING`` | No |  |
-| `title` | ``$STRING`` | No |  |
+| `comment` | `str` | No |  |
+| `country_code` | `str` | No |  |
+| `crc32` | `int` | No |  |
+| `created_at` | `int` | No |  |
+| `filename` | `str` | No |  |
+| `id` | `int` | Yes |  |
+| `inbox_url` | `str` | No |  |
+| `lat` | `float` | No |  |
+| `lon` | `float` | No |  |
+| `new_lat` | `float` | No |  |
+| `new_lon` | `float` | No |  |
+| `new_title` | `str` | No |  |
+| `problem_report_type` | `str` | No |  |
+| `rejected_reason` | `str` | No |  |
+| `state` | `str` | Yes |  |
+| `station_id` | `str` | No |  |
+| `title` | `str` | No |  |
 
 ### Operations
 
@@ -301,16 +301,16 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.Inbox().create({
-    "state": ...,  # `$STRING`
+    "state": "example",  # str
 })
 ```
 
-#### `list(reqmatch, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.Inbox().list({})
+results = client.Inbox().list()
 for inbox in results:
     print(inbox)
 ```
@@ -320,7 +320,7 @@ for inbox in results:
 Remove the entity matching the given criteria. Raises on error.
 
 ```python
-result = client.Inbox().remove({"id": "inbox_id"})
+result = client.Inbox().remove()
 ```
 
 ### Common Methods
@@ -362,7 +362,7 @@ inbox_count = client.InboxCount()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `pending_inbox_entry` | ``$INTEGER`` | Yes |  |
+| `pending_inbox_entry` | `int` | Yes |  |
 
 ### Operations
 
@@ -371,7 +371,7 @@ inbox_count = client.InboxCount()
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.InboxCount().load({"id": "inbox_count_id"})
+result = client.InboxCount().load()
 ```
 
 ### Common Methods
@@ -413,37 +413,37 @@ inbox_entry = client.InboxEntry()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `active` | ``$BOOLEAN`` | No |  |
-| `comment` | ``$STRING`` | Yes |  |
-| `country_code` | ``$STRING`` | No |  |
-| `created_at` | ``$INTEGER`` | Yes |  |
-| `done` | ``$BOOLEAN`` | Yes |  |
-| `filename` | ``$STRING`` | No |  |
-| `has_conflict` | ``$BOOLEAN`` | No |  |
-| `has_photo` | ``$BOOLEAN`` | Yes |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `inbox_url` | ``$STRING`` | No |  |
-| `is_processed` | ``$BOOLEAN`` | No |  |
-| `lat` | ``$NUMBER`` | No |  |
-| `lon` | ``$NUMBER`` | No |  |
-| `new_lat` | ``$NUMBER`` | No |  |
-| `new_lon` | ``$NUMBER`` | No |  |
-| `new_title` | ``$STRING`` | No |  |
-| `photo_id` | ``$INTEGER`` | No |  |
-| `photographer_email` | ``$STRING`` | No |  |
-| `photographer_nickname` | ``$STRING`` | Yes |  |
-| `problem_report_type` | ``$STRING`` | No |  |
-| `station_id` | ``$STRING`` | No |  |
-| `title` | ``$STRING`` | No |  |
+| `active` | `bool` | No |  |
+| `comment` | `str` | Yes |  |
+| `country_code` | `str` | No |  |
+| `created_at` | `int` | Yes |  |
+| `done` | `bool` | Yes |  |
+| `filename` | `str` | No |  |
+| `has_conflict` | `bool` | No |  |
+| `has_photo` | `bool` | Yes |  |
+| `id` | `int` | Yes |  |
+| `inbox_url` | `str` | No |  |
+| `is_processed` | `bool` | No |  |
+| `lat` | `float` | No |  |
+| `lon` | `float` | No |  |
+| `new_lat` | `float` | No |  |
+| `new_lon` | `float` | No |  |
+| `new_title` | `str` | No |  |
+| `photo_id` | `int` | No |  |
+| `photographer_email` | `str` | No |  |
+| `photographer_nickname` | `str` | Yes |  |
+| `problem_report_type` | `str` | No |  |
+| `station_id` | `str` | No |  |
+| `title` | `str` | No |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.InboxEntry().list({})
+results = client.InboxEntry().list()
 for inbox_entry in results:
     print(inbox_entry)
 ```
@@ -522,11 +522,11 @@ o_auth_token = client.OAuthToken()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `access_token` | ``$STRING`` | Yes |  |
-| `expires_in` | ``$INTEGER`` | No |  |
-| `refresh_token` | ``$STRING`` | No |  |
-| `scope` | ``$STRING`` | Yes |  |
-| `token_type` | ``$STRING`` | Yes |  |
+| `access_token` | `str` | Yes |  |
+| `expires_in` | `int` | No |  |
+| `refresh_token` | `str` | No |  |
+| `scope` | `str` | Yes |  |
+| `token_type` | `str` | Yes |  |
 
 ### Operations
 
@@ -536,9 +536,9 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.OAuthToken().create({
-    "access_token": ...,  # `$STRING`
-    "scope": ...,  # `$STRING`
-    "token_type": ...,  # `$STRING`
+    "access_token": "example",  # str
+    "scope": "example",  # str
+    "token_type": "example",  # str
 })
 ```
 
@@ -593,7 +593,7 @@ result = client.Oauth().create({
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.Oauth().load({"id": "oauth_id"})
+result = client.Oauth().load()
 ```
 
 ### Common Methods
@@ -638,7 +638,7 @@ photo = client.Photo()
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.Photo().load({"id": "photo_id"})
+result = client.Photo().load()
 ```
 
 ### Common Methods
@@ -683,7 +683,7 @@ photo_download = client.PhotoDownload()
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.PhotoDownload().load({"id": "photo_download_id"})
+result = client.PhotoDownload().load()
 ```
 
 ### Common Methods
@@ -725,19 +725,19 @@ photo_station = client.PhotoStation()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `license` | ``$ARRAY`` | Yes |  |
-| `photo_base_url` | ``$STRING`` | Yes |  |
-| `photographer` | ``$ARRAY`` | Yes |  |
-| `station` | ``$ARRAY`` | Yes |  |
+| `license` | `list` | Yes |  |
+| `photo_base_url` | `str` | Yes |  |
+| `photographer` | `list` | Yes |  |
+| `station` | `list` | Yes |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.PhotoStation().list({})
+results = client.PhotoStation().list()
 for photo_station in results:
     print(photo_station)
 ```
@@ -747,7 +747,7 @@ for photo_station in results:
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.PhotoStation().load({"id": "photo_station_id"})
+result = client.PhotoStation().load()
 ```
 
 ### Common Methods
@@ -838,7 +838,7 @@ photographer = client.Photographer()
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.Photographer().load({"id": "photographer_id"})
+result = client.Photographer().load()
 ```
 
 ### Common Methods
@@ -880,31 +880,31 @@ profile = client.Profile()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `admin` | ``$BOOLEAN`` | No |  |
-| `anonymous` | ``$BOOLEAN`` | No |  |
-| `email` | ``$STRING`` | No |  |
-| `email_verified` | ``$BOOLEAN`` | No |  |
-| `license` | ``$STRING`` | Yes |  |
-| `link` | ``$STRING`` | No |  |
-| `new_password` | ``$STRING`` | Yes |  |
-| `nickname` | ``$STRING`` | Yes |  |
-| `photo_owner` | ``$BOOLEAN`` | Yes |  |
-| `send_notification` | ``$BOOLEAN`` | No |  |
+| `admin` | `bool` | No |  |
+| `anonymous` | `bool` | No |  |
+| `email` | `str` | No |  |
+| `email_verified` | `bool` | No |  |
+| `license` | `str` | Yes |  |
+| `link` | `str` | No |  |
+| `new_password` | `str` | Yes |  |
+| `nickname` | `str` | Yes |  |
+| `photo_owner` | `bool` | Yes |  |
+| `send_notification` | `bool` | No |  |
 
 ### Field Usage by Operation
 
-| Field | load | list | create | update | remove |
-| --- | --- | --- | --- | --- | --- |
-| `admin` | - | - | - | - | - |
-| `anonymous` | - | - | - | - | - |
-| `email` | - | - | Yes | - | - |
-| `email_verified` | - | - | - | - | - |
-| `license` | - | - | Yes | - | - |
-| `link` | - | - | - | - | - |
-| `new_password` | - | - | - | - | - |
-| `nickname` | - | - | - | - | - |
-| `photo_owner` | - | - | Yes | - | - |
-| `send_notification` | - | - | - | - | - |
+| Field | load | create | remove |
+| --- | --- | --- | --- |
+| `admin` | - | - | - |
+| `anonymous` | - | - | - |
+| `email` | - | Yes | - |
+| `email_verified` | - | - | - |
+| `license` | - | Yes | - |
+| `link` | - | - | - |
+| `new_password` | - | - | - |
+| `nickname` | - | - | - |
+| `photo_owner` | - | Yes | - |
+| `send_notification` | - | - | - |
 
 ### Operations
 
@@ -914,10 +914,10 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.Profile().create({
-    "license": ...,  # `$STRING`
-    "new_password": ...,  # `$STRING`
-    "nickname": ...,  # `$STRING`
-    "photo_owner": ...,  # `$BOOLEAN`
+    "license": "example",  # str
+    "new_password": "example",  # str
+    "nickname": "example",  # str
+    "photo_owner": True,  # bool
 })
 ```
 
@@ -926,7 +926,7 @@ result = client.Profile().create({
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.Profile().load({"id": "profile_id"})
+result = client.Profile().load()
 ```
 
 #### `remove(reqmatch, ctrl=None) -> dict`
@@ -934,7 +934,7 @@ result = client.Profile().load({"id": "profile_id"})
 Remove the entity matching the given criteria. Raises on error.
 
 ```python
-result = client.Profile().remove({"id": "profile_id"})
+result = client.Profile().remove()
 ```
 
 ### Common Methods
@@ -976,20 +976,20 @@ public_inbox = client.PublicInbox()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `country_code` | ``$STRING`` | No |  |
-| `lat` | ``$NUMBER`` | Yes |  |
-| `lon` | ``$NUMBER`` | Yes |  |
-| `station_id` | ``$STRING`` | No |  |
-| `title` | ``$STRING`` | Yes |  |
+| `country_code` | `str` | No |  |
+| `lat` | `float` | Yes |  |
+| `lon` | `float` | Yes |  |
+| `station_id` | `str` | No |  |
+| `title` | `str` | Yes |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.PublicInbox().list({})
+results = client.PublicInbox().list()
 for public_inbox in results:
     print(public_inbox)
 ```
@@ -1033,11 +1033,11 @@ stat = client.Stat()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `country_code` | ``$STRING`` | No |  |
-| `photographer` | ``$INTEGER`` | Yes |  |
-| `total` | ``$INTEGER`` | Yes |  |
-| `with_photo` | ``$INTEGER`` | Yes |  |
-| `without_photo` | ``$INTEGER`` | Yes |  |
+| `country_code` | `str` | No |  |
+| `photographer` | `int` | Yes |  |
+| `total` | `int` | Yes |  |
+| `with_photo` | `int` | Yes |  |
+| `without_photo` | `int` | Yes |  |
 
 ### Operations
 
@@ -1046,7 +1046,7 @@ stat = client.Stat()
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.Stat().load({"id": "stat_id"})
+result = client.Stat().load()
 ```
 
 ### Common Methods
