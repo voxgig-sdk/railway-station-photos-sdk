@@ -50,8 +50,8 @@ import (
 func main() {
     client := sdk.New()
 
-    // Create a admininbox.
-    created, err := client.AdminInbox(nil).Create(map[string]any{"command": "example", "message": "example", "status": 1}, nil)
+    // Create a adminInbox.
+    created, err := client.AdminInbox(nil).Create(map[string]any{"command": "example_command", "id": 1, "message": "example_message", "status": 1}, nil)
     if err != nil {
         panic(err)
     }
@@ -66,12 +66,12 @@ Every entity operation returns `(value, error)`. Check `err` before
 using the value — there is no exception to catch:
 
 ```go
-admininbox, err := client.AdminInbox(nil).Create(map[string]any{"command": "example", "message": "example", "status": 1}, nil)
+countrys, err := client.Country(nil).List(nil, nil)
 if err != nil {
     // handle err
     return
 }
-_ = admininbox
+_ = countrys
 ```
 
 `Direct` follows the same `(value, error)` convention:
@@ -135,13 +135,13 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-admininbox, err := client.AdminInbox(nil).Create(
-    map[string]any{"command": "example", "message": "example", "status": 1}, nil,
+country, err := client.Country(nil).List(
+    nil, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(admininbox) // the returned mock data
+fmt.Println(country) // the returned mock data
 ```
 
 ### Use a custom fetch function
@@ -264,9 +264,9 @@ Check `err` first, then use the value directly (or the typed
 `...Typed` variants, which return the entity's model struct and a typed
 slice):
 
-    admininbox, err := client.AdminInbox(nil).Create(map[string]any{/* fields */}, nil)
+    adminInbox, err := client.AdminInbox(nil).Create(map[string]any{/* fields */}, nil)
     if err != nil { /* handle */ }
-    // admininbox is the returned record
+    // adminInbox is the returned record
 
 Only `Direct()` returns a response envelope — a `map[string]any` with
 `"ok"`, `"status"`, `"headers"`, and `"data"` keys.
@@ -515,7 +515,7 @@ API path: `/stats`
 
 ### AdminInbox
 
-Create an instance: `admin_inbox := client.AdminInbox(nil)`
+Create an instance: `adminInbox := client.AdminInbox(nil)`
 
 #### Operations
 
@@ -545,10 +545,15 @@ Create an instance: `admin_inbox := client.AdminInbox(nil)`
 
 ```go
 result, err := client.AdminInbox(nil).Create(map[string]any{
-    "command": /* string */,
-    "message": /* string */,
-    "status": /* int */,
+    "command": "example_command",
+    "id": 1,
+    "message": "example_message",
+    "status": 1,
 }, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 
@@ -595,8 +600,8 @@ Create an instance: `inbox := client.Inbox(nil)`
 
 | Method | Description |
 | --- | --- |
-| `Create(data, ctrl)` | Create a new entity with the given data. |
 | `List(match, ctrl)` | List entities matching the criteria. |
+| `Create(data, ctrl)` | Create a new entity with the given data. |
 | `Remove(match, ctrl)` | Remove the matching entity. |
 
 #### Fields
@@ -635,14 +640,19 @@ fmt.Println(inboxs) // the array of records
 
 ```go
 result, err := client.Inbox(nil).Create(map[string]any{
-    "state": /* string */,
+    "id": 1,
+    "state": "example_state",
 }, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 
 ### InboxCount
 
-Create an instance: `inbox_count := client.InboxCount(nil)`
+Create an instance: `inboxCount := client.InboxCount(nil)`
 
 #### Operations
 
@@ -659,17 +669,17 @@ Create an instance: `inbox_count := client.InboxCount(nil)`
 #### Example: Load
 
 ```go
-inbox_count, err := client.InboxCount(nil).Load(nil, nil)
+inboxCount, err := client.InboxCount(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(inbox_count) // the loaded record
+fmt.Println(inboxCount) // the loaded record
 ```
 
 
 ### InboxEntry
 
-Create an instance: `inbox_entry := client.InboxEntry(nil)`
+Create an instance: `inboxEntry := client.InboxEntry(nil)`
 
 #### Operations
 
@@ -707,22 +717,22 @@ Create an instance: `inbox_entry := client.InboxEntry(nil)`
 #### Example: List
 
 ```go
-inbox_entrys, err := client.InboxEntry(nil).List(nil, nil)
+inboxEntrys, err := client.InboxEntry(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(inbox_entrys) // the array of records
+fmt.Println(inboxEntrys) // the array of records
 ```
 
 
 ### InboxStateQuery
 
-Create an instance: `inbox_state_query := client.InboxStateQuery(nil)`
+Create an instance: `inboxStateQuery := client.InboxStateQuery(nil)`
 
 
 ### OAuthToken
 
-Create an instance: `o_auth_token := client.OAuthToken(nil)`
+Create an instance: `oAuthToken := client.OAuthToken(nil)`
 
 #### Operations
 
@@ -744,10 +754,14 @@ Create an instance: `o_auth_token := client.OAuthToken(nil)`
 
 ```go
 result, err := client.OAuthToken(nil).Create(map[string]any{
-    "access_token": /* string */,
-    "scope": /* string */,
-    "token_type": /* string */,
+    "access_token": "example_access_token",
+    "scope": "example_scope",
+    "token_type": "example_token_type",
 }, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 
@@ -759,8 +773,8 @@ Create an instance: `oauth := client.Oauth(nil)`
 
 | Method | Description |
 | --- | --- |
-| `Create(data, ctrl)` | Create a new entity with the given data. |
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
+| `Create(data, ctrl)` | Create a new entity with the given data. |
 
 #### Example: Load
 
@@ -777,6 +791,10 @@ fmt.Println(oauth) // the loaded record
 ```go
 result, err := client.Oauth(nil).Create(map[string]any{
 }, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 
@@ -793,7 +811,7 @@ Create an instance: `photo := client.Photo(nil)`
 #### Example: Load
 
 ```go
-photo, err := client.Photo(nil).Load(nil, nil)
+photo, err := client.Photo(nil).Load(map[string]any{"country": "country", "filename": "filename"}, nil)
 if err != nil {
     panic(err)
 }
@@ -803,7 +821,7 @@ fmt.Println(photo) // the loaded record
 
 ### PhotoDownload
 
-Create an instance: `photo_download := client.PhotoDownload(nil)`
+Create an instance: `photoDownload := client.PhotoDownload(nil)`
 
 #### Operations
 
@@ -814,17 +832,17 @@ Create an instance: `photo_download := client.PhotoDownload(nil)`
 #### Example: Load
 
 ```go
-photo_download, err := client.PhotoDownload(nil).Load(nil, nil)
+photoDownload, err := client.PhotoDownload(nil).Load(map[string]any{"filename": "filename"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(photo_download) // the loaded record
+fmt.Println(photoDownload) // the loaded record
 ```
 
 
 ### PhotoStation
 
-Create an instance: `photo_station := client.PhotoStation(nil)`
+Create an instance: `photoStation := client.PhotoStation(nil)`
 
 #### Operations
 
@@ -845,27 +863,27 @@ Create an instance: `photo_station := client.PhotoStation(nil)`
 #### Example: Load
 
 ```go
-photo_station, err := client.PhotoStation(nil).Load(nil, nil)
+photoStation, err := client.PhotoStation(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(photo_station) // the loaded record
+fmt.Println(photoStation) // the loaded record
 ```
 
 #### Example: List
 
 ```go
-photo_stations, err := client.PhotoStation(nil).List(nil, nil)
+photoStations, err := client.PhotoStation(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(photo_stations) // the array of records
+fmt.Println(photoStations) // the array of records
 ```
 
 
 ### PhotoUpload
 
-Create an instance: `photo_upload := client.PhotoUpload(nil)`
+Create an instance: `photoUpload := client.PhotoUpload(nil)`
 
 #### Operations
 
@@ -878,6 +896,10 @@ Create an instance: `photo_upload := client.PhotoUpload(nil)`
 ```go
 result, err := client.PhotoUpload(nil).Create(map[string]any{
 }, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 
@@ -910,8 +932,8 @@ Create an instance: `profile := client.Profile(nil)`
 
 | Method | Description |
 | --- | --- |
-| `Create(data, ctrl)` | Create a new entity with the given data. |
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
+| `Create(data, ctrl)` | Create a new entity with the given data. |
 | `Remove(match, ctrl)` | Remove the matching entity. |
 
 #### Fields
@@ -943,17 +965,21 @@ fmt.Println(profile) // the loaded record
 
 ```go
 result, err := client.Profile(nil).Create(map[string]any{
-    "license": /* string */,
-    "new_password": /* string */,
-    "nickname": /* string */,
-    "photo_owner": /* bool */,
+    "license": "example_license",
+    "new_password": "example_new_password",
+    "nickname": "example_nickname",
+    "photo_owner": true,
 }, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 
 ### PublicInbox
 
-Create an instance: `public_inbox := client.PublicInbox(nil)`
+Create an instance: `publicInbox := client.PublicInbox(nil)`
 
 #### Operations
 
@@ -974,11 +1000,11 @@ Create an instance: `public_inbox := client.PublicInbox(nil)`
 #### Example: List
 
 ```go
-public_inboxs, err := client.PublicInbox(nil).List(nil, nil)
+publicInboxs, err := client.PublicInbox(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(public_inboxs) // the array of records
+fmt.Println(publicInboxs) // the array of records
 ```
 
 
@@ -1082,15 +1108,15 @@ like `core.ToMapAny`.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `Create`, the entity
+Entity instances are stateful. After a successful `List`, the entity
 stores the returned data and match criteria internally.
 
 ```go
-admininbox := client.AdminInbox(nil)
-admininbox.Create(map[string]any{"command": "example", "message": "example", "status": 1}, nil)
+country := client.Country(nil)
+country.List(nil, nil)
 
-// admininbox.Data() now returns the admininbox data from the last create
-// admininbox.Match() returns the last match criteria
+// country.Data() now returns the country data from the last list
+// country.Match() returns the last match criteria
 ```
 
 Call `Make()` to create a fresh instance with the same configuration

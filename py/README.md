@@ -36,11 +36,24 @@ from railwaystationphotos_sdk import RailwayStationPhotosSDK
 client = RailwayStationPhotosSDK()
 ```
 
+### 3. Load a photo
+
+Photo is nested under country, so provide the `country`.
+`load()` returns the bare record (a `dict`) and raises on error.
+
+```python
+try:
+    photo = client.Photo().load({"country": "example_country", "filename": "example_filename"})
+    print(photo)
+except Exception as err:
+    print(f"load failed: {err}")
+```
+
 ### 4. Create, update, and remove
 
 ```python
 # Create — returns the bare created record (a dict)
-created = client.AdminInbox().create({"command": "example", "message": "example", "status": 1})
+created = client.AdminInbox().create({"command": "example_command", "id": 1, "message": "example_message", "status": 1})
 
 ```
 
@@ -51,10 +64,10 @@ Entity operations raise on failure, so wrap them in `try` / `except`:
 
 ```python
 try:
-    admininbox = client.AdminInbox().create({ "command": "example", "message": "example", "status": 1 })
-    print(admininbox)
+    countrys = client.Country().list()
+    print(countrys)
 except Exception as err:
-    print(f"create failed: {err}")
+    print(f"list failed: {err}")
 ```
 
 `direct()` does **not** raise — it returns the result envelope. Branch
@@ -119,8 +132,8 @@ Create a mock client for unit testing — no server required:
 client = RailwayStationPhotosSDK.test()
 
 # Entity ops return the bare record and raise on error.
-admininbox = client.AdminInbox().create({"command": "example", "message": "example", "status": 1})
-# admininbox contains the mock response record
+country = client.Country().list()
+# country contains the mock response record
 ```
 
 ### Use a custom fetch function
@@ -522,8 +535,9 @@ Create an instance: `admin_inbox = client.AdminInbox()`
 
 ```python
 admin_inbox = client.AdminInbox().create({
-    "command": "example",  # str
-    "message": "example",  # str
+    "command": "example_command",  # str
+    "id": 1,  # int
+    "message": "example_message",  # str
     "status": 1,  # int
 })
 ```
@@ -604,7 +618,8 @@ inboxs = client.Inbox().list()
 
 ```python
 inbox = client.Inbox().create({
-    "state": "example",  # str
+    "id": 1,  # int
+    "state": "example_state",  # str
 })
 ```
 
@@ -705,9 +720,9 @@ Create an instance: `o_auth_token = client.OAuthToken()`
 
 ```python
 o_auth_token = client.OAuthToken().create({
-    "access_token": "example",  # str
-    "scope": "example",  # str
-    "token_type": "example",  # str
+    "access_token": "example_access_token",  # str
+    "scope": "example_scope",  # str
+    "token_type": "example_token_type",  # str
 })
 ```
 
@@ -750,7 +765,7 @@ Create an instance: `photo = client.Photo()`
 #### Example: Load
 
 ```python
-photo = client.Photo().load()
+photo = client.Photo().load({"country": "country", "filename": "filename"})
 ```
 
 
@@ -767,7 +782,7 @@ Create an instance: `photo_download = client.PhotoDownload()`
 #### Example: Load
 
 ```python
-photo_download = client.PhotoDownload().load()
+photo_download = client.PhotoDownload().load({"filename": "filename"})
 ```
 
 
@@ -876,9 +891,9 @@ profile = client.Profile().load()
 
 ```python
 profile = client.Profile().create({
-    "license": "example",  # str
-    "new_password": "example",  # str
-    "nickname": "example",  # str
+    "license": "example_license",  # str
+    "new_password": "example_new_password",  # str
+    "nickname": "example_nickname",  # str
     "photo_owner": True,  # bool
 })
 ```
@@ -1009,15 +1024,15 @@ Import entity or utility modules directly only when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `create`, the entity
+Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```python
-admininbox = client.AdminInbox()
-admininbox.create({ "command": "example", "message": "example", "status": 1 })
+country = client.Country()
+country.list()
 
-# admininbox.data_get() now returns the admininbox data from the last create
-# admininbox.match_get() returns the last match criteria
+# country.data_get() now returns the country data from the last list
+# country.match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

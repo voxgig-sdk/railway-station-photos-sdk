@@ -756,10 +756,10 @@ PhotoStation = Struct.new(
 # Request payload for PhotoStation#load.
 #
 # @!attribute [rw] country
-#   @return [String]
+#   @return [String, nil]
 #
 # @!attribute [rw] photographer
-#   @return [String]
+#   @return [String, nil]
 PhotoStationLoadMatch = Struct.new(
   :country,
   :photographer,
@@ -769,10 +769,10 @@ PhotoStationLoadMatch = Struct.new(
 # Request payload for PhotoStation#list.
 #
 # @!attribute [rw] country
-#   @return [String]
+#   @return [String, nil]
 #
 # @!attribute [rw] id
-#   @return [String]
+#   @return [String, nil]
 PhotoStationListMatch = Struct.new(
   :country,
   :id,
@@ -843,7 +843,7 @@ Profile = Struct.new(
 # Request payload for Profile#load.
 #
 # @!attribute [rw] token
-#   @return [String]
+#   @return [String, nil]
 ProfileLoadMatch = Struct.new(
   :token,
   keyword_init: true

@@ -175,8 +175,9 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.AdminInbox.create({
-  "command" => "example", # String
-  "message" => "example", # String
+  "command" => "example_command", # String
+  "id" => 1, # Integer
+  "message" => "example_message", # String
   "status" => 1, # Integer
 })
 ```
@@ -307,7 +308,8 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.Inbox.create({
-  "state" => "example", # String
+  "id" => 1, # Integer
+  "state" => "example_state", # String
 })
 ```
 
@@ -324,7 +326,7 @@ results = client.Inbox.list
 Remove the entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.Inbox.remove()
+result = client.Inbox.remove({ "id" => 1 })
 ```
 
 ### Common Methods
@@ -542,9 +544,9 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.OAuthToken.create({
-  "access_token" => "example", # String
-  "scope" => "example", # String
-  "token_type" => "example", # String
+  "access_token" => "example_access_token", # String
+  "scope" => "example_scope", # String
+  "token_type" => "example_token_type", # String
 })
 ```
 
@@ -646,7 +648,7 @@ photo = client.Photo
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.Photo.load()
+result = client.Photo.load({ "country" => "country", "filename" => "filename" })
 ```
 
 ### Common Methods
@@ -692,7 +694,7 @@ photo_download = client.PhotoDownload
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.PhotoDownload.load()
+result = client.PhotoDownload.load({ "filename" => "filename" })
 ```
 
 ### Common Methods
@@ -925,9 +927,9 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.Profile.create({
-  "license" => "example", # String
-  "new_password" => "example", # String
-  "nickname" => "example", # String
+  "license" => "example_license", # String
+  "new_password" => "example_new_password", # String
+  "nickname" => "example_nickname", # String
   "photo_owner" => true, # Boolean
 })
 ```

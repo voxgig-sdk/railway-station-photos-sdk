@@ -261,14 +261,14 @@ type PhotoStation struct {
 
 // PhotoStationLoadMatch is the typed request payload for PhotoStation.LoadTyped.
 type PhotoStationLoadMatch struct {
-	Country string `json:"country"`
-	Photographer string `json:"photographer"`
+	Country *string `json:"country,omitempty"`
+	Photographer *string `json:"photographer,omitempty"`
 }
 
 // PhotoStationListMatch is the typed request payload for PhotoStation.ListTyped.
 type PhotoStationListMatch struct {
-	Country string `json:"country"`
-	Id string `json:"id"`
+	Country *string `json:"country,omitempty"`
+	Id *string `json:"id,omitempty"`
 }
 
 // PhotoUpload is the typed data model for the photo_upload entity.
@@ -303,7 +303,7 @@ type Profile struct {
 
 // ProfileLoadMatch is the typed request payload for Profile.LoadTyped.
 type ProfileLoadMatch struct {
-	Token string `json:"token"`
+	Token *string `json:"token,omitempty"`
 }
 
 // ProfileCreateData is the typed request payload for Profile.CreateTyped.

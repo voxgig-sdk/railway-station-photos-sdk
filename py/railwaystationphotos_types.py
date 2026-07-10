@@ -274,12 +274,12 @@ class PhotoStation(TypedDict):
     station: list
 
 
-class PhotoStationLoadMatch(TypedDict):
+class PhotoStationLoadMatch(TypedDict, total=False):
     country: str
     photographer: str
 
 
-class PhotoStationListMatch(TypedDict):
+class PhotoStationListMatch(TypedDict, total=False):
     country: str
     id: str
 
@@ -316,7 +316,7 @@ class Profile(ProfileRequired, total=False):
     send_notification: bool
 
 
-class ProfileLoadMatch(TypedDict):
+class ProfileLoadMatch(TypedDict, total=False):
     token: str
 
 

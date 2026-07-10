@@ -173,6 +173,7 @@ Create a new entity with the given data.
 ```lua
 local result, err = client:AdminInbox():create({
   command = --[[ string ]],
+  id = --[[ number ]],
   message = --[[ string ]],
   status = --[[ number ]],
 })
@@ -304,6 +305,7 @@ Create a new entity with the given data.
 
 ```lua
 local result, err = client:Inbox():create({
+  id = --[[ number ]],
   state = --[[ string ]],
 })
 ```
@@ -321,7 +323,7 @@ local results, err = client:Inbox():list()
 Remove the entity matching the given criteria.
 
 ```lua
-local result, err = client:Inbox():remove()
+local result, err = client:Inbox():remove({ id = 1 })
 ```
 
 ### Common Methods
@@ -643,7 +645,7 @@ local photo = client:Photo(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Photo():load()
+local result, err = client:Photo():load({ country = "country", filename = "filename" })
 ```
 
 ### Common Methods
@@ -689,7 +691,7 @@ local photo_download = client:PhotoDownload(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:PhotoDownload():load()
+local result, err = client:PhotoDownload():load({ filename = "filename" })
 ```
 
 ### Common Methods

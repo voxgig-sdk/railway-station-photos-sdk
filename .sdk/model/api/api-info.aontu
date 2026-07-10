@@ -17,9 +17,9 @@ Sourcecode available at: https://codeberg.org/RailwayStations/RSAPI.
           url: "https://api.railway-stations.org"
         }
       ]
+      summary: "Backend Service for https://www.railway-stations.org/."
       title: "RSAPI"
       version: "20240607.2121"
+      website: "https://railway-stations.org"
     }
   }
-}
-

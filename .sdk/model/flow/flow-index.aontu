@@ -1,0 +1,18 @@
+# Flows
+
+@"BasicAdminInboxFlow.aontu"
+@"BasicCountryFlow.aontu"
+@"BasicInboxCountFlow.aontu"
+@"BasicInboxEntryFlow.aontu"
+@"BasicInboxFlow.aontu"
+@"BasicInboxStateQueryFlow.aontu"
+@"BasicOAuthTokenFlow.aontu"
+@"BasicOauthFlow.aontu"
+@"BasicPhotoDownloadFlow.aontu"
+@"BasicPhotoFlow.aontu"
+@"BasicPhotoStationFlow.aontu"
+@"BasicPhotoUploadFlow.aontu"
+@"BasicPhotographerFlow.aontu"
+@"BasicProfileFlow.aontu"
+@"BasicPublicInboxFlow.aontu"
+@"BasicStatFlow.aontu"

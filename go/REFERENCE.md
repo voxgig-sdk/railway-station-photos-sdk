@@ -150,7 +150,8 @@ same parameters as `Direct()`.
 ## AdminInboxEntity
 
 ```go
-admin_inbox := client.AdminInbox(nil)
+adminInbox := client.AdminInbox(nil)
+fmt.Println(adminInbox.GetName()) // "admin_inbox"
 ```
 
 ### Fields
@@ -179,10 +180,15 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.AdminInbox(nil).Create(map[string]any{
-    "command": /* string */,
-    "message": /* string */,
-    "status": /* int */,
+    "command": "example_command",
+    "id": 1,
+    "message": "example_message",
+    "status": 1,
 }, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 ### Common Methods
@@ -213,6 +219,7 @@ Return the entity name.
 
 ```go
 country := client.Country(nil)
+fmt.Println(country.GetName()) // "country"
 ```
 
 ### Fields
@@ -237,6 +244,10 @@ List entities matching the given criteria. Returns an array.
 
 ```go
 results, err := client.Country(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(results)
 ```
 
 ### Common Methods
@@ -267,6 +278,7 @@ Return the entity name.
 
 ```go
 inbox := client.Inbox(nil)
+fmt.Println(inbox.GetName()) // "inbox"
 ```
 
 ### Fields
@@ -293,22 +305,31 @@ inbox := client.Inbox(nil)
 
 ### Operations
 
-#### `Create(reqdata, ctrl map[string]any) (any, error)`
-
-Create a new entity with the given data.
-
-```go
-result, err := client.Inbox(nil).Create(map[string]any{
-    "state": /* string */,
-}, nil)
-```
-
 #### `List(reqmatch, ctrl map[string]any) (any, error)`
 
 List entities matching the given criteria. Returns an array.
 
 ```go
 results, err := client.Inbox(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(results)
+```
+
+#### `Create(reqdata, ctrl map[string]any) (any, error)`
+
+Create a new entity with the given data.
+
+```go
+result, err := client.Inbox(nil).Create(map[string]any{
+    "id": 1,
+    "state": "example_state",
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 #### `Remove(reqmatch, ctrl map[string]any) (any, error)`
@@ -316,7 +337,11 @@ results, err := client.Inbox(nil).List(nil, nil)
 Remove the entity matching the given criteria.
 
 ```go
-result, err := client.Inbox(nil).Remove(nil, nil)
+result, err := client.Inbox(nil).Remove(map[string]any{"id": 1}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 ### Common Methods
@@ -346,7 +371,8 @@ Return the entity name.
 ## InboxCountEntity
 
 ```go
-inbox_count := client.InboxCount(nil)
+inboxCount := client.InboxCount(nil)
+fmt.Println(inboxCount.GetName()) // "inbox_count"
 ```
 
 ### Fields
@@ -363,6 +389,10 @@ Load a single entity matching the given criteria.
 
 ```go
 result, err := client.InboxCount(nil).Load(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 ### Common Methods
@@ -392,7 +422,8 @@ Return the entity name.
 ## InboxEntryEntity
 
 ```go
-inbox_entry := client.InboxEntry(nil)
+inboxEntry := client.InboxEntry(nil)
+fmt.Println(inboxEntry.GetName()) // "inbox_entry"
 ```
 
 ### Fields
@@ -430,6 +461,10 @@ List entities matching the given criteria. Returns an array.
 
 ```go
 results, err := client.InboxEntry(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(results)
 ```
 
 ### Common Methods
@@ -459,7 +494,8 @@ Return the entity name.
 ## InboxStateQueryEntity
 
 ```go
-inbox_state_query := client.InboxStateQuery(nil)
+inboxStateQuery := client.InboxStateQuery(nil)
+fmt.Println(inboxStateQuery.GetName()) // "inbox_state_query"
 ```
 
 ### Common Methods
@@ -489,7 +525,8 @@ Return the entity name.
 ## OAuthTokenEntity
 
 ```go
-o_auth_token := client.OAuthToken(nil)
+oAuthToken := client.OAuthToken(nil)
+fmt.Println(oAuthToken.GetName()) // "o_auth_token"
 ```
 
 ### Fields
@@ -510,10 +547,14 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.OAuthToken(nil).Create(map[string]any{
-    "access_token": /* string */,
-    "scope": /* string */,
-    "token_type": /* string */,
+    "access_token": "example_access_token",
+    "scope": "example_scope",
+    "token_type": "example_token_type",
 }, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 ### Common Methods
@@ -544,9 +585,22 @@ Return the entity name.
 
 ```go
 oauth := client.Oauth(nil)
+fmt.Println(oauth.GetName()) // "oauth"
 ```
 
 ### Operations
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria.
+
+```go
+result, err := client.Oauth(nil).Load(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
 
 #### `Create(reqdata, ctrl map[string]any) (any, error)`
 
@@ -555,14 +609,10 @@ Create a new entity with the given data.
 ```go
 result, err := client.Oauth(nil).Create(map[string]any{
 }, nil)
-```
-
-#### `Load(reqmatch, ctrl map[string]any) (any, error)`
-
-Load a single entity matching the given criteria.
-
-```go
-result, err := client.Oauth(nil).Load(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 ### Common Methods
@@ -593,6 +643,7 @@ Return the entity name.
 
 ```go
 photo := client.Photo(nil)
+fmt.Println(photo.GetName()) // "photo"
 ```
 
 ### Operations
@@ -602,7 +653,11 @@ photo := client.Photo(nil)
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.Photo(nil).Load(nil, nil)
+result, err := client.Photo(nil).Load(map[string]any{"country": "country", "filename": "filename"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 ### Common Methods
@@ -632,7 +687,8 @@ Return the entity name.
 ## PhotoDownloadEntity
 
 ```go
-photo_download := client.PhotoDownload(nil)
+photoDownload := client.PhotoDownload(nil)
+fmt.Println(photoDownload.GetName()) // "photo_download"
 ```
 
 ### Operations
@@ -642,7 +698,11 @@ photo_download := client.PhotoDownload(nil)
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.PhotoDownload(nil).Load(nil, nil)
+result, err := client.PhotoDownload(nil).Load(map[string]any{"filename": "filename"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 ### Common Methods
@@ -672,7 +732,8 @@ Return the entity name.
 ## PhotoStationEntity
 
 ```go
-photo_station := client.PhotoStation(nil)
+photoStation := client.PhotoStation(nil)
+fmt.Println(photoStation.GetName()) // "photo_station"
 ```
 
 ### Fields
@@ -692,6 +753,10 @@ List entities matching the given criteria. Returns an array.
 
 ```go
 results, err := client.PhotoStation(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(results)
 ```
 
 #### `Load(reqmatch, ctrl map[string]any) (any, error)`
@@ -700,6 +765,10 @@ Load a single entity matching the given criteria.
 
 ```go
 result, err := client.PhotoStation(nil).Load(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 ### Common Methods
@@ -729,7 +798,8 @@ Return the entity name.
 ## PhotoUploadEntity
 
 ```go
-photo_upload := client.PhotoUpload(nil)
+photoUpload := client.PhotoUpload(nil)
+fmt.Println(photoUpload.GetName()) // "photo_upload"
 ```
 
 ### Operations
@@ -741,6 +811,10 @@ Create a new entity with the given data.
 ```go
 result, err := client.PhotoUpload(nil).Create(map[string]any{
 }, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 ### Common Methods
@@ -771,6 +845,7 @@ Return the entity name.
 
 ```go
 photographer := client.Photographer(nil)
+fmt.Println(photographer.GetName()) // "photographer"
 ```
 
 ### Operations
@@ -781,6 +856,10 @@ Load a single entity matching the given criteria.
 
 ```go
 result, err := client.Photographer(nil).Load(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 ### Common Methods
@@ -811,6 +890,7 @@ Return the entity name.
 
 ```go
 profile := client.Profile(nil)
+fmt.Println(profile.GetName()) // "profile"
 ```
 
 ### Fields
@@ -845,25 +925,33 @@ profile := client.Profile(nil)
 
 ### Operations
 
-#### `Create(reqdata, ctrl map[string]any) (any, error)`
-
-Create a new entity with the given data.
-
-```go
-result, err := client.Profile(nil).Create(map[string]any{
-    "license": /* string */,
-    "new_password": /* string */,
-    "nickname": /* string */,
-    "photo_owner": /* bool */,
-}, nil)
-```
-
 #### `Load(reqmatch, ctrl map[string]any) (any, error)`
 
 Load a single entity matching the given criteria.
 
 ```go
 result, err := client.Profile(nil).Load(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+#### `Create(reqdata, ctrl map[string]any) (any, error)`
+
+Create a new entity with the given data.
+
+```go
+result, err := client.Profile(nil).Create(map[string]any{
+    "license": "example_license",
+    "new_password": "example_new_password",
+    "nickname": "example_nickname",
+    "photo_owner": true,
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 #### `Remove(reqmatch, ctrl map[string]any) (any, error)`
@@ -872,6 +960,10 @@ Remove the entity matching the given criteria.
 
 ```go
 result, err := client.Profile(nil).Remove(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 ### Common Methods
@@ -901,7 +993,8 @@ Return the entity name.
 ## PublicInboxEntity
 
 ```go
-public_inbox := client.PublicInbox(nil)
+publicInbox := client.PublicInbox(nil)
+fmt.Println(publicInbox.GetName()) // "public_inbox"
 ```
 
 ### Fields
@@ -922,6 +1015,10 @@ List entities matching the given criteria. Returns an array.
 
 ```go
 results, err := client.PublicInbox(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(results)
 ```
 
 ### Common Methods
@@ -952,6 +1049,7 @@ Return the entity name.
 
 ```go
 stat := client.Stat(nil)
+fmt.Println(stat.GetName()) // "stat"
 ```
 
 ### Fields
@@ -972,6 +1070,10 @@ Load a single entity matching the given criteria.
 
 ```go
 result, err := client.Stat(nil).Load(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 ### Common Methods

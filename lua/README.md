@@ -33,11 +33,21 @@ local sdk = require("railway-station-photos_sdk")
 local client = sdk.new()
 ```
 
+### 3. Load a photo
+
+Photo is nested under country, so provide the `country`.
+
+```lua
+local photo, err = client:Photo():load({ country = "example_country", filename = "example_filename" })
+if err then error(err) end
+print(photo)
+```
+
 ### 4. Create, update, and remove
 
 ```lua
 -- Create
-local created, err = client:AdminInbox():create({ command = "example", message = "example", status = 1 })
+local created, err = client:AdminInbox():create({ command = "example_command", id = 1, message = "example_message", status = 1 })
 if err then error(err) end
 
 ```
@@ -49,7 +59,7 @@ Entity operations return `(value, err)`. Check `err` before using
 the value:
 
 ```lua
-local admininbox, err = client:AdminInbox():create({ command = "example", message = "example", status = 1 })
+local countrys, err = client:Country():list()
 if err then error(err) end
 ```
 
@@ -107,7 +117,7 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:AdminInbox():create({ command = "example", message = "example", status = 1 })
+local result, err = client:Country():list()
 -- result is the returned data; err is set on failure
 ```
 
@@ -513,9 +523,10 @@ Create an instance: `local admin_inbox = client:AdminInbox(nil)`
 
 ```lua
 local admin_inbox, err = client:AdminInbox():create({
-  command = nil, -- string
-  message = nil, -- string
-  status = nil, -- number
+  command = "example_command", -- string
+  id = 1, -- number
+  message = "example_message", -- string
+  status = 1, -- number
 })
 ```
 
@@ -595,7 +606,8 @@ local inboxs, err = client:Inbox():list()
 
 ```lua
 local inbox, err = client:Inbox():create({
-  state = nil, -- string
+  id = 1, -- number
+  state = "example_state", -- string
 })
 ```
 
@@ -696,9 +708,9 @@ Create an instance: `local o_auth_token = client:OAuthToken(nil)`
 
 ```lua
 local o_auth_token, err = client:OAuthToken():create({
-  access_token = nil, -- string
-  scope = nil, -- string
-  token_type = nil, -- string
+  access_token = "example_access_token", -- string
+  scope = "example_scope", -- string
+  token_type = "example_token_type", -- string
 })
 ```
 
@@ -741,7 +753,7 @@ Create an instance: `local photo = client:Photo(nil)`
 #### Example: Load
 
 ```lua
-local photo, err = client:Photo():load()
+local photo, err = client:Photo():load({ country = "country", filename = "filename" })
 ```
 
 
@@ -758,7 +770,7 @@ Create an instance: `local photo_download = client:PhotoDownload(nil)`
 #### Example: Load
 
 ```lua
-local photo_download, err = client:PhotoDownload():load()
+local photo_download, err = client:PhotoDownload():load({ filename = "filename" })
 ```
 
 
@@ -867,10 +879,10 @@ local profile, err = client:Profile():load()
 
 ```lua
 local profile, err = client:Profile():create({
-  license = nil, -- string
-  new_password = nil, -- string
-  nickname = nil, -- string
-  photo_owner = nil, -- boolean
+  license = "example_license", -- string
+  new_password = "example_new_password", -- string
+  nickname = "example_nickname", -- string
+  photo_owner = true, -- boolean
 })
 ```
 
@@ -1001,15 +1013,15 @@ when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `create`, the entity
+Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```lua
-local admininbox = client:AdminInbox()
-admininbox:create({ command = "example", message = "example", status = 1 })
+local country = client:Country()
+country:list()
 
--- admininbox:data_get() now returns the admininbox data from the last create
--- admininbox:match_get() returns the last match criteria
+-- country:data_get() now returns the country data from the last list
+-- country:match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

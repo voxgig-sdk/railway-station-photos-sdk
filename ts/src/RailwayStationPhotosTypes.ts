@@ -234,13 +234,13 @@ export interface PhotoStation {
 }
 
 export interface PhotoStationLoadMatch {
-  country: string
-  photographer: string
+  country?: string
+  photographer?: string
 }
 
 export interface PhotoStationListMatch {
-  country: string
-  id: string
+  country?: string
+  id?: string
 }
 
 export interface PhotoUpload {
@@ -269,7 +269,7 @@ export interface Profile {
 }
 
 export interface ProfileLoadMatch {
-  token: string
+  token?: string
 }
 
 export interface ProfileCreateData {

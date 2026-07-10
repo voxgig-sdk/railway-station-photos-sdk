@@ -6,9 +6,6 @@
     },
     "kit": {
       "config": {
-        "auth": {
-          "prefix": "Bearer"
-        },
         "docs_order": [
           "ts",
           "py",
@@ -2693,13 +2690,16 @@
           "name": "MIT",
           "url": "https://codeberg.org/RailwayStations/RSAPI/blob/master/LICENSE.txt"
         },
+        "meta_source": "https://www.freepublicapis.com",
         "servers": [
           {
             "url": "https://api.railway-stations.org"
           }
         ],
+        "summary": "Backend Service for https://www.railway-stations.org/.",
         "title": "RSAPI",
-        "version": "20240607.2121"
+        "version": "20240607.2121",
+        "website": "https://railway-stations.org"
       },
       "option": {},
       "target": {
@@ -2752,6 +2752,9 @@
           },
           "name": "go-cli",
           "phase": {
+            "agentguide": {
+              "active": false
+            },
             "entity": {
               "active": false
             },
@@ -2802,6 +2805,9 @@
           },
           "name": "go-mcp",
           "phase": {
+            "agentguide": {
+              "active": false
+            },
             "entity": {
               "active": false
             },

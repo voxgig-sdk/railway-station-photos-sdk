@@ -175,6 +175,7 @@ Create a new entity with the given data. Throws on error.
 ```php
 $result = $client->AdminInbox()->create([
   "command" => null, // string
+  "id" => null, // int
   "message" => null, // string
   "status" => null, // int
 ]);
@@ -306,6 +307,7 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->Inbox()->create([
+  "id" => null, // int
   "state" => null, // string
 ]);
 ```
@@ -323,7 +325,7 @@ $results = $client->Inbox()->list();
 Remove the entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->Inbox()->remove();
+$result = $client->Inbox()->remove(["id" => 1]);
 ```
 
 ### Common Methods
@@ -645,7 +647,7 @@ $photo = $client->Photo();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->Photo()->load();
+$result = $client->Photo()->load(["country" => "country", "filename" => "filename"]);
 ```
 
 ### Common Methods
@@ -691,7 +693,7 @@ $photo_download = $client->PhotoDownload();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->PhotoDownload()->load();
+$result = $client->PhotoDownload()->load(["filename" => "filename"]);
 ```
 
 ### Common Methods

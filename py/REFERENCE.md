@@ -169,8 +169,9 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.AdminInbox().create({
-    "command": "example",  # str
-    "message": "example",  # str
+    "command": "example_command",  # str
+    "id": 1,  # int
+    "message": "example_message",  # str
     "status": 1,  # int
 })
 ```
@@ -301,7 +302,8 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.Inbox().create({
-    "state": "example",  # str
+    "id": 1,  # int
+    "state": "example_state",  # str
 })
 ```
 
@@ -320,7 +322,7 @@ for inbox in results:
 Remove the entity matching the given criteria. Raises on error.
 
 ```python
-result = client.Inbox().remove()
+result = client.Inbox().remove({"id": 1})
 ```
 
 ### Common Methods
@@ -536,9 +538,9 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.OAuthToken().create({
-    "access_token": "example",  # str
-    "scope": "example",  # str
-    "token_type": "example",  # str
+    "access_token": "example_access_token",  # str
+    "scope": "example_scope",  # str
+    "token_type": "example_token_type",  # str
 })
 ```
 
@@ -638,7 +640,7 @@ photo = client.Photo()
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.Photo().load()
+result = client.Photo().load({"country": "country", "filename": "filename"})
 ```
 
 ### Common Methods
@@ -683,7 +685,7 @@ photo_download = client.PhotoDownload()
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.PhotoDownload().load()
+result = client.PhotoDownload().load({"filename": "filename"})
 ```
 
 ### Common Methods
@@ -914,9 +916,9 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.Profile().create({
-    "license": "example",  # str
-    "new_password": "example",  # str
-    "nickname": "example",  # str
+    "license": "example_license",  # str
+    "new_password": "example_new_password",  # str
+    "nickname": "example_nickname",  # str
     "photo_owner": True,  # bool
 })
 ```

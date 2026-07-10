@@ -30,11 +30,25 @@ require_relative "RailwayStationPhotos_sdk"
 client = RailwayStationPhotosSDK.new
 ```
 
+### 3. Load a photo
+
+Photo is nested under country, so provide the `country`.
+
+```ruby
+begin
+  # load returns the bare Photo record (raises on error).
+  photo = client.Photo.load({ "country" => "example_country", "filename" => "example_filename" })
+  puts photo
+rescue => err
+  warn "load failed: #{err}"
+end
+```
+
 ### 4. Create, update, and remove
 
 ```ruby
 # create returns the bare created AdminInbox record.
-created = client.AdminInbox.create({ "command" => "example", "message" => "example", "status" => 1 })
+created = client.AdminInbox.create({ "command" => "example_command", "id" => 1, "message" => "example_message", "status" => 1 })
 
 ```
 
@@ -45,9 +59,9 @@ Entity operations raise on failure, so rescue them:
 
 ```ruby
 begin
-  admininbox = client.AdminInbox.create({ "command" => "example", "message" => "example", "status" => 1 })
+  countrys = client.Country.list()
 rescue => err
-  warn "create failed: #{err}"
+  warn "list failed: #{err}"
 end
 ```
 
@@ -114,8 +128,8 @@ Create a mock client for unit testing — no server required:
 client = RailwayStationPhotosSDK.test
 
 # Entity ops return the bare mock record (raises on error).
-admininbox = client.AdminInbox.create({ "command" => "example", "message" => "example", "status" => 1 })
-puts admininbox
+country = client.Country.list()
+puts country
 ```
 
 ### Use a custom fetch function
@@ -516,8 +530,9 @@ Create an instance: `admin_inbox = client.AdminInbox`
 
 ```ruby
 admin_inbox = client.AdminInbox.create({
-  "command" => "example", # String
-  "message" => "example", # String
+  "command" => "example_command", # String
+  "id" => 1, # Integer
+  "message" => "example_message", # String
   "status" => 1, # Integer
 })
 ```
@@ -600,7 +615,8 @@ inboxs = client.Inbox.list
 
 ```ruby
 inbox = client.Inbox.create({
-  "state" => "example", # String
+  "id" => 1, # Integer
+  "state" => "example_state", # String
 })
 ```
 
@@ -703,9 +719,9 @@ Create an instance: `o_auth_token = client.OAuthToken`
 
 ```ruby
 o_auth_token = client.OAuthToken.create({
-  "access_token" => "example", # String
-  "scope" => "example", # String
-  "token_type" => "example", # String
+  "access_token" => "example_access_token", # String
+  "scope" => "example_scope", # String
+  "token_type" => "example_token_type", # String
 })
 ```
 
@@ -750,7 +766,7 @@ Create an instance: `photo = client.Photo`
 
 ```ruby
 # load returns the bare Photo record (raises on error).
-photo = client.Photo.load()
+photo = client.Photo.load({ "country" => "country", "filename" => "filename" })
 ```
 
 
@@ -768,7 +784,7 @@ Create an instance: `photo_download = client.PhotoDownload`
 
 ```ruby
 # load returns the bare PhotoDownload record (raises on error).
-photo_download = client.PhotoDownload.load()
+photo_download = client.PhotoDownload.load({ "filename" => "filename" })
 ```
 
 
@@ -881,9 +897,9 @@ profile = client.Profile.load()
 
 ```ruby
 profile = client.Profile.create({
-  "license" => "example", # String
-  "new_password" => "example", # String
-  "nickname" => "example", # String
+  "license" => "example_license", # String
+  "new_password" => "example_new_password", # String
+  "nickname" => "example_nickname", # String
   "photo_owner" => true, # Boolean
 })
 ```
@@ -1017,15 +1033,15 @@ when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `create`, the entity
+Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```ruby
-admininbox = client.AdminInbox
-admininbox.create({ "command" => "example", "message" => "example", "status" => 1 })
+country = client.Country
+country.list()
 
-# admininbox.data_get now returns the admininbox data from the last create
-# admininbox.match_get returns the last match criteria
+# country.data_get now returns the country data from the last list
+# country.match_get returns the last match criteria
 ```
 
 Call `make` to create a fresh instance with the same configuration

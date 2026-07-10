@@ -33,12 +33,30 @@ import { RailwayStationPhotosSDK } from '@voxgig-sdk/railway-station-photos'
 const client = new RailwayStationPhotosSDK()
 ```
 
+### 3. Load a photo
+
+Photo is nested under country, so provide the `country`.
+`load()` returns the entity directly and throws on failure:
+
+```ts
+try {
+  const photo = await client.Photo().load({
+    country: 'example_country',
+    filename: 'example_filename',
+  })
+  console.log(photo)
+} catch (err) {
+  console.error('load failed:', err)
+}
+```
+
 ### 4. Create, update, and remove
 
 ```ts
 // Create — returns the created AdminInbox
 const created = await client.AdminInbox().create({
   command: 'example_command',
+  id: 1,
   message: 'example_message',
   status: 1,
 })
@@ -52,10 +70,10 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const admininbox = await client.AdminInbox().create({ command: "example", message: "example", status: 1 })
-  console.log(admininbox)
+  const countrys = await client.Country().list()
+  console.log(countrys)
 } catch (err) {
-  console.error('create failed:', err)
+  console.error('list failed:', err)
 }
 ```
 
@@ -119,9 +137,9 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = RailwayStationPhotosSDK.test()
 
-const admininbox = await client.AdminInbox().create({ command: 'example_command', message: 'example_message', status: 1 })
-// admininbox is a bare entity populated with mock response data
-console.log(admininbox)
+const country = await client.Country().list()
+// country is a bare entity populated with mock response data
+console.log(country)
 ```
 
 You can also use the instance method:
@@ -136,14 +154,14 @@ const testClient = client.tester()
 Entity instances remember their last match and data:
 
 ```ts
-const entity = client.AdminInbox()
+const entity = client.Country()
 
 // First call runs the operation and stores its result
-await entity.create({ command: 'example_command', message: 'example_message', status: 1 })
+await entity.list()
 
 // Subsequent calls reuse the stored state
 const data = entity.data()
-console.log(data.id)
+console.log(data)
 ```
 
 ### Add custom middleware
@@ -572,9 +590,10 @@ Create an instance: `const admin_inbox = client.AdminInbox()`
 
 ```ts
 const admin_inbox = await client.AdminInbox().create({
-  command: /* string */,
-  message: /* string */,
-  status: /* number */,
+  command: 'example_command',
+  id: 1,
+  message: 'example_message',
+  status: 1,
 })
 ```
 
@@ -654,7 +673,8 @@ const inboxs = await client.Inbox().list()
 
 ```ts
 const inbox = await client.Inbox().create({
-  state: /* string */,
+  id: 1,
+  state: 'example_state',
 })
 ```
 
@@ -755,9 +775,9 @@ Create an instance: `const o_auth_token = client.OAuthToken()`
 
 ```ts
 const o_auth_token = await client.OAuthToken().create({
-  access_token: /* string */,
-  scope: /* string */,
-  token_type: /* string */,
+  access_token: 'example_access_token',
+  scope: 'example_scope',
+  token_type: 'example_token_type',
 })
 ```
 
@@ -800,7 +820,7 @@ Create an instance: `const photo = client.Photo()`
 #### Example: Load
 
 ```ts
-const photo = await client.Photo().load()
+const photo = await client.Photo().load({ country: 'country', filename: 'filename' })
 ```
 
 
@@ -817,7 +837,7 @@ Create an instance: `const photo_download = client.PhotoDownload()`
 #### Example: Load
 
 ```ts
-const photo_download = await client.PhotoDownload().load()
+const photo_download = await client.PhotoDownload().load({ filename: 'filename' })
 ```
 
 
@@ -926,10 +946,10 @@ const profile = await client.Profile().load()
 
 ```ts
 const profile = await client.Profile().create({
-  license: /* string */,
-  new_password: /* string */,
-  nickname: /* string */,
-  photo_owner: /* boolean */,
+  license: 'example_license',
+  new_password: 'example_new_password',
+  nickname: 'example_nickname',
+  photo_owner: true,
 })
 ```
 
@@ -1052,16 +1072,16 @@ import { RailwayStationPhotosSDK } from '@voxgig-sdk/railway-station-photos'
 
 ### Entity state
 
-Entity instances are stateful. After a successful `create`, the entity
+Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const admininbox = client.AdminInbox()
-await admininbox.create({ command: "example", message: "example", status: 1 })
+const country = client.Country()
+await country.list()
 
-// admininbox.data() now returns the admininbox data from the last `create`
-// admininbox.match() returns the last match criteria
+// country.data() now returns the country data from the last `list`
+// country.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

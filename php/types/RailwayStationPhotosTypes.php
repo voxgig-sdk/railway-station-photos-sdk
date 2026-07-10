@@ -289,15 +289,15 @@ class PhotoStation
 /** Request payload for PhotoStation#load. */
 class PhotoStationLoadMatch
 {
-    public string $country;
-    public string $photographer;
+    public ?string $country = null;
+    public ?string $photographer = null;
 }
 
 /** Request payload for PhotoStation#list. */
 class PhotoStationListMatch
 {
-    public string $country;
-    public string $id;
+    public ?string $country = null;
+    public ?string $id = null;
 }
 
 /** PhotoUpload entity data model. */
@@ -338,7 +338,7 @@ class Profile
 /** Request payload for Profile#load. */
 class ProfileLoadMatch
 {
-    public string $token;
+    public ?string $token = null;
 }
 
 /** Request payload for Profile#create. */

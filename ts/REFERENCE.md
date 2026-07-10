@@ -318,9 +318,10 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.AdminInbox().create({
-  command: /* string */,
-  message: /* string */,
-  status: /* number */,
+  command: 'example_command',
+  id: 1,
+  message: 'example_message',
+  status: 1,
 })
 ```
 
@@ -446,7 +447,8 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.Inbox().create({
-  state: /* string */,
+  id: 1,
+  state: 'example_state',
 })
 ```
 
@@ -463,7 +465,7 @@ const results = await client.Inbox().list()
 Remove the entity matching the given criteria.
 
 ```ts
-const result = await client.Inbox().remove()
+const result = await client.Inbox().remove({ id: 1 })
 ```
 
 ### Common Methods
@@ -673,9 +675,9 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.OAuthToken().create({
-  access_token: /* string */,
-  scope: /* string */,
-  token_type: /* string */,
+  access_token: 'example_access_token',
+  scope: 'example_scope',
+  token_type: 'example_token_type',
 })
 ```
 
@@ -773,7 +775,7 @@ const photo = client.Photo()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Photo().load()
+const result = await client.Photo().load({ country: 'country', filename: 'filename' })
 ```
 
 ### Common Methods
@@ -817,7 +819,7 @@ const photo_download = client.PhotoDownload()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.PhotoDownload().load()
+const result = await client.PhotoDownload().load({ filename: 'filename' })
 ```
 
 ### Common Methods
@@ -1042,10 +1044,10 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.Profile().create({
-  license: /* string */,
-  new_password: /* string */,
-  nickname: /* string */,
-  photo_owner: /* boolean */,
+  license: 'example_license',
+  new_password: 'example_new_password',
+  nickname: 'example_nickname',
+  photo_owner: true,
 })
 ```
 

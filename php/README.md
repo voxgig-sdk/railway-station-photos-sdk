@@ -31,11 +31,25 @@ require_once 'railwaystationphotos_sdk.php';
 $client = new RailwayStationPhotosSDK();
 ```
 
+### 3. Load a photo
+
+Photo is nested under country, so provide the `country`.
+
+```php
+try {
+    // load() returns the bare Photo record (throws on error).
+    $photo = $client->Photo()->load(["country" => "example_country", "filename" => "example_filename"]);
+    print_r($photo);
+} catch (\Throwable $err) {
+    echo "Error: " . $err->getMessage();
+}
+```
+
 ### 4. Create, update, and remove
 
 ```php
 // create() returns the bare created AdminInbox record.
-$created = $client->AdminInbox()->create(["command" => "example", "message" => "example", "status" => 1]);
+$created = $client->AdminInbox()->create(["command" => "example_command", "id" => 1, "message" => "example_message", "status" => 1]);
 
 ```
 
@@ -47,7 +61,7 @@ Entity operations throw a `\Throwable` on failure, so wrap them in
 
 ```php
 try {
-    $admininbox = $client->AdminInbox()->create(["command" => "example", "message" => "example", "status" => 1]);
+    $countrys = $client->Country()->list();
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -120,8 +134,8 @@ Create a mock client for unit testing — no server required:
 $client = RailwayStationPhotosSDK::test();
 
 // Entity ops return the bare mock record (throws on error).
-$admininbox = $client->AdminInbox()->create(["command" => "example", "message" => "example", "status" => 1]);
-print_r($admininbox);
+$country = $client->Country()->list();
+print_r($country);
 ```
 
 ### Use a custom fetch function
@@ -527,6 +541,7 @@ Create an instance: `$admin_inbox = $client->AdminInbox();`
 ```php
 $admin_inbox = $client->AdminInbox()->create([
     "command" => null, // string
+    "id" => null, // int
     "message" => null, // string
     "status" => null, // int
 ]);
@@ -610,6 +625,7 @@ $inboxs = $client->Inbox()->list();
 
 ```php
 $inbox = $client->Inbox()->create([
+    "id" => null, // int
     "state" => null, // string
 ]);
 ```
@@ -760,7 +776,7 @@ Create an instance: `$photo = $client->Photo();`
 
 ```php
 // load() returns the bare Photo record (throws on error).
-$photo = $client->Photo()->load();
+$photo = $client->Photo()->load(["country" => "country", "filename" => "filename"]);
 ```
 
 
@@ -778,7 +794,7 @@ Create an instance: `$photo_download = $client->PhotoDownload();`
 
 ```php
 // load() returns the bare PhotoDownload record (throws on error).
-$photo_download = $client->PhotoDownload()->load();
+$photo_download = $client->PhotoDownload()->load(["filename" => "filename"]);
 ```
 
 
@@ -1027,15 +1043,15 @@ when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `create`, the entity
+Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```php
-$admininbox = $client->AdminInbox();
-$admininbox->create(["command" => "example", "message" => "example", "status" => 1]);
+$country = $client->Country();
+$country->list();
 
-// $admininbox->data_get() now returns the admininbox data from the last create
-// $admininbox->match_get() returns the last match criteria
+// $country->data_get() now returns the country data from the last list
+// $country->match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration
