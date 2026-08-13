@@ -42,18 +42,27 @@ network, and no credentials:
 ### TypeScript
 
 ```ts
-const client = RailwayStationPhotosSDK.test()
-const countrys = await client.Country().list()
-// countrys is an array of bare Country records populated with mock data
-console.log(countrys)
+// The offline mock starts EMPTY — seed it with the records the test needs.
+// Shape: { entity: { <entity-name>: { <id>: <record> } } }
+const client = RailwayStationPhotosSDK.test({
+  entity: {
+    public_inbox: {
+      test01: { id: 'test01' },
+    },
+  },
+})
+const publicinboxs = await client.PublicInbox().list()
+// publicinboxs is an array of PublicInbox entities, populated with mock data
+// — call publicinboxs[0].data() for the record itself
+console.log(publicinboxs)
 ```
 
 ### Python
 
 ```python
 client = RailwayStationPhotosSDK.test()
-countrys = client.Country().list()
-print(countrys)
+publicinboxs = client.PublicInbox().list()
+print(publicinboxs)
 ```
 
 ### PHP
@@ -61,16 +70,16 @@ print(countrys)
 ```php
 // Seed fixture data so offline calls resolve without a live server.
 $client = RailwayStationPhotosSDK::test([
-    "entity" => ["country" => ["test01" => []]],
+    "entity" => ["publicinbox" => ["test01" => []]],
 ]);
-$countrys = $client->Country()->list();
+$publicinboxs = $client->PublicInbox()->list();
 ```
 
 ### Golang
 
 ```go
 client := sdk.Test()
-result, err := client.Country(nil).List(
+result, err := client.PublicInbox(nil).List(
     nil, nil,
 )
 ```
@@ -80,16 +89,16 @@ result, err := client.Country(nil).List(
 ```ruby
 # Seed fixture data so offline calls resolve without a live server.
 client = RailwayStationPhotosSDK.test({
-  "entity" => { "country" => { "test01" => {} } },
+  "entity" => { "publicinbox" => { "test01" => {} } },
 })
-countrys = client.Country.list()
+publicinboxs = client.PublicInbox.list()
 ```
 
 ### Lua
 
 ```lua
 local client = sdk.test()
-local results, err = client:Country():list()
+local results, err = client:PublicInbox():list()
 ```
 
 ## Packages
@@ -163,18 +172,18 @@ The API exposes 16 entities:
 | --- | --- | --- |
 | **AdminInbox** | The AdminInbox entity (create). | `/adminInbox` |
 | **Country** | The Country entity (list). | `/countries` |
-| **Inbox** | The Inbox entity (create, list, remove). | `/reportProblem` |
+| **Inbox** | The Inbox entity (create, list, remove). | `/userInbox` |
 | **InboxCount** | The InboxCount entity (load). | `/adminInboxCount` |
 | **InboxEntry** | The InboxEntry entity (list). | `/adminInbox` |
 | **InboxStateQuery** | The InboxStateQuery entity. | `` |
 | **OAuthToken** | The OAuthToken entity (create). | `/oauth2/token` |
-| **Oauth** | The Oauth entity (create, load). | `/oauth2/revoke` |
+| **Oauth** | The Oauth entity (create, load). | `/oauth2/authorize` |
 | **Photo** | The Photo entity (load). | `/photos/{country}/{filename}` |
 | **PhotoDownload** | The PhotoDownload entity (load). | `/inbox/done/{filename}` |
 | **PhotoStation** | The PhotoStation entity (list, load). | `/photoStationById/{country}/{id}` |
 | **PhotoUpload** | The PhotoUpload entity (create). | `/photoUpload` |
 | **Photographer** | The Photographer entity (load). | `/photographers` |
-| **Profile** | The Profile entity (create, load, remove). | `/changePassword` |
+| **Profile** | The Profile entity (create, load, remove). | `/myProfile` |
 | **PublicInbox** | The PublicInbox entity (list). | `/publicInbox` |
 | **Stat** | The Stat entity (load). | `/stats` |
 
@@ -354,6 +363,9 @@ Pass custom features via the `extend` option at construction time.
 
 This SDK is generated from the upstream OpenAPI specification. It is an
 unofficial client and is not affiliated with the API provider.
+
+The OpenAPI spec(s) this SDK was generated from are kept in the
+[`.sdk/def/`](.sdk/def/) folder.
 
 - Upstream API: [https://api.railway-stations.org](https://api.railway-stations.org)
 

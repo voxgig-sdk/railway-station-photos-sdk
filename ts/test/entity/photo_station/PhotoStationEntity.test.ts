@@ -26,8 +26,8 @@ import {
 describe('PhotoStationEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when RAILWAYSTATIONPHOTOS_TEST_LIVE=TRUE.
-  afterEach(liveDelay('RAILWAYSTATIONPHOTOS_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when RAILWAY_STATION_PHOTOS_TEST_LIVE=TRUE.
+  afterEach(liveDelay('RAILWAY_STATION_PHOTOS_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = RailwayStationPhotosSDK.test()
@@ -63,7 +63,7 @@ describe('PhotoStationEntity', async () => {
     const photo_station_ref01_ent = client.PhotoStation()
     const photo_station_ref01_match: any = {}
 
-    const photo_station_ref01_list = await photo_station_ref01_ent.list(photo_station_ref01_match)
+    const photo_station_ref01_list = (await photo_station_ref01_ent.list(photo_station_ref01_match)).map((e: any) => e.data())
 
 
 

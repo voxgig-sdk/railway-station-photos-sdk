@@ -39,7 +39,7 @@ client = RailwayStationPhotosSDK()
 ### 3. Load a photo
 
 Photo is nested under country, so provide the `country`.
-`load()` returns the bare record (a `dict`) and raises on error.
+`load()` returns the ENTITY — call data_get() for the record — and raises on error.
 
 ```python
 try:
@@ -52,7 +52,7 @@ except Exception as err:
 ### 4. Create, update, and remove
 
 ```python
-# Create — returns the bare created record (a dict)
+# Create — returns the ENTITY (call data_get() for the record)
 created = client.AdminInbox().create({"command": "example_command", "id": 1, "message": "example_message", "status": 1})
 
 ```
@@ -64,8 +64,8 @@ Entity operations raise on failure, so wrap them in `try` / `except`:
 
 ```python
 try:
-    countrys = client.Country().list()
-    print(countrys)
+    publicinboxs = client.PublicInbox().list()
+    print(publicinboxs)
 except Exception as err:
     print(f"list failed: {err}")
 ```
@@ -131,9 +131,10 @@ Create a mock client for unit testing — no server required:
 ```python
 client = RailwayStationPhotosSDK.test()
 
-# Entity ops return the bare record and raise on error.
-country = client.Country().list()
-# country contains the mock response record
+# Entity ops return the ENTITY and raises on error;
+# call data_get() for the record.
+publicinbox = client.PublicInbox().list()
+# publicinbox contains the mock response record
 ```
 
 ### Use a custom fetch function
@@ -245,7 +246,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `dict` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (a `dict` for single-entity
 ops, a `list` for `list`) and raise on error. Wrap calls in
 `try`/`except` to handle failures.
 
@@ -267,17 +268,17 @@ On error, `ok` is `False` and `err` contains the error value.
 
 | Field | Description |
 | --- | --- |
+| `DS100` |  |
 | `active` |  |
 | `command` |  |
-| `conflict_resolution` |  |
-| `country_code` |  |
-| `ds100` |  |
+| `conflictResolution` |  |
+| `countryCode` |  |
 | `id` |  |
 | `lat` |  |
 | `lon` |  |
 | `message` |  |
-| `reject_reason` |  |
-| `station_id` |  |
+| `rejectReason` |  |
+| `stationId` |  |
 | `status` |  |
 | `title` |  |
 
@@ -290,14 +291,14 @@ API path: `/adminInbox`
 | Field | Description |
 | --- | --- |
 | `active` |  |
-| `allow_photo_upload` |  |
+| `allowPhotoUploads` |  |
 | `code` |  |
 | `email` |  |
 | `message` |  |
 | `name` |  |
-| `override_license` |  |
-| `provider_app` |  |
-| `timetable_url_template` |  |
+| `overrideLicense` |  |
+| `providerApps` |  |
+| `timetableUrlTemplate` |  |
 
 Operations: List.
 
@@ -308,21 +309,21 @@ API path: `/countries`
 | Field | Description |
 | --- | --- |
 | `comment` |  |
-| `country_code` |  |
+| `countryCode` |  |
 | `crc32` |  |
-| `created_at` |  |
+| `createdAt` |  |
 | `filename` |  |
 | `id` |  |
-| `inbox_url` |  |
+| `inboxUrl` |  |
 | `lat` |  |
 | `lon` |  |
-| `new_lat` |  |
-| `new_lon` |  |
-| `new_title` |  |
-| `problem_report_type` |  |
-| `rejected_reason` |  |
+| `newLat` |  |
+| `newLon` |  |
+| `newTitle` |  |
+| `problemReportType` |  |
+| `rejectedReason` |  |
 | `state` |  |
-| `station_id` |  |
+| `stationId` |  |
 | `title` |  |
 
 Operations: Create, List, Remove.
@@ -333,7 +334,7 @@ API path: `/reportProblem`
 
 | Field | Description |
 | --- | --- |
-| `pending_inbox_entry` |  |
+| `pendingInboxEntries` |  |
 
 Operations: Load.
 
@@ -345,25 +346,25 @@ API path: `/adminInboxCount`
 | --- | --- |
 | `active` |  |
 | `comment` |  |
-| `country_code` |  |
-| `created_at` |  |
+| `countryCode` |  |
+| `createdAt` |  |
 | `done` |  |
 | `filename` |  |
-| `has_conflict` |  |
-| `has_photo` |  |
+| `hasConflict` |  |
+| `hasPhoto` |  |
 | `id` |  |
-| `inbox_url` |  |
-| `is_processed` |  |
+| `inboxUrl` |  |
+| `isProcessed` |  |
 | `lat` |  |
 | `lon` |  |
-| `new_lat` |  |
-| `new_lon` |  |
-| `new_title` |  |
-| `photo_id` |  |
-| `photographer_email` |  |
-| `photographer_nickname` |  |
-| `problem_report_type` |  |
-| `station_id` |  |
+| `newLat` |  |
+| `newLon` |  |
+| `newTitle` |  |
+| `photoId` |  |
+| `photographerEmail` |  |
+| `photographerNickname` |  |
+| `problemReportType` |  |
+| `stationId` |  |
 | `title` |  |
 
 Operations: List.
@@ -424,10 +425,10 @@ API path: `/inbox/done/{filename}`
 
 | Field | Description |
 | --- | --- |
-| `license` |  |
-| `photo_base_url` |  |
-| `photographer` |  |
-| `station` |  |
+| `licenses` |  |
+| `photoBaseUrl` |  |
+| `photographers` |  |
+| `stations` |  |
 
 Operations: List, Load.
 
@@ -458,13 +459,13 @@ API path: `/photographers`
 | `admin` |  |
 | `anonymous` |  |
 | `email` |  |
-| `email_verified` |  |
+| `emailVerified` |  |
 | `license` |  |
 | `link` |  |
-| `new_password` |  |
+| `newPassword` |  |
 | `nickname` |  |
-| `photo_owner` |  |
-| `send_notification` |  |
+| `photoOwner` |  |
+| `sendNotifications` |  |
 
 Operations: Create, Load, Remove.
 
@@ -474,10 +475,10 @@ API path: `/changePassword`
 
 | Field | Description |
 | --- | --- |
-| `country_code` |  |
+| `countryCode` |  |
 | `lat` |  |
 | `lon` |  |
-| `station_id` |  |
+| `stationId` |  |
 | `title` |  |
 
 Operations: List.
@@ -488,11 +489,11 @@ API path: `/publicInbox`
 
 | Field | Description |
 | --- | --- |
-| `country_code` |  |
-| `photographer` |  |
+| `countryCode` |  |
+| `photographers` |  |
 | `total` |  |
-| `with_photo` |  |
-| `without_photo` |  |
+| `withPhoto` |  |
+| `withoutPhoto` |  |
 
 Operations: Load.
 
@@ -517,17 +518,17 @@ Create an instance: `admin_inbox = client.AdminInbox()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `DS100` | `str` |  |
 | `active` | `bool` |  |
 | `command` | `str` |  |
-| `conflict_resolution` | `str` |  |
-| `country_code` | `str` |  |
-| `ds100` | `str` |  |
+| `conflictResolution` | `str` |  |
+| `countryCode` | `str` |  |
 | `id` | `int` |  |
 | `lat` | `float` |  |
 | `lon` | `float` |  |
 | `message` | `str` |  |
-| `reject_reason` | `str` |  |
-| `station_id` | `str` |  |
+| `rejectReason` | `str` |  |
+| `stationId` | `str` |  |
 | `status` | `int` |  |
 | `title` | `str` |  |
 
@@ -558,14 +559,14 @@ Create an instance: `country = client.Country()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `active` | `bool` |  |
-| `allow_photo_upload` | `bool` |  |
+| `allowPhotoUploads` | `bool` |  |
 | `code` | `str` |  |
 | `email` | `str` |  |
 | `message` | `str` |  |
 | `name` | `str` |  |
-| `override_license` | `str` |  |
-| `provider_app` | `list` |  |
-| `timetable_url_template` | `str` |  |
+| `overrideLicense` | `str` |  |
+| `providerApps` | `list` |  |
+| `timetableUrlTemplate` | `str` |  |
 
 #### Example: List
 
@@ -591,21 +592,21 @@ Create an instance: `inbox = client.Inbox()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `comment` | `str` |  |
-| `country_code` | `str` |  |
+| `countryCode` | `str` |  |
 | `crc32` | `int` |  |
-| `created_at` | `int` |  |
+| `createdAt` | `int` |  |
 | `filename` | `str` |  |
 | `id` | `int` |  |
-| `inbox_url` | `str` |  |
+| `inboxUrl` | `str` |  |
 | `lat` | `float` |  |
 | `lon` | `float` |  |
-| `new_lat` | `float` |  |
-| `new_lon` | `float` |  |
-| `new_title` | `str` |  |
-| `problem_report_type` | `str` |  |
-| `rejected_reason` | `str` |  |
+| `newLat` | `float` |  |
+| `newLon` | `float` |  |
+| `newTitle` | `str` |  |
+| `problemReportType` | `str` |  |
+| `rejectedReason` | `str` |  |
 | `state` | `str` |  |
-| `station_id` | `str` |  |
+| `stationId` | `str` |  |
 | `title` | `str` |  |
 
 #### Example: List
@@ -638,7 +639,7 @@ Create an instance: `inbox_count = client.InboxCount()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `pending_inbox_entry` | `int` |  |
+| `pendingInboxEntries` | `int` |  |
 
 #### Example: Load
 
@@ -663,25 +664,25 @@ Create an instance: `inbox_entry = client.InboxEntry()`
 | --- | --- | --- |
 | `active` | `bool` |  |
 | `comment` | `str` |  |
-| `country_code` | `str` |  |
-| `created_at` | `int` |  |
+| `countryCode` | `str` |  |
+| `createdAt` | `int` |  |
 | `done` | `bool` |  |
 | `filename` | `str` |  |
-| `has_conflict` | `bool` |  |
-| `has_photo` | `bool` |  |
+| `hasConflict` | `bool` |  |
+| `hasPhoto` | `bool` |  |
 | `id` | `int` |  |
-| `inbox_url` | `str` |  |
-| `is_processed` | `bool` |  |
+| `inboxUrl` | `str` |  |
+| `isProcessed` | `bool` |  |
 | `lat` | `float` |  |
 | `lon` | `float` |  |
-| `new_lat` | `float` |  |
-| `new_lon` | `float` |  |
-| `new_title` | `str` |  |
-| `photo_id` | `int` |  |
-| `photographer_email` | `str` |  |
-| `photographer_nickname` | `str` |  |
-| `problem_report_type` | `str` |  |
-| `station_id` | `str` |  |
+| `newLat` | `float` |  |
+| `newLon` | `float` |  |
+| `newTitle` | `str` |  |
+| `photoId` | `int` |  |
+| `photographerEmail` | `str` |  |
+| `photographerNickname` | `str` |  |
+| `problemReportType` | `str` |  |
+| `stationId` | `str` |  |
 | `title` | `str` |  |
 
 #### Example: List
@@ -801,10 +802,10 @@ Create an instance: `photo_station = client.PhotoStation()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `license` | `list` |  |
-| `photo_base_url` | `str` |  |
-| `photographer` | `list` |  |
-| `station` | `list` |  |
+| `licenses` | `list` |  |
+| `photoBaseUrl` | `str` |  |
+| `photographers` | `list` |  |
+| `stations` | `list` |  |
 
 #### Example: Load
 
@@ -873,13 +874,13 @@ Create an instance: `profile = client.Profile()`
 | `admin` | `bool` |  |
 | `anonymous` | `bool` |  |
 | `email` | `str` |  |
-| `email_verified` | `bool` |  |
+| `emailVerified` | `bool` |  |
 | `license` | `str` |  |
 | `link` | `str` |  |
-| `new_password` | `str` |  |
+| `newPassword` | `str` |  |
 | `nickname` | `str` |  |
-| `photo_owner` | `bool` |  |
-| `send_notification` | `bool` |  |
+| `photoOwner` | `bool` |  |
+| `sendNotifications` | `bool` |  |
 
 #### Example: Load
 
@@ -892,9 +893,9 @@ profile = client.Profile().load()
 ```python
 profile = client.Profile().create({
     "license": "example_license",  # str
-    "new_password": "example_new_password",  # str
+    "newPassword": "example_newPassword",  # str
     "nickname": "example_nickname",  # str
-    "photo_owner": True,  # bool
+    "photoOwner": True,  # bool
 })
 ```
 
@@ -913,10 +914,10 @@ Create an instance: `public_inbox = client.PublicInbox()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `country_code` | `str` |  |
+| `countryCode` | `str` |  |
 | `lat` | `float` |  |
 | `lon` | `float` |  |
-| `station_id` | `str` |  |
+| `stationId` | `str` |  |
 | `title` | `str` |  |
 
 #### Example: List
@@ -940,11 +941,11 @@ Create an instance: `stat = client.Stat()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `country_code` | `str` |  |
-| `photographer` | `int` |  |
+| `countryCode` | `str` |  |
+| `photographers` | `int` |  |
 | `total` | `int` |  |
-| `with_photo` | `int` |  |
-| `without_photo` | `int` |  |
+| `withPhoto` | `int` |  |
+| `withoutPhoto` | `int` |  |
 
 #### Example: Load
 
@@ -1028,11 +1029,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```python
-country = client.Country()
-country.list()
+publicinbox = client.PublicInbox()
+publicinbox.list()
 
-# country.data_get() now returns the country data from the last list
-# country.match_get() returns the last match criteria
+# publicinbox.data_get() now returns the publicinbox data from the last list
+# publicinbox.match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

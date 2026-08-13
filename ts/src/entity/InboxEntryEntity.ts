@@ -37,7 +37,7 @@ class InboxEntryEntity extends RailwayStationPhotosEntityBase<InboxEntry> {
 
 
 
-  async list(this: any, reqmatch?: InboxEntryListMatch, ctrl?: Control): Promise<InboxEntry[]> {
+  async list(this: any, reqmatch?: InboxEntryListMatch, ctrl?: Control): Promise<InboxEntryEntity[]> {
 
     const utility = this._utility
 

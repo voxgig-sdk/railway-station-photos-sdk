@@ -33,7 +33,7 @@ class ProfileEntityTest extends TestCase
         // The basic flow consumes synthetic IDs from the fixture. In live mode
         // without an *_ENTID env override, those IDs hit the live API and 4xx.
         if (!empty($setup["synthetic_only"])) {
-            $this->markTestSkipped("live entity test uses synthetic IDs from fixture — set RAILWAYSTATIONPHOTOS_TEST_PROFILE_ENTID JSON to run live");
+            $this->markTestSkipped("live entity test uses synthetic IDs from fixture — set RAILWAY_STATION_PHOTOS_TEST_PROFILE_ENTID JSON to run live");
             return;
         }
         $client = $setup["client"];
@@ -44,7 +44,7 @@ class ProfileEntityTest extends TestCase
             Vs::getpath($setup["data"], "new.profile"), "profile_ref01"));
 
         $profile_ref01_data_result = $profile_ref01_ent->create($profile_ref01_data, null);
-        $profile_ref01_data = Helpers::to_map($profile_ref01_data_result);
+        $profile_ref01_data = Helpers::to_map(is_object($profile_ref01_data_result) && method_exists($profile_ref01_data_result, 'data_get') ? $profile_ref01_data_result->data_get() : $profile_ref01_data_result);
         $this->assertNotNull($profile_ref01_data);
 
         // LOAD
@@ -52,11 +52,6 @@ class ProfileEntityTest extends TestCase
         $profile_ref01_data_dt0_loaded = $profile_ref01_ent->load($profile_ref01_match_dt0, null);
         $this->assertNotNull($profile_ref01_data_dt0_loaded);
 
-        // REMOVE
-        $profile_ref01_match_rm0 = [
-            "id" => $profile_ref01_data["id"],
-        ];
-        $profile_ref01_ent->remove($profile_ref01_match_rm0, null);
 
     }
 }
@@ -83,22 +78,22 @@ function profile_basic_setup($extra)
     // Detect ENTID env override before envOverride consumes it. When live
     // mode is on without a real override, the basic test runs against synthetic
     // IDs from the fixture and 4xx's. Surface this so the test can skip.
-    $entid_env_raw = getenv("RAILWAYSTATIONPHOTOS_TEST_PROFILE_ENTID");
+    $entid_env_raw = getenv("RAILWAY_STATION_PHOTOS_TEST_PROFILE_ENTID");
     $idmap_overridden = $entid_env_raw !== false && str_starts_with(trim($entid_env_raw), "{");
 
     $env = Runner::env_override([
-        "RAILWAYSTATIONPHOTOS_TEST_PROFILE_ENTID" => $idmap,
-        "RAILWAYSTATIONPHOTOS_TEST_LIVE" => "FALSE",
-        "RAILWAYSTATIONPHOTOS_TEST_EXPLAIN" => "FALSE",
+        "RAILWAY_STATION_PHOTOS_TEST_PROFILE_ENTID" => $idmap,
+        "RAILWAY_STATION_PHOTOS_TEST_LIVE" => "FALSE",
+        "RAILWAY_STATION_PHOTOS_TEST_EXPLAIN" => "FALSE",
     ]);
 
     $idmap_resolved = Helpers::to_map(
-        $env["RAILWAYSTATIONPHOTOS_TEST_PROFILE_ENTID"]);
+        $env["RAILWAY_STATION_PHOTOS_TEST_PROFILE_ENTID"]);
     if ($idmap_resolved === null) {
         $idmap_resolved = Helpers::to_map($idmap);
     }
 
-    if ($env["RAILWAYSTATIONPHOTOS_TEST_LIVE"] === "TRUE") {
+    if ($env["RAILWAY_STATION_PHOTOS_TEST_LIVE"] === "TRUE") {
         $merged_opts = Vs::merge([
             [
             ],
@@ -107,13 +102,13 @@ function profile_basic_setup($extra)
         $client = new RailwayStationPhotosSDK(Helpers::to_map($merged_opts));
     }
 
-    $live = $env["RAILWAYSTATIONPHOTOS_TEST_LIVE"] === "TRUE";
+    $live = $env["RAILWAY_STATION_PHOTOS_TEST_LIVE"] === "TRUE";
     return [
         "client" => $client,
         "data" => $entity_data,
         "idmap" => $idmap_resolved,
         "env" => $env,
-        "explain" => $env["RAILWAYSTATIONPHOTOS_TEST_EXPLAIN"] === "TRUE",
+        "explain" => $env["RAILWAY_STATION_PHOTOS_TEST_EXPLAIN"] === "TRUE",
         "live" => $live,
         "synthetic_only" => $live && !$idmap_overridden,
         "now" => (int)(microtime(true) * 1000),

@@ -23,8 +23,8 @@ module RailwayStationPhotosTestRunner
   end
 
   def self.env_override(m)
-    live = getenv("RAILWAYSTATIONPHOTOS_TEST_LIVE")
-    override = getenv("RAILWAYSTATIONPHOTOS_TEST_OVERRIDE")
+    live = getenv("RAILWAY_STATION_PHOTOS_TEST_LIVE")
+    override = getenv("RAILWAY_STATION_PHOTOS_TEST_OVERRIDE")
 
     if live == "TRUE" || override == "TRUE"
       m.each_key do |key|
@@ -44,8 +44,8 @@ module RailwayStationPhotosTestRunner
       end
     end
 
-    explain = getenv("RAILWAYSTATIONPHOTOS_TEST_EXPLAIN")
-    m["RAILWAYSTATIONPHOTOS_TEST_EXPLAIN"] = explain if explain && !explain.empty?
+    explain = getenv("RAILWAY_STATION_PHOTOS_TEST_EXPLAIN")
+    m["RAILWAY_STATION_PHOTOS_TEST_EXPLAIN"] = explain if explain && !explain.empty?
 
     m
   end

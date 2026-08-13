@@ -26,8 +26,8 @@ import {
 describe('InboxEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when RAILWAYSTATIONPHOTOS_TEST_LIVE=TRUE.
-  afterEach(liveDelay('RAILWAYSTATIONPHOTOS_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when RAILWAY_STATION_PHOTOS_TEST_LIVE=TRUE.
+  afterEach(liveDelay('RAILWAY_STATION_PHOTOS_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = RailwayStationPhotosSDK.test()
@@ -62,14 +62,14 @@ describe('InboxEntity', async () => {
     const inbox_ref01_ent = client.Inbox()
     let inbox_ref01_data = setup.data.new.inbox['inbox_ref01']
 
-    inbox_ref01_data = await inbox_ref01_ent.create(inbox_ref01_data)
+    inbox_ref01_data = (await inbox_ref01_ent.create(inbox_ref01_data)).data()
     assert(null != inbox_ref01_data.id)
 
 
     // LIST
     const inbox_ref01_match: any = {}
 
-    const inbox_ref01_list = await inbox_ref01_ent.list(inbox_ref01_match)
+    const inbox_ref01_list = (await inbox_ref01_ent.list(inbox_ref01_match)).map((e: any) => e.data())
 
     assert(!isempty(select(inbox_ref01_list, { id: inbox_ref01_data.id })))
 
@@ -82,7 +82,7 @@ describe('InboxEntity', async () => {
     // LIST
     const inbox_ref01_match_rt0: any = {}
 
-    const inbox_ref01_list_rt0 = await inbox_ref01_ent.list(inbox_ref01_match_rt0)
+    const inbox_ref01_list_rt0 = (await inbox_ref01_ent.list(inbox_ref01_match_rt0)).map((e: any) => e.data())
 
     assert(isempty(select(inbox_ref01_list_rt0, { id: inbox_ref01_data.id })))
 

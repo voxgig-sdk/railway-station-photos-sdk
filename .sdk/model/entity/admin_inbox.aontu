@@ -6,6 +6,11 @@ main: kit: entity: admin_inbox: {
 
   fields: [
     {
+      name: "DS100"
+      req: false
+      type: "`$STRING`"
+    }
+    {
       name: "active"
       req: false
       type: "`$BOOLEAN`"
@@ -16,17 +21,12 @@ main: kit: entity: admin_inbox: {
       type: "`$STRING`"
     }
     {
-      name: "conflict_resolution"
+      name: "conflictResolution"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "country_code"
-      req: false
-      type: "`$STRING`"
-    }
-    {
-      name: "ds100"
+      name: "countryCode"
       req: false
       type: "`$STRING`"
     }
@@ -51,12 +51,12 @@ main: kit: entity: admin_inbox: {
       type: "`$STRING`"
     }
     {
-      name: "reject_reason"
+      name: "rejectReason"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "station_id"
+      name: "stationId"
       req: false
       type: "`$STRING`"
     }

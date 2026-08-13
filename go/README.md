@@ -66,12 +66,12 @@ Every entity operation returns `(value, error)`. Check `err` before
 using the value — there is no exception to catch:
 
 ```go
-countrys, err := client.Country(nil).List(nil, nil)
+publicinboxs, err := client.PublicInbox(nil).List(nil, nil)
 if err != nil {
     // handle err
     return
 }
-_ = countrys
+_ = publicinboxs
 ```
 
 `Direct` follows the same `(value, error)` convention:
@@ -135,13 +135,13 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-country, err := client.Country(nil).List(
+publicInbox, err := client.PublicInbox(nil).List(
     nil, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(country) // the returned mock data
+fmt.Println(publicInbox) // the returned mock data
 ```
 
 ### Use a custom fetch function
@@ -277,17 +277,17 @@ Only `Direct()` returns a response envelope — a `map[string]any` with
 
 | Field | Description |
 | --- | --- |
+| `"DS100"` |  |
 | `"active"` |  |
 | `"command"` |  |
-| `"conflict_resolution"` |  |
-| `"country_code"` |  |
-| `"ds100"` |  |
+| `"conflictResolution"` |  |
+| `"countryCode"` |  |
 | `"id"` |  |
 | `"lat"` |  |
 | `"lon"` |  |
 | `"message"` |  |
-| `"reject_reason"` |  |
-| `"station_id"` |  |
+| `"rejectReason"` |  |
+| `"stationId"` |  |
 | `"status"` |  |
 | `"title"` |  |
 
@@ -300,14 +300,14 @@ API path: `/adminInbox`
 | Field | Description |
 | --- | --- |
 | `"active"` |  |
-| `"allow_photo_upload"` |  |
+| `"allowPhotoUploads"` |  |
 | `"code"` |  |
 | `"email"` |  |
 | `"message"` |  |
 | `"name"` |  |
-| `"override_license"` |  |
-| `"provider_app"` |  |
-| `"timetable_url_template"` |  |
+| `"overrideLicense"` |  |
+| `"providerApps"` |  |
+| `"timetableUrlTemplate"` |  |
 
 Operations: List.
 
@@ -318,21 +318,21 @@ API path: `/countries`
 | Field | Description |
 | --- | --- |
 | `"comment"` |  |
-| `"country_code"` |  |
+| `"countryCode"` |  |
 | `"crc32"` |  |
-| `"created_at"` |  |
+| `"createdAt"` |  |
 | `"filename"` |  |
 | `"id"` |  |
-| `"inbox_url"` |  |
+| `"inboxUrl"` |  |
 | `"lat"` |  |
 | `"lon"` |  |
-| `"new_lat"` |  |
-| `"new_lon"` |  |
-| `"new_title"` |  |
-| `"problem_report_type"` |  |
-| `"rejected_reason"` |  |
+| `"newLat"` |  |
+| `"newLon"` |  |
+| `"newTitle"` |  |
+| `"problemReportType"` |  |
+| `"rejectedReason"` |  |
 | `"state"` |  |
-| `"station_id"` |  |
+| `"stationId"` |  |
 | `"title"` |  |
 
 Operations: Create, List, Remove.
@@ -343,7 +343,7 @@ API path: `/reportProblem`
 
 | Field | Description |
 | --- | --- |
-| `"pending_inbox_entry"` |  |
+| `"pendingInboxEntries"` |  |
 
 Operations: Load.
 
@@ -355,25 +355,25 @@ API path: `/adminInboxCount`
 | --- | --- |
 | `"active"` |  |
 | `"comment"` |  |
-| `"country_code"` |  |
-| `"created_at"` |  |
+| `"countryCode"` |  |
+| `"createdAt"` |  |
 | `"done"` |  |
 | `"filename"` |  |
-| `"has_conflict"` |  |
-| `"has_photo"` |  |
+| `"hasConflict"` |  |
+| `"hasPhoto"` |  |
 | `"id"` |  |
-| `"inbox_url"` |  |
-| `"is_processed"` |  |
+| `"inboxUrl"` |  |
+| `"isProcessed"` |  |
 | `"lat"` |  |
 | `"lon"` |  |
-| `"new_lat"` |  |
-| `"new_lon"` |  |
-| `"new_title"` |  |
-| `"photo_id"` |  |
-| `"photographer_email"` |  |
-| `"photographer_nickname"` |  |
-| `"problem_report_type"` |  |
-| `"station_id"` |  |
+| `"newLat"` |  |
+| `"newLon"` |  |
+| `"newTitle"` |  |
+| `"photoId"` |  |
+| `"photographerEmail"` |  |
+| `"photographerNickname"` |  |
+| `"problemReportType"` |  |
+| `"stationId"` |  |
 | `"title"` |  |
 
 Operations: List.
@@ -434,10 +434,10 @@ API path: `/inbox/done/{filename}`
 
 | Field | Description |
 | --- | --- |
-| `"license"` |  |
-| `"photo_base_url"` |  |
-| `"photographer"` |  |
-| `"station"` |  |
+| `"licenses"` |  |
+| `"photoBaseUrl"` |  |
+| `"photographers"` |  |
+| `"stations"` |  |
 
 Operations: List, Load.
 
@@ -468,13 +468,13 @@ API path: `/photographers`
 | `"admin"` |  |
 | `"anonymous"` |  |
 | `"email"` |  |
-| `"email_verified"` |  |
+| `"emailVerified"` |  |
 | `"license"` |  |
 | `"link"` |  |
-| `"new_password"` |  |
+| `"newPassword"` |  |
 | `"nickname"` |  |
-| `"photo_owner"` |  |
-| `"send_notification"` |  |
+| `"photoOwner"` |  |
+| `"sendNotifications"` |  |
 
 Operations: Create, Load, Remove.
 
@@ -484,10 +484,10 @@ API path: `/changePassword`
 
 | Field | Description |
 | --- | --- |
-| `"country_code"` |  |
+| `"countryCode"` |  |
 | `"lat"` |  |
 | `"lon"` |  |
-| `"station_id"` |  |
+| `"stationId"` |  |
 | `"title"` |  |
 
 Operations: List.
@@ -498,11 +498,11 @@ API path: `/publicInbox`
 
 | Field | Description |
 | --- | --- |
-| `"country_code"` |  |
-| `"photographer"` |  |
+| `"countryCode"` |  |
+| `"photographers"` |  |
 | `"total"` |  |
-| `"with_photo"` |  |
-| `"without_photo"` |  |
+| `"withPhoto"` |  |
+| `"withoutPhoto"` |  |
 
 Operations: Load.
 
@@ -527,17 +527,17 @@ Create an instance: `adminInbox := client.AdminInbox(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `DS100` | `string` |  |
 | `active` | `bool` |  |
 | `command` | `string` |  |
-| `conflict_resolution` | `string` |  |
-| `country_code` | `string` |  |
-| `ds100` | `string` |  |
+| `conflictResolution` | `string` |  |
+| `countryCode` | `string` |  |
 | `id` | `int` |  |
 | `lat` | `float64` |  |
 | `lon` | `float64` |  |
 | `message` | `string` |  |
-| `reject_reason` | `string` |  |
-| `station_id` | `string` |  |
+| `rejectReason` | `string` |  |
+| `stationId` | `string` |  |
 | `status` | `int` |  |
 | `title` | `string` |  |
 
@@ -572,14 +572,14 @@ Create an instance: `country := client.Country(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `active` | `bool` |  |
-| `allow_photo_upload` | `bool` |  |
+| `allowPhotoUploads` | `bool` |  |
 | `code` | `string` |  |
 | `email` | `string` |  |
 | `message` | `string` |  |
 | `name` | `string` |  |
-| `override_license` | `string` |  |
-| `provider_app` | `[]any` |  |
-| `timetable_url_template` | `string` |  |
+| `overrideLicense` | `string` |  |
+| `providerApps` | `[]any` |  |
+| `timetableUrlTemplate` | `string` |  |
 
 #### Example: List
 
@@ -609,21 +609,21 @@ Create an instance: `inbox := client.Inbox(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `comment` | `string` |  |
-| `country_code` | `string` |  |
+| `countryCode` | `string` |  |
 | `crc32` | `int` |  |
-| `created_at` | `int` |  |
+| `createdAt` | `int` |  |
 | `filename` | `string` |  |
 | `id` | `int` |  |
-| `inbox_url` | `string` |  |
+| `inboxUrl` | `string` |  |
 | `lat` | `float64` |  |
 | `lon` | `float64` |  |
-| `new_lat` | `float64` |  |
-| `new_lon` | `float64` |  |
-| `new_title` | `string` |  |
-| `problem_report_type` | `string` |  |
-| `rejected_reason` | `string` |  |
+| `newLat` | `float64` |  |
+| `newLon` | `float64` |  |
+| `newTitle` | `string` |  |
+| `problemReportType` | `string` |  |
+| `rejectedReason` | `string` |  |
 | `state` | `string` |  |
-| `station_id` | `string` |  |
+| `stationId` | `string` |  |
 | `title` | `string` |  |
 
 #### Example: List
@@ -664,7 +664,7 @@ Create an instance: `inboxCount := client.InboxCount(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `pending_inbox_entry` | `int` |  |
+| `pendingInboxEntries` | `int` |  |
 
 #### Example: Load
 
@@ -693,25 +693,25 @@ Create an instance: `inboxEntry := client.InboxEntry(nil)`
 | --- | --- | --- |
 | `active` | `bool` |  |
 | `comment` | `string` |  |
-| `country_code` | `string` |  |
-| `created_at` | `int` |  |
+| `countryCode` | `string` |  |
+| `createdAt` | `int` |  |
 | `done` | `bool` |  |
 | `filename` | `string` |  |
-| `has_conflict` | `bool` |  |
-| `has_photo` | `bool` |  |
+| `hasConflict` | `bool` |  |
+| `hasPhoto` | `bool` |  |
 | `id` | `int` |  |
-| `inbox_url` | `string` |  |
-| `is_processed` | `bool` |  |
+| `inboxUrl` | `string` |  |
+| `isProcessed` | `bool` |  |
 | `lat` | `float64` |  |
 | `lon` | `float64` |  |
-| `new_lat` | `float64` |  |
-| `new_lon` | `float64` |  |
-| `new_title` | `string` |  |
-| `photo_id` | `int` |  |
-| `photographer_email` | `string` |  |
-| `photographer_nickname` | `string` |  |
-| `problem_report_type` | `string` |  |
-| `station_id` | `string` |  |
+| `newLat` | `float64` |  |
+| `newLon` | `float64` |  |
+| `newTitle` | `string` |  |
+| `photoId` | `int` |  |
+| `photographerEmail` | `string` |  |
+| `photographerNickname` | `string` |  |
+| `problemReportType` | `string` |  |
+| `stationId` | `string` |  |
 | `title` | `string` |  |
 
 #### Example: List
@@ -855,10 +855,10 @@ Create an instance: `photoStation := client.PhotoStation(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `license` | `[]any` |  |
-| `photo_base_url` | `string` |  |
-| `photographer` | `[]any` |  |
-| `station` | `[]any` |  |
+| `licenses` | `[]any` |  |
+| `photoBaseUrl` | `string` |  |
+| `photographers` | `[]any` |  |
+| `stations` | `[]any` |  |
 
 #### Example: Load
 
@@ -943,13 +943,13 @@ Create an instance: `profile := client.Profile(nil)`
 | `admin` | `bool` |  |
 | `anonymous` | `bool` |  |
 | `email` | `string` |  |
-| `email_verified` | `bool` |  |
+| `emailVerified` | `bool` |  |
 | `license` | `string` |  |
 | `link` | `string` |  |
-| `new_password` | `string` |  |
+| `newPassword` | `string` |  |
 | `nickname` | `string` |  |
-| `photo_owner` | `bool` |  |
-| `send_notification` | `bool` |  |
+| `photoOwner` | `bool` |  |
+| `sendNotifications` | `bool` |  |
 
 #### Example: Load
 
@@ -966,9 +966,9 @@ fmt.Println(profile) // the loaded record
 ```go
 result, err := client.Profile(nil).Create(map[string]any{
     "license": "example_license",
-    "new_password": "example_new_password",
+    "newPassword": "example_newPassword",
     "nickname": "example_nickname",
-    "photo_owner": true,
+    "photoOwner": true,
 }, nil)
 if err != nil {
     panic(err)
@@ -991,10 +991,10 @@ Create an instance: `publicInbox := client.PublicInbox(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `country_code` | `string` |  |
+| `countryCode` | `string` |  |
 | `lat` | `float64` |  |
 | `lon` | `float64` |  |
-| `station_id` | `string` |  |
+| `stationId` | `string` |  |
 | `title` | `string` |  |
 
 #### Example: List
@@ -1022,11 +1022,11 @@ Create an instance: `stat := client.Stat(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `country_code` | `string` |  |
-| `photographer` | `int` |  |
+| `countryCode` | `string` |  |
+| `photographers` | `int` |  |
 | `total` | `int` |  |
-| `with_photo` | `int` |  |
-| `without_photo` | `int` |  |
+| `withPhoto` | `int` |  |
+| `withoutPhoto` | `int` |  |
 
 #### Example: Load
 
@@ -1112,11 +1112,11 @@ Entity instances are stateful. After a successful `List`, the entity
 stores the returned data and match criteria internally.
 
 ```go
-country := client.Country(nil)
-country.List(nil, nil)
+publicinbox := client.PublicInbox(nil)
+publicinbox.List(nil, nil)
 
-// country.Data() now returns the country data from the last list
-// country.Match() returns the last match criteria
+// publicinbox.Data() now returns the publicinbox data from the last list
+// publicinbox.Match() returns the last match criteria
 ```
 
 Call `Make()` to create a fresh instance with the same configuration

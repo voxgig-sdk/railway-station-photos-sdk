@@ -3,9 +3,9 @@
 import json
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from railwaystationphotos_sdk.utility.voxgig_struct import voxgig_struct as vs
 from railwaystationphotos_sdk import RailwayStationPhotosSDK
-from core import helpers
+from railwaystationphotos_sdk.core import helpers
 from test import runner
 
 
@@ -56,11 +56,11 @@ def _oauth_direct_setup(mockres):
     calls = []
 
     env = runner.env_override({
-        "RAILWAYSTATIONPHOTOS_TEST_OAUTH_ENTID": {},
-        "RAILWAYSTATIONPHOTOS_TEST_LIVE": "FALSE",
+        "RAILWAY_STATION_PHOTOS_TEST_OAUTH_ENTID": {},
+        "RAILWAY_STATION_PHOTOS_TEST_LIVE": "FALSE",
     })
 
-    live = env.get("RAILWAYSTATIONPHOTOS_TEST_LIVE") == "TRUE"
+    live = env.get("RAILWAY_STATION_PHOTOS_TEST_LIVE") == "TRUE"
 
     if live:
         merged_opts = {

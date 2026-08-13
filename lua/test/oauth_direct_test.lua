@@ -60,11 +60,11 @@ function oauth_direct_setup(mockres)
   local calls = {}
 
   local env = runner.env_override({
-    ["RAILWAYSTATIONPHOTOS_TEST_OAUTH_ENTID"] = {},
-    ["RAILWAYSTATIONPHOTOS_TEST_LIVE"] = "FALSE",
+    ["RAILWAY_STATION_PHOTOS_TEST_OAUTH_ENTID"] = {},
+    ["RAILWAY_STATION_PHOTOS_TEST_LIVE"] = "FALSE",
   })
 
-  local live = env["RAILWAYSTATIONPHOTOS_TEST_LIVE"] == "TRUE"
+  local live = env["RAILWAY_STATION_PHOTOS_TEST_LIVE"] == "TRUE"
 
   if live then
     local merged_opts = {

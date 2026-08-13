@@ -37,7 +37,7 @@ Photo is nested under country, so provide the `country`.
 
 ```php
 try {
-    // load() returns the bare Photo record (throws on error).
+    // load() returns the ENTITY — call data_get() for the Photo record (throws on error).
     $photo = $client->Photo()->load(["country" => "example_country", "filename" => "example_filename"]);
     print_r($photo);
 } catch (\Throwable $err) {
@@ -48,7 +48,7 @@ try {
 ### 4. Create, update, and remove
 
 ```php
-// create() returns the bare created AdminInbox record.
+// create() returns the ENTITY — call data_get() for the created AdminInbox record.
 $created = $client->AdminInbox()->create(["command" => "example_command", "id" => 1, "message" => "example_message", "status" => 1]);
 
 ```
@@ -61,7 +61,7 @@ Entity operations throw a `\Throwable` on failure, so wrap them in
 
 ```php
 try {
-    $countrys = $client->Country()->list();
+    $publicinboxs = $client->PublicInbox()->list();
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -133,9 +133,10 @@ Create a mock client for unit testing — no server required:
 ```php
 $client = RailwayStationPhotosSDK::test();
 
-// Entity ops return the bare mock record (throws on error).
-$country = $client->Country()->list();
-print_r($country);
+// Entity ops return the ENTITY (throws on error);
+// call data_get() for the mock record.
+$publicinbox = $client->PublicInbox()->list();
+print_r($publicinbox);
 ```
 
 ### Use a custom fetch function
@@ -250,7 +251,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (an `array` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (an `array` for single-entity
 ops, a `list` for `list`) and throw on error. Wrap calls in
 `try`/`catch` to handle failures.
 
@@ -272,17 +273,17 @@ On error, `ok` is `false` and `$err` contains the error value.
 
 | Field | Description |
 | --- | --- |
+| `DS100` |  |
 | `active` |  |
 | `command` |  |
-| `conflict_resolution` |  |
-| `country_code` |  |
-| `ds100` |  |
+| `conflictResolution` |  |
+| `countryCode` |  |
 | `id` |  |
 | `lat` |  |
 | `lon` |  |
 | `message` |  |
-| `reject_reason` |  |
-| `station_id` |  |
+| `rejectReason` |  |
+| `stationId` |  |
 | `status` |  |
 | `title` |  |
 
@@ -295,14 +296,14 @@ API path: `/adminInbox`
 | Field | Description |
 | --- | --- |
 | `active` |  |
-| `allow_photo_upload` |  |
+| `allowPhotoUploads` |  |
 | `code` |  |
 | `email` |  |
 | `message` |  |
 | `name` |  |
-| `override_license` |  |
-| `provider_app` |  |
-| `timetable_url_template` |  |
+| `overrideLicense` |  |
+| `providerApps` |  |
+| `timetableUrlTemplate` |  |
 
 Operations: List.
 
@@ -313,21 +314,21 @@ API path: `/countries`
 | Field | Description |
 | --- | --- |
 | `comment` |  |
-| `country_code` |  |
+| `countryCode` |  |
 | `crc32` |  |
-| `created_at` |  |
+| `createdAt` |  |
 | `filename` |  |
 | `id` |  |
-| `inbox_url` |  |
+| `inboxUrl` |  |
 | `lat` |  |
 | `lon` |  |
-| `new_lat` |  |
-| `new_lon` |  |
-| `new_title` |  |
-| `problem_report_type` |  |
-| `rejected_reason` |  |
+| `newLat` |  |
+| `newLon` |  |
+| `newTitle` |  |
+| `problemReportType` |  |
+| `rejectedReason` |  |
 | `state` |  |
-| `station_id` |  |
+| `stationId` |  |
 | `title` |  |
 
 Operations: Create, List, Remove.
@@ -338,7 +339,7 @@ API path: `/reportProblem`
 
 | Field | Description |
 | --- | --- |
-| `pending_inbox_entry` |  |
+| `pendingInboxEntries` |  |
 
 Operations: Load.
 
@@ -350,25 +351,25 @@ API path: `/adminInboxCount`
 | --- | --- |
 | `active` |  |
 | `comment` |  |
-| `country_code` |  |
-| `created_at` |  |
+| `countryCode` |  |
+| `createdAt` |  |
 | `done` |  |
 | `filename` |  |
-| `has_conflict` |  |
-| `has_photo` |  |
+| `hasConflict` |  |
+| `hasPhoto` |  |
 | `id` |  |
-| `inbox_url` |  |
-| `is_processed` |  |
+| `inboxUrl` |  |
+| `isProcessed` |  |
 | `lat` |  |
 | `lon` |  |
-| `new_lat` |  |
-| `new_lon` |  |
-| `new_title` |  |
-| `photo_id` |  |
-| `photographer_email` |  |
-| `photographer_nickname` |  |
-| `problem_report_type` |  |
-| `station_id` |  |
+| `newLat` |  |
+| `newLon` |  |
+| `newTitle` |  |
+| `photoId` |  |
+| `photographerEmail` |  |
+| `photographerNickname` |  |
+| `problemReportType` |  |
+| `stationId` |  |
 | `title` |  |
 
 Operations: List.
@@ -429,10 +430,10 @@ API path: `/inbox/done/{filename}`
 
 | Field | Description |
 | --- | --- |
-| `license` |  |
-| `photo_base_url` |  |
-| `photographer` |  |
-| `station` |  |
+| `licenses` |  |
+| `photoBaseUrl` |  |
+| `photographers` |  |
+| `stations` |  |
 
 Operations: List, Load.
 
@@ -463,13 +464,13 @@ API path: `/photographers`
 | `admin` |  |
 | `anonymous` |  |
 | `email` |  |
-| `email_verified` |  |
+| `emailVerified` |  |
 | `license` |  |
 | `link` |  |
-| `new_password` |  |
+| `newPassword` |  |
 | `nickname` |  |
-| `photo_owner` |  |
-| `send_notification` |  |
+| `photoOwner` |  |
+| `sendNotifications` |  |
 
 Operations: Create, Load, Remove.
 
@@ -479,10 +480,10 @@ API path: `/changePassword`
 
 | Field | Description |
 | --- | --- |
-| `country_code` |  |
+| `countryCode` |  |
 | `lat` |  |
 | `lon` |  |
-| `station_id` |  |
+| `stationId` |  |
 | `title` |  |
 
 Operations: List.
@@ -493,11 +494,11 @@ API path: `/publicInbox`
 
 | Field | Description |
 | --- | --- |
-| `country_code` |  |
-| `photographer` |  |
+| `countryCode` |  |
+| `photographers` |  |
 | `total` |  |
-| `with_photo` |  |
-| `without_photo` |  |
+| `withPhoto` |  |
+| `withoutPhoto` |  |
 
 Operations: Load.
 
@@ -522,17 +523,17 @@ Create an instance: `$admin_inbox = $client->AdminInbox();`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `DS100` | `string` |  |
 | `active` | `bool` |  |
 | `command` | `string` |  |
-| `conflict_resolution` | `string` |  |
-| `country_code` | `string` |  |
-| `ds100` | `string` |  |
+| `conflictResolution` | `string` |  |
+| `countryCode` | `string` |  |
 | `id` | `int` |  |
 | `lat` | `float` |  |
 | `lon` | `float` |  |
 | `message` | `string` |  |
-| `reject_reason` | `string` |  |
-| `station_id` | `string` |  |
+| `rejectReason` | `string` |  |
+| `stationId` | `string` |  |
 | `status` | `int` |  |
 | `title` | `string` |  |
 
@@ -563,14 +564,14 @@ Create an instance: `$country = $client->Country();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `active` | `bool` |  |
-| `allow_photo_upload` | `bool` |  |
+| `allowPhotoUploads` | `bool` |  |
 | `code` | `string` |  |
 | `email` | `string` |  |
 | `message` | `string` |  |
 | `name` | `string` |  |
-| `override_license` | `string` |  |
-| `provider_app` | `array` |  |
-| `timetable_url_template` | `string` |  |
+| `overrideLicense` | `string` |  |
+| `providerApps` | `array` |  |
+| `timetableUrlTemplate` | `string` |  |
 
 #### Example: List
 
@@ -597,21 +598,21 @@ Create an instance: `$inbox = $client->Inbox();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `comment` | `string` |  |
-| `country_code` | `string` |  |
+| `countryCode` | `string` |  |
 | `crc32` | `int` |  |
-| `created_at` | `int` |  |
+| `createdAt` | `int` |  |
 | `filename` | `string` |  |
 | `id` | `int` |  |
-| `inbox_url` | `string` |  |
+| `inboxUrl` | `string` |  |
 | `lat` | `float` |  |
 | `lon` | `float` |  |
-| `new_lat` | `float` |  |
-| `new_lon` | `float` |  |
-| `new_title` | `string` |  |
-| `problem_report_type` | `string` |  |
-| `rejected_reason` | `string` |  |
+| `newLat` | `float` |  |
+| `newLon` | `float` |  |
+| `newTitle` | `string` |  |
+| `problemReportType` | `string` |  |
+| `rejectedReason` | `string` |  |
 | `state` | `string` |  |
-| `station_id` | `string` |  |
+| `stationId` | `string` |  |
 | `title` | `string` |  |
 
 #### Example: List
@@ -645,12 +646,12 @@ Create an instance: `$inbox_count = $client->InboxCount();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `pending_inbox_entry` | `int` |  |
+| `pendingInboxEntries` | `int` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare InboxCount record (throws on error).
+// load() returns the ENTITY — call data_get() for the InboxCount record (throws on error).
 $inbox_count = $client->InboxCount()->load();
 ```
 
@@ -671,25 +672,25 @@ Create an instance: `$inbox_entry = $client->InboxEntry();`
 | --- | --- | --- |
 | `active` | `bool` |  |
 | `comment` | `string` |  |
-| `country_code` | `string` |  |
-| `created_at` | `int` |  |
+| `countryCode` | `string` |  |
+| `createdAt` | `int` |  |
 | `done` | `bool` |  |
 | `filename` | `string` |  |
-| `has_conflict` | `bool` |  |
-| `has_photo` | `bool` |  |
+| `hasConflict` | `bool` |  |
+| `hasPhoto` | `bool` |  |
 | `id` | `int` |  |
-| `inbox_url` | `string` |  |
-| `is_processed` | `bool` |  |
+| `inboxUrl` | `string` |  |
+| `isProcessed` | `bool` |  |
 | `lat` | `float` |  |
 | `lon` | `float` |  |
-| `new_lat` | `float` |  |
-| `new_lon` | `float` |  |
-| `new_title` | `string` |  |
-| `photo_id` | `int` |  |
-| `photographer_email` | `string` |  |
-| `photographer_nickname` | `string` |  |
-| `problem_report_type` | `string` |  |
-| `station_id` | `string` |  |
+| `newLat` | `float` |  |
+| `newLon` | `float` |  |
+| `newTitle` | `string` |  |
+| `photoId` | `int` |  |
+| `photographerEmail` | `string` |  |
+| `photographerNickname` | `string` |  |
+| `problemReportType` | `string` |  |
+| `stationId` | `string` |  |
 | `title` | `string` |  |
 
 #### Example: List
@@ -750,7 +751,7 @@ Create an instance: `$oauth = $client->Oauth();`
 #### Example: Load
 
 ```php
-// load() returns the bare Oauth record (throws on error).
+// load() returns the ENTITY — call data_get() for the Oauth record (throws on error).
 $oauth = $client->Oauth()->load();
 ```
 
@@ -775,7 +776,7 @@ Create an instance: `$photo = $client->Photo();`
 #### Example: Load
 
 ```php
-// load() returns the bare Photo record (throws on error).
+// load() returns the ENTITY — call data_get() for the Photo record (throws on error).
 $photo = $client->Photo()->load(["country" => "country", "filename" => "filename"]);
 ```
 
@@ -793,7 +794,7 @@ Create an instance: `$photo_download = $client->PhotoDownload();`
 #### Example: Load
 
 ```php
-// load() returns the bare PhotoDownload record (throws on error).
+// load() returns the ENTITY — call data_get() for the PhotoDownload record (throws on error).
 $photo_download = $client->PhotoDownload()->load(["filename" => "filename"]);
 ```
 
@@ -813,15 +814,15 @@ Create an instance: `$photo_station = $client->PhotoStation();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `license` | `array` |  |
-| `photo_base_url` | `string` |  |
-| `photographer` | `array` |  |
-| `station` | `array` |  |
+| `licenses` | `array` |  |
+| `photoBaseUrl` | `string` |  |
+| `photographers` | `array` |  |
+| `stations` | `array` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare PhotoStation record (throws on error).
+// load() returns the ENTITY — call data_get() for the PhotoStation record (throws on error).
 $photo_station = $client->PhotoStation()->load();
 ```
 
@@ -864,7 +865,7 @@ Create an instance: `$photographer = $client->Photographer();`
 #### Example: Load
 
 ```php
-// load() returns the bare Photographer record (throws on error).
+// load() returns the ENTITY — call data_get() for the Photographer record (throws on error).
 $photographer = $client->Photographer()->load();
 ```
 
@@ -888,18 +889,18 @@ Create an instance: `$profile = $client->Profile();`
 | `admin` | `bool` |  |
 | `anonymous` | `bool` |  |
 | `email` | `string` |  |
-| `email_verified` | `bool` |  |
+| `emailVerified` | `bool` |  |
 | `license` | `string` |  |
 | `link` | `string` |  |
-| `new_password` | `string` |  |
+| `newPassword` | `string` |  |
 | `nickname` | `string` |  |
-| `photo_owner` | `bool` |  |
-| `send_notification` | `bool` |  |
+| `photoOwner` | `bool` |  |
+| `sendNotifications` | `bool` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare Profile record (throws on error).
+// load() returns the ENTITY — call data_get() for the Profile record (throws on error).
 $profile = $client->Profile()->load();
 ```
 
@@ -908,9 +909,9 @@ $profile = $client->Profile()->load();
 ```php
 $profile = $client->Profile()->create([
     "license" => null, // string
-    "new_password" => null, // string
+    "newPassword" => null, // string
     "nickname" => null, // string
-    "photo_owner" => null, // bool
+    "photoOwner" => null, // bool
 ]);
 ```
 
@@ -929,10 +930,10 @@ Create an instance: `$public_inbox = $client->PublicInbox();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `country_code` | `string` |  |
+| `countryCode` | `string` |  |
 | `lat` | `float` |  |
 | `lon` | `float` |  |
-| `station_id` | `string` |  |
+| `stationId` | `string` |  |
 | `title` | `string` |  |
 
 #### Example: List
@@ -957,16 +958,16 @@ Create an instance: `$stat = $client->Stat();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `country_code` | `string` |  |
-| `photographer` | `int` |  |
+| `countryCode` | `string` |  |
+| `photographers` | `int` |  |
 | `total` | `int` |  |
-| `with_photo` | `int` |  |
-| `without_photo` | `int` |  |
+| `withPhoto` | `int` |  |
+| `withoutPhoto` | `int` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare Stat record (throws on error).
+// load() returns the ENTITY — call data_get() for the Stat record (throws on error).
 $stat = $client->Stat()->load();
 ```
 
@@ -1047,11 +1048,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```php
-$country = $client->Country();
-$country->list();
+$publicinbox = $client->PublicInbox();
+$publicinbox->list();
 
-// $country->data_get() now returns the country data from the last list
-// $country->match_get() returns the last match criteria
+// $publicinbox->data_get() now returns the publicinbox data from the last list
+// $publicinbox->match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

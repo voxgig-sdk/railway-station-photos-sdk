@@ -37,7 +37,7 @@ class PublicInboxEntity extends RailwayStationPhotosEntityBase<PublicInbox> {
 
 
 
-  async list(this: any, reqmatch?: PublicInboxListMatch, ctrl?: Control): Promise<PublicInbox[]> {
+  async list(this: any, reqmatch?: PublicInboxListMatch, ctrl?: Control): Promise<PublicInboxEntity[]> {
 
     const utility = this._utility
 

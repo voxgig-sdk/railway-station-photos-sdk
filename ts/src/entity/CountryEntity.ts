@@ -37,7 +37,7 @@ class CountryEntity extends RailwayStationPhotosEntityBase<Country> {
 
 
 
-  async list(this: any, reqmatch?: CountryListMatch, ctrl?: Control): Promise<Country[]> {
+  async list(this: any, reqmatch?: CountryListMatch, ctrl?: Control): Promise<CountryEntity[]> {
 
     const utility = this._utility
 

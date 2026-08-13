@@ -6,118 +6,118 @@
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 
 export interface AdminInbox {
+  DS100?: string
   active?: boolean
   command: string
-  conflict_resolution?: string
-  country_code?: string
-  ds100?: string
+  conflictResolution?: string
+  countryCode?: string
   id: number
   lat?: number
   lon?: number
   message: string
-  reject_reason?: string
-  station_id?: string
+  rejectReason?: string
+  stationId?: string
   status: number
   title?: string
 }
 
 export interface AdminInboxCreateData {
+  DS100?: string
   active?: boolean
   command: string
-  conflict_resolution?: string
-  country_code?: string
-  ds100?: string
+  conflictResolution?: string
+  countryCode?: string
   id: number
   lat?: number
   lon?: number
   message: string
-  reject_reason?: string
-  station_id?: string
+  rejectReason?: string
+  stationId?: string
   status: number
   title?: string
 }
 
 export interface Country {
   active: boolean
-  allow_photo_upload: boolean
+  allowPhotoUploads: boolean
   code: string
   email?: string
   message?: string
   name: string
-  override_license?: string
-  provider_app?: any[]
-  timetable_url_template?: string
+  overrideLicense?: string
+  providerApps?: any[]
+  timetableUrlTemplate?: string
 }
 
 export interface CountryListMatch {
   active?: boolean
-  allow_photo_upload?: boolean
+  allowPhotoUploads?: boolean
   code?: string
   email?: string
   message?: string
   name?: string
-  override_license?: string
-  provider_app?: any[]
-  timetable_url_template?: string
+  overrideLicense?: string
+  providerApps?: any[]
+  timetableUrlTemplate?: string
 }
 
 export interface Inbox {
   comment?: string
-  country_code?: string
+  countryCode?: string
   crc32?: number
-  created_at?: number
+  createdAt?: number
   filename?: string
   id: number
-  inbox_url?: string
+  inboxUrl?: string
   lat?: number
   lon?: number
-  new_lat?: number
-  new_lon?: number
-  new_title?: string
-  problem_report_type?: string
-  rejected_reason?: string
+  newLat?: number
+  newLon?: number
+  newTitle?: string
+  problemReportType?: string
+  rejectedReason?: string
   state: string
-  station_id?: string
+  stationId?: string
   title?: string
 }
 
 export interface InboxListMatch {
   comment?: string
-  country_code?: string
+  countryCode?: string
   crc32?: number
-  created_at?: number
+  createdAt?: number
   filename?: string
   id?: number
-  inbox_url?: string
+  inboxUrl?: string
   lat?: number
   lon?: number
-  new_lat?: number
-  new_lon?: number
-  new_title?: string
-  problem_report_type?: string
-  rejected_reason?: string
+  newLat?: number
+  newLon?: number
+  newTitle?: string
+  problemReportType?: string
+  rejectedReason?: string
   state?: string
-  station_id?: string
+  stationId?: string
   title?: string
 }
 
 export interface InboxCreateData {
   comment?: string
-  country_code?: string
+  countryCode?: string
   crc32?: number
-  created_at?: number
+  createdAt?: number
   filename?: string
   id: number
-  inbox_url?: string
+  inboxUrl?: string
   lat?: number
   lon?: number
-  new_lat?: number
-  new_lon?: number
-  new_title?: string
-  problem_report_type?: string
-  rejected_reason?: string
+  newLat?: number
+  newLon?: number
+  newTitle?: string
+  problemReportType?: string
+  rejectedReason?: string
   state: string
-  station_id?: string
+  stationId?: string
   title?: string
 }
 
@@ -126,60 +126,60 @@ export interface InboxRemoveMatch {
 }
 
 export interface InboxCount {
-  pending_inbox_entry: number
+  pendingInboxEntries: number
 }
 
 export interface InboxCountLoadMatch {
-  pending_inbox_entry?: number
+  pendingInboxEntries?: number
 }
 
 export interface InboxEntry {
   active?: boolean
   comment: string
-  country_code?: string
-  created_at: number
+  countryCode?: string
+  createdAt: number
   done: boolean
   filename?: string
-  has_conflict?: boolean
-  has_photo: boolean
+  hasConflict?: boolean
+  hasPhoto: boolean
   id: number
-  inbox_url?: string
-  is_processed?: boolean
+  inboxUrl?: string
+  isProcessed?: boolean
   lat?: number
   lon?: number
-  new_lat?: number
-  new_lon?: number
-  new_title?: string
-  photo_id?: number
-  photographer_email?: string
-  photographer_nickname: string
-  problem_report_type?: string
-  station_id?: string
+  newLat?: number
+  newLon?: number
+  newTitle?: string
+  photoId?: number
+  photographerEmail?: string
+  photographerNickname: string
+  problemReportType?: string
+  stationId?: string
   title?: string
 }
 
 export interface InboxEntryListMatch {
   active?: boolean
   comment?: string
-  country_code?: string
-  created_at?: number
+  countryCode?: string
+  createdAt?: number
   done?: boolean
   filename?: string
-  has_conflict?: boolean
-  has_photo?: boolean
+  hasConflict?: boolean
+  hasPhoto?: boolean
   id?: number
-  inbox_url?: string
-  is_processed?: boolean
+  inboxUrl?: string
+  isProcessed?: boolean
   lat?: number
   lon?: number
-  new_lat?: number
-  new_lon?: number
-  new_title?: string
-  photo_id?: number
-  photographer_email?: string
-  photographer_nickname?: string
-  problem_report_type?: string
-  station_id?: string
+  newLat?: number
+  newLon?: number
+  newTitle?: string
+  photoId?: number
+  photographerEmail?: string
+  photographerNickname?: string
+  problemReportType?: string
+  stationId?: string
   title?: string
 }
 
@@ -227,10 +227,10 @@ export interface PhotoDownloadLoadMatch {
 }
 
 export interface PhotoStation {
-  license: any[]
-  photo_base_url: string
-  photographer: any[]
-  station: any[]
+  licenses: any[]
+  photoBaseUrl: string
+  photographers: any[]
+  stations: any[]
 }
 
 export interface PhotoStationLoadMatch {
@@ -259,13 +259,13 @@ export interface Profile {
   admin?: boolean
   anonymous?: boolean
   email?: string
-  email_verified?: boolean
+  emailVerified?: boolean
   license: string
   link?: string
-  new_password: string
+  newPassword: string
   nickname: string
-  photo_owner: boolean
-  send_notification?: boolean
+  photoOwner: boolean
+  sendNotifications?: boolean
 }
 
 export interface ProfileLoadMatch {
@@ -276,57 +276,57 @@ export interface ProfileCreateData {
   admin?: boolean
   anonymous?: boolean
   email?: string
-  email_verified?: boolean
+  emailVerified?: boolean
   license: string
   link?: string
-  new_password: string
+  newPassword: string
   nickname: string
-  photo_owner: boolean
-  send_notification?: boolean
+  photoOwner: boolean
+  sendNotifications?: boolean
 }
 
 export interface ProfileRemoveMatch {
   admin?: boolean
   anonymous?: boolean
   email?: string
-  email_verified?: boolean
+  emailVerified?: boolean
   license?: string
   link?: string
-  new_password?: string
+  newPassword?: string
   nickname?: string
-  photo_owner?: boolean
-  send_notification?: boolean
+  photoOwner?: boolean
+  sendNotifications?: boolean
 }
 
 export interface PublicInbox {
-  country_code?: string
+  countryCode?: string
   lat: number
   lon: number
-  station_id?: string
+  stationId?: string
   title: string
 }
 
 export interface PublicInboxListMatch {
-  country_code?: string
+  countryCode?: string
   lat?: number
   lon?: number
-  station_id?: string
+  stationId?: string
   title?: string
 }
 
 export interface Stat {
-  country_code?: string
-  photographer: number
+  countryCode?: string
+  photographers: number
   total: number
-  with_photo: number
-  without_photo: number
+  withPhoto: number
+  withoutPhoto: number
 }
 
 export interface StatLoadMatch {
-  country_code?: string
-  photographer?: number
+  countryCode?: string
+  photographers?: number
   total?: number
-  with_photo?: number
-  without_photo?: number
+  withPhoto?: number
+  withoutPhoto?: number
 }
 

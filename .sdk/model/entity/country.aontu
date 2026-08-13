@@ -11,7 +11,7 @@ main: kit: entity: country: {
       type: "`$BOOLEAN`"
     }
     {
-      name: "allow_photo_upload"
+      name: "allowPhotoUploads"
       req: true
       type: "`$BOOLEAN`"
     }
@@ -36,17 +36,17 @@ main: kit: entity: country: {
       type: "`$STRING`"
     }
     {
-      name: "override_license"
+      name: "overrideLicense"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "provider_app"
+      name: "providerApps"
       req: false
       type: "`$ARRAY`"
     }
     {
-      name: "timetable_url_template"
+      name: "timetableUrlTemplate"
       req: false
       type: "`$STRING`"
     }

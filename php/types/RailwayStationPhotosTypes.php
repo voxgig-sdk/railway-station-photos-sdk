@@ -15,17 +15,17 @@ declare(strict_types=1);
 /** AdminInbox entity data model. */
 class AdminInbox
 {
+    public ?string $DS100 = null;
     public ?bool $active = null;
     public string $command;
-    public ?string $conflict_resolution = null;
-    public ?string $country_code = null;
-    public ?string $ds100 = null;
+    public ?string $conflictResolution = null;
+    public ?string $countryCode = null;
     public int $id;
     public ?float $lat = null;
     public ?float $lon = null;
     public string $message;
-    public ?string $reject_reason = null;
-    public ?string $station_id = null;
+    public ?string $rejectReason = null;
+    public ?string $stationId = null;
     public int $status;
     public ?string $title = null;
 }
@@ -33,17 +33,17 @@ class AdminInbox
 /** Request payload for AdminInbox#create. */
 class AdminInboxCreateData
 {
+    public ?string $DS100 = null;
     public ?bool $active = null;
     public string $command;
-    public ?string $conflict_resolution = null;
-    public ?string $country_code = null;
-    public ?string $ds100 = null;
+    public ?string $conflictResolution = null;
+    public ?string $countryCode = null;
     public int $id;
     public ?float $lat = null;
     public ?float $lon = null;
     public string $message;
-    public ?string $reject_reason = null;
-    public ?string $station_id = null;
+    public ?string $rejectReason = null;
+    public ?string $stationId = null;
     public int $status;
     public ?string $title = null;
 }
@@ -52,49 +52,49 @@ class AdminInboxCreateData
 class Country
 {
     public bool $active;
-    public bool $allow_photo_upload;
+    public bool $allowPhotoUploads;
     public string $code;
     public ?string $email = null;
     public ?string $message = null;
     public string $name;
-    public ?string $override_license = null;
-    public ?array $provider_app = null;
-    public ?string $timetable_url_template = null;
+    public ?string $overrideLicense = null;
+    public ?array $providerApps = null;
+    public ?string $timetableUrlTemplate = null;
 }
 
 /** Request payload for Country#list. */
 class CountryListMatch
 {
     public ?bool $active = null;
-    public ?bool $allow_photo_upload = null;
+    public ?bool $allowPhotoUploads = null;
     public ?string $code = null;
     public ?string $email = null;
     public ?string $message = null;
     public ?string $name = null;
-    public ?string $override_license = null;
-    public ?array $provider_app = null;
-    public ?string $timetable_url_template = null;
+    public ?string $overrideLicense = null;
+    public ?array $providerApps = null;
+    public ?string $timetableUrlTemplate = null;
 }
 
 /** Inbox entity data model. */
 class Inbox
 {
     public ?string $comment = null;
-    public ?string $country_code = null;
+    public ?string $countryCode = null;
     public ?int $crc32 = null;
-    public ?int $created_at = null;
+    public ?int $createdAt = null;
     public ?string $filename = null;
     public int $id;
-    public ?string $inbox_url = null;
+    public ?string $inboxUrl = null;
     public ?float $lat = null;
     public ?float $lon = null;
-    public ?float $new_lat = null;
-    public ?float $new_lon = null;
-    public ?string $new_title = null;
-    public ?string $problem_report_type = null;
-    public ?string $rejected_reason = null;
+    public ?float $newLat = null;
+    public ?float $newLon = null;
+    public ?string $newTitle = null;
+    public ?string $problemReportType = null;
+    public ?string $rejectedReason = null;
     public string $state;
-    public ?string $station_id = null;
+    public ?string $stationId = null;
     public ?string $title = null;
 }
 
@@ -102,21 +102,21 @@ class Inbox
 class InboxListMatch
 {
     public ?string $comment = null;
-    public ?string $country_code = null;
+    public ?string $countryCode = null;
     public ?int $crc32 = null;
-    public ?int $created_at = null;
+    public ?int $createdAt = null;
     public ?string $filename = null;
     public ?int $id = null;
-    public ?string $inbox_url = null;
+    public ?string $inboxUrl = null;
     public ?float $lat = null;
     public ?float $lon = null;
-    public ?float $new_lat = null;
-    public ?float $new_lon = null;
-    public ?string $new_title = null;
-    public ?string $problem_report_type = null;
-    public ?string $rejected_reason = null;
+    public ?float $newLat = null;
+    public ?float $newLon = null;
+    public ?string $newTitle = null;
+    public ?string $problemReportType = null;
+    public ?string $rejectedReason = null;
     public ?string $state = null;
-    public ?string $station_id = null;
+    public ?string $stationId = null;
     public ?string $title = null;
 }
 
@@ -124,21 +124,21 @@ class InboxListMatch
 class InboxCreateData
 {
     public ?string $comment = null;
-    public ?string $country_code = null;
+    public ?string $countryCode = null;
     public ?int $crc32 = null;
-    public ?int $created_at = null;
+    public ?int $createdAt = null;
     public ?string $filename = null;
     public int $id;
-    public ?string $inbox_url = null;
+    public ?string $inboxUrl = null;
     public ?float $lat = null;
     public ?float $lon = null;
-    public ?float $new_lat = null;
-    public ?float $new_lon = null;
-    public ?string $new_title = null;
-    public ?string $problem_report_type = null;
-    public ?string $rejected_reason = null;
+    public ?float $newLat = null;
+    public ?float $newLon = null;
+    public ?string $newTitle = null;
+    public ?string $problemReportType = null;
+    public ?string $rejectedReason = null;
     public string $state;
-    public ?string $station_id = null;
+    public ?string $stationId = null;
     public ?string $title = null;
 }
 
@@ -151,13 +151,13 @@ class InboxRemoveMatch
 /** InboxCount entity data model. */
 class InboxCount
 {
-    public int $pending_inbox_entry;
+    public int $pendingInboxEntries;
 }
 
 /** Request payload for InboxCount#load. */
 class InboxCountLoadMatch
 {
-    public ?int $pending_inbox_entry = null;
+    public ?int $pendingInboxEntries = null;
 }
 
 /** InboxEntry entity data model. */
@@ -165,25 +165,25 @@ class InboxEntry
 {
     public ?bool $active = null;
     public string $comment;
-    public ?string $country_code = null;
-    public int $created_at;
+    public ?string $countryCode = null;
+    public int $createdAt;
     public bool $done;
     public ?string $filename = null;
-    public ?bool $has_conflict = null;
-    public bool $has_photo;
+    public ?bool $hasConflict = null;
+    public bool $hasPhoto;
     public int $id;
-    public ?string $inbox_url = null;
-    public ?bool $is_processed = null;
+    public ?string $inboxUrl = null;
+    public ?bool $isProcessed = null;
     public ?float $lat = null;
     public ?float $lon = null;
-    public ?float $new_lat = null;
-    public ?float $new_lon = null;
-    public ?string $new_title = null;
-    public ?int $photo_id = null;
-    public ?string $photographer_email = null;
-    public string $photographer_nickname;
-    public ?string $problem_report_type = null;
-    public ?string $station_id = null;
+    public ?float $newLat = null;
+    public ?float $newLon = null;
+    public ?string $newTitle = null;
+    public ?int $photoId = null;
+    public ?string $photographerEmail = null;
+    public string $photographerNickname;
+    public ?string $problemReportType = null;
+    public ?string $stationId = null;
     public ?string $title = null;
 }
 
@@ -192,25 +192,25 @@ class InboxEntryListMatch
 {
     public ?bool $active = null;
     public ?string $comment = null;
-    public ?string $country_code = null;
-    public ?int $created_at = null;
+    public ?string $countryCode = null;
+    public ?int $createdAt = null;
     public ?bool $done = null;
     public ?string $filename = null;
-    public ?bool $has_conflict = null;
-    public ?bool $has_photo = null;
+    public ?bool $hasConflict = null;
+    public ?bool $hasPhoto = null;
     public ?int $id = null;
-    public ?string $inbox_url = null;
-    public ?bool $is_processed = null;
+    public ?string $inboxUrl = null;
+    public ?bool $isProcessed = null;
     public ?float $lat = null;
     public ?float $lon = null;
-    public ?float $new_lat = null;
-    public ?float $new_lon = null;
-    public ?string $new_title = null;
-    public ?int $photo_id = null;
-    public ?string $photographer_email = null;
-    public ?string $photographer_nickname = null;
-    public ?string $problem_report_type = null;
-    public ?string $station_id = null;
+    public ?float $newLat = null;
+    public ?float $newLon = null;
+    public ?string $newTitle = null;
+    public ?int $photoId = null;
+    public ?string $photographerEmail = null;
+    public ?string $photographerNickname = null;
+    public ?string $problemReportType = null;
+    public ?string $stationId = null;
     public ?string $title = null;
 }
 
@@ -280,10 +280,10 @@ class PhotoDownloadLoadMatch
 /** PhotoStation entity data model. */
 class PhotoStation
 {
-    public array $license;
-    public string $photo_base_url;
-    public array $photographer;
-    public array $station;
+    public array $licenses;
+    public string $photoBaseUrl;
+    public array $photographers;
+    public array $stations;
 }
 
 /** Request payload for PhotoStation#load. */
@@ -326,13 +326,13 @@ class Profile
     public ?bool $admin = null;
     public ?bool $anonymous = null;
     public ?string $email = null;
-    public ?bool $email_verified = null;
+    public ?bool $emailVerified = null;
     public string $license;
     public ?string $link = null;
-    public string $new_password;
+    public string $newPassword;
     public string $nickname;
-    public bool $photo_owner;
-    public ?bool $send_notification = null;
+    public bool $photoOwner;
+    public ?bool $sendNotifications = null;
 }
 
 /** Request payload for Profile#load. */
@@ -347,13 +347,13 @@ class ProfileCreateData
     public ?bool $admin = null;
     public ?bool $anonymous = null;
     public ?string $email = null;
-    public ?bool $email_verified = null;
+    public ?bool $emailVerified = null;
     public string $license;
     public ?string $link = null;
-    public string $new_password;
+    public string $newPassword;
     public string $nickname;
-    public bool $photo_owner;
-    public ?bool $send_notification = null;
+    public bool $photoOwner;
+    public ?bool $sendNotifications = null;
 }
 
 /** Request payload for Profile#remove. */
@@ -362,52 +362,52 @@ class ProfileRemoveMatch
     public ?bool $admin = null;
     public ?bool $anonymous = null;
     public ?string $email = null;
-    public ?bool $email_verified = null;
+    public ?bool $emailVerified = null;
     public ?string $license = null;
     public ?string $link = null;
-    public ?string $new_password = null;
+    public ?string $newPassword = null;
     public ?string $nickname = null;
-    public ?bool $photo_owner = null;
-    public ?bool $send_notification = null;
+    public ?bool $photoOwner = null;
+    public ?bool $sendNotifications = null;
 }
 
 /** PublicInbox entity data model. */
 class PublicInbox
 {
-    public ?string $country_code = null;
+    public ?string $countryCode = null;
     public float $lat;
     public float $lon;
-    public ?string $station_id = null;
+    public ?string $stationId = null;
     public string $title;
 }
 
 /** Request payload for PublicInbox#list. */
 class PublicInboxListMatch
 {
-    public ?string $country_code = null;
+    public ?string $countryCode = null;
     public ?float $lat = null;
     public ?float $lon = null;
-    public ?string $station_id = null;
+    public ?string $stationId = null;
     public ?string $title = null;
 }
 
 /** Stat entity data model. */
 class Stat
 {
-    public ?string $country_code = null;
-    public int $photographer;
+    public ?string $countryCode = null;
+    public int $photographers;
     public int $total;
-    public int $with_photo;
-    public int $without_photo;
+    public int $withPhoto;
+    public int $withoutPhoto;
 }
 
 /** Request payload for Stat#load. */
 class StatLoadMatch
 {
-    public ?string $country_code = null;
-    public ?int $photographer = null;
+    public ?string $countryCode = null;
+    public ?int $photographers = null;
     public ?int $total = null;
-    public ?int $with_photo = null;
-    public ?int $without_photo = null;
+    public ?int $withPhoto = null;
+    public ?int $withoutPhoto = null;
 }
 

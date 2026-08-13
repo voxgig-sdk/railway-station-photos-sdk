@@ -27,7 +27,7 @@ main: kit: entity: profile: {
       type: "`$STRING`"
     }
     {
-      name: "email_verified"
+      name: "emailVerified"
       req: false
       type: "`$BOOLEAN`"
     }
@@ -48,7 +48,7 @@ main: kit: entity: profile: {
       type: "`$STRING`"
     }
     {
-      name: "new_password"
+      name: "newPassword"
       req: true
       type: "`$STRING`"
     }
@@ -58,7 +58,7 @@ main: kit: entity: profile: {
       type: "`$STRING`"
     }
     {
-      name: "photo_owner"
+      name: "photoOwner"
       op: {
         create: {
           req: false
@@ -69,7 +69,7 @@ main: kit: entity: profile: {
       type: "`$BOOLEAN`"
     }
     {
-      name: "send_notification"
+      name: "sendNotifications"
       req: false
       type: "`$BOOLEAN`"
     }

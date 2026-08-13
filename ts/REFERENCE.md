@@ -296,17 +296,17 @@ const admin_inbox = client.AdminInbox()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `DS100` | `string` | No |  |
 | `active` | `boolean` | No |  |
 | `command` | `string` | Yes |  |
-| `conflict_resolution` | `string` | No |  |
-| `country_code` | `string` | No |  |
-| `ds100` | `string` | No |  |
+| `conflictResolution` | `string` | No |  |
+| `countryCode` | `string` | No |  |
 | `id` | `number` | Yes |  |
 | `lat` | `number` | No |  |
 | `lon` | `number` | No |  |
 | `message` | `string` | Yes |  |
-| `reject_reason` | `string` | No |  |
-| `station_id` | `string` | No |  |
+| `rejectReason` | `string` | No |  |
+| `stationId` | `string` | No |  |
 | `status` | `number` | Yes |  |
 | `title` | `string` | No |  |
 
@@ -364,14 +364,14 @@ const country = client.Country()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `active` | `boolean` | Yes |  |
-| `allow_photo_upload` | `boolean` | Yes |  |
+| `allowPhotoUploads` | `boolean` | Yes |  |
 | `code` | `string` | Yes |  |
 | `email` | `string` | No |  |
 | `message` | `string` | No |  |
 | `name` | `string` | Yes |  |
-| `override_license` | `string` | No |  |
-| `provider_app` | `any[]` | No |  |
-| `timetable_url_template` | `string` | No |  |
+| `overrideLicense` | `string` | No |  |
+| `providerApps` | `any[]` | No |  |
+| `timetableUrlTemplate` | `string` | No |  |
 
 ### Operations
 
@@ -422,21 +422,21 @@ const inbox = client.Inbox()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `comment` | `string` | No |  |
-| `country_code` | `string` | No |  |
+| `countryCode` | `string` | No |  |
 | `crc32` | `number` | No |  |
-| `created_at` | `number` | No |  |
+| `createdAt` | `number` | No |  |
 | `filename` | `string` | No |  |
 | `id` | `number` | Yes |  |
-| `inbox_url` | `string` | No |  |
+| `inboxUrl` | `string` | No |  |
 | `lat` | `number` | No |  |
 | `lon` | `number` | No |  |
-| `new_lat` | `number` | No |  |
-| `new_lon` | `number` | No |  |
-| `new_title` | `string` | No |  |
-| `problem_report_type` | `string` | No |  |
-| `rejected_reason` | `string` | No |  |
+| `newLat` | `number` | No |  |
+| `newLon` | `number` | No |  |
+| `newTitle` | `string` | No |  |
+| `problemReportType` | `string` | No |  |
+| `rejectedReason` | `string` | No |  |
 | `state` | `string` | Yes |  |
-| `station_id` | `string` | No |  |
+| `stationId` | `string` | No |  |
 | `title` | `string` | No |  |
 
 ### Operations
@@ -506,7 +506,7 @@ const inbox_count = client.InboxCount()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `pending_inbox_entry` | `number` | Yes |  |
+| `pendingInboxEntries` | `number` | Yes |  |
 
 ### Operations
 
@@ -558,25 +558,25 @@ const inbox_entry = client.InboxEntry()
 | --- | --- | --- | --- |
 | `active` | `boolean` | No |  |
 | `comment` | `string` | Yes |  |
-| `country_code` | `string` | No |  |
-| `created_at` | `number` | Yes |  |
+| `countryCode` | `string` | No |  |
+| `createdAt` | `number` | Yes |  |
 | `done` | `boolean` | Yes |  |
 | `filename` | `string` | No |  |
-| `has_conflict` | `boolean` | No |  |
-| `has_photo` | `boolean` | Yes |  |
+| `hasConflict` | `boolean` | No |  |
+| `hasPhoto` | `boolean` | Yes |  |
 | `id` | `number` | Yes |  |
-| `inbox_url` | `string` | No |  |
-| `is_processed` | `boolean` | No |  |
+| `inboxUrl` | `string` | No |  |
+| `isProcessed` | `boolean` | No |  |
 | `lat` | `number` | No |  |
 | `lon` | `number` | No |  |
-| `new_lat` | `number` | No |  |
-| `new_lon` | `number` | No |  |
-| `new_title` | `string` | No |  |
-| `photo_id` | `number` | No |  |
-| `photographer_email` | `string` | No |  |
-| `photographer_nickname` | `string` | Yes |  |
-| `problem_report_type` | `string` | No |  |
-| `station_id` | `string` | No |  |
+| `newLat` | `number` | No |  |
+| `newLon` | `number` | No |  |
+| `newTitle` | `string` | No |  |
+| `photoId` | `number` | No |  |
+| `photographerEmail` | `string` | No |  |
+| `photographerNickname` | `string` | Yes |  |
+| `problemReportType` | `string` | No |  |
+| `stationId` | `string` | No |  |
 | `title` | `string` | No |  |
 
 ### Operations
@@ -860,10 +860,10 @@ const photo_station = client.PhotoStation()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `license` | `any[]` | Yes |  |
-| `photo_base_url` | `string` | Yes |  |
-| `photographer` | `any[]` | Yes |  |
-| `station` | `any[]` | Yes |  |
+| `licenses` | `any[]` | Yes |  |
+| `photoBaseUrl` | `string` | Yes |  |
+| `photographers` | `any[]` | Yes |  |
+| `stations` | `any[]` | Yes |  |
 
 ### Operations
 
@@ -1013,13 +1013,13 @@ const profile = client.Profile()
 | `admin` | `boolean` | No |  |
 | `anonymous` | `boolean` | No |  |
 | `email` | `string` | No |  |
-| `email_verified` | `boolean` | No |  |
+| `emailVerified` | `boolean` | No |  |
 | `license` | `string` | Yes |  |
 | `link` | `string` | No |  |
-| `new_password` | `string` | Yes |  |
+| `newPassword` | `string` | Yes |  |
 | `nickname` | `string` | Yes |  |
-| `photo_owner` | `boolean` | Yes |  |
-| `send_notification` | `boolean` | No |  |
+| `photoOwner` | `boolean` | Yes |  |
+| `sendNotifications` | `boolean` | No |  |
 
 ### Field Usage by Operation
 
@@ -1028,13 +1028,13 @@ const profile = client.Profile()
 | `admin` | - | - | - |
 | `anonymous` | - | - | - |
 | `email` | - | Yes | - |
-| `email_verified` | - | - | - |
+| `emailVerified` | - | - | - |
 | `license` | - | Yes | - |
 | `link` | - | - | - |
-| `new_password` | - | - | - |
+| `newPassword` | - | - | - |
 | `nickname` | - | - | - |
-| `photo_owner` | - | Yes | - |
-| `send_notification` | - | - | - |
+| `photoOwner` | - | Yes | - |
+| `sendNotifications` | - | - | - |
 
 ### Operations
 
@@ -1045,9 +1045,9 @@ Create a new entity with the given data.
 ```ts
 const result = await client.Profile().create({
   license: 'example_license',
-  new_password: 'example_new_password',
+  newPassword: 'example_newPassword',
   nickname: 'example_nickname',
-  photo_owner: true,
+  photoOwner: true,
 })
 ```
 
@@ -1105,10 +1105,10 @@ const public_inbox = client.PublicInbox()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `country_code` | `string` | No |  |
+| `countryCode` | `string` | No |  |
 | `lat` | `number` | Yes |  |
 | `lon` | `number` | Yes |  |
-| `station_id` | `string` | No |  |
+| `stationId` | `string` | No |  |
 | `title` | `string` | Yes |  |
 
 ### Operations
@@ -1159,11 +1159,11 @@ const stat = client.Stat()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `country_code` | `string` | No |  |
-| `photographer` | `number` | Yes |  |
+| `countryCode` | `string` | No |  |
+| `photographers` | `number` | Yes |  |
 | `total` | `number` | Yes |  |
-| `with_photo` | `number` | Yes |  |
-| `without_photo` | `number` | Yes |  |
+| `withPhoto` | `number` | Yes |  |
+| `withoutPhoto` | `number` | Yes |  |
 
 ### Operations
 

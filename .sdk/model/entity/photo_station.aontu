@@ -6,22 +6,22 @@ main: kit: entity: photo_station: {
 
   fields: [
     {
-      name: "license"
+      name: "licenses"
       req: true
       type: "`$ARRAY`"
     }
     {
-      name: "photo_base_url"
+      name: "photoBaseUrl"
       req: true
       type: "`$STRING`"
     }
     {
-      name: "photographer"
+      name: "photographers"
       req: true
       type: "`$ARRAY`"
     }
     {
-      name: "station"
+      name: "stations"
       req: true
       type: "`$ARRAY`"
     }

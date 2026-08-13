@@ -42,35 +42,35 @@ module RailwayStationPhotosConfig
           "fields" => [
             {
               "active" => true,
+              "name" => "DS100",
+              "req" => false,
+              "type" => "`$STRING`",
+              "index$" => 0,
+            },
+            {
+              "active" => true,
               "name" => "active",
               "req" => false,
               "type" => "`$BOOLEAN`",
-              "index$" => 0,
+              "index$" => 1,
             },
             {
               "active" => true,
               "name" => "command",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 1,
-            },
-            {
-              "active" => true,
-              "name" => "conflict_resolution",
-              "req" => false,
-              "type" => "`$STRING`",
               "index$" => 2,
             },
             {
               "active" => true,
-              "name" => "country_code",
+              "name" => "conflictResolution",
               "req" => false,
               "type" => "`$STRING`",
               "index$" => 3,
             },
             {
               "active" => true,
-              "name" => "ds100",
+              "name" => "countryCode",
               "req" => false,
               "type" => "`$STRING`",
               "index$" => 4,
@@ -105,14 +105,14 @@ module RailwayStationPhotosConfig
             },
             {
               "active" => true,
-              "name" => "reject_reason",
+              "name" => "rejectReason",
               "req" => false,
               "type" => "`$STRING`",
               "index$" => 9,
             },
             {
               "active" => true,
-              "name" => "station_id",
+              "name" => "stationId",
               "req" => false,
               "type" => "`$STRING`",
               "index$" => 10,
@@ -152,6 +152,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "POST",
                   "orig" => "/adminInbox",
                   "parts" => [
@@ -187,7 +188,7 @@ module RailwayStationPhotosConfig
             },
             {
               "active" => true,
-              "name" => "allow_photo_upload",
+              "name" => "allowPhotoUploads",
               "req" => true,
               "type" => "`$BOOLEAN`",
               "index$" => 1,
@@ -222,21 +223,21 @@ module RailwayStationPhotosConfig
             },
             {
               "active" => true,
-              "name" => "override_license",
+              "name" => "overrideLicense",
               "req" => false,
               "type" => "`$STRING`",
               "index$" => 6,
             },
             {
               "active" => true,
-              "name" => "provider_app",
+              "name" => "providerApps",
               "req" => false,
               "type" => "`$ARRAY`",
               "index$" => 7,
             },
             {
               "active" => true,
-              "name" => "timetable_url_template",
+              "name" => "timetableUrlTemplate",
               "req" => false,
               "type" => "`$STRING`",
               "index$" => 8,
@@ -262,6 +263,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/countries",
                   "parts" => [
@@ -297,7 +299,7 @@ module RailwayStationPhotosConfig
             },
             {
               "active" => true,
-              "name" => "country_code",
+              "name" => "countryCode",
               "req" => false,
               "type" => "`$STRING`",
               "index$" => 1,
@@ -311,7 +313,7 @@ module RailwayStationPhotosConfig
             },
             {
               "active" => true,
-              "name" => "created_at",
+              "name" => "createdAt",
               "req" => false,
               "type" => "`$INTEGER`",
               "index$" => 3,
@@ -332,7 +334,7 @@ module RailwayStationPhotosConfig
             },
             {
               "active" => true,
-              "name" => "inbox_url",
+              "name" => "inboxUrl",
               "req" => false,
               "type" => "`$STRING`",
               "index$" => 6,
@@ -353,35 +355,35 @@ module RailwayStationPhotosConfig
             },
             {
               "active" => true,
-              "name" => "new_lat",
+              "name" => "newLat",
               "req" => false,
               "type" => "`$NUMBER`",
               "index$" => 9,
             },
             {
               "active" => true,
-              "name" => "new_lon",
+              "name" => "newLon",
               "req" => false,
               "type" => "`$NUMBER`",
               "index$" => 10,
             },
             {
               "active" => true,
-              "name" => "new_title",
+              "name" => "newTitle",
               "req" => false,
               "type" => "`$STRING`",
               "index$" => 11,
             },
             {
               "active" => true,
-              "name" => "problem_report_type",
+              "name" => "problemReportType",
               "req" => false,
               "type" => "`$STRING`",
               "index$" => 12,
             },
             {
               "active" => true,
-              "name" => "rejected_reason",
+              "name" => "rejectedReason",
               "req" => false,
               "type" => "`$STRING`",
               "index$" => 13,
@@ -395,7 +397,7 @@ module RailwayStationPhotosConfig
             },
             {
               "active" => true,
-              "name" => "station_id",
+              "name" => "stationId",
               "req" => false,
               "type" => "`$STRING`",
               "index$" => 15,
@@ -428,6 +430,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "POST",
                   "orig" => "/reportProblem",
                   "parts" => [
@@ -458,6 +461,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "POST",
                   "orig" => "/userInbox",
                   "parts" => [
@@ -505,6 +509,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/userInbox",
                   "parts" => [
@@ -544,6 +549,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "DELETE",
                   "orig" => "/userInbox/{id}",
                   "parts" => [
@@ -573,7 +579,7 @@ module RailwayStationPhotosConfig
           "fields" => [
             {
               "active" => true,
-              "name" => "pending_inbox_entry",
+              "name" => "pendingInboxEntries",
               "req" => true,
               "type" => "`$INTEGER`",
               "index$" => 0,
@@ -588,6 +594,7 @@ module RailwayStationPhotosConfig
                 {
                   "active" => true,
                   "args" => {},
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/adminInboxCount",
                   "parts" => [
@@ -626,14 +633,14 @@ module RailwayStationPhotosConfig
             },
             {
               "active" => true,
-              "name" => "country_code",
+              "name" => "countryCode",
               "req" => false,
               "type" => "`$STRING`",
               "index$" => 2,
             },
             {
               "active" => true,
-              "name" => "created_at",
+              "name" => "createdAt",
               "req" => true,
               "type" => "`$INTEGER`",
               "index$" => 3,
@@ -654,14 +661,14 @@ module RailwayStationPhotosConfig
             },
             {
               "active" => true,
-              "name" => "has_conflict",
+              "name" => "hasConflict",
               "req" => false,
               "type" => "`$BOOLEAN`",
               "index$" => 6,
             },
             {
               "active" => true,
-              "name" => "has_photo",
+              "name" => "hasPhoto",
               "req" => true,
               "type" => "`$BOOLEAN`",
               "index$" => 7,
@@ -675,14 +682,14 @@ module RailwayStationPhotosConfig
             },
             {
               "active" => true,
-              "name" => "inbox_url",
+              "name" => "inboxUrl",
               "req" => false,
               "type" => "`$STRING`",
               "index$" => 9,
             },
             {
               "active" => true,
-              "name" => "is_processed",
+              "name" => "isProcessed",
               "req" => false,
               "type" => "`$BOOLEAN`",
               "index$" => 10,
@@ -703,56 +710,56 @@ module RailwayStationPhotosConfig
             },
             {
               "active" => true,
-              "name" => "new_lat",
+              "name" => "newLat",
               "req" => false,
               "type" => "`$NUMBER`",
               "index$" => 13,
             },
             {
               "active" => true,
-              "name" => "new_lon",
+              "name" => "newLon",
               "req" => false,
               "type" => "`$NUMBER`",
               "index$" => 14,
             },
             {
               "active" => true,
-              "name" => "new_title",
+              "name" => "newTitle",
               "req" => false,
               "type" => "`$STRING`",
               "index$" => 15,
             },
             {
               "active" => true,
-              "name" => "photo_id",
+              "name" => "photoId",
               "req" => false,
               "type" => "`$INTEGER`",
               "index$" => 16,
             },
             {
               "active" => true,
-              "name" => "photographer_email",
+              "name" => "photographerEmail",
               "req" => false,
               "type" => "`$STRING`",
               "index$" => 17,
             },
             {
               "active" => true,
-              "name" => "photographer_nickname",
+              "name" => "photographerNickname",
               "req" => true,
               "type" => "`$STRING`",
               "index$" => 18,
             },
             {
               "active" => true,
-              "name" => "problem_report_type",
+              "name" => "problemReportType",
               "req" => false,
               "type" => "`$STRING`",
               "index$" => 19,
             },
             {
               "active" => true,
-              "name" => "station_id",
+              "name" => "stationId",
               "req" => false,
               "type" => "`$STRING`",
               "index$" => 20,
@@ -785,6 +792,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/adminInbox",
                   "parts" => [
@@ -875,6 +883,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "POST",
                   "orig" => "/oauth2/token",
                   "parts" => [
@@ -922,6 +931,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "POST",
                   "orig" => "/oauth2/revoke",
                   "parts" => [
@@ -1008,6 +1018,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/oauth2/authorize",
                   "parts" => [
@@ -1081,6 +1092,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/photos/{country}/{filename}",
                   "parts" => [
@@ -1146,6 +1158,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/inbox/done/{filename}",
                   "parts" => [
@@ -1190,6 +1203,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/inbox/processed/{filename}",
                   "parts" => [
@@ -1234,6 +1248,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/inbox/rejected/{filename}",
                   "parts" => [
@@ -1278,6 +1293,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/inbox/{filename}",
                   "parts" => [
@@ -1321,28 +1337,28 @@ module RailwayStationPhotosConfig
           "fields" => [
             {
               "active" => true,
-              "name" => "license",
+              "name" => "licenses",
               "req" => true,
               "type" => "`$ARRAY`",
               "index$" => 0,
             },
             {
               "active" => true,
-              "name" => "photo_base_url",
+              "name" => "photoBaseUrl",
               "req" => true,
               "type" => "`$STRING`",
               "index$" => 1,
             },
             {
               "active" => true,
-              "name" => "photographer",
+              "name" => "photographers",
               "req" => true,
               "type" => "`$ARRAY`",
               "index$" => 2,
             },
             {
               "active" => true,
-              "name" => "station",
+              "name" => "stations",
               "req" => true,
               "type" => "`$ARRAY`",
               "index$" => 3,
@@ -1378,6 +1394,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/photoStationById/{country}/{id}",
                   "parts" => [
@@ -1412,6 +1429,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/photoStationsByRecentPhotoImports",
                   "parts" => [
@@ -1468,6 +1486,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/photoStationsByCountry/{country}",
                   "parts" => [
@@ -1512,6 +1531,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/photoStationsByPhotographer/{photographer}",
                   "parts" => [
@@ -1634,6 +1654,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "POST",
                   "orig" => "/photoUpload",
                   "parts" => [
@@ -1688,6 +1709,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/photographers",
                   "parts" => [
@@ -1743,7 +1765,7 @@ module RailwayStationPhotosConfig
             },
             {
               "active" => true,
-              "name" => "email_verified",
+              "name" => "emailVerified",
               "req" => false,
               "type" => "`$BOOLEAN`",
               "index$" => 3,
@@ -1770,7 +1792,7 @@ module RailwayStationPhotosConfig
             },
             {
               "active" => true,
-              "name" => "new_password",
+              "name" => "newPassword",
               "req" => true,
               "type" => "`$STRING`",
               "index$" => 6,
@@ -1784,7 +1806,7 @@ module RailwayStationPhotosConfig
             },
             {
               "active" => true,
-              "name" => "photo_owner",
+              "name" => "photoOwner",
               "op" => {
                 "create" => {
                   "req" => false,
@@ -1797,7 +1819,7 @@ module RailwayStationPhotosConfig
             },
             {
               "active" => true,
-              "name" => "send_notification",
+              "name" => "sendNotifications",
               "req" => false,
               "type" => "`$BOOLEAN`",
               "index$" => 9,
@@ -1823,6 +1845,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "POST",
                   "orig" => "/changePassword",
                   "parts" => [
@@ -1853,6 +1876,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "POST",
                   "orig" => "/myProfile",
                   "parts" => [
@@ -1883,6 +1907,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "POST",
                   "orig" => "/resendEmailVerification",
                   "parts" => [
@@ -1920,6 +1945,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/myProfile",
                   "parts" => [
@@ -1951,6 +1977,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/emailVerification/{token}",
                   "parts" => [
@@ -1989,6 +2016,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "DELETE",
                   "orig" => "/myProfile",
                   "parts" => [
@@ -2021,7 +2049,7 @@ module RailwayStationPhotosConfig
           "fields" => [
             {
               "active" => true,
-              "name" => "country_code",
+              "name" => "countryCode",
               "req" => false,
               "type" => "`$STRING`",
               "index$" => 0,
@@ -2042,7 +2070,7 @@ module RailwayStationPhotosConfig
             },
             {
               "active" => true,
-              "name" => "station_id",
+              "name" => "stationId",
               "req" => false,
               "type" => "`$STRING`",
               "index$" => 3,
@@ -2064,6 +2092,7 @@ module RailwayStationPhotosConfig
                 {
                   "active" => true,
                   "args" => {},
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/publicInbox",
                   "parts" => [
@@ -2088,14 +2117,14 @@ module RailwayStationPhotosConfig
           "fields" => [
             {
               "active" => true,
-              "name" => "country_code",
+              "name" => "countryCode",
               "req" => false,
               "type" => "`$STRING`",
               "index$" => 0,
             },
             {
               "active" => true,
-              "name" => "photographer",
+              "name" => "photographers",
               "req" => true,
               "type" => "`$INTEGER`",
               "index$" => 1,
@@ -2109,14 +2138,14 @@ module RailwayStationPhotosConfig
             },
             {
               "active" => true,
-              "name" => "with_photo",
+              "name" => "withPhoto",
               "req" => true,
               "type" => "`$INTEGER`",
               "index$" => 3,
             },
             {
               "active" => true,
-              "name" => "without_photo",
+              "name" => "withoutPhoto",
               "req" => true,
               "type" => "`$INTEGER`",
               "index$" => 4,
@@ -2142,6 +2171,7 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "kind" => "http",
                   "method" => "GET",
                   "orig" => "/stats",
                   "parts" => [

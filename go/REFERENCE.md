@@ -158,17 +158,17 @@ fmt.Println(adminInbox.GetName()) // "admin_inbox"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `DS100` | `string` | No |  |
 | `active` | `bool` | No |  |
 | `command` | `string` | Yes |  |
-| `conflict_resolution` | `string` | No |  |
-| `country_code` | `string` | No |  |
-| `ds100` | `string` | No |  |
+| `conflictResolution` | `string` | No |  |
+| `countryCode` | `string` | No |  |
 | `id` | `int` | Yes |  |
 | `lat` | `float64` | No |  |
 | `lon` | `float64` | No |  |
 | `message` | `string` | Yes |  |
-| `reject_reason` | `string` | No |  |
-| `station_id` | `string` | No |  |
+| `rejectReason` | `string` | No |  |
+| `stationId` | `string` | No |  |
 | `status` | `int` | Yes |  |
 | `title` | `string` | No |  |
 
@@ -227,14 +227,14 @@ fmt.Println(country.GetName()) // "country"
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `active` | `bool` | Yes |  |
-| `allow_photo_upload` | `bool` | Yes |  |
+| `allowPhotoUploads` | `bool` | Yes |  |
 | `code` | `string` | Yes |  |
 | `email` | `string` | No |  |
 | `message` | `string` | No |  |
 | `name` | `string` | Yes |  |
-| `override_license` | `string` | No |  |
-| `provider_app` | `[]any` | No |  |
-| `timetable_url_template` | `string` | No |  |
+| `overrideLicense` | `string` | No |  |
+| `providerApps` | `[]any` | No |  |
+| `timetableUrlTemplate` | `string` | No |  |
 
 ### Operations
 
@@ -286,21 +286,21 @@ fmt.Println(inbox.GetName()) // "inbox"
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `comment` | `string` | No |  |
-| `country_code` | `string` | No |  |
+| `countryCode` | `string` | No |  |
 | `crc32` | `int` | No |  |
-| `created_at` | `int` | No |  |
+| `createdAt` | `int` | No |  |
 | `filename` | `string` | No |  |
 | `id` | `int` | Yes |  |
-| `inbox_url` | `string` | No |  |
+| `inboxUrl` | `string` | No |  |
 | `lat` | `float64` | No |  |
 | `lon` | `float64` | No |  |
-| `new_lat` | `float64` | No |  |
-| `new_lon` | `float64` | No |  |
-| `new_title` | `string` | No |  |
-| `problem_report_type` | `string` | No |  |
-| `rejected_reason` | `string` | No |  |
+| `newLat` | `float64` | No |  |
+| `newLon` | `float64` | No |  |
+| `newTitle` | `string` | No |  |
+| `problemReportType` | `string` | No |  |
+| `rejectedReason` | `string` | No |  |
 | `state` | `string` | Yes |  |
-| `station_id` | `string` | No |  |
+| `stationId` | `string` | No |  |
 | `title` | `string` | No |  |
 
 ### Operations
@@ -379,7 +379,7 @@ fmt.Println(inboxCount.GetName()) // "inbox_count"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `pending_inbox_entry` | `int` | Yes |  |
+| `pendingInboxEntries` | `int` | Yes |  |
 
 ### Operations
 
@@ -432,25 +432,25 @@ fmt.Println(inboxEntry.GetName()) // "inbox_entry"
 | --- | --- | --- | --- |
 | `active` | `bool` | No |  |
 | `comment` | `string` | Yes |  |
-| `country_code` | `string` | No |  |
-| `created_at` | `int` | Yes |  |
+| `countryCode` | `string` | No |  |
+| `createdAt` | `int` | Yes |  |
 | `done` | `bool` | Yes |  |
 | `filename` | `string` | No |  |
-| `has_conflict` | `bool` | No |  |
-| `has_photo` | `bool` | Yes |  |
+| `hasConflict` | `bool` | No |  |
+| `hasPhoto` | `bool` | Yes |  |
 | `id` | `int` | Yes |  |
-| `inbox_url` | `string` | No |  |
-| `is_processed` | `bool` | No |  |
+| `inboxUrl` | `string` | No |  |
+| `isProcessed` | `bool` | No |  |
 | `lat` | `float64` | No |  |
 | `lon` | `float64` | No |  |
-| `new_lat` | `float64` | No |  |
-| `new_lon` | `float64` | No |  |
-| `new_title` | `string` | No |  |
-| `photo_id` | `int` | No |  |
-| `photographer_email` | `string` | No |  |
-| `photographer_nickname` | `string` | Yes |  |
-| `problem_report_type` | `string` | No |  |
-| `station_id` | `string` | No |  |
+| `newLat` | `float64` | No |  |
+| `newLon` | `float64` | No |  |
+| `newTitle` | `string` | No |  |
+| `photoId` | `int` | No |  |
+| `photographerEmail` | `string` | No |  |
+| `photographerNickname` | `string` | Yes |  |
+| `problemReportType` | `string` | No |  |
+| `stationId` | `string` | No |  |
 | `title` | `string` | No |  |
 
 ### Operations
@@ -740,10 +740,10 @@ fmt.Println(photoStation.GetName()) // "photo_station"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `license` | `[]any` | Yes |  |
-| `photo_base_url` | `string` | Yes |  |
-| `photographer` | `[]any` | Yes |  |
-| `station` | `[]any` | Yes |  |
+| `licenses` | `[]any` | Yes |  |
+| `photoBaseUrl` | `string` | Yes |  |
+| `photographers` | `[]any` | Yes |  |
+| `stations` | `[]any` | Yes |  |
 
 ### Operations
 
@@ -900,13 +900,13 @@ fmt.Println(profile.GetName()) // "profile"
 | `admin` | `bool` | No |  |
 | `anonymous` | `bool` | No |  |
 | `email` | `string` | No |  |
-| `email_verified` | `bool` | No |  |
+| `emailVerified` | `bool` | No |  |
 | `license` | `string` | Yes |  |
 | `link` | `string` | No |  |
-| `new_password` | `string` | Yes |  |
+| `newPassword` | `string` | Yes |  |
 | `nickname` | `string` | Yes |  |
-| `photo_owner` | `bool` | Yes |  |
-| `send_notification` | `bool` | No |  |
+| `photoOwner` | `bool` | Yes |  |
+| `sendNotifications` | `bool` | No |  |
 
 ### Field Usage by Operation
 
@@ -915,13 +915,13 @@ fmt.Println(profile.GetName()) // "profile"
 | `admin` | - | - | - |
 | `anonymous` | - | - | - |
 | `email` | - | Yes | - |
-| `email_verified` | - | - | - |
+| `emailVerified` | - | - | - |
 | `license` | - | Yes | - |
 | `link` | - | - | - |
-| `new_password` | - | - | - |
+| `newPassword` | - | - | - |
 | `nickname` | - | - | - |
-| `photo_owner` | - | Yes | - |
-| `send_notification` | - | - | - |
+| `photoOwner` | - | Yes | - |
+| `sendNotifications` | - | - | - |
 
 ### Operations
 
@@ -944,9 +944,9 @@ Create a new entity with the given data.
 ```go
 result, err := client.Profile(nil).Create(map[string]any{
     "license": "example_license",
-    "new_password": "example_new_password",
+    "newPassword": "example_newPassword",
     "nickname": "example_nickname",
-    "photo_owner": true,
+    "photoOwner": true,
 }, nil)
 if err != nil {
     panic(err)
@@ -1001,10 +1001,10 @@ fmt.Println(publicInbox.GetName()) // "public_inbox"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `country_code` | `string` | No |  |
+| `countryCode` | `string` | No |  |
 | `lat` | `float64` | Yes |  |
 | `lon` | `float64` | Yes |  |
-| `station_id` | `string` | No |  |
+| `stationId` | `string` | No |  |
 | `title` | `string` | Yes |  |
 
 ### Operations
@@ -1056,11 +1056,11 @@ fmt.Println(stat.GetName()) // "stat"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `country_code` | `string` | No |  |
-| `photographer` | `int` | Yes |  |
+| `countryCode` | `string` | No |  |
+| `photographers` | `int` | Yes |  |
 | `total` | `int` | Yes |  |
-| `with_photo` | `int` | Yes |  |
-| `without_photo` | `int` | Yes |  |
+| `withPhoto` | `int` | Yes |  |
+| `withoutPhoto` | `int` | Yes |  |
 
 ### Operations
 

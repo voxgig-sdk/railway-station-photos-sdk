@@ -14,12 +14,12 @@ from __future__ import annotations
 
 from urllib.parse import quote
 
-from config import make_config
-from features import _make_feature
-from core.control import RailwayStationPhotosControl
-from core.error import RailwayStationPhotosError
-from core.result import RailwayStationPhotosResult
-from core.spec import RailwayStationPhotosSpec
+from railwaystationphotos_sdk.config import make_config
+from railwaystationphotos_sdk.features import _make_feature
+from railwaystationphotos_sdk.core.control import RailwayStationPhotosControl
+from railwaystationphotos_sdk.core.error import RailwayStationPhotosError
+from railwaystationphotos_sdk.core.result import RailwayStationPhotosResult
+from railwaystationphotos_sdk.core.spec import RailwayStationPhotosSpec
 
 
 # True when this SDK was generated with the named feature.

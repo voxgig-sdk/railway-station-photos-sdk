@@ -161,8 +161,29 @@ class RailwayStationPhotosSDK {
   }
 
 
+  // Raw endpoint access is operator-controllable, like every entity op.
+  // Blocking it means denying BOTH the 'direct' and 'graphql' tokens, since
+  // either one reaches the same endpoint.
   async direct(fetchargs?: any) {
+    if (!this._options.allow.op.includes('direct')) {
+      return {
+        ok: false,
+        err: new Error('RailwayStationPhotosSDK: direct: operation not allowed by' +
+          ' SDK option allow.op value: "' + this._options.allow.op + '"'),
+      }
+    }
+
+    return this._rawRequest(fetchargs)
+  }
+
+
+  // Ungated request path shared by direct() and graphql(), each of which
+  // checks its own allow.op token first. Private, rather than a flag on
+  // fetchargs: a caller-supplied marker would let anyone opt straight back
+  // out of the gate by passing it.
+  async _rawRequest(fetchargs?: any) {
     const utility = this._utility
+
     const fetcher = utility.fetcher
     const makeContext = utility.makeContext
 
@@ -223,115 +244,201 @@ class RailwayStationPhotosSDK {
 
 
 
+  // Raw GraphQL access: the pressure valve that makes the generated
+  // surface's deliberate omissions (per-call selection sets, typed filter
+  // builders, batching, subscriptions) livable — the whole schema stays
+  // reachable.
+  //
+  // Thin wrapper over the same prepare/fetch path `direct` uses, with the
+  // one thing raw `direct` cannot do for GraphQL: a GraphQL failure rides
+  // HTTP 200 as a top-level `errors` array, so status alone would report a
+  // failed query as ok.
+  //
+  // NOTE: like `direct`, this bypasses the feature pipeline — no retry,
+  // ratelimit or paging features apply.
+  async graphql(query: string, variables?: any, ctrl?: any) {
+    const options = this._options
+
+    if (!options.allow.op.includes('graphql')) {
+      return {
+        ok: false,
+        err: new Error('RailwayStationPhotosSDK: graphql: operation not allowed by' +
+          ' SDK option allow.op value: "' + options.allow.op + '"'),
+      }
+    }
+
+    const res: any = await this._rawRequest({
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: { query, variables: variables || {} },
+      ctrl,
+    })
+
+    if (res instanceof Error) {
+      return res
+    }
+
+    // Errors are read BEFORE any status check: a GraphQL parse or validation
+    // failure comes back as HTTP 400 carrying the standard { errors: [...] }
+    // body, and the raw path represents a non-2xx as { ok: false } with no
+    // err — so returning early on status would discard the server's own
+    // diagnostics, which are the only useful part of that response.
+    const errors = null == res.data ? undefined : res.data.errors
+
+    if (null != errors && Array.isArray(errors) && 0 < errors.length) {
+      const first = errors[0] || {}
+      const err: any = new Error('RailwayStationPhotosSDK: graphql: ' +
+        (first.message || 'graphql error'))
+      err.graphql = errors
+      return { ok: false, status: res.status, headers: res.headers, err, data: res.data }
+    }
+
+    return res
+  }
+
+
+
   // Entity access: `client.AdminInbox().list()` / `client.AdminInbox().load({ id })`.
-  AdminInbox(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  AdminInbox(entopts?: Record<string, any>) {
     const self = this
-    return new AdminInboxEntity(self,data)
+    return new AdminInboxEntity(self, entopts)
   }
 
 
   // Entity access: `client.Country().list()` / `client.Country().load({ id })`.
-  Country(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Country(entopts?: Record<string, any>) {
     const self = this
-    return new CountryEntity(self,data)
+    return new CountryEntity(self, entopts)
   }
 
 
   // Entity access: `client.Inbox().list()` / `client.Inbox().load({ id })`.
-  Inbox(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Inbox(entopts?: Record<string, any>) {
     const self = this
-    return new InboxEntity(self,data)
+    return new InboxEntity(self, entopts)
   }
 
 
   // Entity access: `client.InboxCount().list()` / `client.InboxCount().load({ id })`.
-  InboxCount(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  InboxCount(entopts?: Record<string, any>) {
     const self = this
-    return new InboxCountEntity(self,data)
+    return new InboxCountEntity(self, entopts)
   }
 
 
   // Entity access: `client.InboxEntry().list()` / `client.InboxEntry().load({ id })`.
-  InboxEntry(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  InboxEntry(entopts?: Record<string, any>) {
     const self = this
-    return new InboxEntryEntity(self,data)
+    return new InboxEntryEntity(self, entopts)
   }
 
 
   // Entity access: `client.InboxStateQuery().list()` / `client.InboxStateQuery().load({ id })`.
-  InboxStateQuery(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  InboxStateQuery(entopts?: Record<string, any>) {
     const self = this
-    return new InboxStateQueryEntity(self,data)
+    return new InboxStateQueryEntity(self, entopts)
   }
 
 
   // Entity access: `client.OAuthToken().list()` / `client.OAuthToken().load({ id })`.
-  OAuthToken(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  OAuthToken(entopts?: Record<string, any>) {
     const self = this
-    return new OAuthTokenEntity(self,data)
+    return new OAuthTokenEntity(self, entopts)
   }
 
 
   // Entity access: `client.Oauth().list()` / `client.Oauth().load({ id })`.
-  Oauth(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Oauth(entopts?: Record<string, any>) {
     const self = this
-    return new OauthEntity(self,data)
+    return new OauthEntity(self, entopts)
   }
 
 
   // Entity access: `client.Photo().list()` / `client.Photo().load({ id })`.
-  Photo(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Photo(entopts?: Record<string, any>) {
     const self = this
-    return new PhotoEntity(self,data)
+    return new PhotoEntity(self, entopts)
   }
 
 
   // Entity access: `client.PhotoDownload().list()` / `client.PhotoDownload().load({ id })`.
-  PhotoDownload(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  PhotoDownload(entopts?: Record<string, any>) {
     const self = this
-    return new PhotoDownloadEntity(self,data)
+    return new PhotoDownloadEntity(self, entopts)
   }
 
 
   // Entity access: `client.PhotoStation().list()` / `client.PhotoStation().load({ id })`.
-  PhotoStation(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  PhotoStation(entopts?: Record<string, any>) {
     const self = this
-    return new PhotoStationEntity(self,data)
+    return new PhotoStationEntity(self, entopts)
   }
 
 
   // Entity access: `client.PhotoUpload().list()` / `client.PhotoUpload().load({ id })`.
-  PhotoUpload(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  PhotoUpload(entopts?: Record<string, any>) {
     const self = this
-    return new PhotoUploadEntity(self,data)
+    return new PhotoUploadEntity(self, entopts)
   }
 
 
   // Entity access: `client.Photographer().list()` / `client.Photographer().load({ id })`.
-  Photographer(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Photographer(entopts?: Record<string, any>) {
     const self = this
-    return new PhotographerEntity(self,data)
+    return new PhotographerEntity(self, entopts)
   }
 
 
   // Entity access: `client.Profile().list()` / `client.Profile().load({ id })`.
-  Profile(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Profile(entopts?: Record<string, any>) {
     const self = this
-    return new ProfileEntity(self,data)
+    return new ProfileEntity(self, entopts)
   }
 
 
   // Entity access: `client.PublicInbox().list()` / `client.PublicInbox().load({ id })`.
-  PublicInbox(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  PublicInbox(entopts?: Record<string, any>) {
     const self = this
-    return new PublicInboxEntity(self,data)
+    return new PublicInboxEntity(self, entopts)
   }
 
 
   // Entity access: `client.Stat().list()` / `client.Stat().load({ id })`.
-  Stat(data?: any) {
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Stat(entopts?: Record<string, any>) {
     const self = this
-    return new StatEntity(self,data)
+    return new StatEntity(self, entopts)
   }
 
 

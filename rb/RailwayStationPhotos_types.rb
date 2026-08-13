@@ -10,19 +10,19 @@
 
 # AdminInbox entity data model.
 #
+# @!attribute [rw] DS100
+#   @return [String, nil]
+#
 # @!attribute [rw] active
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] command
 #   @return [String]
 #
-# @!attribute [rw] conflict_resolution
+# @!attribute [rw] conflictResolution
 #   @return [String, nil]
 #
-# @!attribute [rw] country_code
-#   @return [String, nil]
-#
-# @!attribute [rw] ds100
+# @!attribute [rw] countryCode
 #   @return [String, nil]
 #
 # @!attribute [rw] id
@@ -37,10 +37,10 @@
 # @!attribute [rw] message
 #   @return [String]
 #
-# @!attribute [rw] reject_reason
+# @!attribute [rw] rejectReason
 #   @return [String, nil]
 #
-# @!attribute [rw] station_id
+# @!attribute [rw] stationId
 #   @return [String, nil]
 #
 # @!attribute [rw] status
@@ -49,17 +49,17 @@
 # @!attribute [rw] title
 #   @return [String, nil]
 AdminInbox = Struct.new(
+  :DS100,
   :active,
   :command,
-  :conflict_resolution,
-  :country_code,
-  :ds100,
+  :conflictResolution,
+  :countryCode,
   :id,
   :lat,
   :lon,
   :message,
-  :reject_reason,
-  :station_id,
+  :rejectReason,
+  :stationId,
   :status,
   :title,
   keyword_init: true
@@ -67,19 +67,19 @@ AdminInbox = Struct.new(
 
 # Request payload for AdminInbox#create.
 #
+# @!attribute [rw] DS100
+#   @return [String, nil]
+#
 # @!attribute [rw] active
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] command
 #   @return [String]
 #
-# @!attribute [rw] conflict_resolution
+# @!attribute [rw] conflictResolution
 #   @return [String, nil]
 #
-# @!attribute [rw] country_code
-#   @return [String, nil]
-#
-# @!attribute [rw] ds100
+# @!attribute [rw] countryCode
 #   @return [String, nil]
 #
 # @!attribute [rw] id
@@ -94,10 +94,10 @@ AdminInbox = Struct.new(
 # @!attribute [rw] message
 #   @return [String]
 #
-# @!attribute [rw] reject_reason
+# @!attribute [rw] rejectReason
 #   @return [String, nil]
 #
-# @!attribute [rw] station_id
+# @!attribute [rw] stationId
 #   @return [String, nil]
 #
 # @!attribute [rw] status
@@ -106,17 +106,17 @@ AdminInbox = Struct.new(
 # @!attribute [rw] title
 #   @return [String, nil]
 AdminInboxCreateData = Struct.new(
+  :DS100,
   :active,
   :command,
-  :conflict_resolution,
-  :country_code,
-  :ds100,
+  :conflictResolution,
+  :countryCode,
   :id,
   :lat,
   :lon,
   :message,
-  :reject_reason,
-  :station_id,
+  :rejectReason,
+  :stationId,
   :status,
   :title,
   keyword_init: true
@@ -127,7 +127,7 @@ AdminInboxCreateData = Struct.new(
 # @!attribute [rw] active
 #   @return [Boolean]
 #
-# @!attribute [rw] allow_photo_upload
+# @!attribute [rw] allowPhotoUploads
 #   @return [Boolean]
 #
 # @!attribute [rw] code
@@ -142,24 +142,24 @@ AdminInboxCreateData = Struct.new(
 # @!attribute [rw] name
 #   @return [String]
 #
-# @!attribute [rw] override_license
+# @!attribute [rw] overrideLicense
 #   @return [String, nil]
 #
-# @!attribute [rw] provider_app
+# @!attribute [rw] providerApps
 #   @return [Array, nil]
 #
-# @!attribute [rw] timetable_url_template
+# @!attribute [rw] timetableUrlTemplate
 #   @return [String, nil]
 Country = Struct.new(
   :active,
-  :allow_photo_upload,
+  :allowPhotoUploads,
   :code,
   :email,
   :message,
   :name,
-  :override_license,
-  :provider_app,
-  :timetable_url_template,
+  :overrideLicense,
+  :providerApps,
+  :timetableUrlTemplate,
   keyword_init: true
 )
 
@@ -168,7 +168,7 @@ Country = Struct.new(
 # @!attribute [rw] active
 #   @return [Boolean, nil]
 #
-# @!attribute [rw] allow_photo_upload
+# @!attribute [rw] allowPhotoUploads
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] code
@@ -183,24 +183,24 @@ Country = Struct.new(
 # @!attribute [rw] name
 #   @return [String, nil]
 #
-# @!attribute [rw] override_license
+# @!attribute [rw] overrideLicense
 #   @return [String, nil]
 #
-# @!attribute [rw] provider_app
+# @!attribute [rw] providerApps
 #   @return [Array, nil]
 #
-# @!attribute [rw] timetable_url_template
+# @!attribute [rw] timetableUrlTemplate
 #   @return [String, nil]
 CountryListMatch = Struct.new(
   :active,
-  :allow_photo_upload,
+  :allowPhotoUploads,
   :code,
   :email,
   :message,
   :name,
-  :override_license,
-  :provider_app,
-  :timetable_url_template,
+  :overrideLicense,
+  :providerApps,
+  :timetableUrlTemplate,
   keyword_init: true
 )
 
@@ -209,13 +209,13 @@ CountryListMatch = Struct.new(
 # @!attribute [rw] comment
 #   @return [String, nil]
 #
-# @!attribute [rw] country_code
+# @!attribute [rw] countryCode
 #   @return [String, nil]
 #
 # @!attribute [rw] crc32
 #   @return [Integer, nil]
 #
-# @!attribute [rw] created_at
+# @!attribute [rw] createdAt
 #   @return [Integer, nil]
 #
 # @!attribute [rw] filename
@@ -224,7 +224,7 @@ CountryListMatch = Struct.new(
 # @!attribute [rw] id
 #   @return [Integer]
 #
-# @!attribute [rw] inbox_url
+# @!attribute [rw] inboxUrl
 #   @return [String, nil]
 #
 # @!attribute [rw] lat
@@ -233,46 +233,46 @@ CountryListMatch = Struct.new(
 # @!attribute [rw] lon
 #   @return [Float, nil]
 #
-# @!attribute [rw] new_lat
+# @!attribute [rw] newLat
 #   @return [Float, nil]
 #
-# @!attribute [rw] new_lon
+# @!attribute [rw] newLon
 #   @return [Float, nil]
 #
-# @!attribute [rw] new_title
+# @!attribute [rw] newTitle
 #   @return [String, nil]
 #
-# @!attribute [rw] problem_report_type
+# @!attribute [rw] problemReportType
 #   @return [String, nil]
 #
-# @!attribute [rw] rejected_reason
+# @!attribute [rw] rejectedReason
 #   @return [String, nil]
 #
 # @!attribute [rw] state
 #   @return [String]
 #
-# @!attribute [rw] station_id
+# @!attribute [rw] stationId
 #   @return [String, nil]
 #
 # @!attribute [rw] title
 #   @return [String, nil]
 Inbox = Struct.new(
   :comment,
-  :country_code,
+  :countryCode,
   :crc32,
-  :created_at,
+  :createdAt,
   :filename,
   :id,
-  :inbox_url,
+  :inboxUrl,
   :lat,
   :lon,
-  :new_lat,
-  :new_lon,
-  :new_title,
-  :problem_report_type,
-  :rejected_reason,
+  :newLat,
+  :newLon,
+  :newTitle,
+  :problemReportType,
+  :rejectedReason,
   :state,
-  :station_id,
+  :stationId,
   :title,
   keyword_init: true
 )
@@ -282,13 +282,13 @@ Inbox = Struct.new(
 # @!attribute [rw] comment
 #   @return [String, nil]
 #
-# @!attribute [rw] country_code
+# @!attribute [rw] countryCode
 #   @return [String, nil]
 #
 # @!attribute [rw] crc32
 #   @return [Integer, nil]
 #
-# @!attribute [rw] created_at
+# @!attribute [rw] createdAt
 #   @return [Integer, nil]
 #
 # @!attribute [rw] filename
@@ -297,7 +297,7 @@ Inbox = Struct.new(
 # @!attribute [rw] id
 #   @return [Integer, nil]
 #
-# @!attribute [rw] inbox_url
+# @!attribute [rw] inboxUrl
 #   @return [String, nil]
 #
 # @!attribute [rw] lat
@@ -306,46 +306,46 @@ Inbox = Struct.new(
 # @!attribute [rw] lon
 #   @return [Float, nil]
 #
-# @!attribute [rw] new_lat
+# @!attribute [rw] newLat
 #   @return [Float, nil]
 #
-# @!attribute [rw] new_lon
+# @!attribute [rw] newLon
 #   @return [Float, nil]
 #
-# @!attribute [rw] new_title
+# @!attribute [rw] newTitle
 #   @return [String, nil]
 #
-# @!attribute [rw] problem_report_type
+# @!attribute [rw] problemReportType
 #   @return [String, nil]
 #
-# @!attribute [rw] rejected_reason
+# @!attribute [rw] rejectedReason
 #   @return [String, nil]
 #
 # @!attribute [rw] state
 #   @return [String, nil]
 #
-# @!attribute [rw] station_id
+# @!attribute [rw] stationId
 #   @return [String, nil]
 #
 # @!attribute [rw] title
 #   @return [String, nil]
 InboxListMatch = Struct.new(
   :comment,
-  :country_code,
+  :countryCode,
   :crc32,
-  :created_at,
+  :createdAt,
   :filename,
   :id,
-  :inbox_url,
+  :inboxUrl,
   :lat,
   :lon,
-  :new_lat,
-  :new_lon,
-  :new_title,
-  :problem_report_type,
-  :rejected_reason,
+  :newLat,
+  :newLon,
+  :newTitle,
+  :problemReportType,
+  :rejectedReason,
   :state,
-  :station_id,
+  :stationId,
   :title,
   keyword_init: true
 )
@@ -355,13 +355,13 @@ InboxListMatch = Struct.new(
 # @!attribute [rw] comment
 #   @return [String, nil]
 #
-# @!attribute [rw] country_code
+# @!attribute [rw] countryCode
 #   @return [String, nil]
 #
 # @!attribute [rw] crc32
 #   @return [Integer, nil]
 #
-# @!attribute [rw] created_at
+# @!attribute [rw] createdAt
 #   @return [Integer, nil]
 #
 # @!attribute [rw] filename
@@ -370,7 +370,7 @@ InboxListMatch = Struct.new(
 # @!attribute [rw] id
 #   @return [Integer]
 #
-# @!attribute [rw] inbox_url
+# @!attribute [rw] inboxUrl
 #   @return [String, nil]
 #
 # @!attribute [rw] lat
@@ -379,46 +379,46 @@ InboxListMatch = Struct.new(
 # @!attribute [rw] lon
 #   @return [Float, nil]
 #
-# @!attribute [rw] new_lat
+# @!attribute [rw] newLat
 #   @return [Float, nil]
 #
-# @!attribute [rw] new_lon
+# @!attribute [rw] newLon
 #   @return [Float, nil]
 #
-# @!attribute [rw] new_title
+# @!attribute [rw] newTitle
 #   @return [String, nil]
 #
-# @!attribute [rw] problem_report_type
+# @!attribute [rw] problemReportType
 #   @return [String, nil]
 #
-# @!attribute [rw] rejected_reason
+# @!attribute [rw] rejectedReason
 #   @return [String, nil]
 #
 # @!attribute [rw] state
 #   @return [String]
 #
-# @!attribute [rw] station_id
+# @!attribute [rw] stationId
 #   @return [String, nil]
 #
 # @!attribute [rw] title
 #   @return [String, nil]
 InboxCreateData = Struct.new(
   :comment,
-  :country_code,
+  :countryCode,
   :crc32,
-  :created_at,
+  :createdAt,
   :filename,
   :id,
-  :inbox_url,
+  :inboxUrl,
   :lat,
   :lon,
-  :new_lat,
-  :new_lon,
-  :new_title,
-  :problem_report_type,
-  :rejected_reason,
+  :newLat,
+  :newLon,
+  :newTitle,
+  :problemReportType,
+  :rejectedReason,
   :state,
-  :station_id,
+  :stationId,
   :title,
   keyword_init: true
 )
@@ -434,19 +434,19 @@ InboxRemoveMatch = Struct.new(
 
 # InboxCount entity data model.
 #
-# @!attribute [rw] pending_inbox_entry
+# @!attribute [rw] pendingInboxEntries
 #   @return [Integer]
 InboxCount = Struct.new(
-  :pending_inbox_entry,
+  :pendingInboxEntries,
   keyword_init: true
 )
 
 # Request payload for InboxCount#load.
 #
-# @!attribute [rw] pending_inbox_entry
+# @!attribute [rw] pendingInboxEntries
 #   @return [Integer, nil]
 InboxCountLoadMatch = Struct.new(
-  :pending_inbox_entry,
+  :pendingInboxEntries,
   keyword_init: true
 )
 
@@ -458,10 +458,10 @@ InboxCountLoadMatch = Struct.new(
 # @!attribute [rw] comment
 #   @return [String]
 #
-# @!attribute [rw] country_code
+# @!attribute [rw] countryCode
 #   @return [String, nil]
 #
-# @!attribute [rw] created_at
+# @!attribute [rw] createdAt
 #   @return [Integer]
 #
 # @!attribute [rw] done
@@ -470,19 +470,19 @@ InboxCountLoadMatch = Struct.new(
 # @!attribute [rw] filename
 #   @return [String, nil]
 #
-# @!attribute [rw] has_conflict
+# @!attribute [rw] hasConflict
 #   @return [Boolean, nil]
 #
-# @!attribute [rw] has_photo
+# @!attribute [rw] hasPhoto
 #   @return [Boolean]
 #
 # @!attribute [rw] id
 #   @return [Integer]
 #
-# @!attribute [rw] inbox_url
+# @!attribute [rw] inboxUrl
 #   @return [String, nil]
 #
-# @!attribute [rw] is_processed
+# @!attribute [rw] isProcessed
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] lat
@@ -491,28 +491,28 @@ InboxCountLoadMatch = Struct.new(
 # @!attribute [rw] lon
 #   @return [Float, nil]
 #
-# @!attribute [rw] new_lat
+# @!attribute [rw] newLat
 #   @return [Float, nil]
 #
-# @!attribute [rw] new_lon
+# @!attribute [rw] newLon
 #   @return [Float, nil]
 #
-# @!attribute [rw] new_title
+# @!attribute [rw] newTitle
 #   @return [String, nil]
 #
-# @!attribute [rw] photo_id
+# @!attribute [rw] photoId
 #   @return [Integer, nil]
 #
-# @!attribute [rw] photographer_email
+# @!attribute [rw] photographerEmail
 #   @return [String, nil]
 #
-# @!attribute [rw] photographer_nickname
+# @!attribute [rw] photographerNickname
 #   @return [String]
 #
-# @!attribute [rw] problem_report_type
+# @!attribute [rw] problemReportType
 #   @return [String, nil]
 #
-# @!attribute [rw] station_id
+# @!attribute [rw] stationId
 #   @return [String, nil]
 #
 # @!attribute [rw] title
@@ -520,25 +520,25 @@ InboxCountLoadMatch = Struct.new(
 InboxEntry = Struct.new(
   :active,
   :comment,
-  :country_code,
-  :created_at,
+  :countryCode,
+  :createdAt,
   :done,
   :filename,
-  :has_conflict,
-  :has_photo,
+  :hasConflict,
+  :hasPhoto,
   :id,
-  :inbox_url,
-  :is_processed,
+  :inboxUrl,
+  :isProcessed,
   :lat,
   :lon,
-  :new_lat,
-  :new_lon,
-  :new_title,
-  :photo_id,
-  :photographer_email,
-  :photographer_nickname,
-  :problem_report_type,
-  :station_id,
+  :newLat,
+  :newLon,
+  :newTitle,
+  :photoId,
+  :photographerEmail,
+  :photographerNickname,
+  :problemReportType,
+  :stationId,
   :title,
   keyword_init: true
 )
@@ -551,10 +551,10 @@ InboxEntry = Struct.new(
 # @!attribute [rw] comment
 #   @return [String, nil]
 #
-# @!attribute [rw] country_code
+# @!attribute [rw] countryCode
 #   @return [String, nil]
 #
-# @!attribute [rw] created_at
+# @!attribute [rw] createdAt
 #   @return [Integer, nil]
 #
 # @!attribute [rw] done
@@ -563,19 +563,19 @@ InboxEntry = Struct.new(
 # @!attribute [rw] filename
 #   @return [String, nil]
 #
-# @!attribute [rw] has_conflict
+# @!attribute [rw] hasConflict
 #   @return [Boolean, nil]
 #
-# @!attribute [rw] has_photo
+# @!attribute [rw] hasPhoto
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] id
 #   @return [Integer, nil]
 #
-# @!attribute [rw] inbox_url
+# @!attribute [rw] inboxUrl
 #   @return [String, nil]
 #
-# @!attribute [rw] is_processed
+# @!attribute [rw] isProcessed
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] lat
@@ -584,28 +584,28 @@ InboxEntry = Struct.new(
 # @!attribute [rw] lon
 #   @return [Float, nil]
 #
-# @!attribute [rw] new_lat
+# @!attribute [rw] newLat
 #   @return [Float, nil]
 #
-# @!attribute [rw] new_lon
+# @!attribute [rw] newLon
 #   @return [Float, nil]
 #
-# @!attribute [rw] new_title
+# @!attribute [rw] newTitle
 #   @return [String, nil]
 #
-# @!attribute [rw] photo_id
+# @!attribute [rw] photoId
 #   @return [Integer, nil]
 #
-# @!attribute [rw] photographer_email
+# @!attribute [rw] photographerEmail
 #   @return [String, nil]
 #
-# @!attribute [rw] photographer_nickname
+# @!attribute [rw] photographerNickname
 #   @return [String, nil]
 #
-# @!attribute [rw] problem_report_type
+# @!attribute [rw] problemReportType
 #   @return [String, nil]
 #
-# @!attribute [rw] station_id
+# @!attribute [rw] stationId
 #   @return [String, nil]
 #
 # @!attribute [rw] title
@@ -613,25 +613,25 @@ InboxEntry = Struct.new(
 InboxEntryListMatch = Struct.new(
   :active,
   :comment,
-  :country_code,
-  :created_at,
+  :countryCode,
+  :createdAt,
   :done,
   :filename,
-  :has_conflict,
-  :has_photo,
+  :hasConflict,
+  :hasPhoto,
   :id,
-  :inbox_url,
-  :is_processed,
+  :inboxUrl,
+  :isProcessed,
   :lat,
   :lon,
-  :new_lat,
-  :new_lon,
-  :new_title,
-  :photo_id,
-  :photographer_email,
-  :photographer_nickname,
-  :problem_report_type,
-  :station_id,
+  :newLat,
+  :newLon,
+  :newTitle,
+  :photoId,
+  :photographerEmail,
+  :photographerNickname,
+  :problemReportType,
+  :stationId,
   :title,
   keyword_init: true
 )
@@ -734,22 +734,22 @@ PhotoDownloadLoadMatch = Struct.new(
 
 # PhotoStation entity data model.
 #
-# @!attribute [rw] license
+# @!attribute [rw] licenses
 #   @return [Array]
 #
-# @!attribute [rw] photo_base_url
+# @!attribute [rw] photoBaseUrl
 #   @return [String]
 #
-# @!attribute [rw] photographer
+# @!attribute [rw] photographers
 #   @return [Array]
 #
-# @!attribute [rw] station
+# @!attribute [rw] stations
 #   @return [Array]
 PhotoStation = Struct.new(
-  :license,
-  :photo_base_url,
-  :photographer,
-  :station,
+  :licenses,
+  :photoBaseUrl,
+  :photographers,
+  :stations,
   keyword_init: true
 )
 
@@ -806,7 +806,7 @@ end
 # @!attribute [rw] email
 #   @return [String, nil]
 #
-# @!attribute [rw] email_verified
+# @!attribute [rw] emailVerified
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] license
@@ -815,28 +815,28 @@ end
 # @!attribute [rw] link
 #   @return [String, nil]
 #
-# @!attribute [rw] new_password
+# @!attribute [rw] newPassword
 #   @return [String]
 #
 # @!attribute [rw] nickname
 #   @return [String]
 #
-# @!attribute [rw] photo_owner
+# @!attribute [rw] photoOwner
 #   @return [Boolean]
 #
-# @!attribute [rw] send_notification
+# @!attribute [rw] sendNotifications
 #   @return [Boolean, nil]
 Profile = Struct.new(
   :admin,
   :anonymous,
   :email,
-  :email_verified,
+  :emailVerified,
   :license,
   :link,
-  :new_password,
+  :newPassword,
   :nickname,
-  :photo_owner,
-  :send_notification,
+  :photoOwner,
+  :sendNotifications,
   keyword_init: true
 )
 
@@ -860,7 +860,7 @@ ProfileLoadMatch = Struct.new(
 # @!attribute [rw] email
 #   @return [String, nil]
 #
-# @!attribute [rw] email_verified
+# @!attribute [rw] emailVerified
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] license
@@ -869,28 +869,28 @@ ProfileLoadMatch = Struct.new(
 # @!attribute [rw] link
 #   @return [String, nil]
 #
-# @!attribute [rw] new_password
+# @!attribute [rw] newPassword
 #   @return [String]
 #
 # @!attribute [rw] nickname
 #   @return [String]
 #
-# @!attribute [rw] photo_owner
+# @!attribute [rw] photoOwner
 #   @return [Boolean]
 #
-# @!attribute [rw] send_notification
+# @!attribute [rw] sendNotifications
 #   @return [Boolean, nil]
 ProfileCreateData = Struct.new(
   :admin,
   :anonymous,
   :email,
-  :email_verified,
+  :emailVerified,
   :license,
   :link,
-  :new_password,
+  :newPassword,
   :nickname,
-  :photo_owner,
-  :send_notification,
+  :photoOwner,
+  :sendNotifications,
   keyword_init: true
 )
 
@@ -905,7 +905,7 @@ ProfileCreateData = Struct.new(
 # @!attribute [rw] email
 #   @return [String, nil]
 #
-# @!attribute [rw] email_verified
+# @!attribute [rw] emailVerified
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] license
@@ -914,34 +914,34 @@ ProfileCreateData = Struct.new(
 # @!attribute [rw] link
 #   @return [String, nil]
 #
-# @!attribute [rw] new_password
+# @!attribute [rw] newPassword
 #   @return [String, nil]
 #
 # @!attribute [rw] nickname
 #   @return [String, nil]
 #
-# @!attribute [rw] photo_owner
+# @!attribute [rw] photoOwner
 #   @return [Boolean, nil]
 #
-# @!attribute [rw] send_notification
+# @!attribute [rw] sendNotifications
 #   @return [Boolean, nil]
 ProfileRemoveMatch = Struct.new(
   :admin,
   :anonymous,
   :email,
-  :email_verified,
+  :emailVerified,
   :license,
   :link,
-  :new_password,
+  :newPassword,
   :nickname,
-  :photo_owner,
-  :send_notification,
+  :photoOwner,
+  :sendNotifications,
   keyword_init: true
 )
 
 # PublicInbox entity data model.
 #
-# @!attribute [rw] country_code
+# @!attribute [rw] countryCode
 #   @return [String, nil]
 #
 # @!attribute [rw] lat
@@ -950,23 +950,23 @@ ProfileRemoveMatch = Struct.new(
 # @!attribute [rw] lon
 #   @return [Float]
 #
-# @!attribute [rw] station_id
+# @!attribute [rw] stationId
 #   @return [String, nil]
 #
 # @!attribute [rw] title
 #   @return [String]
 PublicInbox = Struct.new(
-  :country_code,
+  :countryCode,
   :lat,
   :lon,
-  :station_id,
+  :stationId,
   :title,
   keyword_init: true
 )
 
 # Request payload for PublicInbox#list.
 #
-# @!attribute [rw] country_code
+# @!attribute [rw] countryCode
 #   @return [String, nil]
 #
 # @!attribute [rw] lat
@@ -975,67 +975,67 @@ PublicInbox = Struct.new(
 # @!attribute [rw] lon
 #   @return [Float, nil]
 #
-# @!attribute [rw] station_id
+# @!attribute [rw] stationId
 #   @return [String, nil]
 #
 # @!attribute [rw] title
 #   @return [String, nil]
 PublicInboxListMatch = Struct.new(
-  :country_code,
+  :countryCode,
   :lat,
   :lon,
-  :station_id,
+  :stationId,
   :title,
   keyword_init: true
 )
 
 # Stat entity data model.
 #
-# @!attribute [rw] country_code
+# @!attribute [rw] countryCode
 #   @return [String, nil]
 #
-# @!attribute [rw] photographer
+# @!attribute [rw] photographers
 #   @return [Integer]
 #
 # @!attribute [rw] total
 #   @return [Integer]
 #
-# @!attribute [rw] with_photo
+# @!attribute [rw] withPhoto
 #   @return [Integer]
 #
-# @!attribute [rw] without_photo
+# @!attribute [rw] withoutPhoto
 #   @return [Integer]
 Stat = Struct.new(
-  :country_code,
-  :photographer,
+  :countryCode,
+  :photographers,
   :total,
-  :with_photo,
-  :without_photo,
+  :withPhoto,
+  :withoutPhoto,
   keyword_init: true
 )
 
 # Request payload for Stat#load.
 #
-# @!attribute [rw] country_code
+# @!attribute [rw] countryCode
 #   @return [String, nil]
 #
-# @!attribute [rw] photographer
+# @!attribute [rw] photographers
 #   @return [Integer, nil]
 #
 # @!attribute [rw] total
 #   @return [Integer, nil]
 #
-# @!attribute [rw] with_photo
+# @!attribute [rw] withPhoto
 #   @return [Integer, nil]
 #
-# @!attribute [rw] without_photo
+# @!attribute [rw] withoutPhoto
 #   @return [Integer, nil]
 StatLoadMatch = Struct.new(
-  :country_code,
-  :photographer,
+  :countryCode,
+  :photographers,
   :total,
-  :with_photo,
-  :without_photo,
+  :withPhoto,
+  :withoutPhoto,
   keyword_init: true
 )
 

@@ -6,12 +6,12 @@ main: kit: entity: stat: {
 
   fields: [
     {
-      name: "country_code"
+      name: "countryCode"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "photographer"
+      name: "photographers"
       req: true
       type: "`$INTEGER`"
     }
@@ -21,12 +21,12 @@ main: kit: entity: stat: {
       type: "`$INTEGER`"
     }
     {
-      name: "with_photo"
+      name: "withPhoto"
       req: true
       type: "`$INTEGER`"
     }
     {
-      name: "without_photo"
+      name: "withoutPhoto"
       req: true
       type: "`$INTEGER`"
     }

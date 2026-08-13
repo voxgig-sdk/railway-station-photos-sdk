@@ -26,8 +26,8 @@ import {
 describe('InboxEntryEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when RAILWAYSTATIONPHOTOS_TEST_LIVE=TRUE.
-  afterEach(liveDelay('RAILWAYSTATIONPHOTOS_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when RAILWAY_STATION_PHOTOS_TEST_LIVE=TRUE.
+  afterEach(liveDelay('RAILWAY_STATION_PHOTOS_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = RailwayStationPhotosSDK.test()
@@ -63,7 +63,7 @@ describe('InboxEntryEntity', async () => {
     const inbox_entry_ref01_ent = client.InboxEntry()
     const inbox_entry_ref01_match: any = {}
 
-    const inbox_entry_ref01_list = await inbox_entry_ref01_ent.list(inbox_entry_ref01_match)
+    const inbox_entry_ref01_list = (await inbox_entry_ref01_ent.list(inbox_entry_ref01_match)).map((e: any) => e.data())
 
 
   })

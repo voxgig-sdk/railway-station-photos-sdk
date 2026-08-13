@@ -65,11 +65,11 @@ function photographer_direct_setup($mockres)
     $calls = new \ArrayObject();
 
     $env = Runner::env_override([
-        "RAILWAYSTATIONPHOTOS_TEST_PHOTOGRAPHER_ENTID" => [],
-        "RAILWAYSTATIONPHOTOS_TEST_LIVE" => "FALSE",
+        "RAILWAY_STATION_PHOTOS_TEST_PHOTOGRAPHER_ENTID" => [],
+        "RAILWAY_STATION_PHOTOS_TEST_LIVE" => "FALSE",
     ]);
 
-    $live = $env["RAILWAYSTATIONPHOTOS_TEST_LIVE"] === "TRUE";
+    $live = $env["RAILWAY_STATION_PHOTOS_TEST_LIVE"] === "TRUE";
 
     if ($live) {
         $merged_opts = [

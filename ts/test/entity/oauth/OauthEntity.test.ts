@@ -26,8 +26,8 @@ import {
 describe('OauthEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when RAILWAYSTATIONPHOTOS_TEST_LIVE=TRUE.
-  afterEach(liveDelay('RAILWAYSTATIONPHOTOS_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when RAILWAY_STATION_PHOTOS_TEST_LIVE=TRUE.
+  afterEach(liveDelay('RAILWAY_STATION_PHOTOS_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = RailwayStationPhotosSDK.test()
@@ -62,13 +62,13 @@ describe('OauthEntity', async () => {
     const oauth_ref01_ent = client.Oauth()
     let oauth_ref01_data = setup.data.new.oauth['oauth_ref01']
 
-    oauth_ref01_data = await oauth_ref01_ent.create(oauth_ref01_data)
+    oauth_ref01_data = (await oauth_ref01_ent.create(oauth_ref01_data)).data()
     assert(null != oauth_ref01_data)
 
 
     // LOAD
     const oauth_ref01_match_dt0: any = {}
-    const oauth_ref01_data_dt0 = await oauth_ref01_ent.load(oauth_ref01_match_dt0)
+    const oauth_ref01_data_dt0 = (await oauth_ref01_ent.load(oauth_ref01_match_dt0)).data()
     assert(null != oauth_ref01_data_dt0)
 
 

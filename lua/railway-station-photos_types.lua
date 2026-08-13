@@ -7,169 +7,169 @@
 -- edit by hand.
 
 ---@class AdminInbox
+---@field DS100? string
 ---@field active? boolean
 ---@field command string
----@field conflict_resolution? string
----@field country_code? string
----@field ds100? string
+---@field conflictResolution? string
+---@field countryCode? string
 ---@field id number
 ---@field lat? number
 ---@field lon? number
 ---@field message string
----@field reject_reason? string
----@field station_id? string
+---@field rejectReason? string
+---@field stationId? string
 ---@field status number
 ---@field title? string
 
 ---@class AdminInboxCreateData
+---@field DS100? string
 ---@field active? boolean
 ---@field command string
----@field conflict_resolution? string
----@field country_code? string
----@field ds100? string
+---@field conflictResolution? string
+---@field countryCode? string
 ---@field id number
 ---@field lat? number
 ---@field lon? number
 ---@field message string
----@field reject_reason? string
----@field station_id? string
+---@field rejectReason? string
+---@field stationId? string
 ---@field status number
 ---@field title? string
 
 ---@class Country
 ---@field active boolean
----@field allow_photo_upload boolean
+---@field allowPhotoUploads boolean
 ---@field code string
 ---@field email? string
 ---@field message? string
 ---@field name string
----@field override_license? string
----@field provider_app? table
----@field timetable_url_template? string
+---@field overrideLicense? string
+---@field providerApps? table
+---@field timetableUrlTemplate? string
 
 ---@class CountryListMatch
 ---@field active? boolean
----@field allow_photo_upload? boolean
+---@field allowPhotoUploads? boolean
 ---@field code? string
 ---@field email? string
 ---@field message? string
 ---@field name? string
----@field override_license? string
----@field provider_app? table
----@field timetable_url_template? string
+---@field overrideLicense? string
+---@field providerApps? table
+---@field timetableUrlTemplate? string
 
 ---@class Inbox
 ---@field comment? string
----@field country_code? string
+---@field countryCode? string
 ---@field crc32? number
----@field created_at? number
+---@field createdAt? number
 ---@field filename? string
 ---@field id number
----@field inbox_url? string
+---@field inboxUrl? string
 ---@field lat? number
 ---@field lon? number
----@field new_lat? number
----@field new_lon? number
----@field new_title? string
----@field problem_report_type? string
----@field rejected_reason? string
+---@field newLat? number
+---@field newLon? number
+---@field newTitle? string
+---@field problemReportType? string
+---@field rejectedReason? string
 ---@field state string
----@field station_id? string
+---@field stationId? string
 ---@field title? string
 
 ---@class InboxListMatch
 ---@field comment? string
----@field country_code? string
+---@field countryCode? string
 ---@field crc32? number
----@field created_at? number
+---@field createdAt? number
 ---@field filename? string
 ---@field id? number
----@field inbox_url? string
+---@field inboxUrl? string
 ---@field lat? number
 ---@field lon? number
----@field new_lat? number
----@field new_lon? number
----@field new_title? string
----@field problem_report_type? string
----@field rejected_reason? string
+---@field newLat? number
+---@field newLon? number
+---@field newTitle? string
+---@field problemReportType? string
+---@field rejectedReason? string
 ---@field state? string
----@field station_id? string
+---@field stationId? string
 ---@field title? string
 
 ---@class InboxCreateData
 ---@field comment? string
----@field country_code? string
+---@field countryCode? string
 ---@field crc32? number
----@field created_at? number
+---@field createdAt? number
 ---@field filename? string
 ---@field id number
----@field inbox_url? string
+---@field inboxUrl? string
 ---@field lat? number
 ---@field lon? number
----@field new_lat? number
----@field new_lon? number
----@field new_title? string
----@field problem_report_type? string
----@field rejected_reason? string
+---@field newLat? number
+---@field newLon? number
+---@field newTitle? string
+---@field problemReportType? string
+---@field rejectedReason? string
 ---@field state string
----@field station_id? string
+---@field stationId? string
 ---@field title? string
 
 ---@class InboxRemoveMatch
 ---@field id number
 
 ---@class InboxCount
----@field pending_inbox_entry number
+---@field pendingInboxEntries number
 
 ---@class InboxCountLoadMatch
----@field pending_inbox_entry? number
+---@field pendingInboxEntries? number
 
 ---@class InboxEntry
 ---@field active? boolean
 ---@field comment string
----@field country_code? string
----@field created_at number
+---@field countryCode? string
+---@field createdAt number
 ---@field done boolean
 ---@field filename? string
----@field has_conflict? boolean
----@field has_photo boolean
+---@field hasConflict? boolean
+---@field hasPhoto boolean
 ---@field id number
----@field inbox_url? string
----@field is_processed? boolean
+---@field inboxUrl? string
+---@field isProcessed? boolean
 ---@field lat? number
 ---@field lon? number
----@field new_lat? number
----@field new_lon? number
----@field new_title? string
----@field photo_id? number
----@field photographer_email? string
----@field photographer_nickname string
----@field problem_report_type? string
----@field station_id? string
+---@field newLat? number
+---@field newLon? number
+---@field newTitle? string
+---@field photoId? number
+---@field photographerEmail? string
+---@field photographerNickname string
+---@field problemReportType? string
+---@field stationId? string
 ---@field title? string
 
 ---@class InboxEntryListMatch
 ---@field active? boolean
 ---@field comment? string
----@field country_code? string
----@field created_at? number
+---@field countryCode? string
+---@field createdAt? number
 ---@field done? boolean
 ---@field filename? string
----@field has_conflict? boolean
----@field has_photo? boolean
+---@field hasConflict? boolean
+---@field hasPhoto? boolean
 ---@field id? number
----@field inbox_url? string
----@field is_processed? boolean
+---@field inboxUrl? string
+---@field isProcessed? boolean
 ---@field lat? number
 ---@field lon? number
----@field new_lat? number
----@field new_lon? number
----@field new_title? string
----@field photo_id? number
----@field photographer_email? string
----@field photographer_nickname? string
----@field problem_report_type? string
----@field station_id? string
+---@field newLat? number
+---@field newLon? number
+---@field newTitle? string
+---@field photoId? number
+---@field photographerEmail? string
+---@field photographerNickname? string
+---@field problemReportType? string
+---@field stationId? string
 ---@field title? string
 
 ---@class InboxStateQuery
@@ -206,10 +206,10 @@
 ---@field filename string
 
 ---@class PhotoStation
----@field license table
----@field photo_base_url string
----@field photographer table
----@field station table
+---@field licenses table
+---@field photoBaseUrl string
+---@field photographers table
+---@field stations table
 
 ---@class PhotoStationLoadMatch
 ---@field country? string
@@ -231,13 +231,13 @@
 ---@field admin? boolean
 ---@field anonymous? boolean
 ---@field email? string
----@field email_verified? boolean
+---@field emailVerified? boolean
 ---@field license string
 ---@field link? string
----@field new_password string
+---@field newPassword string
 ---@field nickname string
----@field photo_owner boolean
----@field send_notification? boolean
+---@field photoOwner boolean
+---@field sendNotifications? boolean
 
 ---@class ProfileLoadMatch
 ---@field token? string
@@ -246,53 +246,53 @@
 ---@field admin? boolean
 ---@field anonymous? boolean
 ---@field email? string
----@field email_verified? boolean
+---@field emailVerified? boolean
 ---@field license string
 ---@field link? string
----@field new_password string
+---@field newPassword string
 ---@field nickname string
----@field photo_owner boolean
----@field send_notification? boolean
+---@field photoOwner boolean
+---@field sendNotifications? boolean
 
 ---@class ProfileRemoveMatch
 ---@field admin? boolean
 ---@field anonymous? boolean
 ---@field email? string
----@field email_verified? boolean
+---@field emailVerified? boolean
 ---@field license? string
 ---@field link? string
----@field new_password? string
+---@field newPassword? string
 ---@field nickname? string
----@field photo_owner? boolean
----@field send_notification? boolean
+---@field photoOwner? boolean
+---@field sendNotifications? boolean
 
 ---@class PublicInbox
----@field country_code? string
+---@field countryCode? string
 ---@field lat number
 ---@field lon number
----@field station_id? string
+---@field stationId? string
 ---@field title string
 
 ---@class PublicInboxListMatch
----@field country_code? string
+---@field countryCode? string
 ---@field lat? number
 ---@field lon? number
----@field station_id? string
+---@field stationId? string
 ---@field title? string
 
 ---@class Stat
----@field country_code? string
----@field photographer number
+---@field countryCode? string
+---@field photographers number
 ---@field total number
----@field with_photo number
----@field without_photo number
+---@field withPhoto number
+---@field withoutPhoto number
 
 ---@class StatLoadMatch
----@field country_code? string
----@field photographer? number
+---@field countryCode? string
+---@field photographers? number
 ---@field total? number
----@field with_photo? number
----@field without_photo? number
+---@field withPhoto? number
+---@field withoutPhoto? number
 
 local M = {}
 

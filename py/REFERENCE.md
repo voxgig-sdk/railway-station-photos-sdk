@@ -147,17 +147,17 @@ admin_inbox = client.AdminInbox()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `DS100` | `str` | No |  |
 | `active` | `bool` | No |  |
 | `command` | `str` | Yes |  |
-| `conflict_resolution` | `str` | No |  |
-| `country_code` | `str` | No |  |
-| `ds100` | `str` | No |  |
+| `conflictResolution` | `str` | No |  |
+| `countryCode` | `str` | No |  |
 | `id` | `int` | Yes |  |
 | `lat` | `float` | No |  |
 | `lon` | `float` | No |  |
 | `message` | `str` | Yes |  |
-| `reject_reason` | `str` | No |  |
-| `station_id` | `str` | No |  |
+| `rejectReason` | `str` | No |  |
+| `stationId` | `str` | No |  |
 | `status` | `int` | Yes |  |
 | `title` | `str` | No |  |
 
@@ -216,14 +216,14 @@ country = client.Country()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `active` | `bool` | Yes |  |
-| `allow_photo_upload` | `bool` | Yes |  |
+| `allowPhotoUploads` | `bool` | Yes |  |
 | `code` | `str` | Yes |  |
 | `email` | `str` | No |  |
 | `message` | `str` | No |  |
 | `name` | `str` | Yes |  |
-| `override_license` | `str` | No |  |
-| `provider_app` | `list` | No |  |
-| `timetable_url_template` | `str` | No |  |
+| `overrideLicense` | `str` | No |  |
+| `providerApps` | `list` | No |  |
+| `timetableUrlTemplate` | `str` | No |  |
 
 ### Operations
 
@@ -277,21 +277,21 @@ inbox = client.Inbox()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `comment` | `str` | No |  |
-| `country_code` | `str` | No |  |
+| `countryCode` | `str` | No |  |
 | `crc32` | `int` | No |  |
-| `created_at` | `int` | No |  |
+| `createdAt` | `int` | No |  |
 | `filename` | `str` | No |  |
 | `id` | `int` | Yes |  |
-| `inbox_url` | `str` | No |  |
+| `inboxUrl` | `str` | No |  |
 | `lat` | `float` | No |  |
 | `lon` | `float` | No |  |
-| `new_lat` | `float` | No |  |
-| `new_lon` | `float` | No |  |
-| `new_title` | `str` | No |  |
-| `problem_report_type` | `str` | No |  |
-| `rejected_reason` | `str` | No |  |
+| `newLat` | `float` | No |  |
+| `newLon` | `float` | No |  |
+| `newTitle` | `str` | No |  |
+| `problemReportType` | `str` | No |  |
+| `rejectedReason` | `str` | No |  |
 | `state` | `str` | Yes |  |
-| `station_id` | `str` | No |  |
+| `stationId` | `str` | No |  |
 | `title` | `str` | No |  |
 
 ### Operations
@@ -364,7 +364,7 @@ inbox_count = client.InboxCount()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `pending_inbox_entry` | `int` | Yes |  |
+| `pendingInboxEntries` | `int` | Yes |  |
 
 ### Operations
 
@@ -417,25 +417,25 @@ inbox_entry = client.InboxEntry()
 | --- | --- | --- | --- |
 | `active` | `bool` | No |  |
 | `comment` | `str` | Yes |  |
-| `country_code` | `str` | No |  |
-| `created_at` | `int` | Yes |  |
+| `countryCode` | `str` | No |  |
+| `createdAt` | `int` | Yes |  |
 | `done` | `bool` | Yes |  |
 | `filename` | `str` | No |  |
-| `has_conflict` | `bool` | No |  |
-| `has_photo` | `bool` | Yes |  |
+| `hasConflict` | `bool` | No |  |
+| `hasPhoto` | `bool` | Yes |  |
 | `id` | `int` | Yes |  |
-| `inbox_url` | `str` | No |  |
-| `is_processed` | `bool` | No |  |
+| `inboxUrl` | `str` | No |  |
+| `isProcessed` | `bool` | No |  |
 | `lat` | `float` | No |  |
 | `lon` | `float` | No |  |
-| `new_lat` | `float` | No |  |
-| `new_lon` | `float` | No |  |
-| `new_title` | `str` | No |  |
-| `photo_id` | `int` | No |  |
-| `photographer_email` | `str` | No |  |
-| `photographer_nickname` | `str` | Yes |  |
-| `problem_report_type` | `str` | No |  |
-| `station_id` | `str` | No |  |
+| `newLat` | `float` | No |  |
+| `newLon` | `float` | No |  |
+| `newTitle` | `str` | No |  |
+| `photoId` | `int` | No |  |
+| `photographerEmail` | `str` | No |  |
+| `photographerNickname` | `str` | Yes |  |
+| `problemReportType` | `str` | No |  |
+| `stationId` | `str` | No |  |
 | `title` | `str` | No |  |
 
 ### Operations
@@ -727,10 +727,10 @@ photo_station = client.PhotoStation()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `license` | `list` | Yes |  |
-| `photo_base_url` | `str` | Yes |  |
-| `photographer` | `list` | Yes |  |
-| `station` | `list` | Yes |  |
+| `licenses` | `list` | Yes |  |
+| `photoBaseUrl` | `str` | Yes |  |
+| `photographers` | `list` | Yes |  |
+| `stations` | `list` | Yes |  |
 
 ### Operations
 
@@ -885,13 +885,13 @@ profile = client.Profile()
 | `admin` | `bool` | No |  |
 | `anonymous` | `bool` | No |  |
 | `email` | `str` | No |  |
-| `email_verified` | `bool` | No |  |
+| `emailVerified` | `bool` | No |  |
 | `license` | `str` | Yes |  |
 | `link` | `str` | No |  |
-| `new_password` | `str` | Yes |  |
+| `newPassword` | `str` | Yes |  |
 | `nickname` | `str` | Yes |  |
-| `photo_owner` | `bool` | Yes |  |
-| `send_notification` | `bool` | No |  |
+| `photoOwner` | `bool` | Yes |  |
+| `sendNotifications` | `bool` | No |  |
 
 ### Field Usage by Operation
 
@@ -900,13 +900,13 @@ profile = client.Profile()
 | `admin` | - | - | - |
 | `anonymous` | - | - | - |
 | `email` | - | Yes | - |
-| `email_verified` | - | - | - |
+| `emailVerified` | - | - | - |
 | `license` | - | Yes | - |
 | `link` | - | - | - |
-| `new_password` | - | - | - |
+| `newPassword` | - | - | - |
 | `nickname` | - | - | - |
-| `photo_owner` | - | Yes | - |
-| `send_notification` | - | - | - |
+| `photoOwner` | - | Yes | - |
+| `sendNotifications` | - | - | - |
 
 ### Operations
 
@@ -917,9 +917,9 @@ Create a new entity with the given data. Returns the created entity data and rai
 ```python
 result = client.Profile().create({
     "license": "example_license",  # str
-    "new_password": "example_new_password",  # str
+    "newPassword": "example_newPassword",  # str
     "nickname": "example_nickname",  # str
-    "photo_owner": True,  # bool
+    "photoOwner": True,  # bool
 })
 ```
 
@@ -978,10 +978,10 @@ public_inbox = client.PublicInbox()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `country_code` | `str` | No |  |
+| `countryCode` | `str` | No |  |
 | `lat` | `float` | Yes |  |
 | `lon` | `float` | Yes |  |
-| `station_id` | `str` | No |  |
+| `stationId` | `str` | No |  |
 | `title` | `str` | Yes |  |
 
 ### Operations
@@ -1035,11 +1035,11 @@ stat = client.Stat()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `country_code` | `str` | No |  |
-| `photographer` | `int` | Yes |  |
+| `countryCode` | `str` | No |  |
+| `photographers` | `int` | Yes |  |
 | `total` | `int` | Yes |  |
-| `with_photo` | `int` | Yes |  |
-| `without_photo` | `int` | Yes |  |
+| `withPhoto` | `int` | Yes |  |
+| `withoutPhoto` | `int` | Yes |  |
 
 ### Operations
 

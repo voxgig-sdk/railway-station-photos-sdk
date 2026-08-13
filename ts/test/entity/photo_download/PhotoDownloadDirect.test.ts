@@ -19,11 +19,15 @@ import {
 describe('PhotoDownloadDirect', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when RAILWAYSTATIONPHOTOS_TEST_LIVE=TRUE.
-  afterEach(liveDelay('RAILWAYSTATIONPHOTOS_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when RAILWAY_STATION_PHOTOS_TEST_LIVE=TRUE.
+  afterEach(liveDelay('RAILWAY_STATION_PHOTOS_TEST_LIVE'))
 
   test('direct-exists', async () => {
     const sdk = new RailwayStationPhotosSDK({
+      // Concrete base: a live construction must satisfy any server
+      // variables a templated base URL declares; overriding base with a
+      // literal (as the direct flow tests do) sidesteps the requirement.
+      base: 'http://localhost:8080',
       system: { fetch: async () => ({}) }
     })
     assert('function' === typeof sdk.direct)
@@ -78,17 +82,17 @@ function directSetup(mockres?: any) {
   const calls: any[] = []
 
   const env = envOverride({
-    'RAILWAYSTATIONPHOTOS_TEST_PHOTO_DOWNLOAD_ENTID': {},
-    'RAILWAYSTATIONPHOTOS_TEST_LIVE': 'FALSE',
+    'RAILWAY_STATION_PHOTOS_TEST_PHOTO_DOWNLOAD_ENTID': {},
+    'RAILWAY_STATION_PHOTOS_TEST_LIVE': 'FALSE',
   })
 
-  const live = 'TRUE' === env.RAILWAYSTATIONPHOTOS_TEST_LIVE
+  const live = 'TRUE' === env.RAILWAY_STATION_PHOTOS_TEST_LIVE
 
   if (live) {
     const client = new RailwayStationPhotosSDK({
     })
 
-    let idmap: any = env['RAILWAYSTATIONPHOTOS_TEST_PHOTO_DOWNLOAD_ENTID']
+    let idmap: any = env['RAILWAY_STATION_PHOTOS_TEST_PHOTO_DOWNLOAD_ENTID']
     if ('string' === typeof idmap && idmap.startsWith('{')) {
       idmap = JSON.parse(idmap)
     }

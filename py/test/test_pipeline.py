@@ -16,11 +16,11 @@
 import pytest
 
 from railwaystationphotos_sdk import RailwayStationPhotosSDK
-from core.error import RailwayStationPhotosError
-from core.result import RailwayStationPhotosResult
-from core.response import RailwayStationPhotosResponse
-from core.spec import RailwayStationPhotosSpec
-from feature.base_feature import RailwayStationPhotosBaseFeature
+from railwaystationphotos_sdk.core.error import RailwayStationPhotosError
+from railwaystationphotos_sdk.core.result import RailwayStationPhotosResult
+from railwaystationphotos_sdk.core.response import RailwayStationPhotosResponse
+from railwaystationphotos_sdk.core.spec import RailwayStationPhotosSpec
+from railwaystationphotos_sdk.feature.base_feature import RailwayStationPhotosBaseFeature
 
 
 def _client():

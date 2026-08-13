@@ -43,8 +43,8 @@ class RailwayStationPhotosTestRunner
 
     public static function env_override(array $m): array
     {
-        $live = self::getenv('RAILWAYSTATIONPHOTOS_TEST_LIVE');
-        $override = self::getenv('RAILWAYSTATIONPHOTOS_TEST_OVERRIDE');
+        $live = self::getenv('RAILWAY_STATION_PHOTOS_TEST_LIVE');
+        $override = self::getenv('RAILWAY_STATION_PHOTOS_TEST_OVERRIDE');
 
         if ($live === 'TRUE' || $override === 'TRUE') {
             foreach (array_keys($m) as $key) {
@@ -63,9 +63,9 @@ class RailwayStationPhotosTestRunner
             }
         }
 
-        $explain = self::getenv('RAILWAYSTATIONPHOTOS_TEST_EXPLAIN');
+        $explain = self::getenv('RAILWAY_STATION_PHOTOS_TEST_EXPLAIN');
         if ($explain !== null && $explain !== '') {
-            $m['RAILWAYSTATIONPHOTOS_TEST_EXPLAIN'] = $explain;
+            $m['RAILWAY_STATION_PHOTOS_TEST_EXPLAIN'] = $explain;
         }
 
         return $m;

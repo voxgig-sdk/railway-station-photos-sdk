@@ -2,27 +2,27 @@
   "existing": {
     "stat": {
       "STAT00": {
-        "country_code": "s32",
-        "photographer": "s33",
+        "countryCode": "s32",
+        "photographers": "s33",
         "total": "s34",
-        "with_photo": "s35",
-        "without_photo": "s36",
+        "withPhoto": "s35",
+        "withoutPhoto": "s36",
         "id": "STAT00"
       },
       "STAT01": {
-        "country_code": "s64",
-        "photographer": "s65",
+        "countryCode": "s64",
+        "photographers": "s65",
         "total": "s66",
-        "with_photo": "s67",
-        "without_photo": "s68",
+        "withPhoto": "s67",
+        "withoutPhoto": "s68",
         "id": "STAT01"
       },
       "STAT02": {
-        "country_code": "s96",
-        "photographer": "s97",
+        "countryCode": "s96",
+        "photographers": "s97",
         "total": "s98",
-        "with_photo": "s99",
-        "without_photo": "s9a",
+        "withPhoto": "s99",
+        "withoutPhoto": "s9a",
         "id": "STAT02"
       }
     }
@@ -30,11 +30,11 @@
   "new": {
     "stat": {
       "stat_ref01": {
-        "country_code": "sc8",
-        "photographer": "sc9",
+        "countryCode": "sc8",
+        "photographers": "sc9",
         "total": "sca",
-        "with_photo": "scb",
-        "without_photo": "scc"
+        "withPhoto": "scb",
+        "withoutPhoto": "scc"
       }
     }
   }

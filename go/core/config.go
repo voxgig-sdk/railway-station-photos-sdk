@@ -41,35 +41,35 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
+						"name": "DS100",
+						"req": false,
+						"type": "`$STRING`",
+						"index$": 0,
+					},
+					map[string]any{
+						"active": true,
 						"name": "active",
 						"req": false,
 						"type": "`$BOOLEAN`",
-						"index$": 0,
+						"index$": 1,
 					},
 					map[string]any{
 						"active": true,
 						"name": "command",
 						"req": true,
 						"type": "`$STRING`",
-						"index$": 1,
-					},
-					map[string]any{
-						"active": true,
-						"name": "conflict_resolution",
-						"req": false,
-						"type": "`$STRING`",
 						"index$": 2,
 					},
 					map[string]any{
 						"active": true,
-						"name": "country_code",
+						"name": "conflictResolution",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 3,
 					},
 					map[string]any{
 						"active": true,
-						"name": "ds100",
+						"name": "countryCode",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 4,
@@ -104,14 +104,14 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "reject_reason",
+						"name": "rejectReason",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 9,
 					},
 					map[string]any{
 						"active": true,
-						"name": "station_id",
+						"name": "stationId",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 10,
@@ -151,6 +151,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/adminInbox",
 								"parts": []any{
@@ -168,7 +169,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "create",
 					},
 				},
 				"relations": map[string]any{
@@ -186,7 +186,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "allow_photo_upload",
+						"name": "allowPhotoUploads",
 						"req": true,
 						"type": "`$BOOLEAN`",
 						"index$": 1,
@@ -221,21 +221,21 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "override_license",
+						"name": "overrideLicense",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 6,
 					},
 					map[string]any{
 						"active": true,
-						"name": "provider_app",
+						"name": "providerApps",
 						"req": false,
 						"type": "`$ARRAY`",
 						"index$": 7,
 					},
 					map[string]any{
 						"active": true,
-						"name": "timetable_url_template",
+						"name": "timetableUrlTemplate",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 8,
@@ -261,6 +261,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/countries",
 								"parts": []any{
@@ -278,7 +279,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 				},
 				"relations": map[string]any{
@@ -296,7 +296,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "country_code",
+						"name": "countryCode",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 1,
@@ -310,7 +310,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "created_at",
+						"name": "createdAt",
 						"req": false,
 						"type": "`$INTEGER`",
 						"index$": 3,
@@ -331,7 +331,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "inbox_url",
+						"name": "inboxUrl",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 6,
@@ -352,35 +352,35 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "new_lat",
+						"name": "newLat",
 						"req": false,
 						"type": "`$NUMBER`",
 						"index$": 9,
 					},
 					map[string]any{
 						"active": true,
-						"name": "new_lon",
+						"name": "newLon",
 						"req": false,
 						"type": "`$NUMBER`",
 						"index$": 10,
 					},
 					map[string]any{
 						"active": true,
-						"name": "new_title",
+						"name": "newTitle",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 11,
 					},
 					map[string]any{
 						"active": true,
-						"name": "problem_report_type",
+						"name": "problemReportType",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 12,
 					},
 					map[string]any{
 						"active": true,
-						"name": "rejected_reason",
+						"name": "rejectedReason",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 13,
@@ -394,7 +394,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "station_id",
+						"name": "stationId",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 15,
@@ -427,6 +427,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/reportProblem",
 								"parts": []any{
@@ -457,6 +458,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/userInbox",
 								"parts": []any{
@@ -474,7 +476,6 @@ func MakeConfig() map[string]any {
 								"index$": 1,
 							},
 						},
-						"key$": "create",
 					},
 					"list": map[string]any{
 						"input": "data",
@@ -504,6 +505,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/userInbox",
 								"parts": []any{
@@ -522,7 +524,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 					"remove": map[string]any{
 						"input": "data",
@@ -543,6 +544,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "DELETE",
 								"orig": "/userInbox/{id}",
 								"parts": []any{
@@ -561,7 +563,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "remove",
 					},
 				},
 				"relations": map[string]any{
@@ -572,7 +573,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "pending_inbox_entry",
+						"name": "pendingInboxEntries",
 						"req": true,
 						"type": "`$INTEGER`",
 						"index$": 0,
@@ -587,6 +588,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/adminInboxCount",
 								"parts": []any{
@@ -600,7 +602,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -625,14 +626,14 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "country_code",
+						"name": "countryCode",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 2,
 					},
 					map[string]any{
 						"active": true,
-						"name": "created_at",
+						"name": "createdAt",
 						"req": true,
 						"type": "`$INTEGER`",
 						"index$": 3,
@@ -653,14 +654,14 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "has_conflict",
+						"name": "hasConflict",
 						"req": false,
 						"type": "`$BOOLEAN`",
 						"index$": 6,
 					},
 					map[string]any{
 						"active": true,
-						"name": "has_photo",
+						"name": "hasPhoto",
 						"req": true,
 						"type": "`$BOOLEAN`",
 						"index$": 7,
@@ -674,14 +675,14 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "inbox_url",
+						"name": "inboxUrl",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 9,
 					},
 					map[string]any{
 						"active": true,
-						"name": "is_processed",
+						"name": "isProcessed",
 						"req": false,
 						"type": "`$BOOLEAN`",
 						"index$": 10,
@@ -702,56 +703,56 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "new_lat",
+						"name": "newLat",
 						"req": false,
 						"type": "`$NUMBER`",
 						"index$": 13,
 					},
 					map[string]any{
 						"active": true,
-						"name": "new_lon",
+						"name": "newLon",
 						"req": false,
 						"type": "`$NUMBER`",
 						"index$": 14,
 					},
 					map[string]any{
 						"active": true,
-						"name": "new_title",
+						"name": "newTitle",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 15,
 					},
 					map[string]any{
 						"active": true,
-						"name": "photo_id",
+						"name": "photoId",
 						"req": false,
 						"type": "`$INTEGER`",
 						"index$": 16,
 					},
 					map[string]any{
 						"active": true,
-						"name": "photographer_email",
+						"name": "photographerEmail",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 17,
 					},
 					map[string]any{
 						"active": true,
-						"name": "photographer_nickname",
+						"name": "photographerNickname",
 						"req": true,
 						"type": "`$STRING`",
 						"index$": 18,
 					},
 					map[string]any{
 						"active": true,
-						"name": "problem_report_type",
+						"name": "problemReportType",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 19,
 					},
 					map[string]any{
 						"active": true,
-						"name": "station_id",
+						"name": "stationId",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 20,
@@ -784,6 +785,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/adminInbox",
 								"parts": []any{
@@ -801,7 +803,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 				},
 				"relations": map[string]any{
@@ -874,6 +875,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/oauth2/token",
 								"parts": []any{
@@ -892,7 +894,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "create",
 					},
 				},
 				"relations": map[string]any{
@@ -921,6 +922,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/oauth2/revoke",
 								"parts": []any{
@@ -939,7 +941,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "create",
 					},
 					"load": map[string]any{
 						"input": "data",
@@ -1007,6 +1008,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/oauth2/authorize",
 								"parts": []any{
@@ -1031,7 +1033,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -1080,6 +1081,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/photos/{country}/{filename}",
 								"parts": []any{
@@ -1101,7 +1103,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -1145,6 +1146,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/inbox/done/{filename}",
 								"parts": []any{
@@ -1189,6 +1191,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/inbox/processed/{filename}",
 								"parts": []any{
@@ -1233,6 +1236,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/inbox/rejected/{filename}",
 								"parts": []any{
@@ -1277,6 +1281,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/inbox/{filename}",
 								"parts": []any{
@@ -1296,7 +1301,6 @@ func MakeConfig() map[string]any {
 								"index$": 3,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -1320,28 +1324,28 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "license",
+						"name": "licenses",
 						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 0,
 					},
 					map[string]any{
 						"active": true,
-						"name": "photo_base_url",
+						"name": "photoBaseUrl",
 						"req": true,
 						"type": "`$STRING`",
 						"index$": 1,
 					},
 					map[string]any{
 						"active": true,
-						"name": "photographer",
+						"name": "photographers",
 						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 2,
 					},
 					map[string]any{
 						"active": true,
-						"name": "station",
+						"name": "stations",
 						"req": true,
 						"type": "`$ARRAY`",
 						"index$": 3,
@@ -1377,6 +1381,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/photoStationById/{country}/{id}",
 								"parts": []any{
@@ -1411,6 +1416,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/photoStationsByRecentPhotoImports",
 								"parts": []any{
@@ -1428,7 +1434,6 @@ func MakeConfig() map[string]any {
 								"index$": 1,
 							},
 						},
-						"key$": "list",
 					},
 					"load": map[string]any{
 						"input": "data",
@@ -1467,6 +1472,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/photoStationsByCountry/{country}",
 								"parts": []any{
@@ -1511,6 +1517,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/photoStationsByPhotographer/{photographer}",
 								"parts": []any{
@@ -1530,7 +1537,6 @@ func MakeConfig() map[string]any {
 								"index$": 1,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -1633,6 +1639,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/photoUpload",
 								"parts": []any{
@@ -1658,7 +1665,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "create",
 					},
 				},
 				"relations": map[string]any{
@@ -1687,6 +1693,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/photographers",
 								"parts": []any{
@@ -1704,7 +1711,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -1742,7 +1748,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "email_verified",
+						"name": "emailVerified",
 						"req": false,
 						"type": "`$BOOLEAN`",
 						"index$": 3,
@@ -1769,7 +1775,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "new_password",
+						"name": "newPassword",
 						"req": true,
 						"type": "`$STRING`",
 						"index$": 6,
@@ -1783,7 +1789,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "photo_owner",
+						"name": "photoOwner",
 						"op": map[string]any{
 							"create": map[string]any{
 								"req": false,
@@ -1796,7 +1802,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "send_notification",
+						"name": "sendNotifications",
 						"req": false,
 						"type": "`$BOOLEAN`",
 						"index$": 9,
@@ -1822,6 +1828,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/changePassword",
 								"parts": []any{
@@ -1852,6 +1859,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/myProfile",
 								"parts": []any{
@@ -1882,6 +1890,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/resendEmailVerification",
 								"parts": []any{
@@ -1899,7 +1908,6 @@ func MakeConfig() map[string]any {
 								"index$": 2,
 							},
 						},
-						"key$": "create",
 					},
 					"load": map[string]any{
 						"input": "data",
@@ -1919,6 +1927,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/myProfile",
 								"parts": []any{
@@ -1950,6 +1959,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/emailVerification/{token}",
 								"parts": []any{
@@ -1968,7 +1978,6 @@ func MakeConfig() map[string]any {
 								"index$": 1,
 							},
 						},
-						"key$": "load",
 					},
 					"remove": map[string]any{
 						"input": "data",
@@ -1988,6 +1997,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "DELETE",
 								"orig": "/myProfile",
 								"parts": []any{
@@ -2005,7 +2015,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "remove",
 					},
 				},
 				"relations": map[string]any{
@@ -2020,7 +2029,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "country_code",
+						"name": "countryCode",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 0,
@@ -2041,7 +2050,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "station_id",
+						"name": "stationId",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 3,
@@ -2063,6 +2072,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/publicInbox",
 								"parts": []any{
@@ -2076,7 +2086,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 				},
 				"relations": map[string]any{
@@ -2087,14 +2096,14 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "country_code",
+						"name": "countryCode",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 0,
 					},
 					map[string]any{
 						"active": true,
-						"name": "photographer",
+						"name": "photographers",
 						"req": true,
 						"type": "`$INTEGER`",
 						"index$": 1,
@@ -2108,14 +2117,14 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "with_photo",
+						"name": "withPhoto",
 						"req": true,
 						"type": "`$INTEGER`",
 						"index$": 3,
 					},
 					map[string]any{
 						"active": true,
-						"name": "without_photo",
+						"name": "withoutPhoto",
 						"req": true,
 						"type": "`$INTEGER`",
 						"index$": 4,
@@ -2141,6 +2150,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/stats",
 								"parts": []any{
@@ -2158,7 +2168,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{

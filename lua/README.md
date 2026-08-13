@@ -59,7 +59,7 @@ Entity operations return `(value, err)`. Check `err` before using
 the value:
 
 ```lua
-local countrys, err = client:Country():list()
+local publicinboxs, err = client:PublicInbox():list()
 if err then error(err) end
 ```
 
@@ -117,7 +117,7 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:Country():list()
+local result, err = client:PublicInbox():list()
 -- result is the returned data; err is set on failure
 ```
 
@@ -242,9 +242,9 @@ data **directly** — there is no wrapper:
 
 Check `err` first (it is non-`nil` on failure), then use `value`:
 
-    local admin_inbox, err = client:AdminInbox():load()
+    local inbox_count, err = client:InboxCount():load()
     if err then error(err) end
-    -- admin_inbox is the loaded record
+    -- inbox_count is the loaded record
 
 Only `direct()` returns a response envelope — a `table` with `ok`,
 `status`, `headers`, and `data` keys.
@@ -255,17 +255,17 @@ Only `direct()` returns a response envelope — a `table` with `ok`,
 
 | Field | Description |
 | --- | --- |
+| `DS100` |  |
 | `active` |  |
 | `command` |  |
-| `conflict_resolution` |  |
-| `country_code` |  |
-| `ds100` |  |
+| `conflictResolution` |  |
+| `countryCode` |  |
 | `id` |  |
 | `lat` |  |
 | `lon` |  |
 | `message` |  |
-| `reject_reason` |  |
-| `station_id` |  |
+| `rejectReason` |  |
+| `stationId` |  |
 | `status` |  |
 | `title` |  |
 
@@ -278,14 +278,14 @@ API path: `/adminInbox`
 | Field | Description |
 | --- | --- |
 | `active` |  |
-| `allow_photo_upload` |  |
+| `allowPhotoUploads` |  |
 | `code` |  |
 | `email` |  |
 | `message` |  |
 | `name` |  |
-| `override_license` |  |
-| `provider_app` |  |
-| `timetable_url_template` |  |
+| `overrideLicense` |  |
+| `providerApps` |  |
+| `timetableUrlTemplate` |  |
 
 Operations: List.
 
@@ -296,21 +296,21 @@ API path: `/countries`
 | Field | Description |
 | --- | --- |
 | `comment` |  |
-| `country_code` |  |
+| `countryCode` |  |
 | `crc32` |  |
-| `created_at` |  |
+| `createdAt` |  |
 | `filename` |  |
 | `id` |  |
-| `inbox_url` |  |
+| `inboxUrl` |  |
 | `lat` |  |
 | `lon` |  |
-| `new_lat` |  |
-| `new_lon` |  |
-| `new_title` |  |
-| `problem_report_type` |  |
-| `rejected_reason` |  |
+| `newLat` |  |
+| `newLon` |  |
+| `newTitle` |  |
+| `problemReportType` |  |
+| `rejectedReason` |  |
 | `state` |  |
-| `station_id` |  |
+| `stationId` |  |
 | `title` |  |
 
 Operations: Create, List, Remove.
@@ -321,7 +321,7 @@ API path: `/reportProblem`
 
 | Field | Description |
 | --- | --- |
-| `pending_inbox_entry` |  |
+| `pendingInboxEntries` |  |
 
 Operations: Load.
 
@@ -333,25 +333,25 @@ API path: `/adminInboxCount`
 | --- | --- |
 | `active` |  |
 | `comment` |  |
-| `country_code` |  |
-| `created_at` |  |
+| `countryCode` |  |
+| `createdAt` |  |
 | `done` |  |
 | `filename` |  |
-| `has_conflict` |  |
-| `has_photo` |  |
+| `hasConflict` |  |
+| `hasPhoto` |  |
 | `id` |  |
-| `inbox_url` |  |
-| `is_processed` |  |
+| `inboxUrl` |  |
+| `isProcessed` |  |
 | `lat` |  |
 | `lon` |  |
-| `new_lat` |  |
-| `new_lon` |  |
-| `new_title` |  |
-| `photo_id` |  |
-| `photographer_email` |  |
-| `photographer_nickname` |  |
-| `problem_report_type` |  |
-| `station_id` |  |
+| `newLat` |  |
+| `newLon` |  |
+| `newTitle` |  |
+| `photoId` |  |
+| `photographerEmail` |  |
+| `photographerNickname` |  |
+| `problemReportType` |  |
+| `stationId` |  |
 | `title` |  |
 
 Operations: List.
@@ -412,10 +412,10 @@ API path: `/inbox/done/{filename}`
 
 | Field | Description |
 | --- | --- |
-| `license` |  |
-| `photo_base_url` |  |
-| `photographer` |  |
-| `station` |  |
+| `licenses` |  |
+| `photoBaseUrl` |  |
+| `photographers` |  |
+| `stations` |  |
 
 Operations: List, Load.
 
@@ -446,13 +446,13 @@ API path: `/photographers`
 | `admin` |  |
 | `anonymous` |  |
 | `email` |  |
-| `email_verified` |  |
+| `emailVerified` |  |
 | `license` |  |
 | `link` |  |
-| `new_password` |  |
+| `newPassword` |  |
 | `nickname` |  |
-| `photo_owner` |  |
-| `send_notification` |  |
+| `photoOwner` |  |
+| `sendNotifications` |  |
 
 Operations: Create, Load, Remove.
 
@@ -462,10 +462,10 @@ API path: `/changePassword`
 
 | Field | Description |
 | --- | --- |
-| `country_code` |  |
+| `countryCode` |  |
 | `lat` |  |
 | `lon` |  |
-| `station_id` |  |
+| `stationId` |  |
 | `title` |  |
 
 Operations: List.
@@ -476,11 +476,11 @@ API path: `/publicInbox`
 
 | Field | Description |
 | --- | --- |
-| `country_code` |  |
-| `photographer` |  |
+| `countryCode` |  |
+| `photographers` |  |
 | `total` |  |
-| `with_photo` |  |
-| `without_photo` |  |
+| `withPhoto` |  |
+| `withoutPhoto` |  |
 
 Operations: Load.
 
@@ -505,17 +505,17 @@ Create an instance: `local admin_inbox = client:AdminInbox(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `DS100` | `string` |  |
 | `active` | `boolean` |  |
 | `command` | `string` |  |
-| `conflict_resolution` | `string` |  |
-| `country_code` | `string` |  |
-| `ds100` | `string` |  |
+| `conflictResolution` | `string` |  |
+| `countryCode` | `string` |  |
 | `id` | `number` |  |
 | `lat` | `number` |  |
 | `lon` | `number` |  |
 | `message` | `string` |  |
-| `reject_reason` | `string` |  |
-| `station_id` | `string` |  |
+| `rejectReason` | `string` |  |
+| `stationId` | `string` |  |
 | `status` | `number` |  |
 | `title` | `string` |  |
 
@@ -546,14 +546,14 @@ Create an instance: `local country = client:Country(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `active` | `boolean` |  |
-| `allow_photo_upload` | `boolean` |  |
+| `allowPhotoUploads` | `boolean` |  |
 | `code` | `string` |  |
 | `email` | `string` |  |
 | `message` | `string` |  |
 | `name` | `string` |  |
-| `override_license` | `string` |  |
-| `provider_app` | `table` |  |
-| `timetable_url_template` | `string` |  |
+| `overrideLicense` | `string` |  |
+| `providerApps` | `table` |  |
+| `timetableUrlTemplate` | `string` |  |
 
 #### Example: List
 
@@ -579,21 +579,21 @@ Create an instance: `local inbox = client:Inbox(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `comment` | `string` |  |
-| `country_code` | `string` |  |
+| `countryCode` | `string` |  |
 | `crc32` | `number` |  |
-| `created_at` | `number` |  |
+| `createdAt` | `number` |  |
 | `filename` | `string` |  |
 | `id` | `number` |  |
-| `inbox_url` | `string` |  |
+| `inboxUrl` | `string` |  |
 | `lat` | `number` |  |
 | `lon` | `number` |  |
-| `new_lat` | `number` |  |
-| `new_lon` | `number` |  |
-| `new_title` | `string` |  |
-| `problem_report_type` | `string` |  |
-| `rejected_reason` | `string` |  |
+| `newLat` | `number` |  |
+| `newLon` | `number` |  |
+| `newTitle` | `string` |  |
+| `problemReportType` | `string` |  |
+| `rejectedReason` | `string` |  |
 | `state` | `string` |  |
-| `station_id` | `string` |  |
+| `stationId` | `string` |  |
 | `title` | `string` |  |
 
 #### Example: List
@@ -626,7 +626,7 @@ Create an instance: `local inbox_count = client:InboxCount(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `pending_inbox_entry` | `number` |  |
+| `pendingInboxEntries` | `number` |  |
 
 #### Example: Load
 
@@ -651,25 +651,25 @@ Create an instance: `local inbox_entry = client:InboxEntry(nil)`
 | --- | --- | --- |
 | `active` | `boolean` |  |
 | `comment` | `string` |  |
-| `country_code` | `string` |  |
-| `created_at` | `number` |  |
+| `countryCode` | `string` |  |
+| `createdAt` | `number` |  |
 | `done` | `boolean` |  |
 | `filename` | `string` |  |
-| `has_conflict` | `boolean` |  |
-| `has_photo` | `boolean` |  |
+| `hasConflict` | `boolean` |  |
+| `hasPhoto` | `boolean` |  |
 | `id` | `number` |  |
-| `inbox_url` | `string` |  |
-| `is_processed` | `boolean` |  |
+| `inboxUrl` | `string` |  |
+| `isProcessed` | `boolean` |  |
 | `lat` | `number` |  |
 | `lon` | `number` |  |
-| `new_lat` | `number` |  |
-| `new_lon` | `number` |  |
-| `new_title` | `string` |  |
-| `photo_id` | `number` |  |
-| `photographer_email` | `string` |  |
-| `photographer_nickname` | `string` |  |
-| `problem_report_type` | `string` |  |
-| `station_id` | `string` |  |
+| `newLat` | `number` |  |
+| `newLon` | `number` |  |
+| `newTitle` | `string` |  |
+| `photoId` | `number` |  |
+| `photographerEmail` | `string` |  |
+| `photographerNickname` | `string` |  |
+| `problemReportType` | `string` |  |
+| `stationId` | `string` |  |
 | `title` | `string` |  |
 
 #### Example: List
@@ -789,10 +789,10 @@ Create an instance: `local photo_station = client:PhotoStation(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `license` | `table` |  |
-| `photo_base_url` | `string` |  |
-| `photographer` | `table` |  |
-| `station` | `table` |  |
+| `licenses` | `table` |  |
+| `photoBaseUrl` | `string` |  |
+| `photographers` | `table` |  |
+| `stations` | `table` |  |
 
 #### Example: Load
 
@@ -861,13 +861,13 @@ Create an instance: `local profile = client:Profile(nil)`
 | `admin` | `boolean` |  |
 | `anonymous` | `boolean` |  |
 | `email` | `string` |  |
-| `email_verified` | `boolean` |  |
+| `emailVerified` | `boolean` |  |
 | `license` | `string` |  |
 | `link` | `string` |  |
-| `new_password` | `string` |  |
+| `newPassword` | `string` |  |
 | `nickname` | `string` |  |
-| `photo_owner` | `boolean` |  |
-| `send_notification` | `boolean` |  |
+| `photoOwner` | `boolean` |  |
+| `sendNotifications` | `boolean` |  |
 
 #### Example: Load
 
@@ -880,9 +880,9 @@ local profile, err = client:Profile():load()
 ```lua
 local profile, err = client:Profile():create({
   license = "example_license", -- string
-  new_password = "example_new_password", -- string
+  newPassword = "example_newPassword", -- string
   nickname = "example_nickname", -- string
-  photo_owner = true, -- boolean
+  photoOwner = true, -- boolean
 })
 ```
 
@@ -901,10 +901,10 @@ Create an instance: `local public_inbox = client:PublicInbox(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `country_code` | `string` |  |
+| `countryCode` | `string` |  |
 | `lat` | `number` |  |
 | `lon` | `number` |  |
-| `station_id` | `string` |  |
+| `stationId` | `string` |  |
 | `title` | `string` |  |
 
 #### Example: List
@@ -928,11 +928,11 @@ Create an instance: `local stat = client:Stat(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `country_code` | `string` |  |
-| `photographer` | `number` |  |
+| `countryCode` | `string` |  |
+| `photographers` | `number` |  |
 | `total` | `number` |  |
-| `with_photo` | `number` |  |
-| `without_photo` | `number` |  |
+| `withPhoto` | `number` |  |
+| `withoutPhoto` | `number` |  |
 
 #### Example: Load
 
@@ -1017,11 +1017,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```lua
-local country = client:Country()
-country:list()
+local publicinbox = client:PublicInbox()
+publicinbox:list()
 
--- country:data_get() now returns the country data from the last list
--- country:match_get() returns the last match criteria
+-- publicinbox:data_get() now returns the publicinbox data from the last list
+-- publicinbox:match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

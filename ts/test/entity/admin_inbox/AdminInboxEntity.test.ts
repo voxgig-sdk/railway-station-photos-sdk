@@ -26,8 +26,8 @@ import {
 describe('AdminInboxEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when RAILWAYSTATIONPHOTOS_TEST_LIVE=TRUE.
-  afterEach(liveDelay('RAILWAYSTATIONPHOTOS_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when RAILWAY_STATION_PHOTOS_TEST_LIVE=TRUE.
+  afterEach(liveDelay('RAILWAY_STATION_PHOTOS_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = RailwayStationPhotosSDK.test()
@@ -62,7 +62,7 @@ describe('AdminInboxEntity', async () => {
     const admin_inbox_ref01_ent = client.AdminInbox()
     let admin_inbox_ref01_data = setup.data.new.admin_inbox['admin_inbox_ref01']
 
-    admin_inbox_ref01_data = await admin_inbox_ref01_ent.create(admin_inbox_ref01_data)
+    admin_inbox_ref01_data = (await admin_inbox_ref01_ent.create(admin_inbox_ref01_data)).data()
     assert(null != admin_inbox_ref01_data.id)
 
 

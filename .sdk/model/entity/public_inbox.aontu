@@ -6,7 +6,7 @@ main: kit: entity: public_inbox: {
 
   fields: [
     {
-      name: "country_code"
+      name: "countryCode"
       req: false
       type: "`$STRING`"
     }
@@ -21,7 +21,7 @@ main: kit: entity: public_inbox: {
       type: "`$NUMBER`"
     }
     {
-      name: "station_id"
+      name: "stationId"
       req: false
       type: "`$STRING`"
     }

@@ -60,11 +60,11 @@ def public_inbox_direct_setup(mockres)
   calls = []
 
   env = Runner.env_override({
-    "RAILWAYSTATIONPHOTOS_TEST_PUBLIC_INBOX_ENTID" => {},
-    "RAILWAYSTATIONPHOTOS_TEST_LIVE" => "FALSE",
+    "RAILWAY_STATION_PHOTOS_TEST_PUBLIC_INBOX_ENTID" => {},
+    "RAILWAY_STATION_PHOTOS_TEST_LIVE" => "FALSE",
   })
 
-  live = env["RAILWAYSTATIONPHOTOS_TEST_LIVE"] == "TRUE"
+  live = env["RAILWAY_STATION_PHOTOS_TEST_LIVE"] == "TRUE"
 
   if live
     merged_opts = {

@@ -5,6 +5,10 @@
       "desc": ""
     },
     "kit": {
+      "author": {
+        "name": "",
+        "url": ""
+      },
       "config": {
         "docs_order": [
           "ts",
@@ -18,6 +22,7 @@
           "content-type": "application/json"
         }
       },
+      "contributor": {},
       "entity": {
         "admin_inbox": {
           "active": true,
@@ -25,6 +30,12 @@
             "field": {}
           },
           "fields": [
+            {
+              "active": true,
+              "name": "DS100",
+              "req": false,
+              "type": "`$STRING`"
+            },
             {
               "active": true,
               "name": "active",
@@ -39,19 +50,13 @@
             },
             {
               "active": true,
-              "name": "conflict_resolution",
+              "name": "conflictResolution",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "country_code",
-              "req": false,
-              "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "ds100",
+              "name": "countryCode",
               "req": false,
               "type": "`$STRING`"
             },
@@ -81,13 +86,13 @@
             },
             {
               "active": true,
-              "name": "reject_reason",
+              "name": "rejectReason",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "station_id",
+              "name": "stationId",
               "req": false,
               "type": "`$STRING`"
             },
@@ -128,6 +133,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/adminInbox",
                   "parts": [
@@ -164,7 +170,7 @@
             },
             {
               "active": true,
-              "name": "allow_photo_upload",
+              "name": "allowPhotoUploads",
               "req": true,
               "type": "`$BOOLEAN`"
             },
@@ -194,19 +200,19 @@
             },
             {
               "active": true,
-              "name": "override_license",
+              "name": "overrideLicense",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "provider_app",
+              "name": "providerApps",
               "req": false,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "timetable_url_template",
+              "name": "timetableUrlTemplate",
               "req": false,
               "type": "`$STRING`"
             }
@@ -231,6 +237,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/countries",
                   "parts": [
@@ -267,7 +274,7 @@
             },
             {
               "active": true,
-              "name": "country_code",
+              "name": "countryCode",
               "req": false,
               "type": "`$STRING`"
             },
@@ -279,7 +286,7 @@
             },
             {
               "active": true,
-              "name": "created_at",
+              "name": "createdAt",
               "req": false,
               "type": "`$INTEGER`"
             },
@@ -297,7 +304,7 @@
             },
             {
               "active": true,
-              "name": "inbox_url",
+              "name": "inboxUrl",
               "req": false,
               "type": "`$STRING`"
             },
@@ -315,31 +322,31 @@
             },
             {
               "active": true,
-              "name": "new_lat",
+              "name": "newLat",
               "req": false,
               "type": "`$NUMBER`"
             },
             {
               "active": true,
-              "name": "new_lon",
+              "name": "newLon",
               "req": false,
               "type": "`$NUMBER`"
             },
             {
               "active": true,
-              "name": "new_title",
+              "name": "newTitle",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "problem_report_type",
+              "name": "problemReportType",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "rejected_reason",
+              "name": "rejectedReason",
               "req": false,
               "type": "`$STRING`"
             },
@@ -351,7 +358,7 @@
             },
             {
               "active": true,
-              "name": "station_id",
+              "name": "stationId",
               "req": false,
               "type": "`$STRING`"
             },
@@ -386,6 +393,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/reportProblem",
                   "parts": [
@@ -415,6 +423,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/userInbox",
                   "parts": [
@@ -460,6 +469,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/userInbox",
                   "parts": [
@@ -496,6 +506,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/userInbox/{id}",
                   "parts": [
@@ -527,7 +538,7 @@
           "fields": [
             {
               "active": true,
-              "name": "pending_inbox_entry",
+              "name": "pendingInboxEntries",
               "req": true,
               "type": "`$INTEGER`"
             }
@@ -541,6 +552,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/adminInboxCount",
                   "parts": [
@@ -579,13 +591,13 @@
             },
             {
               "active": true,
-              "name": "country_code",
+              "name": "countryCode",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "created_at",
+              "name": "createdAt",
               "req": true,
               "type": "`$INTEGER`"
             },
@@ -603,13 +615,13 @@
             },
             {
               "active": true,
-              "name": "has_conflict",
+              "name": "hasConflict",
               "req": false,
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
-              "name": "has_photo",
+              "name": "hasPhoto",
               "req": true,
               "type": "`$BOOLEAN`"
             },
@@ -621,13 +633,13 @@
             },
             {
               "active": true,
-              "name": "inbox_url",
+              "name": "inboxUrl",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "is_processed",
+              "name": "isProcessed",
               "req": false,
               "type": "`$BOOLEAN`"
             },
@@ -645,49 +657,49 @@
             },
             {
               "active": true,
-              "name": "new_lat",
+              "name": "newLat",
               "req": false,
               "type": "`$NUMBER`"
             },
             {
               "active": true,
-              "name": "new_lon",
+              "name": "newLon",
               "req": false,
               "type": "`$NUMBER`"
             },
             {
               "active": true,
-              "name": "new_title",
+              "name": "newTitle",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "photo_id",
+              "name": "photoId",
               "req": false,
               "type": "`$INTEGER`"
             },
             {
               "active": true,
-              "name": "photographer_email",
+              "name": "photographerEmail",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "photographer_nickname",
+              "name": "photographerNickname",
               "req": true,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "problem_report_type",
+              "name": "problemReportType",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "station_id",
+              "name": "stationId",
               "req": false,
               "type": "`$STRING`"
             },
@@ -722,6 +734,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/adminInbox",
                   "parts": [
@@ -813,6 +826,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/oauth2/token",
                   "parts": [
@@ -862,6 +876,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/oauth2/revoke",
                   "parts": [
@@ -946,6 +961,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/oauth2/authorize",
                   "parts": [
@@ -1019,6 +1035,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/photos/{country}/{filename}",
                   "parts": [
@@ -1085,6 +1102,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/inbox/done/{filename}",
                   "parts": [
@@ -1127,6 +1145,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/inbox/processed/{filename}",
                   "parts": [
@@ -1169,6 +1188,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/inbox/rejected/{filename}",
                   "parts": [
@@ -1211,6 +1231,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/inbox/{filename}",
                   "parts": [
@@ -1256,25 +1277,25 @@
           "fields": [
             {
               "active": true,
-              "name": "license",
+              "name": "licenses",
               "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "photo_base_url",
+              "name": "photoBaseUrl",
               "req": true,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "photographer",
+              "name": "photographers",
               "req": true,
               "type": "`$ARRAY`"
             },
             {
               "active": true,
-              "name": "station",
+              "name": "stations",
               "req": true,
               "type": "`$ARRAY`"
             }
@@ -1307,6 +1328,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/photoStationById/{country}/{id}",
                   "parts": [
@@ -1340,6 +1362,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/photoStationsByRecentPhotoImports",
                   "parts": [
@@ -1393,6 +1416,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/photoStationsByCountry/{country}",
                   "parts": [
@@ -1435,6 +1459,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/photoStationsByPhotographer/{photographer}",
                   "parts": [
@@ -1559,6 +1584,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/photoUpload",
                   "parts": [
@@ -1615,6 +1641,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/photographers",
                   "parts": [
@@ -1669,7 +1696,7 @@
             },
             {
               "active": true,
-              "name": "email_verified",
+              "name": "emailVerified",
               "req": false,
               "type": "`$BOOLEAN`"
             },
@@ -1693,7 +1720,7 @@
             },
             {
               "active": true,
-              "name": "new_password",
+              "name": "newPassword",
               "req": true,
               "type": "`$STRING`"
             },
@@ -1705,7 +1732,7 @@
             },
             {
               "active": true,
-              "name": "photo_owner",
+              "name": "photoOwner",
               "op": {
                 "create": {
                   "req": false,
@@ -1717,7 +1744,7 @@
             },
             {
               "active": true,
-              "name": "send_notification",
+              "name": "sendNotifications",
               "req": false,
               "type": "`$BOOLEAN`"
             }
@@ -1742,6 +1769,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/changePassword",
                   "parts": [
@@ -1771,6 +1799,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/myProfile",
                   "parts": [
@@ -1800,6 +1829,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/resendEmailVerification",
                   "parts": [
@@ -1835,6 +1865,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/myProfile",
                   "parts": [
@@ -1864,6 +1895,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/emailVerification/{token}",
                   "parts": [
@@ -1900,6 +1932,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/myProfile",
                   "parts": [
@@ -1934,7 +1967,7 @@
           "fields": [
             {
               "active": true,
-              "name": "country_code",
+              "name": "countryCode",
               "req": false,
               "type": "`$STRING`"
             },
@@ -1952,7 +1985,7 @@
             },
             {
               "active": true,
-              "name": "station_id",
+              "name": "stationId",
               "req": false,
               "type": "`$STRING`"
             },
@@ -1972,6 +2005,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/publicInbox",
                   "parts": [
@@ -1998,13 +2032,13 @@
           "fields": [
             {
               "active": true,
-              "name": "country_code",
+              "name": "countryCode",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "photographer",
+              "name": "photographers",
               "req": true,
               "type": "`$INTEGER`"
             },
@@ -2016,13 +2050,13 @@
             },
             {
               "active": true,
-              "name": "with_photo",
+              "name": "withPhoto",
               "req": true,
               "type": "`$INTEGER`"
             },
             {
               "active": true,
-              "name": "without_photo",
+              "name": "withoutPhoto",
               "req": true,
               "type": "`$INTEGER`"
             }
@@ -2047,6 +2081,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/stats",
                   "parts": [
@@ -2702,18 +2737,41 @@
         "website": "https://railway-stations.org"
       },
       "option": {},
+      "repo": {
+        "host": "github.com",
+        "path": ""
+      },
       "target": {
         "go": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [
+              "test/feature_test.go"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "railway-station-photos"
+            "goversion": "",
+            "name": "railway-station-photos",
+            "package": "",
+            "path": ""
           },
           "name": "go",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2735,22 +2793,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Golang"
         },
         "go-cli": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "railway-station-photos"
+            "goversion": "",
+            "name": "railway-station-photos",
+            "package": "",
+            "path": ""
           },
           "name": "go-cli",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "phase": {
             "agentguide": {
               "active": false
@@ -2789,21 +2865,39 @@
                 "recipe": "github"
               },
               "via": "root"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "Go CLI"
         },
         "go-mcp": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "railway-station-photos"
+            "goversion": "",
+            "name": "railway-station-photos",
+            "package": "",
+            "path": ""
           },
           "name": "go-mcp",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "phase": {
             "agentguide": {
               "active": false
@@ -2842,12 +2936,17 @@
                 "recipe": "github"
               },
               "via": "root"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "Go MCP server"
         },
         "lua": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "--"
           },
@@ -2859,10 +2958,23 @@
             }
           },
           "ext": "lua",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "railway-station-photos"
+            "goversion": "",
+            "name": "railway-station-photos",
+            "package": "",
+            "path": ""
           },
           "name": "lua",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2884,22 +2996,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Lua"
         },
         "php": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "php",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "railway-station-photos"
+            "goversion": "",
+            "name": "railway-station-photos",
+            "package": "",
+            "path": ""
           },
           "name": "php",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2921,13 +3051,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "PHP"
         },
         "py": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "#"
           },
@@ -2939,10 +3074,23 @@
             }
           },
           "ext": "py",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "railway-station-photos"
+            "goversion": "",
+            "name": "railway-station-photos",
+            "package": "",
+            "path": ""
           },
           "name": "py",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2964,13 +3112,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Python"
         },
         "rb": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "#"
           },
@@ -2987,10 +3140,23 @@
             }
           },
           "ext": "rb",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "railway-station-photos"
+            "goversion": "",
+            "name": "railway-station-photos",
+            "package": "",
+            "path": ""
           },
           "name": "rb",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3012,13 +3178,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Ruby"
         },
         "ts": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
@@ -3041,10 +3212,23 @@
             }
           },
           "ext": "ts",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "railway-station-photos"
+            "goversion": "",
+            "name": "railway-station-photos",
+            "package": "",
+            "path": ""
           },
           "name": "ts",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3066,9 +3250,17 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "TypeScript"
+        }
+      },
+      "test": {
+        "live": {
+          "app": false,
+          "base": "",
+          "strict": false
         }
       }
     }

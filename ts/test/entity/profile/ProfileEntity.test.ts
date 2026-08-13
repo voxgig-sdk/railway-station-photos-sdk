@@ -26,8 +26,8 @@ import {
 describe('ProfileEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when RAILWAYSTATIONPHOTOS_TEST_LIVE=TRUE.
-  afterEach(liveDelay('RAILWAYSTATIONPHOTOS_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when RAILWAY_STATION_PHOTOS_TEST_LIVE=TRUE.
+  afterEach(liveDelay('RAILWAY_STATION_PHOTOS_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = RailwayStationPhotosSDK.test()
@@ -62,20 +62,16 @@ describe('ProfileEntity', async () => {
     const profile_ref01_ent = client.Profile()
     let profile_ref01_data = setup.data.new.profile['profile_ref01']
 
-    profile_ref01_data = await profile_ref01_ent.create(profile_ref01_data)
+    profile_ref01_data = (await profile_ref01_ent.create(profile_ref01_data)).data()
     assert(null != profile_ref01_data)
 
 
     // LOAD
     const profile_ref01_match_dt0: any = {}
-    const profile_ref01_data_dt0 = await profile_ref01_ent.load(profile_ref01_match_dt0)
+    const profile_ref01_data_dt0 = (await profile_ref01_ent.load(profile_ref01_match_dt0)).data()
     assert(null != profile_ref01_data_dt0)
 
 
-    // REMOVE
-    const profile_ref01_match_rm0: any = { id: profile_ref01_data.id }
-    await profile_ref01_ent.remove(profile_ref01_match_rm0)
-  
 
   })
 })

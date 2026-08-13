@@ -6,7 +6,7 @@ main: kit: entity: inbox_count: {
 
   fields: [
     {
-      name: "pending_inbox_entry"
+      name: "pendingInboxEntries"
       req: true
       type: "`$INTEGER`"
     }

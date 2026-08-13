@@ -16,11 +16,11 @@
 import pytest
 
 from projectname_sdk import RailwayStationPhotosSDK
-from core.error import RailwayStationPhotosError
-from core.result import RailwayStationPhotosResult
-from core.response import RailwayStationPhotosResponse
-from core.spec import RailwayStationPhotosSpec
-from feature.base_feature import RailwayStationPhotosBaseFeature
+from projectname_sdk.core.error import RailwayStationPhotosError
+from projectname_sdk.core.result import RailwayStationPhotosResult
+from projectname_sdk.core.response import RailwayStationPhotosResponse
+from projectname_sdk.core.spec import RailwayStationPhotosSpec
+from projectname_sdk.feature.base_feature import RailwayStationPhotosBaseFeature
 
 
 def _client():

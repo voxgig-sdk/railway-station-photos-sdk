@@ -26,8 +26,8 @@ import {
 describe('PublicInboxEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when RAILWAYSTATIONPHOTOS_TEST_LIVE=TRUE.
-  afterEach(liveDelay('RAILWAYSTATIONPHOTOS_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when RAILWAY_STATION_PHOTOS_TEST_LIVE=TRUE.
+  afterEach(liveDelay('RAILWAY_STATION_PHOTOS_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = RailwayStationPhotosSDK.test()
@@ -63,7 +63,7 @@ describe('PublicInboxEntity', async () => {
     const public_inbox_ref01_ent = client.PublicInbox()
     const public_inbox_ref01_match: any = {}
 
-    const public_inbox_ref01_list = await public_inbox_ref01_ent.list(public_inbox_ref01_match)
+    const public_inbox_ref01_list = (await public_inbox_ref01_ent.list(public_inbox_ref01_match)).map((e: any) => e.data())
 
 
   })

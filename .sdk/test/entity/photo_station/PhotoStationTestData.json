@@ -2,27 +2,30 @@
   "existing": {
     "photo_station": {
       "PHOTO_STATION00": {
-        "license": [],
-        "photo_base_url": "s29",
-        "photographer": [],
-        "station": [],
+        "licenses": [],
+        "photoBaseUrl": "s29",
+        "photographers": [],
+        "stations": [],
         "country": "COUNTRY01",
+        "photographer": "PHOTOGRAPHER01",
         "id": "PHOTO_STATION00"
       },
       "PHOTO_STATION01": {
-        "license": [],
-        "photo_base_url": "s51",
-        "photographer": [],
-        "station": [],
+        "licenses": [],
+        "photoBaseUrl": "s51",
+        "photographers": [],
+        "stations": [],
         "country": "COUNTRY01",
+        "photographer": "PHOTOGRAPHER01",
         "id": "PHOTO_STATION01"
       },
       "PHOTO_STATION02": {
-        "license": [],
-        "photo_base_url": "s79",
-        "photographer": [],
-        "station": [],
+        "licenses": [],
+        "photoBaseUrl": "s79",
+        "photographers": [],
+        "stations": [],
         "country": "COUNTRY01",
+        "photographer": "PHOTOGRAPHER01",
         "id": "PHOTO_STATION02"
       }
     }
@@ -30,10 +33,10 @@
   "new": {
     "photo_station": {
       "photo_station_ref01": {
-        "license": [],
-        "photo_base_url": "sa1",
-        "photographer": [],
-        "station": []
+        "licenses": [],
+        "photoBaseUrl": "sa1",
+        "photographers": [],
+        "stations": []
       }
     }
   }

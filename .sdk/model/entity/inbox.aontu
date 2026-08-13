@@ -11,7 +11,7 @@ main: kit: entity: inbox: {
       type: "`$STRING`"
     }
     {
-      name: "country_code"
+      name: "countryCode"
       req: false
       type: "`$STRING`"
     }
@@ -21,7 +21,7 @@ main: kit: entity: inbox: {
       type: "`$INTEGER`"
     }
     {
-      name: "created_at"
+      name: "createdAt"
       req: false
       type: "`$INTEGER`"
     }
@@ -36,7 +36,7 @@ main: kit: entity: inbox: {
       type: "`$INTEGER`"
     }
     {
-      name: "inbox_url"
+      name: "inboxUrl"
       req: false
       type: "`$STRING`"
     }
@@ -51,27 +51,27 @@ main: kit: entity: inbox: {
       type: "`$NUMBER`"
     }
     {
-      name: "new_lat"
+      name: "newLat"
       req: false
       type: "`$NUMBER`"
     }
     {
-      name: "new_lon"
+      name: "newLon"
       req: false
       type: "`$NUMBER`"
     }
     {
-      name: "new_title"
+      name: "newTitle"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "problem_report_type"
+      name: "problemReportType"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "rejected_reason"
+      name: "rejectedReason"
       req: false
       type: "`$STRING`"
     }
@@ -81,7 +81,7 @@ main: kit: entity: inbox: {
       type: "`$STRING`"
     }
     {
-      name: "station_id"
+      name: "stationId"
       req: false
       type: "`$STRING`"
     }

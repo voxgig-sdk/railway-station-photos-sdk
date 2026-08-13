@@ -1,4 +1,4 @@
-# ProjectName SDK exists test
+# RailwayStationPhotos SDK exists test
 
 import pytest
 from railwaystationphotos_sdk import RailwayStationPhotosSDK

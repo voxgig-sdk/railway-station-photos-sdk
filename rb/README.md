@@ -36,7 +36,7 @@ Photo is nested under country, so provide the `country`.
 
 ```ruby
 begin
-  # load returns the bare Photo record (raises on error).
+  # load returns the ENTITY — call data_get for the Photo record (raises on error).
   photo = client.Photo.load({ "country" => "example_country", "filename" => "example_filename" })
   puts photo
 rescue => err
@@ -47,7 +47,7 @@ end
 ### 4. Create, update, and remove
 
 ```ruby
-# create returns the bare created AdminInbox record.
+# create returns the ENTITY — call data_get for the created AdminInbox record.
 created = client.AdminInbox.create({ "command" => "example_command", "id" => 1, "message" => "example_message", "status" => 1 })
 
 ```
@@ -59,7 +59,7 @@ Entity operations raise on failure, so rescue them:
 
 ```ruby
 begin
-  countrys = client.Country.list()
+  publicinboxs = client.PublicInbox.list()
 rescue => err
   warn "list failed: #{err}"
 end
@@ -127,9 +127,10 @@ Create a mock client for unit testing — no server required:
 ```ruby
 client = RailwayStationPhotosSDK.test
 
-# Entity ops return the bare mock record (raises on error).
-country = client.Country.list()
-puts country
+# Entity ops return the ENTITY (raises on error);
+# call data_get for the mock record.
+publicinbox = client.PublicInbox.list()
+puts publicinbox
 ```
 
 ### Use a custom fetch function
@@ -262,17 +263,17 @@ returns a result `Hash` with these keys:
 
 | Field | Description |
 | --- | --- |
+| `DS100` |  |
 | `active` |  |
 | `command` |  |
-| `conflict_resolution` |  |
-| `country_code` |  |
-| `ds100` |  |
+| `conflictResolution` |  |
+| `countryCode` |  |
 | `id` |  |
 | `lat` |  |
 | `lon` |  |
 | `message` |  |
-| `reject_reason` |  |
-| `station_id` |  |
+| `rejectReason` |  |
+| `stationId` |  |
 | `status` |  |
 | `title` |  |
 
@@ -285,14 +286,14 @@ API path: `/adminInbox`
 | Field | Description |
 | --- | --- |
 | `active` |  |
-| `allow_photo_upload` |  |
+| `allowPhotoUploads` |  |
 | `code` |  |
 | `email` |  |
 | `message` |  |
 | `name` |  |
-| `override_license` |  |
-| `provider_app` |  |
-| `timetable_url_template` |  |
+| `overrideLicense` |  |
+| `providerApps` |  |
+| `timetableUrlTemplate` |  |
 
 Operations: List.
 
@@ -303,21 +304,21 @@ API path: `/countries`
 | Field | Description |
 | --- | --- |
 | `comment` |  |
-| `country_code` |  |
+| `countryCode` |  |
 | `crc32` |  |
-| `created_at` |  |
+| `createdAt` |  |
 | `filename` |  |
 | `id` |  |
-| `inbox_url` |  |
+| `inboxUrl` |  |
 | `lat` |  |
 | `lon` |  |
-| `new_lat` |  |
-| `new_lon` |  |
-| `new_title` |  |
-| `problem_report_type` |  |
-| `rejected_reason` |  |
+| `newLat` |  |
+| `newLon` |  |
+| `newTitle` |  |
+| `problemReportType` |  |
+| `rejectedReason` |  |
 | `state` |  |
-| `station_id` |  |
+| `stationId` |  |
 | `title` |  |
 
 Operations: Create, List, Remove.
@@ -328,7 +329,7 @@ API path: `/reportProblem`
 
 | Field | Description |
 | --- | --- |
-| `pending_inbox_entry` |  |
+| `pendingInboxEntries` |  |
 
 Operations: Load.
 
@@ -340,25 +341,25 @@ API path: `/adminInboxCount`
 | --- | --- |
 | `active` |  |
 | `comment` |  |
-| `country_code` |  |
-| `created_at` |  |
+| `countryCode` |  |
+| `createdAt` |  |
 | `done` |  |
 | `filename` |  |
-| `has_conflict` |  |
-| `has_photo` |  |
+| `hasConflict` |  |
+| `hasPhoto` |  |
 | `id` |  |
-| `inbox_url` |  |
-| `is_processed` |  |
+| `inboxUrl` |  |
+| `isProcessed` |  |
 | `lat` |  |
 | `lon` |  |
-| `new_lat` |  |
-| `new_lon` |  |
-| `new_title` |  |
-| `photo_id` |  |
-| `photographer_email` |  |
-| `photographer_nickname` |  |
-| `problem_report_type` |  |
-| `station_id` |  |
+| `newLat` |  |
+| `newLon` |  |
+| `newTitle` |  |
+| `photoId` |  |
+| `photographerEmail` |  |
+| `photographerNickname` |  |
+| `problemReportType` |  |
+| `stationId` |  |
 | `title` |  |
 
 Operations: List.
@@ -419,10 +420,10 @@ API path: `/inbox/done/{filename}`
 
 | Field | Description |
 | --- | --- |
-| `license` |  |
-| `photo_base_url` |  |
-| `photographer` |  |
-| `station` |  |
+| `licenses` |  |
+| `photoBaseUrl` |  |
+| `photographers` |  |
+| `stations` |  |
 
 Operations: List, Load.
 
@@ -453,13 +454,13 @@ API path: `/photographers`
 | `admin` |  |
 | `anonymous` |  |
 | `email` |  |
-| `email_verified` |  |
+| `emailVerified` |  |
 | `license` |  |
 | `link` |  |
-| `new_password` |  |
+| `newPassword` |  |
 | `nickname` |  |
-| `photo_owner` |  |
-| `send_notification` |  |
+| `photoOwner` |  |
+| `sendNotifications` |  |
 
 Operations: Create, Load, Remove.
 
@@ -469,10 +470,10 @@ API path: `/changePassword`
 
 | Field | Description |
 | --- | --- |
-| `country_code` |  |
+| `countryCode` |  |
 | `lat` |  |
 | `lon` |  |
-| `station_id` |  |
+| `stationId` |  |
 | `title` |  |
 
 Operations: List.
@@ -483,11 +484,11 @@ API path: `/publicInbox`
 
 | Field | Description |
 | --- | --- |
-| `country_code` |  |
-| `photographer` |  |
+| `countryCode` |  |
+| `photographers` |  |
 | `total` |  |
-| `with_photo` |  |
-| `without_photo` |  |
+| `withPhoto` |  |
+| `withoutPhoto` |  |
 
 Operations: Load.
 
@@ -512,17 +513,17 @@ Create an instance: `admin_inbox = client.AdminInbox`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `DS100` | `String` |  |
 | `active` | `Boolean` |  |
 | `command` | `String` |  |
-| `conflict_resolution` | `String` |  |
-| `country_code` | `String` |  |
-| `ds100` | `String` |  |
+| `conflictResolution` | `String` |  |
+| `countryCode` | `String` |  |
 | `id` | `Integer` |  |
 | `lat` | `Float` |  |
 | `lon` | `Float` |  |
 | `message` | `String` |  |
-| `reject_reason` | `String` |  |
-| `station_id` | `String` |  |
+| `rejectReason` | `String` |  |
+| `stationId` | `String` |  |
 | `status` | `Integer` |  |
 | `title` | `String` |  |
 
@@ -553,14 +554,14 @@ Create an instance: `country = client.Country`
 | Field | Type | Description |
 | --- | --- | --- |
 | `active` | `Boolean` |  |
-| `allow_photo_upload` | `Boolean` |  |
+| `allowPhotoUploads` | `Boolean` |  |
 | `code` | `String` |  |
 | `email` | `String` |  |
 | `message` | `String` |  |
 | `name` | `String` |  |
-| `override_license` | `String` |  |
-| `provider_app` | `Array` |  |
-| `timetable_url_template` | `String` |  |
+| `overrideLicense` | `String` |  |
+| `providerApps` | `Array` |  |
+| `timetableUrlTemplate` | `String` |  |
 
 #### Example: List
 
@@ -587,21 +588,21 @@ Create an instance: `inbox = client.Inbox`
 | Field | Type | Description |
 | --- | --- | --- |
 | `comment` | `String` |  |
-| `country_code` | `String` |  |
+| `countryCode` | `String` |  |
 | `crc32` | `Integer` |  |
-| `created_at` | `Integer` |  |
+| `createdAt` | `Integer` |  |
 | `filename` | `String` |  |
 | `id` | `Integer` |  |
-| `inbox_url` | `String` |  |
+| `inboxUrl` | `String` |  |
 | `lat` | `Float` |  |
 | `lon` | `Float` |  |
-| `new_lat` | `Float` |  |
-| `new_lon` | `Float` |  |
-| `new_title` | `String` |  |
-| `problem_report_type` | `String` |  |
-| `rejected_reason` | `String` |  |
+| `newLat` | `Float` |  |
+| `newLon` | `Float` |  |
+| `newTitle` | `String` |  |
+| `problemReportType` | `String` |  |
+| `rejectedReason` | `String` |  |
 | `state` | `String` |  |
-| `station_id` | `String` |  |
+| `stationId` | `String` |  |
 | `title` | `String` |  |
 
 #### Example: List
@@ -635,12 +636,12 @@ Create an instance: `inbox_count = client.InboxCount`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `pending_inbox_entry` | `Integer` |  |
+| `pendingInboxEntries` | `Integer` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare InboxCount record (raises on error).
+# load returns the ENTITY — call data_get for the InboxCount record (raises on error).
 inbox_count = client.InboxCount.load()
 ```
 
@@ -661,25 +662,25 @@ Create an instance: `inbox_entry = client.InboxEntry`
 | --- | --- | --- |
 | `active` | `Boolean` |  |
 | `comment` | `String` |  |
-| `country_code` | `String` |  |
-| `created_at` | `Integer` |  |
+| `countryCode` | `String` |  |
+| `createdAt` | `Integer` |  |
 | `done` | `Boolean` |  |
 | `filename` | `String` |  |
-| `has_conflict` | `Boolean` |  |
-| `has_photo` | `Boolean` |  |
+| `hasConflict` | `Boolean` |  |
+| `hasPhoto` | `Boolean` |  |
 | `id` | `Integer` |  |
-| `inbox_url` | `String` |  |
-| `is_processed` | `Boolean` |  |
+| `inboxUrl` | `String` |  |
+| `isProcessed` | `Boolean` |  |
 | `lat` | `Float` |  |
 | `lon` | `Float` |  |
-| `new_lat` | `Float` |  |
-| `new_lon` | `Float` |  |
-| `new_title` | `String` |  |
-| `photo_id` | `Integer` |  |
-| `photographer_email` | `String` |  |
-| `photographer_nickname` | `String` |  |
-| `problem_report_type` | `String` |  |
-| `station_id` | `String` |  |
+| `newLat` | `Float` |  |
+| `newLon` | `Float` |  |
+| `newTitle` | `String` |  |
+| `photoId` | `Integer` |  |
+| `photographerEmail` | `String` |  |
+| `photographerNickname` | `String` |  |
+| `problemReportType` | `String` |  |
+| `stationId` | `String` |  |
 | `title` | `String` |  |
 
 #### Example: List
@@ -740,7 +741,7 @@ Create an instance: `oauth = client.Oauth`
 #### Example: Load
 
 ```ruby
-# load returns the bare Oauth record (raises on error).
+# load returns the ENTITY — call data_get for the Oauth record (raises on error).
 oauth = client.Oauth.load()
 ```
 
@@ -765,7 +766,7 @@ Create an instance: `photo = client.Photo`
 #### Example: Load
 
 ```ruby
-# load returns the bare Photo record (raises on error).
+# load returns the ENTITY — call data_get for the Photo record (raises on error).
 photo = client.Photo.load({ "country" => "country", "filename" => "filename" })
 ```
 
@@ -783,7 +784,7 @@ Create an instance: `photo_download = client.PhotoDownload`
 #### Example: Load
 
 ```ruby
-# load returns the bare PhotoDownload record (raises on error).
+# load returns the ENTITY — call data_get for the PhotoDownload record (raises on error).
 photo_download = client.PhotoDownload.load({ "filename" => "filename" })
 ```
 
@@ -803,15 +804,15 @@ Create an instance: `photo_station = client.PhotoStation`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `license` | `Array` |  |
-| `photo_base_url` | `String` |  |
-| `photographer` | `Array` |  |
-| `station` | `Array` |  |
+| `licenses` | `Array` |  |
+| `photoBaseUrl` | `String` |  |
+| `photographers` | `Array` |  |
+| `stations` | `Array` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare PhotoStation record (raises on error).
+# load returns the ENTITY — call data_get for the PhotoStation record (raises on error).
 photo_station = client.PhotoStation.load()
 ```
 
@@ -854,7 +855,7 @@ Create an instance: `photographer = client.Photographer`
 #### Example: Load
 
 ```ruby
-# load returns the bare Photographer record (raises on error).
+# load returns the ENTITY — call data_get for the Photographer record (raises on error).
 photographer = client.Photographer.load()
 ```
 
@@ -878,18 +879,18 @@ Create an instance: `profile = client.Profile`
 | `admin` | `Boolean` |  |
 | `anonymous` | `Boolean` |  |
 | `email` | `String` |  |
-| `email_verified` | `Boolean` |  |
+| `emailVerified` | `Boolean` |  |
 | `license` | `String` |  |
 | `link` | `String` |  |
-| `new_password` | `String` |  |
+| `newPassword` | `String` |  |
 | `nickname` | `String` |  |
-| `photo_owner` | `Boolean` |  |
-| `send_notification` | `Boolean` |  |
+| `photoOwner` | `Boolean` |  |
+| `sendNotifications` | `Boolean` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare Profile record (raises on error).
+# load returns the ENTITY — call data_get for the Profile record (raises on error).
 profile = client.Profile.load()
 ```
 
@@ -898,9 +899,9 @@ profile = client.Profile.load()
 ```ruby
 profile = client.Profile.create({
   "license" => "example_license", # String
-  "new_password" => "example_new_password", # String
+  "newPassword" => "example_newPassword", # String
   "nickname" => "example_nickname", # String
-  "photo_owner" => true, # Boolean
+  "photoOwner" => true, # Boolean
 })
 ```
 
@@ -919,10 +920,10 @@ Create an instance: `public_inbox = client.PublicInbox`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `country_code` | `String` |  |
+| `countryCode` | `String` |  |
 | `lat` | `Float` |  |
 | `lon` | `Float` |  |
-| `station_id` | `String` |  |
+| `stationId` | `String` |  |
 | `title` | `String` |  |
 
 #### Example: List
@@ -947,16 +948,16 @@ Create an instance: `stat = client.Stat`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `country_code` | `String` |  |
-| `photographer` | `Integer` |  |
+| `countryCode` | `String` |  |
+| `photographers` | `Integer` |  |
 | `total` | `Integer` |  |
-| `with_photo` | `Integer` |  |
-| `without_photo` | `Integer` |  |
+| `withPhoto` | `Integer` |  |
+| `withoutPhoto` | `Integer` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare Stat record (raises on error).
+# load returns the ENTITY — call data_get for the Stat record (raises on error).
 stat = client.Stat.load()
 ```
 
@@ -1037,11 +1038,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```ruby
-country = client.Country
-country.list()
+publicinbox = client.PublicInbox
+publicinbox.list()
 
-# country.data_get now returns the country data from the last list
-# country.match_get returns the last match criteria
+# publicinbox.data_get now returns the publicinbox data from the last list
+# publicinbox.match_get returns the last match criteria
 ```
 
 Call `make` to create a fresh instance with the same configuration

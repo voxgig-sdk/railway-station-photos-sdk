@@ -23,6 +23,7 @@ require_once __DIR__ . '/MakeUrl.php';
 require_once __DIR__ . '/Param.php';
 require_once __DIR__ . '/PrepareAuth.php';
 require_once __DIR__ . '/PrepareBody.php';
+require_once __DIR__ . '/Graphql.php';
 require_once __DIR__ . '/PrepareHeaders.php';
 require_once __DIR__ . '/PrepareMethod.php';
 require_once __DIR__ . '/PrepareParams.php';
@@ -59,6 +60,8 @@ RailwayStationPhotosUtility::setRegistrar(function (RailwayStationPhotosUtility 
     $u->prepare_params = [RailwayStationPhotosPrepareParams::class, 'call'];
     $u->prepare_path = [RailwayStationPhotosPreparePath::class, 'call'];
     $u->prepare_query = [RailwayStationPhotosPrepareQuery::class, 'call'];
+    $u->graphql_body = [RailwayStationPhotosGraphql::class, 'body'];
+    $u->graphql_errors = [RailwayStationPhotosGraphql::class, 'errors'];
     $u->result_basic = [RailwayStationPhotosResultBasic::class, 'call'];
     $u->result_body = [RailwayStationPhotosResultBody::class, 'call'];
     $u->result_headers = [RailwayStationPhotosResultHeaders::class, 'call'];
