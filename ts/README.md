@@ -487,7 +487,7 @@ API path: `/inbox/done/{filename}`
 
 Operations: list, load.
 
-API path: `/photoStationById/{country}/{id}`
+API path: `/photoStationsByRecentPhotoImports`
 
 #### PhotoUpload
 
@@ -865,7 +865,7 @@ Create an instance: `const photo_station = client.PhotoStation()`
 #### Example: Load
 
 ```ts
-const photo_station = await client.PhotoStation().load()
+const photo_station = await client.PhotoStation().load({ country: 'country' })
 ```
 
 #### Example: List
@@ -940,7 +940,7 @@ Create an instance: `const profile = client.Profile()`
 #### Example: Load
 
 ```ts
-const profile = await client.Profile().load()
+const profile = await client.Profile().load({ token: 'token' })
 ```
 
 #### Example: Create

@@ -432,7 +432,7 @@ API path: `/inbox/done/{filename}`
 
 Operations: List, Load.
 
-API path: `/photoStationById/{country}/{id}`
+API path: `/photoStationsByRecentPhotoImports`
 
 #### PhotoUpload
 
@@ -810,7 +810,7 @@ Create an instance: `photo_station = client.PhotoStation()`
 #### Example: Load
 
 ```python
-photo_station = client.PhotoStation().load()
+photo_station = client.PhotoStation().load({"country": "country"})
 ```
 
 #### Example: List
@@ -885,7 +885,7 @@ Create an instance: `profile = client.Profile()`
 #### Example: Load
 
 ```python
-profile = client.Profile().load()
+profile = client.Profile().load({"token": "token"})
 ```
 
 #### Example: Create

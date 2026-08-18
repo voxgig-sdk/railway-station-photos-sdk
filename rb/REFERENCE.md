@@ -757,7 +757,7 @@ results = client.PhotoStation.list
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.PhotoStation.load()
+result = client.PhotoStation.load({ "country" => "country" })
 ```
 
 ### Common Methods
@@ -939,7 +939,7 @@ result = client.Profile.create({
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.Profile.load()
+result = client.Profile.load({ "token" => "token" })
 ```
 
 #### `remove(reqmatch, ctrl = nil) -> result`

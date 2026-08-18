@@ -437,7 +437,7 @@ API path: `/inbox/done/{filename}`
 
 Operations: List, Load.
 
-API path: `/photoStationById/{country}/{id}`
+API path: `/photoStationsByRecentPhotoImports`
 
 #### PhotoUpload
 
@@ -823,7 +823,7 @@ Create an instance: `$photo_station = $client->PhotoStation();`
 
 ```php
 // load() returns the ENTITY — call data_get() for the PhotoStation record (throws on error).
-$photo_station = $client->PhotoStation()->load();
+$photo_station = $client->PhotoStation()->load(["country" => "country"]);
 ```
 
 #### Example: List
@@ -901,7 +901,7 @@ Create an instance: `$profile = $client->Profile();`
 
 ```php
 // load() returns the ENTITY — call data_get() for the Profile record (throws on error).
-$profile = $client->Profile()->load();
+$profile = $client->Profile()->load(["token" => "token"]);
 ```
 
 #### Example: Create

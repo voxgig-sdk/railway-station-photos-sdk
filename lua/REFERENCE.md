@@ -754,7 +754,7 @@ local results, err = client:PhotoStation():list()
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:PhotoStation():load()
+local result, err = client:PhotoStation():load({ country = "country" })
 ```
 
 ### Common Methods
@@ -936,7 +936,7 @@ local result, err = client:Profile():create({
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Profile():load()
+local result, err = client:Profile():load({ token = "token" })
 ```
 
 #### `remove(reqmatch, ctrl) -> any, err`

@@ -83,7 +83,7 @@ guide: {
 
   entity: photo_station: {
     path: "/photoStationById/{country}/{id}": {
-      op: list: method: *GET
+      op: load: method: *GET
     }
     path: "/photoStationsByCountry/{country}": {
       op: load: method: *GET

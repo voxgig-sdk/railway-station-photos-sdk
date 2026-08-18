@@ -749,7 +749,7 @@ for photo_station in results:
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.PhotoStation().load()
+result = client.PhotoStation().load({"country": "country"})
 ```
 
 ### Common Methods
@@ -928,7 +928,7 @@ result = client.Profile().create({
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.Profile().load()
+result = client.Profile().load({"token": "token"})
 ```
 
 #### `remove(reqmatch, ctrl=None) -> dict`

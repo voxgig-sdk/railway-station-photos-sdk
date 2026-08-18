@@ -25,6 +25,7 @@ support (`list`, `load`, `create`, `remove`):
 const client = new RailwayStationPhotosSDK()
 const admininbox = await client.AdminInbox().create({
   command: 'example',
+  id: 1,
   message: 'example',
   status: 1,
 })
@@ -180,7 +181,7 @@ The API exposes 16 entities:
 | **Oauth** | The Oauth entity (create, load). | `/oauth2/authorize` |
 | **Photo** | The Photo entity (load). | `/photos/{country}/{filename}` |
 | **PhotoDownload** | The PhotoDownload entity (load). | `/inbox/done/{filename}` |
-| **PhotoStation** | The PhotoStation entity (list, load). | `/photoStationById/{country}/{id}` |
+| **PhotoStation** | The PhotoStation entity (list, load). | `/photoStationsByRecentPhotoImports` |
 | **PhotoUpload** | The PhotoUpload entity (create). | `/photoUpload` |
 | **Photographer** | The Photographer entity (load). | `/photographers` |
 | **Profile** | The Profile entity (create, load, remove). | `/myProfile` |

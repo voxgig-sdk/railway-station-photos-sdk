@@ -40,7 +40,7 @@ class RailwayStationPhotosSDK
         $utility = new RailwayStationPhotosUtility();
         $this->_utility = $utility;
 
-        $config = RailwayStationPhotosConfig::make_config();
+        $config = RailwayStationPhotosConfig::shared_config();
 
         $this->_rootctx = ($utility->make_context)([
             "client" => $this,

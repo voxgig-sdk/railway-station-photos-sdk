@@ -419,7 +419,7 @@ API path: `/inbox/done/{filename}`
 
 Operations: List, Load.
 
-API path: `/photoStationById/{country}/{id}`
+API path: `/photoStationsByRecentPhotoImports`
 
 #### PhotoUpload
 
@@ -797,7 +797,7 @@ Create an instance: `local photo_station = client:PhotoStation(nil)`
 #### Example: Load
 
 ```lua
-local photo_station, err = client:PhotoStation():load()
+local photo_station, err = client:PhotoStation():load({ country = "country" })
 ```
 
 #### Example: List
@@ -872,7 +872,7 @@ Create an instance: `local profile = client:Profile(nil)`
 #### Example: Load
 
 ```lua
-local profile, err = client:Profile():load()
+local profile, err = client:Profile():load({ token = "token" })
 ```
 
 #### Example: Create

@@ -23,8 +23,8 @@ class RailwayStationPhotosSDK:
         utility = RailwayStationPhotosUtility()
         self._utility = utility
 
-        from railwaystationphotos_sdk.config import make_config
-        config = make_config()
+        from railwaystationphotos_sdk.config import shared_config
+        config = shared_config()
 
         self._rootctx = utility.make_context({
             "client": self,

@@ -16,32 +16,13 @@ class PhotoStationDirectTest < Minitest::Test
       skip(_reason || "skipped via sdk-test-control.json")
       return
     end
-    if setup[:live]
-      ["country01", "photo_station01"].each do |_live_key|
-        if setup[:idmap][_live_key].nil?
-          skip "live test needs #{_live_key} via *_ENTID env var (synthetic IDs only)"
-          return
-        end
-      end
-    end
     client = setup[:client]
 
-    params = {}
-    if setup[:live]
-      params["country"] = setup[:idmap]["country01"]
-    else
-      params["country"] = "direct01"
-    end
-    if setup[:live]
-      params["id"] = setup[:idmap]["photo_station01"]
-    else
-      params["id"] = "direct01"
-    end
 
     result = client.direct({
-      "path" => "photoStationById/{country}/{id}",
+      "path" => "photoStationsByRecentPhotoImports",
       "method" => "GET",
-      "params" => params,
+      "params" => {},
     })
     if setup[:live]
       # Live mode is lenient: synthetic IDs frequently 4xx and the list-

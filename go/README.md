@@ -441,7 +441,7 @@ API path: `/inbox/done/{filename}`
 
 Operations: List, Load.
 
-API path: `/photoStationById/{country}/{id}`
+API path: `/photoStationsByRecentPhotoImports`
 
 #### PhotoUpload
 
@@ -863,7 +863,7 @@ Create an instance: `photoStation := client.PhotoStation(nil)`
 #### Example: Load
 
 ```go
-photoStation, err := client.PhotoStation(nil).Load(nil, nil)
+photoStation, err := client.PhotoStation(nil).Load(map[string]any{"country": "country"}, nil)
 if err != nil {
     panic(err)
 }
@@ -954,7 +954,7 @@ Create an instance: `profile := client.Profile(nil)`
 #### Example: Load
 
 ```go
-profile, err := client.Profile(nil).Load(nil, nil)
+profile, err := client.Profile(nil).Load(map[string]any{"token": "token"}, nil)
 if err != nil {
     panic(err)
 }

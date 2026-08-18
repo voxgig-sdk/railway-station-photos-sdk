@@ -764,7 +764,7 @@ fmt.Println(results)
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.PhotoStation(nil).Load(nil, nil)
+result, err := client.PhotoStation(nil).Load(map[string]any{"country": "country"}, nil)
 if err != nil {
     panic(err)
 }
@@ -930,7 +930,7 @@ fmt.Println(profile.GetName()) // "profile"
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.Profile(nil).Load(nil, nil)
+result, err := client.Profile(nil).Load(map[string]any{"token": "token"}, nil)
 if err != nil {
     panic(err)
 }

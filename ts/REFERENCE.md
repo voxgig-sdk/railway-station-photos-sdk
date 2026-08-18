@@ -880,7 +880,7 @@ const results = await client.PhotoStation().list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.PhotoStation().load()
+const result = await client.PhotoStation().load({ country: 'country' })
 ```
 
 ### Common Methods
@@ -1056,7 +1056,7 @@ const result = await client.Profile().create({
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Profile().load()
+const result = await client.Profile().load({ token: 'token' })
 ```
 
 #### `remove(match: object, ctrl?: object)`

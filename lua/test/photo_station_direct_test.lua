@@ -17,32 +17,13 @@ describe("PhotoStationDirect", function()
       pending(_reason or "skipped via sdk-test-control.json")
       return
     end
-    if setup.live then
-      for _, _live_key in ipairs({"country01", "photo_station01"}) do
-        if setup.idmap[_live_key] == nil then
-          pending("live test needs " .. _live_key .. " via *_ENTID env var (synthetic IDs only)")
-          return
-        end
-      end
-    end
     local client = setup.client
 
-    local params = {}
-    if setup.live then
-      params["country"] = setup.idmap["country01"]
-    else
-      params["country"] = "direct01"
-    end
-    if setup.live then
-      params["id"] = setup.idmap["photo_station01"]
-    else
-      params["id"] = "direct01"
-    end
 
     local result, err = client:direct({
-      path = "photoStationById/{country}/{id}",
+      path = "photoStationsByRecentPhotoImports",
       method = "GET",
-      params = params,
+      params = {},
     })
     if setup.live then
       -- Live mode is lenient: synthetic IDs frequently 4xx and the list-

@@ -28,7 +28,7 @@ class RailwayStationPhotosSDK
     utility = RailwayStationPhotosUtility.new
     @_utility = utility
 
-    config = RailwayStationPhotosConfig.make_config
+    config = RailwayStationPhotosConfig.shared_config
 
     @_rootctx = utility.make_context.call({
       "client" => self,

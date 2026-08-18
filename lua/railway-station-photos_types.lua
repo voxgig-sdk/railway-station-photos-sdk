@@ -212,12 +212,13 @@
 ---@field stations table
 
 ---@class PhotoStationLoadMatch
----@field country? string
----@field photographer? string
+---@field country string
 
 ---@class PhotoStationListMatch
----@field country? string
----@field id? string
+---@field licenses? table
+---@field photoBaseUrl? string
+---@field photographers? table
+---@field stations? table
 
 ---@class PhotoUpload
 
@@ -240,7 +241,7 @@
 ---@field sendNotifications? boolean
 
 ---@class ProfileLoadMatch
----@field token? string
+---@field token string
 
 ---@class ProfileCreateData
 ---@field admin? boolean

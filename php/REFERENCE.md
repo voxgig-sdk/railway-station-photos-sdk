@@ -756,7 +756,7 @@ $results = $client->PhotoStation()->list();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->PhotoStation()->load();
+$result = $client->PhotoStation()->load(["country" => "country"]);
 ```
 
 ### Common Methods
@@ -938,7 +938,7 @@ $result = $client->Profile()->create([
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->Profile()->load();
+$result = $client->Profile()->load(["token" => "token"]);
 ```
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`

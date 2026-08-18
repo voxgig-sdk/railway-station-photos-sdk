@@ -274,14 +274,15 @@ class PhotoStation(TypedDict):
     stations: list
 
 
-class PhotoStationLoadMatch(TypedDict, total=False):
+class PhotoStationLoadMatch(TypedDict):
     country: str
-    photographer: str
 
 
 class PhotoStationListMatch(TypedDict, total=False):
-    country: str
-    id: str
+    licenses: list
+    photoBaseUrl: str
+    photographers: list
+    stations: list
 
 
 class PhotoUpload(TypedDict):
@@ -316,7 +317,7 @@ class Profile(ProfileRequired, total=False):
     sendNotifications: bool
 
 
-class ProfileLoadMatch(TypedDict, total=False):
+class ProfileLoadMatch(TypedDict):
     token: str
 
 

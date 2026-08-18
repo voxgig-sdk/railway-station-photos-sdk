@@ -21,29 +21,13 @@ class TestPhotoStationDirect:
             # pytest already imported at module scope
             pytest.skip(_reason or "skipped via sdk-test-control.json")
             return
-        if setup["live"]:
-            for _live_key in ["country01", "photo_station01"]:
-                if setup["idmap"].get(_live_key) is None:
-                    # pytest already imported at module scope
-                    pytest.skip(f"live test needs {_live_key} via *_ENTID env var (synthetic IDs only)")
-                    return
-
         client = setup["client"]
 
-        params = {}
-        if setup["live"]:
-            params["country"] = setup["idmap"]["country01"]
-        else:
-            params["country"] = "direct01"
-        if setup["live"]:
-            params["id"] = setup["idmap"]["photo_station01"]
-        else:
-            params["id"] = "direct01"
 
         result = client.direct({
-            "path": "photoStationById/{country}/{id}",
+            "path": "photoStationsByRecentPhotoImports",
             "method": "GET",
-            "params": params,
+            "params": {},
         })
         if setup["live"]:
             # Live mode is lenient: synthetic IDs frequently 4xx and the

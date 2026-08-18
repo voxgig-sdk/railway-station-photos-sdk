@@ -45,11 +45,10 @@ describe('PhotoStationDirect', async () => {
     const query: any = {}
     if (setup.live) {
       const listResult: any = await client.direct({
-        path: 'photoStationById/{country}/{id}',
+        path: 'photoStationsByRecentPhotoImports',
         method: 'GET',
         params: {
-        country: setup.idmap['country01'],
-        id: setup.idmap['photo_station01'],
+
         },
       })
       if (!listResult.ok) {
@@ -97,21 +96,13 @@ describe('PhotoStationDirect', async () => {
   test('direct-list-photo_station', async (t: any) => {
     const setup = directSetup([{ id: 'direct01' }, { id: 'direct02' }])
     if (maybeSkipControl(t, 'direct', 'direct-list-photo_station', setup.live)) return
-    if (skipIfMissingIds(t, setup, ["country01","photo_station01"])) return
     const { client, calls } = setup
 
     const params: any = {}
     const query: any = {}
-    if (setup.live) {
-      params.country = setup.idmap['country01']
-      params.id = setup.idmap['photo_station01']
-    } else {
-      params.country = 'direct01'
-      params.id = 'direct02'
-    }
 
     const result: any = await client.direct({
-      path: 'photoStationById/{country}/{id}',
+      path: 'photoStationsByRecentPhotoImports',
       method: 'GET',
       params,
       query,
@@ -137,8 +128,6 @@ describe('PhotoStationDirect', async () => {
       assert(listArr!.length === 2)
       assert(calls.length === 1)
       assert(calls[0].init.method === 'GET')
-      assert(calls[0].url.includes('direct01'))
-      assert(calls[0].url.includes('direct02'))
     }
   })
 
