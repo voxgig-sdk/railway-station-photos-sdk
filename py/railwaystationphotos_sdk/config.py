@@ -28,6 +28,9 @@ def make_config():
     return {
         "main": {
             "name": "RailwayStationPhotos",
+            "slug": "railway-station-photos",
+            "version": "0.0.1",
+            "target": "py",
         },
         "feature": {
             "test": {
@@ -65,10 +68,12 @@ def make_config():
         "fields": [
           {
             "name": "DS100",
+            "short": "DS100 attribute of a new station",
             "type": "`$STRING`",
           },
           {
             "name": "active",
+            "short": "active flag of a new station (default true)",
             "type": "`$BOOLEAN`",
           },
           {
@@ -78,10 +83,12 @@ def make_config():
           },
           {
             "name": "conflictResolution",
+            "short": "how to handle conflicts",
             "type": "`$STRING`",
           },
           {
             "name": "countryCode",
+            "short": "a two character country code",
             "type": "`$STRING`",
           },
           {
@@ -104,10 +111,12 @@ def make_config():
           },
           {
             "name": "rejectReason",
+            "short": "explanation of a rejection",
             "type": "`$STRING`",
           },
           {
             "name": "stationId",
+            "short": "ID of a new station",
             "type": "`$STRING`",
           },
           {
@@ -166,41 +175,50 @@ def make_config():
           {
             "name": "active",
             "req": True,
+            "short": "Is this an active country where we collect photos?",
             "type": "`$BOOLEAN`",
           },
           {
             "name": "allowPhotoUploads",
             "req": True,
+            "short": "Are photo uploads allowed?",
             "type": "`$BOOLEAN`",
           },
           {
             "name": "code",
             "req": True,
+            "short": "a two character country code",
             "type": "`$STRING`",
           },
           {
             "name": "email",
+            "short": "Contact email address",
             "type": "`$STRING`",
           },
           {
             "name": "message",
+            "short": "Informational message about this country",
             "type": "`$STRING`",
           },
           {
             "name": "name",
             "req": True,
+            "short": "Name of the country",
             "type": "`$STRING`",
           },
           {
             "name": "overrideLicense",
+            "short": "if a country needs a special license",
             "type": "`$STRING`",
           },
           {
             "name": "providerApps",
+            "short": "array with links to provider apps",
             "type": "`$ARRAY`",
           },
           {
             "name": "timetableUrlTemplate",
+            "short": "URL template for the timetable, contains {title}, {id} and {DS100} placeholders which need to be replaced",
             "type": "`$STRING`",
           },
         ],
@@ -252,10 +270,12 @@ def make_config():
           },
           {
             "name": "countryCode",
+            "short": "a two character country code",
             "type": "`$STRING`",
           },
           {
             "name": "crc32",
+            "short": "CRC32 checksum of the uploaded photo",
             "type": "`$INTEGER`",
           },
           {
@@ -264,6 +284,7 @@ def make_config():
           },
           {
             "name": "filename",
+            "short": "filename in inbox",
             "type": "`$STRING`",
           },
           {
@@ -273,6 +294,7 @@ def make_config():
           },
           {
             "name": "inboxUrl",
+            "short": "url of the photo in the inbox",
             "type": "`$STRING`",
           },
           {
@@ -297,6 +319,7 @@ def make_config():
           },
           {
             "name": "problemReportType",
+            "short": "types of problem reports",
             "type": "`$STRING`",
           },
           {
@@ -503,6 +526,7 @@ def make_config():
         "fields": [
           {
             "name": "active",
+            "short": "active flag provided by the user",
             "type": "`$BOOLEAN`",
           },
           {
@@ -512,6 +536,7 @@ def make_config():
           },
           {
             "name": "countryCode",
+            "short": "a two character country code",
             "type": "`$STRING`",
           },
           {
@@ -522,19 +547,23 @@ def make_config():
           {
             "name": "done",
             "req": True,
+            "short": "true if this photo was already imported or rejected",
             "type": "`$BOOLEAN`",
           },
           {
             "name": "filename",
+            "short": "name of the file in inbox",
             "type": "`$STRING`",
           },
           {
             "name": "hasConflict",
+            "short": "conflict with another upload or existing photo",
             "type": "`$BOOLEAN`",
           },
           {
             "name": "hasPhoto",
             "req": True,
+            "short": "this station has already a photo (conflict)",
             "type": "`$BOOLEAN`",
           },
           {
@@ -544,10 +573,12 @@ def make_config():
           },
           {
             "name": "inboxUrl",
+            "short": "url of the photo in the inbox",
             "type": "`$STRING`",
           },
           {
             "name": "isProcessed",
+            "short": "was this image process (e.g.",
             "type": "`$BOOLEAN`",
           },
           {
@@ -572,6 +603,7 @@ def make_config():
           },
           {
             "name": "photoId",
+            "short": "ID of the photo",
             "type": "`$INTEGER`",
           },
           {
@@ -585,6 +617,7 @@ def make_config():
           },
           {
             "name": "problemReportType",
+            "short": "types of problem reports",
             "type": "`$STRING`",
           },
           {
@@ -1091,21 +1124,25 @@ def make_config():
           {
             "name": "licenses",
             "req": True,
+            "short": "List of used licenses, might be empty if no photos available",
             "type": "`$ARRAY`",
           },
           {
             "name": "photoBaseUrl",
             "req": True,
+            "short": "Base URL of all photos",
             "type": "`$STRING`",
           },
           {
             "name": "photographers",
             "req": True,
+            "short": "List of all photographers, might be empty if no photos available",
             "type": "`$ARRAY`",
           },
           {
             "name": "stations",
             "req": True,
+            "short": "List of the stations",
             "type": "`$ARRAY`",
           },
         ],
@@ -1461,6 +1498,7 @@ def make_config():
               },
             },
             "req": True,
+            "short": "the only accepted type is \"CC0 1.0 Universell (CC0 1.0)\", the others are listed for backward compatibility",
             "type": "`$STRING`",
           },
           {
@@ -1694,6 +1732,7 @@ def make_config():
         "fields": [
           {
             "name": "countryCode",
+            "short": "a two character country code",
             "type": "`$STRING`",
           },
           {
@@ -1747,6 +1786,7 @@ def make_config():
         "fields": [
           {
             "name": "countryCode",
+            "short": "an optional two character country code",
             "type": "`$STRING`",
           },
           {

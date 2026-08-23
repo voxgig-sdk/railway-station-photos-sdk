@@ -36,12 +36,14 @@
               "active": true,
               "name": "DS100",
               "req": false,
+              "short": "DS100 attribute of a new station",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "active",
               "req": false,
+              "short": "active flag of a new station (default true)",
               "type": "`$BOOLEAN`"
             },
             {
@@ -54,12 +56,14 @@
               "active": true,
               "name": "conflictResolution",
               "req": false,
+              "short": "how to handle conflicts",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "countryCode",
               "req": false,
+              "short": "a two character country code",
               "type": "`$STRING`"
             },
             {
@@ -90,12 +94,14 @@
               "active": true,
               "name": "rejectReason",
               "req": false,
+              "short": "explanation of a rejection",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "stationId",
               "req": false,
+              "short": "ID of a new station",
               "type": "`$STRING`"
             },
             {
@@ -168,54 +174,63 @@
               "active": true,
               "name": "active",
               "req": true,
+              "short": "Is this an active country where we collect photos?",
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
               "name": "allowPhotoUploads",
               "req": true,
+              "short": "Are photo uploads allowed?",
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
               "name": "code",
               "req": true,
+              "short": "a two character country code",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "email",
               "req": false,
+              "short": "Contact email address",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "message",
               "req": false,
+              "short": "Informational message about this country",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "name",
               "req": true,
+              "short": "Name of the country",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "overrideLicense",
               "req": false,
+              "short": "if a country needs a special license",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "providerApps",
               "req": false,
+              "short": "array with links to provider apps",
               "type": "`$ARRAY`"
             },
             {
               "active": true,
               "name": "timetableUrlTemplate",
               "req": false,
+              "short": "URL template for the timetable, contains {title}, {id} and {DS100} placeholders which need to be replaced",
               "type": "`$STRING`"
             }
           ],
@@ -278,12 +293,14 @@
               "active": true,
               "name": "countryCode",
               "req": false,
+              "short": "a two character country code",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "crc32",
               "req": false,
+              "short": "CRC32 checksum of the uploaded photo",
               "type": "`$INTEGER`"
             },
             {
@@ -296,6 +313,7 @@
               "active": true,
               "name": "filename",
               "req": false,
+              "short": "filename in inbox",
               "type": "`$STRING`"
             },
             {
@@ -308,6 +326,7 @@
               "active": true,
               "name": "inboxUrl",
               "req": false,
+              "short": "url of the photo in the inbox",
               "type": "`$STRING`"
             },
             {
@@ -344,6 +363,7 @@
               "active": true,
               "name": "problemReportType",
               "req": false,
+              "short": "types of problem reports",
               "type": "`$STRING`"
             },
             {
@@ -583,6 +603,7 @@
               "active": true,
               "name": "active",
               "req": false,
+              "short": "active flag provided by the user",
               "type": "`$BOOLEAN`"
             },
             {
@@ -595,6 +616,7 @@
               "active": true,
               "name": "countryCode",
               "req": false,
+              "short": "a two character country code",
               "type": "`$STRING`"
             },
             {
@@ -607,24 +629,28 @@
               "active": true,
               "name": "done",
               "req": true,
+              "short": "true if this photo was already imported or rejected",
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
               "name": "filename",
               "req": false,
+              "short": "name of the file in inbox",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "hasConflict",
               "req": false,
+              "short": "conflict with another upload or existing photo",
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
               "name": "hasPhoto",
               "req": true,
+              "short": "this station has already a photo (conflict)",
               "type": "`$BOOLEAN`"
             },
             {
@@ -637,12 +663,14 @@
               "active": true,
               "name": "inboxUrl",
               "req": false,
+              "short": "url of the photo in the inbox",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "isProcessed",
               "req": false,
+              "short": "was this image process (e.g.",
               "type": "`$BOOLEAN`"
             },
             {
@@ -679,6 +707,7 @@
               "active": true,
               "name": "photoId",
               "req": false,
+              "short": "ID of the photo",
               "type": "`$INTEGER`"
             },
             {
@@ -697,6 +726,7 @@
               "active": true,
               "name": "problemReportType",
               "req": false,
+              "short": "types of problem reports",
               "type": "`$STRING`"
             },
             {
@@ -1281,24 +1311,28 @@
               "active": true,
               "name": "licenses",
               "req": true,
+              "short": "List of used licenses, might be empty if no photos available",
               "type": "`$ARRAY`"
             },
             {
               "active": true,
               "name": "photoBaseUrl",
               "req": true,
+              "short": "Base URL of all photos",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "photographers",
               "req": true,
+              "short": "List of all photographers, might be empty if no photos available",
               "type": "`$ARRAY`"
             },
             {
               "active": true,
               "name": "stations",
               "req": true,
+              "short": "List of the stations",
               "type": "`$ARRAY`"
             }
           ],
@@ -1712,6 +1746,7 @@
                 }
               },
               "req": true,
+              "short": "the only accepted type is \"CC0 1.0 Universell (CC0 1.0)\", the others are listed for backward compatibility",
               "type": "`$STRING`"
             },
             {
@@ -1971,6 +2006,7 @@
               "active": true,
               "name": "countryCode",
               "req": false,
+              "short": "a two character country code",
               "type": "`$STRING`"
             },
             {
@@ -2036,6 +2072,7 @@
               "active": true,
               "name": "countryCode",
               "req": false,
+              "short": "an optional two character country code",
               "type": "`$STRING`"
             },
             {

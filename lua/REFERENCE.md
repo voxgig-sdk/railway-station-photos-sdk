@@ -150,17 +150,17 @@ local admin_inbox = client:AdminInbox(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `DS100` | `string` | No |  |
-| `active` | `boolean` | No |  |
+| `DS100` | `string` | No | DS100 attribute of a new station |
+| `active` | `boolean` | No | active flag of a new station (default true) |
 | `command` | `string` | Yes |  |
-| `conflictResolution` | `string` | No |  |
-| `countryCode` | `string` | No |  |
+| `conflictResolution` | `string` | No | how to handle conflicts |
+| `countryCode` | `string` | No | a two character country code |
 | `id` | `number` | Yes |  |
 | `lat` | `number` | No |  |
 | `lon` | `number` | No |  |
 | `message` | `string` | Yes |  |
-| `rejectReason` | `string` | No |  |
-| `stationId` | `string` | No |  |
+| `rejectReason` | `string` | No | explanation of a rejection |
+| `stationId` | `string` | No | ID of a new station |
 | `status` | `number` | Yes |  |
 | `title` | `string` | No |  |
 
@@ -219,15 +219,15 @@ local country = client:Country(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `active` | `boolean` | Yes |  |
-| `allowPhotoUploads` | `boolean` | Yes |  |
-| `code` | `string` | Yes |  |
-| `email` | `string` | No |  |
-| `message` | `string` | No |  |
-| `name` | `string` | Yes |  |
-| `overrideLicense` | `string` | No |  |
-| `providerApps` | `table` | No |  |
-| `timetableUrlTemplate` | `string` | No |  |
+| `active` | `boolean` | Yes | Is this an active country where we collect photos? |
+| `allowPhotoUploads` | `boolean` | Yes | Are photo uploads allowed? |
+| `code` | `string` | Yes | a two character country code |
+| `email` | `string` | No | Contact email address |
+| `message` | `string` | No | Informational message about this country |
+| `name` | `string` | Yes | Name of the country |
+| `overrideLicense` | `string` | No | if a country needs a special license |
+| `providerApps` | `table` | No | array with links to provider apps |
+| `timetableUrlTemplate` | `string` | No | URL template for the timetable, contains {title}, {id} and {DS100} placeholders which need to be replaced |
 
 ### Operations
 
@@ -280,18 +280,18 @@ local inbox = client:Inbox(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `comment` | `string` | No |  |
-| `countryCode` | `string` | No |  |
-| `crc32` | `number` | No |  |
+| `countryCode` | `string` | No | a two character country code |
+| `crc32` | `number` | No | CRC32 checksum of the uploaded photo |
 | `createdAt` | `number` | No |  |
-| `filename` | `string` | No |  |
+| `filename` | `string` | No | filename in inbox |
 | `id` | `number` | Yes |  |
-| `inboxUrl` | `string` | No |  |
+| `inboxUrl` | `string` | No | url of the photo in the inbox |
 | `lat` | `number` | No |  |
 | `lon` | `number` | No |  |
 | `newLat` | `number` | No |  |
 | `newLon` | `number` | No |  |
 | `newTitle` | `string` | No |  |
-| `problemReportType` | `string` | No |  |
+| `problemReportType` | `string` | No | types of problem reports |
 | `rejectedReason` | `string` | No |  |
 | `state` | `string` | Yes |  |
 | `stationId` | `string` | No |  |
@@ -418,26 +418,26 @@ local inbox_entry = client:InboxEntry(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `active` | `boolean` | No |  |
+| `active` | `boolean` | No | active flag provided by the user |
 | `comment` | `string` | Yes |  |
-| `countryCode` | `string` | No |  |
+| `countryCode` | `string` | No | a two character country code |
 | `createdAt` | `number` | Yes |  |
-| `done` | `boolean` | Yes |  |
-| `filename` | `string` | No |  |
-| `hasConflict` | `boolean` | No |  |
-| `hasPhoto` | `boolean` | Yes |  |
+| `done` | `boolean` | Yes | true if this photo was already imported or rejected |
+| `filename` | `string` | No | name of the file in inbox |
+| `hasConflict` | `boolean` | No | conflict with another upload or existing photo |
+| `hasPhoto` | `boolean` | Yes | this station has already a photo (conflict) |
 | `id` | `number` | Yes |  |
-| `inboxUrl` | `string` | No |  |
-| `isProcessed` | `boolean` | No |  |
+| `inboxUrl` | `string` | No | url of the photo in the inbox |
+| `isProcessed` | `boolean` | No | was this image process (e.g. |
 | `lat` | `number` | No |  |
 | `lon` | `number` | No |  |
 | `newLat` | `number` | No |  |
 | `newLon` | `number` | No |  |
 | `newTitle` | `string` | No |  |
-| `photoId` | `number` | No |  |
+| `photoId` | `number` | No | ID of the photo |
 | `photographerEmail` | `string` | No |  |
 | `photographerNickname` | `string` | Yes |  |
-| `problemReportType` | `string` | No |  |
+| `problemReportType` | `string` | No | types of problem reports |
 | `stationId` | `string` | No |  |
 | `title` | `string` | No |  |
 
@@ -734,10 +734,10 @@ local photo_station = client:PhotoStation(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `licenses` | `table` | Yes |  |
-| `photoBaseUrl` | `string` | Yes |  |
-| `photographers` | `table` | Yes |  |
-| `stations` | `table` | Yes |  |
+| `licenses` | `table` | Yes | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `string` | Yes | Base URL of all photos |
+| `photographers` | `table` | Yes | List of all photographers, might be empty if no photos available |
+| `stations` | `table` | Yes | List of the stations |
 
 ### Operations
 
@@ -894,7 +894,7 @@ local profile = client:Profile(nil)
 | `anonymous` | `boolean` | No |  |
 | `email` | `string` | No |  |
 | `emailVerified` | `boolean` | No |  |
-| `license` | `string` | Yes |  |
+| `license` | `string` | Yes | the only accepted type is "CC0 1.0 Universell (CC0 1.0)", the others are listed for backward compatibility |
 | `link` | `string` | No |  |
 | `newPassword` | `string` | Yes |  |
 | `nickname` | `string` | Yes |  |
@@ -987,7 +987,7 @@ local public_inbox = client:PublicInbox(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `countryCode` | `string` | No |  |
+| `countryCode` | `string` | No | a two character country code |
 | `lat` | `number` | Yes |  |
 | `lon` | `number` | Yes |  |
 | `stationId` | `string` | No |  |
@@ -1043,7 +1043,7 @@ local stat = client:Stat(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `countryCode` | `string` | No |  |
+| `countryCode` | `string` | No | an optional two character country code |
 | `photographers` | `number` | Yes |  |
 | `total` | `number` | Yes |  |
 | `withPhoto` | `number` | Yes |  |

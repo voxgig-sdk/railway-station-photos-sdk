@@ -1,0 +1,74 @@
+# Entity: stat
+
+main: kit: entity: stat: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "countryCode"
+      req: false
+      short: "an optional two character country code"
+      type: "`$STRING`"
+    }
+    {
+      name: "photographers"
+      req: true
+      type: "`$INTEGER`"
+    }
+    {
+      name: "total"
+      req: true
+      type: "`$INTEGER`"
+    }
+    {
+      name: "withPhoto"
+      req: true
+      type: "`$INTEGER`"
+    }
+    {
+      name: "withoutPhoto"
+      req: true
+      type: "`$INTEGER`"
+    }
+  ]
+
+  name: "stat"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "country"
+                orig: "country"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/stats"
+          parts: [
+            "stats"
+          ]
+          select: {
+            exist: [
+              "country"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

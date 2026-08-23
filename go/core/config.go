@@ -11,6 +11,9 @@ func MakeConfig() map[string]any {
 	return map[string]any{
 		"main": map[string]any{
 			"name": "RailwayStationPhotos",
+			"slug": "railway-station-photos",
+			"version": "0.0.1",
+			"target": "go",
 		},
 		"feature": map[string]any{
 			"test": map[string]any{
@@ -48,10 +51,12 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "DS100",
+						"short": "DS100 attribute of a new station",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "active",
+						"short": "active flag of a new station (default true)",
 						"type": "`$BOOLEAN`",
 					},
 					map[string]any{
@@ -61,10 +66,12 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"name": "conflictResolution",
+						"short": "how to handle conflicts",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "countryCode",
+						"short": "a two character country code",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -87,10 +94,12 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"name": "rejectReason",
+						"short": "explanation of a rejection",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "stationId",
+						"short": "ID of a new station",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -149,41 +158,50 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "active",
 						"req": true,
+						"short": "Is this an active country where we collect photos?",
 						"type": "`$BOOLEAN`",
 					},
 					map[string]any{
 						"name": "allowPhotoUploads",
 						"req": true,
+						"short": "Are photo uploads allowed?",
 						"type": "`$BOOLEAN`",
 					},
 					map[string]any{
 						"name": "code",
 						"req": true,
+						"short": "a two character country code",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "email",
+						"short": "Contact email address",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "message",
+						"short": "Informational message about this country",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "name",
 						"req": true,
+						"short": "Name of the country",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "overrideLicense",
+						"short": "if a country needs a special license",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "providerApps",
+						"short": "array with links to provider apps",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
 						"name": "timetableUrlTemplate",
+						"short": "URL template for the timetable, contains {title}, {id} and {DS100} placeholders which need to be replaced",
 						"type": "`$STRING`",
 					},
 				},
@@ -235,10 +253,12 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"name": "countryCode",
+						"short": "a two character country code",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "crc32",
+						"short": "CRC32 checksum of the uploaded photo",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
@@ -247,6 +267,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"name": "filename",
+						"short": "filename in inbox",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -256,6 +277,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"name": "inboxUrl",
+						"short": "url of the photo in the inbox",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -280,6 +302,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"name": "problemReportType",
+						"short": "types of problem reports",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -486,6 +509,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "active",
+						"short": "active flag provided by the user",
 						"type": "`$BOOLEAN`",
 					},
 					map[string]any{
@@ -495,6 +519,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"name": "countryCode",
+						"short": "a two character country code",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -505,19 +530,23 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "done",
 						"req": true,
+						"short": "true if this photo was already imported or rejected",
 						"type": "`$BOOLEAN`",
 					},
 					map[string]any{
 						"name": "filename",
+						"short": "name of the file in inbox",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "hasConflict",
+						"short": "conflict with another upload or existing photo",
 						"type": "`$BOOLEAN`",
 					},
 					map[string]any{
 						"name": "hasPhoto",
 						"req": true,
+						"short": "this station has already a photo (conflict)",
 						"type": "`$BOOLEAN`",
 					},
 					map[string]any{
@@ -527,10 +556,12 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"name": "inboxUrl",
+						"short": "url of the photo in the inbox",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "isProcessed",
+						"short": "was this image process (e.g.",
 						"type": "`$BOOLEAN`",
 					},
 					map[string]any{
@@ -555,6 +586,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"name": "photoId",
+						"short": "ID of the photo",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
@@ -568,6 +600,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"name": "problemReportType",
+						"short": "types of problem reports",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -1074,21 +1107,25 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "licenses",
 						"req": true,
+						"short": "List of used licenses, might be empty if no photos available",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
 						"name": "photoBaseUrl",
 						"req": true,
+						"short": "Base URL of all photos",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "photographers",
 						"req": true,
+						"short": "List of all photographers, might be empty if no photos available",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
 						"name": "stations",
 						"req": true,
+						"short": "List of the stations",
 						"type": "`$ARRAY`",
 					},
 				},
@@ -1444,6 +1481,7 @@ func MakeConfig() map[string]any {
 							},
 						},
 						"req": true,
+						"short": "the only accepted type is \"CC0 1.0 Universell (CC0 1.0)\", the others are listed for backward compatibility",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -1677,6 +1715,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "countryCode",
+						"short": "a two character country code",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -1730,6 +1769,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "countryCode",
+						"short": "an optional two character country code",
 						"type": "`$STRING`",
 					},
 					map[string]any{

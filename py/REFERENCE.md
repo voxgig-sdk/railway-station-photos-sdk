@@ -147,17 +147,17 @@ admin_inbox = client.AdminInbox()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `DS100` | `str` | No |  |
-| `active` | `bool` | No |  |
+| `DS100` | `str` | No | DS100 attribute of a new station |
+| `active` | `bool` | No | active flag of a new station (default true) |
 | `command` | `str` | Yes |  |
-| `conflictResolution` | `str` | No |  |
-| `countryCode` | `str` | No |  |
+| `conflictResolution` | `str` | No | how to handle conflicts |
+| `countryCode` | `str` | No | a two character country code |
 | `id` | `int` | Yes |  |
 | `lat` | `float` | No |  |
 | `lon` | `float` | No |  |
 | `message` | `str` | Yes |  |
-| `rejectReason` | `str` | No |  |
-| `stationId` | `str` | No |  |
+| `rejectReason` | `str` | No | explanation of a rejection |
+| `stationId` | `str` | No | ID of a new station |
 | `status` | `int` | Yes |  |
 | `title` | `str` | No |  |
 
@@ -215,15 +215,15 @@ country = client.Country()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `active` | `bool` | Yes |  |
-| `allowPhotoUploads` | `bool` | Yes |  |
-| `code` | `str` | Yes |  |
-| `email` | `str` | No |  |
-| `message` | `str` | No |  |
-| `name` | `str` | Yes |  |
-| `overrideLicense` | `str` | No |  |
-| `providerApps` | `list` | No |  |
-| `timetableUrlTemplate` | `str` | No |  |
+| `active` | `bool` | Yes | Is this an active country where we collect photos? |
+| `allowPhotoUploads` | `bool` | Yes | Are photo uploads allowed? |
+| `code` | `str` | Yes | a two character country code |
+| `email` | `str` | No | Contact email address |
+| `message` | `str` | No | Informational message about this country |
+| `name` | `str` | Yes | Name of the country |
+| `overrideLicense` | `str` | No | if a country needs a special license |
+| `providerApps` | `list` | No | array with links to provider apps |
+| `timetableUrlTemplate` | `str` | No | URL template for the timetable, contains {title}, {id} and {DS100} placeholders which need to be replaced |
 
 ### Operations
 
@@ -277,18 +277,18 @@ inbox = client.Inbox()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `comment` | `str` | No |  |
-| `countryCode` | `str` | No |  |
-| `crc32` | `int` | No |  |
+| `countryCode` | `str` | No | a two character country code |
+| `crc32` | `int` | No | CRC32 checksum of the uploaded photo |
 | `createdAt` | `int` | No |  |
-| `filename` | `str` | No |  |
+| `filename` | `str` | No | filename in inbox |
 | `id` | `int` | Yes |  |
-| `inboxUrl` | `str` | No |  |
+| `inboxUrl` | `str` | No | url of the photo in the inbox |
 | `lat` | `float` | No |  |
 | `lon` | `float` | No |  |
 | `newLat` | `float` | No |  |
 | `newLon` | `float` | No |  |
 | `newTitle` | `str` | No |  |
-| `problemReportType` | `str` | No |  |
+| `problemReportType` | `str` | No | types of problem reports |
 | `rejectedReason` | `str` | No |  |
 | `state` | `str` | Yes |  |
 | `stationId` | `str` | No |  |
@@ -415,26 +415,26 @@ inbox_entry = client.InboxEntry()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `active` | `bool` | No |  |
+| `active` | `bool` | No | active flag provided by the user |
 | `comment` | `str` | Yes |  |
-| `countryCode` | `str` | No |  |
+| `countryCode` | `str` | No | a two character country code |
 | `createdAt` | `int` | Yes |  |
-| `done` | `bool` | Yes |  |
-| `filename` | `str` | No |  |
-| `hasConflict` | `bool` | No |  |
-| `hasPhoto` | `bool` | Yes |  |
+| `done` | `bool` | Yes | true if this photo was already imported or rejected |
+| `filename` | `str` | No | name of the file in inbox |
+| `hasConflict` | `bool` | No | conflict with another upload or existing photo |
+| `hasPhoto` | `bool` | Yes | this station has already a photo (conflict) |
 | `id` | `int` | Yes |  |
-| `inboxUrl` | `str` | No |  |
-| `isProcessed` | `bool` | No |  |
+| `inboxUrl` | `str` | No | url of the photo in the inbox |
+| `isProcessed` | `bool` | No | was this image process (e.g. |
 | `lat` | `float` | No |  |
 | `lon` | `float` | No |  |
 | `newLat` | `float` | No |  |
 | `newLon` | `float` | No |  |
 | `newTitle` | `str` | No |  |
-| `photoId` | `int` | No |  |
+| `photoId` | `int` | No | ID of the photo |
 | `photographerEmail` | `str` | No |  |
 | `photographerNickname` | `str` | Yes |  |
-| `problemReportType` | `str` | No |  |
+| `problemReportType` | `str` | No | types of problem reports |
 | `stationId` | `str` | No |  |
 | `title` | `str` | No |  |
 
@@ -727,10 +727,10 @@ photo_station = client.PhotoStation()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `licenses` | `list` | Yes |  |
-| `photoBaseUrl` | `str` | Yes |  |
-| `photographers` | `list` | Yes |  |
-| `stations` | `list` | Yes |  |
+| `licenses` | `list` | Yes | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `str` | Yes | Base URL of all photos |
+| `photographers` | `list` | Yes | List of all photographers, might be empty if no photos available |
+| `stations` | `list` | Yes | List of the stations |
 
 ### Operations
 
@@ -886,7 +886,7 @@ profile = client.Profile()
 | `anonymous` | `bool` | No |  |
 | `email` | `str` | No |  |
 | `emailVerified` | `bool` | No |  |
-| `license` | `str` | Yes |  |
+| `license` | `str` | Yes | the only accepted type is "CC0 1.0 Universell (CC0 1.0)", the others are listed for backward compatibility |
 | `link` | `str` | No |  |
 | `newPassword` | `str` | Yes |  |
 | `nickname` | `str` | Yes |  |
@@ -978,7 +978,7 @@ public_inbox = client.PublicInbox()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `countryCode` | `str` | No |  |
+| `countryCode` | `str` | No | a two character country code |
 | `lat` | `float` | Yes |  |
 | `lon` | `float` | Yes |  |
 | `stationId` | `str` | No |  |
@@ -1035,7 +1035,7 @@ stat = client.Stat()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `countryCode` | `str` | No |  |
+| `countryCode` | `str` | No | an optional two character country code |
 | `photographers` | `int` | Yes |  |
 | `total` | `int` | Yes |  |
 | `withPhoto` | `int` | Yes |  |

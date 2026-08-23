@@ -158,17 +158,17 @@ fmt.Println(adminInbox.GetName()) // "admin_inbox"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `DS100` | `string` | No |  |
-| `active` | `bool` | No |  |
+| `DS100` | `string` | No | DS100 attribute of a new station |
+| `active` | `bool` | No | active flag of a new station (default true) |
 | `command` | `string` | Yes |  |
-| `conflictResolution` | `string` | No |  |
-| `countryCode` | `string` | No |  |
+| `conflictResolution` | `string` | No | how to handle conflicts |
+| `countryCode` | `string` | No | a two character country code |
 | `id` | `int` | Yes |  |
 | `lat` | `float64` | No |  |
 | `lon` | `float64` | No |  |
 | `message` | `string` | Yes |  |
-| `rejectReason` | `string` | No |  |
-| `stationId` | `string` | No |  |
+| `rejectReason` | `string` | No | explanation of a rejection |
+| `stationId` | `string` | No | ID of a new station |
 | `status` | `int` | Yes |  |
 | `title` | `string` | No |  |
 
@@ -226,15 +226,15 @@ fmt.Println(country.GetName()) // "country"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `active` | `bool` | Yes |  |
-| `allowPhotoUploads` | `bool` | Yes |  |
-| `code` | `string` | Yes |  |
-| `email` | `string` | No |  |
-| `message` | `string` | No |  |
-| `name` | `string` | Yes |  |
-| `overrideLicense` | `string` | No |  |
-| `providerApps` | `[]any` | No |  |
-| `timetableUrlTemplate` | `string` | No |  |
+| `active` | `bool` | Yes | Is this an active country where we collect photos? |
+| `allowPhotoUploads` | `bool` | Yes | Are photo uploads allowed? |
+| `code` | `string` | Yes | a two character country code |
+| `email` | `string` | No | Contact email address |
+| `message` | `string` | No | Informational message about this country |
+| `name` | `string` | Yes | Name of the country |
+| `overrideLicense` | `string` | No | if a country needs a special license |
+| `providerApps` | `[]any` | No | array with links to provider apps |
+| `timetableUrlTemplate` | `string` | No | URL template for the timetable, contains {title}, {id} and {DS100} placeholders which need to be replaced |
 
 ### Operations
 
@@ -286,18 +286,18 @@ fmt.Println(inbox.GetName()) // "inbox"
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `comment` | `string` | No |  |
-| `countryCode` | `string` | No |  |
-| `crc32` | `int` | No |  |
+| `countryCode` | `string` | No | a two character country code |
+| `crc32` | `int` | No | CRC32 checksum of the uploaded photo |
 | `createdAt` | `int` | No |  |
-| `filename` | `string` | No |  |
+| `filename` | `string` | No | filename in inbox |
 | `id` | `int` | Yes |  |
-| `inboxUrl` | `string` | No |  |
+| `inboxUrl` | `string` | No | url of the photo in the inbox |
 | `lat` | `float64` | No |  |
 | `lon` | `float64` | No |  |
 | `newLat` | `float64` | No |  |
 | `newLon` | `float64` | No |  |
 | `newTitle` | `string` | No |  |
-| `problemReportType` | `string` | No |  |
+| `problemReportType` | `string` | No | types of problem reports |
 | `rejectedReason` | `string` | No |  |
 | `state` | `string` | Yes |  |
 | `stationId` | `string` | No |  |
@@ -430,26 +430,26 @@ fmt.Println(inboxEntry.GetName()) // "inbox_entry"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `active` | `bool` | No |  |
+| `active` | `bool` | No | active flag provided by the user |
 | `comment` | `string` | Yes |  |
-| `countryCode` | `string` | No |  |
+| `countryCode` | `string` | No | a two character country code |
 | `createdAt` | `int` | Yes |  |
-| `done` | `bool` | Yes |  |
-| `filename` | `string` | No |  |
-| `hasConflict` | `bool` | No |  |
-| `hasPhoto` | `bool` | Yes |  |
+| `done` | `bool` | Yes | true if this photo was already imported or rejected |
+| `filename` | `string` | No | name of the file in inbox |
+| `hasConflict` | `bool` | No | conflict with another upload or existing photo |
+| `hasPhoto` | `bool` | Yes | this station has already a photo (conflict) |
 | `id` | `int` | Yes |  |
-| `inboxUrl` | `string` | No |  |
-| `isProcessed` | `bool` | No |  |
+| `inboxUrl` | `string` | No | url of the photo in the inbox |
+| `isProcessed` | `bool` | No | was this image process (e.g. |
 | `lat` | `float64` | No |  |
 | `lon` | `float64` | No |  |
 | `newLat` | `float64` | No |  |
 | `newLon` | `float64` | No |  |
 | `newTitle` | `string` | No |  |
-| `photoId` | `int` | No |  |
+| `photoId` | `int` | No | ID of the photo |
 | `photographerEmail` | `string` | No |  |
 | `photographerNickname` | `string` | Yes |  |
-| `problemReportType` | `string` | No |  |
+| `problemReportType` | `string` | No | types of problem reports |
 | `stationId` | `string` | No |  |
 | `title` | `string` | No |  |
 
@@ -740,10 +740,10 @@ fmt.Println(photoStation.GetName()) // "photo_station"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `licenses` | `[]any` | Yes |  |
-| `photoBaseUrl` | `string` | Yes |  |
-| `photographers` | `[]any` | Yes |  |
-| `stations` | `[]any` | Yes |  |
+| `licenses` | `[]any` | Yes | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `string` | Yes | Base URL of all photos |
+| `photographers` | `[]any` | Yes | List of all photographers, might be empty if no photos available |
+| `stations` | `[]any` | Yes | List of the stations |
 
 ### Operations
 
@@ -901,7 +901,7 @@ fmt.Println(profile.GetName()) // "profile"
 | `anonymous` | `bool` | No |  |
 | `email` | `string` | No |  |
 | `emailVerified` | `bool` | No |  |
-| `license` | `string` | Yes |  |
+| `license` | `string` | Yes | the only accepted type is "CC0 1.0 Universell (CC0 1.0)", the others are listed for backward compatibility |
 | `link` | `string` | No |  |
 | `newPassword` | `string` | Yes |  |
 | `nickname` | `string` | Yes |  |
@@ -1001,7 +1001,7 @@ fmt.Println(publicInbox.GetName()) // "public_inbox"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `countryCode` | `string` | No |  |
+| `countryCode` | `string` | No | a two character country code |
 | `lat` | `float64` | Yes |  |
 | `lon` | `float64` | Yes |  |
 | `stationId` | `string` | No |  |
@@ -1056,7 +1056,7 @@ fmt.Println(stat.GetName()) // "stat"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `countryCode` | `string` | No |  |
+| `countryCode` | `string` | No | an optional two character country code |
 | `photographers` | `int` | Yes |  |
 | `total` | `int` | Yes |  |
 | `withPhoto` | `int` | Yes |  |

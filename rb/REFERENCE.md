@@ -153,17 +153,17 @@ admin_inbox = client.AdminInbox
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `DS100` | `String` | No |  |
-| `active` | `Boolean` | No |  |
+| `DS100` | `String` | No | DS100 attribute of a new station |
+| `active` | `Boolean` | No | active flag of a new station (default true) |
 | `command` | `String` | Yes |  |
-| `conflictResolution` | `String` | No |  |
-| `countryCode` | `String` | No |  |
+| `conflictResolution` | `String` | No | how to handle conflicts |
+| `countryCode` | `String` | No | a two character country code |
 | `id` | `Integer` | Yes |  |
 | `lat` | `Float` | No |  |
 | `lon` | `Float` | No |  |
 | `message` | `String` | Yes |  |
-| `rejectReason` | `String` | No |  |
-| `stationId` | `String` | No |  |
+| `rejectReason` | `String` | No | explanation of a rejection |
+| `stationId` | `String` | No | ID of a new station |
 | `status` | `Integer` | Yes |  |
 | `title` | `String` | No |  |
 
@@ -222,15 +222,15 @@ country = client.Country
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `active` | `Boolean` | Yes |  |
-| `allowPhotoUploads` | `Boolean` | Yes |  |
-| `code` | `String` | Yes |  |
-| `email` | `String` | No |  |
-| `message` | `String` | No |  |
-| `name` | `String` | Yes |  |
-| `overrideLicense` | `String` | No |  |
-| `providerApps` | `Array` | No |  |
-| `timetableUrlTemplate` | `String` | No |  |
+| `active` | `Boolean` | Yes | Is this an active country where we collect photos? |
+| `allowPhotoUploads` | `Boolean` | Yes | Are photo uploads allowed? |
+| `code` | `String` | Yes | a two character country code |
+| `email` | `String` | No | Contact email address |
+| `message` | `String` | No | Informational message about this country |
+| `name` | `String` | Yes | Name of the country |
+| `overrideLicense` | `String` | No | if a country needs a special license |
+| `providerApps` | `Array` | No | array with links to provider apps |
+| `timetableUrlTemplate` | `String` | No | URL template for the timetable, contains {title}, {id} and {DS100} placeholders which need to be replaced |
 
 ### Operations
 
@@ -283,18 +283,18 @@ inbox = client.Inbox
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `comment` | `String` | No |  |
-| `countryCode` | `String` | No |  |
-| `crc32` | `Integer` | No |  |
+| `countryCode` | `String` | No | a two character country code |
+| `crc32` | `Integer` | No | CRC32 checksum of the uploaded photo |
 | `createdAt` | `Integer` | No |  |
-| `filename` | `String` | No |  |
+| `filename` | `String` | No | filename in inbox |
 | `id` | `Integer` | Yes |  |
-| `inboxUrl` | `String` | No |  |
+| `inboxUrl` | `String` | No | url of the photo in the inbox |
 | `lat` | `Float` | No |  |
 | `lon` | `Float` | No |  |
 | `newLat` | `Float` | No |  |
 | `newLon` | `Float` | No |  |
 | `newTitle` | `String` | No |  |
-| `problemReportType` | `String` | No |  |
+| `problemReportType` | `String` | No | types of problem reports |
 | `rejectedReason` | `String` | No |  |
 | `state` | `String` | Yes |  |
 | `stationId` | `String` | No |  |
@@ -421,26 +421,26 @@ inbox_entry = client.InboxEntry
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `active` | `Boolean` | No |  |
+| `active` | `Boolean` | No | active flag provided by the user |
 | `comment` | `String` | Yes |  |
-| `countryCode` | `String` | No |  |
+| `countryCode` | `String` | No | a two character country code |
 | `createdAt` | `Integer` | Yes |  |
-| `done` | `Boolean` | Yes |  |
-| `filename` | `String` | No |  |
-| `hasConflict` | `Boolean` | No |  |
-| `hasPhoto` | `Boolean` | Yes |  |
+| `done` | `Boolean` | Yes | true if this photo was already imported or rejected |
+| `filename` | `String` | No | name of the file in inbox |
+| `hasConflict` | `Boolean` | No | conflict with another upload or existing photo |
+| `hasPhoto` | `Boolean` | Yes | this station has already a photo (conflict) |
 | `id` | `Integer` | Yes |  |
-| `inboxUrl` | `String` | No |  |
-| `isProcessed` | `Boolean` | No |  |
+| `inboxUrl` | `String` | No | url of the photo in the inbox |
+| `isProcessed` | `Boolean` | No | was this image process (e.g. |
 | `lat` | `Float` | No |  |
 | `lon` | `Float` | No |  |
 | `newLat` | `Float` | No |  |
 | `newLon` | `Float` | No |  |
 | `newTitle` | `String` | No |  |
-| `photoId` | `Integer` | No |  |
+| `photoId` | `Integer` | No | ID of the photo |
 | `photographerEmail` | `String` | No |  |
 | `photographerNickname` | `String` | Yes |  |
-| `problemReportType` | `String` | No |  |
+| `problemReportType` | `String` | No | types of problem reports |
 | `stationId` | `String` | No |  |
 | `title` | `String` | No |  |
 
@@ -737,10 +737,10 @@ photo_station = client.PhotoStation
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `licenses` | `Array` | Yes |  |
-| `photoBaseUrl` | `String` | Yes |  |
-| `photographers` | `Array` | Yes |  |
-| `stations` | `Array` | Yes |  |
+| `licenses` | `Array` | Yes | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `String` | Yes | Base URL of all photos |
+| `photographers` | `Array` | Yes | List of all photographers, might be empty if no photos available |
+| `stations` | `Array` | Yes | List of the stations |
 
 ### Operations
 
@@ -897,7 +897,7 @@ profile = client.Profile
 | `anonymous` | `Boolean` | No |  |
 | `email` | `String` | No |  |
 | `emailVerified` | `Boolean` | No |  |
-| `license` | `String` | Yes |  |
+| `license` | `String` | Yes | the only accepted type is "CC0 1.0 Universell (CC0 1.0)", the others are listed for backward compatibility |
 | `link` | `String` | No |  |
 | `newPassword` | `String` | Yes |  |
 | `nickname` | `String` | Yes |  |
@@ -990,7 +990,7 @@ public_inbox = client.PublicInbox
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `countryCode` | `String` | No |  |
+| `countryCode` | `String` | No | a two character country code |
 | `lat` | `Float` | Yes |  |
 | `lon` | `Float` | Yes |  |
 | `stationId` | `String` | No |  |
@@ -1046,7 +1046,7 @@ stat = client.Stat
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `countryCode` | `String` | No |  |
+| `countryCode` | `String` | No | an optional two character country code |
 | `photographers` | `Integer` | Yes |  |
 | `total` | `Integer` | Yes |  |
 | `withPhoto` | `Integer` | Yes |  |

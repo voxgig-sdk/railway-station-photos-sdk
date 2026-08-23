@@ -1,0 +1,124 @@
+# Entity: admin_inbox
+
+main: kit: entity: admin_inbox: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "DS100"
+      req: false
+      short: "DS100 attribute of a new station"
+      type: "`$STRING`"
+    }
+    {
+      name: "active"
+      req: false
+      short: "active flag of a new station (default true)"
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "command"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "conflictResolution"
+      req: false
+      short: "how to handle conflicts"
+      type: "`$STRING`"
+    }
+    {
+      name: "countryCode"
+      req: false
+      short: "a two character country code"
+      type: "`$STRING`"
+    }
+    {
+      name: "id"
+      req: true
+      type: "`$INTEGER`"
+    }
+    {
+      name: "lat"
+      req: false
+      type: "`$NUMBER`"
+    }
+    {
+      name: "lon"
+      req: false
+      type: "`$NUMBER`"
+    }
+    {
+      name: "message"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "rejectReason"
+      req: false
+      short: "explanation of a rejection"
+      type: "`$STRING`"
+    }
+    {
+      name: "stationId"
+      req: false
+      short: "ID of a new station"
+      type: "`$STRING`"
+    }
+    {
+      name: "status"
+      req: true
+      type: "`$INTEGER`"
+    }
+    {
+      name: "title"
+      req: false
+      type: "`$STRING`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "admin_inbox"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          args: {
+            header: [
+              {
+                kind: "header"
+                name: "authorization"
+                orig: "authorization"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "POST"
+          orig: "/adminInbox"
+          parts: [
+            "adminInbox"
+          ]
+          select: {
+            exist: [
+              "authorization"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

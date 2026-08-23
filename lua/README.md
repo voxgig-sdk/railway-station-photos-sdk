@@ -255,17 +255,17 @@ Only `direct()` returns a response envelope — a `table` with `ok`,
 
 | Field | Description |
 | --- | --- |
-| `DS100` |  |
-| `active` |  |
+| `DS100` | DS100 attribute of a new station |
+| `active` | active flag of a new station (default true) |
 | `command` |  |
-| `conflictResolution` |  |
-| `countryCode` |  |
+| `conflictResolution` | how to handle conflicts |
+| `countryCode` | a two character country code |
 | `id` |  |
 | `lat` |  |
 | `lon` |  |
 | `message` |  |
-| `rejectReason` |  |
-| `stationId` |  |
+| `rejectReason` | explanation of a rejection |
+| `stationId` | ID of a new station |
 | `status` |  |
 | `title` |  |
 
@@ -277,15 +277,15 @@ API path: `/adminInbox`
 
 | Field | Description |
 | --- | --- |
-| `active` |  |
-| `allowPhotoUploads` |  |
-| `code` |  |
-| `email` |  |
-| `message` |  |
-| `name` |  |
-| `overrideLicense` |  |
-| `providerApps` |  |
-| `timetableUrlTemplate` |  |
+| `active` | Is this an active country where we collect photos? |
+| `allowPhotoUploads` | Are photo uploads allowed? |
+| `code` | a two character country code |
+| `email` | Contact email address |
+| `message` | Informational message about this country |
+| `name` | Name of the country |
+| `overrideLicense` | if a country needs a special license |
+| `providerApps` | array with links to provider apps |
+| `timetableUrlTemplate` | URL template for the timetable, contains {title}, {id} and {DS100} placeholders which need to be replaced |
 
 Operations: List.
 
@@ -296,18 +296,18 @@ API path: `/countries`
 | Field | Description |
 | --- | --- |
 | `comment` |  |
-| `countryCode` |  |
-| `crc32` |  |
+| `countryCode` | a two character country code |
+| `crc32` | CRC32 checksum of the uploaded photo |
 | `createdAt` |  |
-| `filename` |  |
+| `filename` | filename in inbox |
 | `id` |  |
-| `inboxUrl` |  |
+| `inboxUrl` | url of the photo in the inbox |
 | `lat` |  |
 | `lon` |  |
 | `newLat` |  |
 | `newLon` |  |
 | `newTitle` |  |
-| `problemReportType` |  |
+| `problemReportType` | types of problem reports |
 | `rejectedReason` |  |
 | `state` |  |
 | `stationId` |  |
@@ -331,26 +331,26 @@ API path: `/adminInboxCount`
 
 | Field | Description |
 | --- | --- |
-| `active` |  |
+| `active` | active flag provided by the user |
 | `comment` |  |
-| `countryCode` |  |
+| `countryCode` | a two character country code |
 | `createdAt` |  |
-| `done` |  |
-| `filename` |  |
-| `hasConflict` |  |
-| `hasPhoto` |  |
+| `done` | true if this photo was already imported or rejected |
+| `filename` | name of the file in inbox |
+| `hasConflict` | conflict with another upload or existing photo |
+| `hasPhoto` | this station has already a photo (conflict) |
 | `id` |  |
-| `inboxUrl` |  |
-| `isProcessed` |  |
+| `inboxUrl` | url of the photo in the inbox |
+| `isProcessed` | was this image process (e.g. |
 | `lat` |  |
 | `lon` |  |
 | `newLat` |  |
 | `newLon` |  |
 | `newTitle` |  |
-| `photoId` |  |
+| `photoId` | ID of the photo |
 | `photographerEmail` |  |
 | `photographerNickname` |  |
-| `problemReportType` |  |
+| `problemReportType` | types of problem reports |
 | `stationId` |  |
 | `title` |  |
 
@@ -412,10 +412,10 @@ API path: `/inbox/done/{filename}`
 
 | Field | Description |
 | --- | --- |
-| `licenses` |  |
-| `photoBaseUrl` |  |
-| `photographers` |  |
-| `stations` |  |
+| `licenses` | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | Base URL of all photos |
+| `photographers` | List of all photographers, might be empty if no photos available |
+| `stations` | List of the stations |
 
 Operations: List, Load.
 
@@ -447,7 +447,7 @@ API path: `/photographers`
 | `anonymous` |  |
 | `email` |  |
 | `emailVerified` |  |
-| `license` |  |
+| `license` | the only accepted type is "CC0 1.0 Universell (CC0 1.0)", the others are listed for backward compatibility |
 | `link` |  |
 | `newPassword` |  |
 | `nickname` |  |
@@ -462,7 +462,7 @@ API path: `/changePassword`
 
 | Field | Description |
 | --- | --- |
-| `countryCode` |  |
+| `countryCode` | a two character country code |
 | `lat` |  |
 | `lon` |  |
 | `stationId` |  |
@@ -476,7 +476,7 @@ API path: `/publicInbox`
 
 | Field | Description |
 | --- | --- |
-| `countryCode` |  |
+| `countryCode` | an optional two character country code |
 | `photographers` |  |
 | `total` |  |
 | `withPhoto` |  |
@@ -505,17 +505,17 @@ Create an instance: `local admin_inbox = client:AdminInbox(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `DS100` | `string` |  |
-| `active` | `boolean` |  |
+| `DS100` | `string` | DS100 attribute of a new station |
+| `active` | `boolean` | active flag of a new station (default true) |
 | `command` | `string` |  |
-| `conflictResolution` | `string` |  |
-| `countryCode` | `string` |  |
+| `conflictResolution` | `string` | how to handle conflicts |
+| `countryCode` | `string` | a two character country code |
 | `id` | `number` |  |
 | `lat` | `number` |  |
 | `lon` | `number` |  |
 | `message` | `string` |  |
-| `rejectReason` | `string` |  |
-| `stationId` | `string` |  |
+| `rejectReason` | `string` | explanation of a rejection |
+| `stationId` | `string` | ID of a new station |
 | `status` | `number` |  |
 | `title` | `string` |  |
 
@@ -545,15 +545,15 @@ Create an instance: `local country = client:Country(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `active` | `boolean` |  |
-| `allowPhotoUploads` | `boolean` |  |
-| `code` | `string` |  |
-| `email` | `string` |  |
-| `message` | `string` |  |
-| `name` | `string` |  |
-| `overrideLicense` | `string` |  |
-| `providerApps` | `table` |  |
-| `timetableUrlTemplate` | `string` |  |
+| `active` | `boolean` | Is this an active country where we collect photos? |
+| `allowPhotoUploads` | `boolean` | Are photo uploads allowed? |
+| `code` | `string` | a two character country code |
+| `email` | `string` | Contact email address |
+| `message` | `string` | Informational message about this country |
+| `name` | `string` | Name of the country |
+| `overrideLicense` | `string` | if a country needs a special license |
+| `providerApps` | `table` | array with links to provider apps |
+| `timetableUrlTemplate` | `string` | URL template for the timetable, contains {title}, {id} and {DS100} placeholders which need to be replaced |
 
 #### Example: List
 
@@ -579,18 +579,18 @@ Create an instance: `local inbox = client:Inbox(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `comment` | `string` |  |
-| `countryCode` | `string` |  |
-| `crc32` | `number` |  |
+| `countryCode` | `string` | a two character country code |
+| `crc32` | `number` | CRC32 checksum of the uploaded photo |
 | `createdAt` | `number` |  |
-| `filename` | `string` |  |
+| `filename` | `string` | filename in inbox |
 | `id` | `number` |  |
-| `inboxUrl` | `string` |  |
+| `inboxUrl` | `string` | url of the photo in the inbox |
 | `lat` | `number` |  |
 | `lon` | `number` |  |
 | `newLat` | `number` |  |
 | `newLon` | `number` |  |
 | `newTitle` | `string` |  |
-| `problemReportType` | `string` |  |
+| `problemReportType` | `string` | types of problem reports |
 | `rejectedReason` | `string` |  |
 | `state` | `string` |  |
 | `stationId` | `string` |  |
@@ -649,26 +649,26 @@ Create an instance: `local inbox_entry = client:InboxEntry(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `active` | `boolean` |  |
+| `active` | `boolean` | active flag provided by the user |
 | `comment` | `string` |  |
-| `countryCode` | `string` |  |
+| `countryCode` | `string` | a two character country code |
 | `createdAt` | `number` |  |
-| `done` | `boolean` |  |
-| `filename` | `string` |  |
-| `hasConflict` | `boolean` |  |
-| `hasPhoto` | `boolean` |  |
+| `done` | `boolean` | true if this photo was already imported or rejected |
+| `filename` | `string` | name of the file in inbox |
+| `hasConflict` | `boolean` | conflict with another upload or existing photo |
+| `hasPhoto` | `boolean` | this station has already a photo (conflict) |
 | `id` | `number` |  |
-| `inboxUrl` | `string` |  |
-| `isProcessed` | `boolean` |  |
+| `inboxUrl` | `string` | url of the photo in the inbox |
+| `isProcessed` | `boolean` | was this image process (e.g. |
 | `lat` | `number` |  |
 | `lon` | `number` |  |
 | `newLat` | `number` |  |
 | `newLon` | `number` |  |
 | `newTitle` | `string` |  |
-| `photoId` | `number` |  |
+| `photoId` | `number` | ID of the photo |
 | `photographerEmail` | `string` |  |
 | `photographerNickname` | `string` |  |
-| `problemReportType` | `string` |  |
+| `problemReportType` | `string` | types of problem reports |
 | `stationId` | `string` |  |
 | `title` | `string` |  |
 
@@ -789,10 +789,10 @@ Create an instance: `local photo_station = client:PhotoStation(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `licenses` | `table` |  |
-| `photoBaseUrl` | `string` |  |
-| `photographers` | `table` |  |
-| `stations` | `table` |  |
+| `licenses` | `table` | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `string` | Base URL of all photos |
+| `photographers` | `table` | List of all photographers, might be empty if no photos available |
+| `stations` | `table` | List of the stations |
 
 #### Example: Load
 
@@ -862,7 +862,7 @@ Create an instance: `local profile = client:Profile(nil)`
 | `anonymous` | `boolean` |  |
 | `email` | `string` |  |
 | `emailVerified` | `boolean` |  |
-| `license` | `string` |  |
+| `license` | `string` | the only accepted type is "CC0 1.0 Universell (CC0 1.0)", the others are listed for backward compatibility |
 | `link` | `string` |  |
 | `newPassword` | `string` |  |
 | `nickname` | `string` |  |
@@ -901,7 +901,7 @@ Create an instance: `local public_inbox = client:PublicInbox(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `countryCode` | `string` |  |
+| `countryCode` | `string` | a two character country code |
 | `lat` | `number` |  |
 | `lon` | `number` |  |
 | `stationId` | `string` |  |
@@ -928,7 +928,7 @@ Create an instance: `local stat = client:Stat(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `countryCode` | `string` |  |
+| `countryCode` | `string` | an optional two character country code |
 | `photographers` | `number` |  |
 | `total` | `number` |  |
 | `withPhoto` | `number` |  |

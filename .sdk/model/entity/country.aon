@@ -1,0 +1,102 @@
+# Entity: country
+
+main: kit: entity: country: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "active"
+      req: true
+      short: "Is this an active country where we collect photos?"
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "allowPhotoUploads"
+      req: true
+      short: "Are photo uploads allowed?"
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "code"
+      req: true
+      short: "a two character country code"
+      type: "`$STRING`"
+    }
+    {
+      name: "email"
+      req: false
+      short: "Contact email address"
+      type: "`$STRING`"
+    }
+    {
+      name: "message"
+      req: false
+      short: "Informational message about this country"
+      type: "`$STRING`"
+    }
+    {
+      name: "name"
+      req: true
+      short: "Name of the country"
+      type: "`$STRING`"
+    }
+    {
+      name: "overrideLicense"
+      req: false
+      short: "if a country needs a special license"
+      type: "`$STRING`"
+    }
+    {
+      name: "providerApps"
+      req: false
+      short: "array with links to provider apps"
+      type: "`$ARRAY`"
+    }
+    {
+      name: "timetableUrlTemplate"
+      req: false
+      short: "URL template for the timetable, contains {title}, {id} and {DS100} placeholders which need to be replaced"
+      type: "`$STRING`"
+    }
+  ]
+
+  name: "country"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "only_active"
+                orig: "only_active"
+                reqd: false
+                type: "`$BOOLEAN`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/countries"
+          parts: [
+            "countries"
+          ]
+          select: {
+            exist: [
+              "only_active"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

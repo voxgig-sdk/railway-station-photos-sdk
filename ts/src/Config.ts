@@ -19,9 +19,20 @@ class Config {
     return fi
   }
 
+  // False for a feature added at runtime via options.extend (station's
+  // adopt path) - the constructor uses this to skip makeFeature for names
+  // no generated class backs.
+  hasFeature(this: any, fn: string) {
+    return null != FEATURE_CLASS[fn]
+  }
+
 
   main = {
     name: 'RailwayStationPhotos',
+        slug: "railway-station-photos",
+    version: "0.0.1",
+    target: "ts",
+
   }
 
 
@@ -101,10 +112,12 @@ class Config {
       "fields": [
         {
           "name": "DS100",
+          "short": "DS100 attribute of a new station",
           "type": "`$STRING`"
         },
         {
           "name": "active",
+          "short": "active flag of a new station (default true)",
           "type": "`$BOOLEAN`"
         },
         {
@@ -114,10 +127,12 @@ class Config {
         },
         {
           "name": "conflictResolution",
+          "short": "how to handle conflicts",
           "type": "`$STRING`"
         },
         {
           "name": "countryCode",
+          "short": "a two character country code",
           "type": "`$STRING`"
         },
         {
@@ -140,10 +155,12 @@ class Config {
         },
         {
           "name": "rejectReason",
+          "short": "explanation of a rejection",
           "type": "`$STRING`"
         },
         {
           "name": "stationId",
+          "short": "ID of a new station",
           "type": "`$STRING`"
         },
         {
@@ -202,41 +219,50 @@ class Config {
         {
           "name": "active",
           "req": true,
+          "short": "Is this an active country where we collect photos?",
           "type": "`$BOOLEAN`"
         },
         {
           "name": "allowPhotoUploads",
           "req": true,
+          "short": "Are photo uploads allowed?",
           "type": "`$BOOLEAN`"
         },
         {
           "name": "code",
           "req": true,
+          "short": "a two character country code",
           "type": "`$STRING`"
         },
         {
           "name": "email",
+          "short": "Contact email address",
           "type": "`$STRING`"
         },
         {
           "name": "message",
+          "short": "Informational message about this country",
           "type": "`$STRING`"
         },
         {
           "name": "name",
           "req": true,
+          "short": "Name of the country",
           "type": "`$STRING`"
         },
         {
           "name": "overrideLicense",
+          "short": "if a country needs a special license",
           "type": "`$STRING`"
         },
         {
           "name": "providerApps",
+          "short": "array with links to provider apps",
           "type": "`$ARRAY`"
         },
         {
           "name": "timetableUrlTemplate",
+          "short": "URL template for the timetable, contains {title}, {id} and {DS100} placeholders which need to be replaced",
           "type": "`$STRING`"
         }
       ],
@@ -288,10 +314,12 @@ class Config {
         },
         {
           "name": "countryCode",
+          "short": "a two character country code",
           "type": "`$STRING`"
         },
         {
           "name": "crc32",
+          "short": "CRC32 checksum of the uploaded photo",
           "type": "`$INTEGER`"
         },
         {
@@ -300,6 +328,7 @@ class Config {
         },
         {
           "name": "filename",
+          "short": "filename in inbox",
           "type": "`$STRING`"
         },
         {
@@ -309,6 +338,7 @@ class Config {
         },
         {
           "name": "inboxUrl",
+          "short": "url of the photo in the inbox",
           "type": "`$STRING`"
         },
         {
@@ -333,6 +363,7 @@ class Config {
         },
         {
           "name": "problemReportType",
+          "short": "types of problem reports",
           "type": "`$STRING`"
         },
         {
@@ -539,6 +570,7 @@ class Config {
       "fields": [
         {
           "name": "active",
+          "short": "active flag provided by the user",
           "type": "`$BOOLEAN`"
         },
         {
@@ -548,6 +580,7 @@ class Config {
         },
         {
           "name": "countryCode",
+          "short": "a two character country code",
           "type": "`$STRING`"
         },
         {
@@ -558,19 +591,23 @@ class Config {
         {
           "name": "done",
           "req": true,
+          "short": "true if this photo was already imported or rejected",
           "type": "`$BOOLEAN`"
         },
         {
           "name": "filename",
+          "short": "name of the file in inbox",
           "type": "`$STRING`"
         },
         {
           "name": "hasConflict",
+          "short": "conflict with another upload or existing photo",
           "type": "`$BOOLEAN`"
         },
         {
           "name": "hasPhoto",
           "req": true,
+          "short": "this station has already a photo (conflict)",
           "type": "`$BOOLEAN`"
         },
         {
@@ -580,10 +617,12 @@ class Config {
         },
         {
           "name": "inboxUrl",
+          "short": "url of the photo in the inbox",
           "type": "`$STRING`"
         },
         {
           "name": "isProcessed",
+          "short": "was this image process (e.g.",
           "type": "`$BOOLEAN`"
         },
         {
@@ -608,6 +647,7 @@ class Config {
         },
         {
           "name": "photoId",
+          "short": "ID of the photo",
           "type": "`$INTEGER`"
         },
         {
@@ -621,6 +661,7 @@ class Config {
         },
         {
           "name": "problemReportType",
+          "short": "types of problem reports",
           "type": "`$STRING`"
         },
         {
@@ -1127,21 +1168,25 @@ class Config {
         {
           "name": "licenses",
           "req": true,
+          "short": "List of used licenses, might be empty if no photos available",
           "type": "`$ARRAY`"
         },
         {
           "name": "photoBaseUrl",
           "req": true,
+          "short": "Base URL of all photos",
           "type": "`$STRING`"
         },
         {
           "name": "photographers",
           "req": true,
+          "short": "List of all photographers, might be empty if no photos available",
           "type": "`$ARRAY`"
         },
         {
           "name": "stations",
           "req": true,
+          "short": "List of the stations",
           "type": "`$ARRAY`"
         }
       ],
@@ -1497,6 +1542,7 @@ class Config {
             }
           },
           "req": true,
+          "short": "the only accepted type is \"CC0 1.0 Universell (CC0 1.0)\", the others are listed for backward compatibility",
           "type": "`$STRING`"
         },
         {
@@ -1730,6 +1776,7 @@ class Config {
       "fields": [
         {
           "name": "countryCode",
+          "short": "a two character country code",
           "type": "`$STRING`"
         },
         {
@@ -1783,6 +1830,7 @@ class Config {
       "fields": [
         {
           "name": "countryCode",
+          "short": "an optional two character country code",
           "type": "`$STRING`"
         },
         {
