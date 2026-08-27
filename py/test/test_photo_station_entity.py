@@ -88,9 +88,13 @@ class TestPhotoStationEntity:
         assert isinstance(photo_station_ref01_list_result, list)
 
         # LOAD
-        photo_station_ref01_match_dt0 = {}
+        photo_station_ref01_match_dt0 = {
+            "id": photo_station_ref01_data["id"],
+        }
         photo_station_ref01_data_dt0_loaded = photo_station_ref01_ent.load(photo_station_ref01_match_dt0, None)
-        assert photo_station_ref01_data_dt0_loaded is not None
+        photo_station_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(photo_station_ref01_data_dt0_loaded))
+        assert photo_station_ref01_data_dt0_load_result is not None
+        assert photo_station_ref01_data_dt0_load_result["id"] == photo_station_ref01_data["id"]
 
 
 

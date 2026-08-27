@@ -734,6 +734,7 @@ local photo_station = client:PhotoStation(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `id` | `string` | No |  |
 | `licenses` | `table` | Yes | List of used licenses, might be empty if no photos available |
 | `photoBaseUrl` | `string` | Yes | Base URL of all photos |
 | `photographers` | `table` | Yes | List of all photographers, might be empty if no photos available |

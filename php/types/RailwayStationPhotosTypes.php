@@ -280,6 +280,7 @@ class PhotoDownloadLoadMatch
 /** PhotoStation entity data model. */
 class PhotoStation
 {
+    public ?string $id = null;
     public array $licenses;
     public string $photoBaseUrl;
     public array $photographers;
@@ -295,6 +296,7 @@ class PhotoStationLoadMatch
 /** Request payload for PhotoStation#list. */
 class PhotoStationListMatch
 {
+    public ?string $id = null;
     public ?array $licenses = null;
     public ?string $photoBaseUrl = null;
     public ?array $photographers = null;

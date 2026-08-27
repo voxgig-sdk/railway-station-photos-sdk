@@ -93,9 +93,13 @@ class PhotoStationEntityTest extends TestCase
         $this->assertIsArray($photo_station_ref01_list_result);
 
         // LOAD
-        $photo_station_ref01_match_dt0 = [];
+        $photo_station_ref01_match_dt0 = [
+            "id" => $photo_station_ref01_data["id"],
+        ];
         $photo_station_ref01_data_dt0_loaded = $photo_station_ref01_ent->load($photo_station_ref01_match_dt0, null);
-        $this->assertNotNull($photo_station_ref01_data_dt0_loaded);
+        $photo_station_ref01_data_dt0_load_result = Helpers::to_map(is_object($photo_station_ref01_data_dt0_loaded) && method_exists($photo_station_ref01_data_dt0_loaded, 'data_get') ? $photo_station_ref01_data_dt0_loaded->data_get() : $photo_station_ref01_data_dt0_loaded);
+        $this->assertNotNull($photo_station_ref01_data_dt0_load_result);
+        $this->assertEquals($photo_station_ref01_data_dt0_load_result["id"], $photo_station_ref01_data["id"]);
 
     }
 }

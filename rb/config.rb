@@ -28,6 +28,7 @@ module RailwayStationPhotosConfig
           "options" => {
             "active" => false,
           },
+          "transport" => "base",
         },
       },
       "options" => {
@@ -1112,6 +1113,10 @@ module RailwayStationPhotosConfig
         },
         "photo_station" => {
           "fields" => [
+            {
+              "name" => "id",
+              "type" => "`$STRING`",
+            },
             {
               "name" => "licenses",
               "req" => true,

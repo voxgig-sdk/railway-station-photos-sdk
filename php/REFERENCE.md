@@ -736,6 +736,7 @@ $photo_station = $client->PhotoStation();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `id` | `string` | No |  |
 | `licenses` | `array` | Yes | List of used licenses, might be empty if no photos available |
 | `photoBaseUrl` | `string` | Yes | Base URL of all photos |
 | `photographers` | `array` | Yes | List of all photographers, might be empty if no photos available |

@@ -2,31 +2,31 @@
   "existing": {
     "photo_station": {
       "PHOTO_STATION00": {
+        "id": "PHOTO_STATION00",
         "licenses": [],
-        "photoBaseUrl": "s29",
+        "photoBaseUrl": "s34",
         "photographers": [],
         "stations": [],
         "country": "COUNTRY01",
-        "photographer": "PHOTOGRAPHER01",
-        "id": "PHOTO_STATION00"
+        "photographer": "PHOTOGRAPHER01"
       },
       "PHOTO_STATION01": {
+        "id": "PHOTO_STATION01",
         "licenses": [],
-        "photoBaseUrl": "s51",
+        "photoBaseUrl": "s66",
         "photographers": [],
         "stations": [],
         "country": "COUNTRY01",
-        "photographer": "PHOTOGRAPHER01",
-        "id": "PHOTO_STATION01"
+        "photographer": "PHOTOGRAPHER01"
       },
       "PHOTO_STATION02": {
+        "id": "PHOTO_STATION02",
         "licenses": [],
-        "photoBaseUrl": "s79",
+        "photoBaseUrl": "s98",
         "photographers": [],
         "stations": [],
         "country": "COUNTRY01",
-        "photographer": "PHOTOGRAPHER01",
-        "id": "PHOTO_STATION02"
+        "photographer": "PHOTOGRAPHER01"
       }
     }
   },
@@ -34,7 +34,7 @@
     "photo_station": {
       "photo_station_ref01": {
         "licenses": [],
-        "photoBaseUrl": "sa1",
+        "photoBaseUrl": "sca",
         "photographers": [],
         "stations": []
       }

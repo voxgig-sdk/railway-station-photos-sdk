@@ -83,9 +83,13 @@ class PhotoStationEntityTest < Minitest::Test
     assert photo_station_ref01_list_result.is_a?(Array)
 
     # LOAD
-    photo_station_ref01_match_dt0 = {}
+    photo_station_ref01_match_dt0 = {
+      "id" => photo_station_ref01_data["id"],
+    }
     photo_station_ref01_data_dt0_loaded = photo_station_ref01_ent.load(photo_station_ref01_match_dt0, nil)
-    assert !photo_station_ref01_data_dt0_loaded.nil?
+    photo_station_ref01_data_dt0_load_result = Helpers.to_map(photo_station_ref01_data_dt0_loaded.respond_to?(:data_get) ? photo_station_ref01_data_dt0_loaded.data_get : photo_station_ref01_data_dt0_loaded)
+    assert !photo_station_ref01_data_dt0_load_result.nil?
+    assert_equal photo_station_ref01_data_dt0_load_result["id"], photo_station_ref01_data["id"]
 
   end
 end

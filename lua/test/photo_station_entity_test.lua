@@ -92,10 +92,14 @@ describe("PhotoStationEntity", function()
     assert.is_table(photo_station_ref01_list_result)
 
     -- LOAD
-    local photo_station_ref01_match_dt0 = {}
+    local photo_station_ref01_match_dt0 = {
+      id = photo_station_ref01_data["id"],
+    }
     local photo_station_ref01_data_dt0_loaded, err = photo_station_ref01_ent:load(photo_station_ref01_match_dt0, nil)
     assert.is_nil(err)
-    assert.is_not_nil(photo_station_ref01_data_dt0_loaded)
+    local photo_station_ref01_data_dt0_load_result = helpers.to_map(type(photo_station_ref01_data_dt0_loaded) == 'table' and photo_station_ref01_data_dt0_loaded.data_get and photo_station_ref01_data_dt0_loaded:data_get() or photo_station_ref01_data_dt0_loaded)
+    assert.is_not_nil(photo_station_ref01_data_dt0_load_result)
+    assert.are.equal(photo_station_ref01_data_dt0_load_result["id"], photo_station_ref01_data["id"])
 
   end)
 end)

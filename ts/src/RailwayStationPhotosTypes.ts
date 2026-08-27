@@ -227,6 +227,7 @@ export interface PhotoDownloadLoadMatch {
 }
 
 export interface PhotoStation {
+  id?: string
   licenses: any[]
   photoBaseUrl: string
   photographers: any[]
@@ -238,6 +239,7 @@ export interface PhotoStationLoadMatch {
 }
 
 export interface PhotoStationListMatch {
+  id?: string
   licenses?: any[]
   photoBaseUrl?: string
   photographers?: any[]

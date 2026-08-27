@@ -734,6 +734,9 @@ PhotoDownloadLoadMatch = Struct.new(
 
 # PhotoStation entity data model.
 #
+# @!attribute [rw] id
+#   @return [String, nil]
+#
 # @!attribute [rw] licenses
 #   @return [Array]
 #
@@ -746,6 +749,7 @@ PhotoDownloadLoadMatch = Struct.new(
 # @!attribute [rw] stations
 #   @return [Array]
 PhotoStation = Struct.new(
+  :id,
   :licenses,
   :photoBaseUrl,
   :photographers,
@@ -764,6 +768,9 @@ PhotoStationLoadMatch = Struct.new(
 
 # Request payload for PhotoStation#list.
 #
+# @!attribute [rw] id
+#   @return [String, nil]
+#
 # @!attribute [rw] licenses
 #   @return [Array, nil]
 #
@@ -776,6 +783,7 @@ PhotoStationLoadMatch = Struct.new(
 # @!attribute [rw] stations
 #   @return [Array, nil]
 PhotoStationListMatch = Struct.new(
+  :id,
   :licenses,
   :photoBaseUrl,
   :photographers,

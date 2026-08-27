@@ -42,6 +42,7 @@ class RailwayStationPhotosConfig
           'options' => [
             'active' => false,
           ],
+          'transport' => 'base',
         ],
             ],
             "options" => [
@@ -1126,6 +1127,10 @@ class RailwayStationPhotosConfig
         ],
         'photo_station' => [
           'fields' => [
+            [
+              'name' => 'id',
+              'type' => '`$STRING`',
+            ],
             [
               'name' => 'licenses',
               'req' => true,

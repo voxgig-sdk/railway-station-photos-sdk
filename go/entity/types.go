@@ -257,6 +257,7 @@ type PhotoDownloadLoadMatch struct {
 
 // PhotoStation is the typed data model for the photo_station entity.
 type PhotoStation struct {
+	Id *string `json:"id,omitempty"`
 	Licenses []any `json:"licenses"`
 	PhotoBaseUrl string `json:"photoBaseUrl"`
 	Photographers []any `json:"photographers"`
@@ -270,6 +271,7 @@ type PhotoStationLoadMatch struct {
 
 // PhotoStationListMatch is the typed request payload for PhotoStation.ListTyped.
 type PhotoStationListMatch struct {
+	Id *string `json:"id,omitempty"`
 	Licenses *[]any `json:"licenses,omitempty"`
 	PhotoBaseUrl *string `json:"photoBaseUrl,omitempty"`
 	Photographers *[]any `json:"photographers,omitempty"`

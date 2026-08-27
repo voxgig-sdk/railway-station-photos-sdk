@@ -66,6 +66,12 @@ describe('PhotoStationEntity', async () => {
     const photo_station_ref01_list = (await photo_station_ref01_ent.list(photo_station_ref01_match)).map((e: any) => e.data())
 
 
+    // LOAD
+    const photo_station_ref01_match_dt0: any = {}
+    photo_station_ref01_match_dt0.id = photo_station_ref01_data.id
+    const photo_station_ref01_data_dt0 = (await photo_station_ref01_ent.load(photo_station_ref01_match_dt0)).data()
+    assert(photo_station_ref01_data_dt0.id === photo_station_ref01_data.id)
+
 
   })
 })

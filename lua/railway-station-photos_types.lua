@@ -206,6 +206,7 @@
 ---@field filename string
 
 ---@class PhotoStation
+---@field id? string
 ---@field licenses table
 ---@field photoBaseUrl string
 ---@field photographers table
@@ -215,6 +216,7 @@
 ---@field country string
 
 ---@class PhotoStationListMatch
+---@field id? string
 ---@field licenses? table
 ---@field photoBaseUrl? string
 ---@field photographers? table

@@ -420,6 +420,7 @@ API path: `/inbox/done/{filename}`
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 | `licenses` | List of used licenses, might be empty if no photos available |
 | `photoBaseUrl` | Base URL of all photos |
 | `photographers` | List of all photographers, might be empty if no photos available |
@@ -804,6 +805,7 @@ Create an instance: `photo_station = client.PhotoStation`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `id` | `String` |  |
 | `licenses` | `Array` | List of used licenses, might be empty if no photos available |
 | `photoBaseUrl` | `String` | Base URL of all photos |
 | `photographers` | `Array` | List of all photographers, might be empty if no photos available |

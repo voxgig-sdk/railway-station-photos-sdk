@@ -6,6 +6,11 @@ main: kit: entity: photo_station: {
 
   fields: [
     {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
       name: "licenses"
       req: true
       short: "List of used licenses, might be empty if no photos available"
@@ -30,6 +35,11 @@ main: kit: entity: photo_station: {
       type: "`$ARRAY`"
     }
   ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
 
   name: "photo_station"
   op: {

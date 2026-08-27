@@ -430,6 +430,7 @@ API path: `/inbox/done/{filename}`
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 | `licenses` | List of used licenses, might be empty if no photos available |
 | `photoBaseUrl` | Base URL of all photos |
 | `photographers` | List of all photographers, might be empty if no photos available |
@@ -814,6 +815,7 @@ Create an instance: `$photo_station = $client->PhotoStation();`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `id` | `string` |  |
 | `licenses` | `array` | List of used licenses, might be empty if no photos available |
 | `photoBaseUrl` | `string` | Base URL of all photos |
 | `photographers` | `array` | List of all photographers, might be empty if no photos available |

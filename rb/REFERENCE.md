@@ -737,6 +737,7 @@ photo_station = client.PhotoStation
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `id` | `String` | No |  |
 | `licenses` | `Array` | Yes | List of used licenses, might be empty if no photos available |
 | `photoBaseUrl` | `String` | Yes | Base URL of all photos |
 | `photographers` | `Array` | Yes | List of all photographers, might be empty if no photos available |

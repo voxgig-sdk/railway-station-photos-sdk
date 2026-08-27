@@ -267,11 +267,15 @@ class PhotoDownloadLoadMatch(TypedDict):
     filename: str
 
 
-class PhotoStation(TypedDict):
+class PhotoStationRequired(TypedDict):
     licenses: list
     photoBaseUrl: str
     photographers: list
     stations: list
+
+
+class PhotoStation(PhotoStationRequired, total=False):
+    id: str
 
 
 class PhotoStationLoadMatch(TypedDict):
@@ -279,6 +283,7 @@ class PhotoStationLoadMatch(TypedDict):
 
 
 class PhotoStationListMatch(TypedDict, total=False):
+    id: str
     licenses: list
     photoBaseUrl: str
     photographers: list
