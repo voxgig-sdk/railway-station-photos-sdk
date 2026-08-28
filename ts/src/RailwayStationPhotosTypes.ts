@@ -50,15 +50,7 @@ export interface Country {
 }
 
 export interface CountryListMatch {
-  active?: boolean
-  allowPhotoUploads?: boolean
-  code?: string
-  email?: string
-  message?: string
-  name?: string
-  overrideLicense?: string
-  providerApps?: any[]
-  timetableUrlTemplate?: string
+  only_active?: boolean
 }
 
 export interface Inbox {
@@ -82,23 +74,7 @@ export interface Inbox {
 }
 
 export interface InboxListMatch {
-  comment?: string
-  countryCode?: string
-  crc32?: number
-  createdAt?: number
-  filename?: string
-  id?: number
-  inboxUrl?: string
-  lat?: number
-  lon?: number
-  newLat?: number
-  newLon?: number
-  newTitle?: string
-  problemReportType?: string
-  rejectedReason?: string
-  state?: string
-  stationId?: string
-  title?: string
+  show_completed_entry?: boolean
 }
 
 export interface InboxCreateData {
@@ -206,6 +182,13 @@ export interface Oauth {
 }
 
 export interface OauthLoadMatch {
+  client_id: string
+  code_challenge?: string
+  code_challenge_method?: string
+  redirect_uri: string
+  response_type: string
+  scope: string
+  state?: string
 }
 
 export interface OauthCreateData {
@@ -217,6 +200,7 @@ export interface Photo {
 export interface PhotoLoadMatch {
   country: string
   filename: string
+  width?: number
 }
 
 export interface PhotoDownload {
@@ -224,6 +208,7 @@ export interface PhotoDownload {
 
 export interface PhotoDownloadLoadMatch {
   filename: string
+  width?: number
 }
 
 export interface PhotoStation {
@@ -236,14 +221,12 @@ export interface PhotoStation {
 
 export interface PhotoStationLoadMatch {
   country: string
+  has_photo?: boolean
+  is_active?: boolean
 }
 
 export interface PhotoStationListMatch {
-  id?: string
-  licenses?: any[]
-  photoBaseUrl?: string
-  photographers?: any[]
-  stations?: any[]
+  since_hour?: number
 }
 
 export interface PhotoUpload {
@@ -256,6 +239,7 @@ export interface Photographer {
 }
 
 export interface PhotographerLoadMatch {
+  country?: string
 }
 
 export interface Profile {
@@ -326,10 +310,6 @@ export interface Stat {
 }
 
 export interface StatLoadMatch {
-  countryCode?: string
-  photographers?: number
-  total?: number
-  withPhoto?: number
-  withoutPhoto?: number
+  country?: string
 }
 

@@ -165,42 +165,10 @@ Country = Struct.new(
 
 # Request payload for Country#list.
 #
-# @!attribute [rw] active
+# @!attribute [rw] only_active
 #   @return [Boolean, nil]
-#
-# @!attribute [rw] allowPhotoUploads
-#   @return [Boolean, nil]
-#
-# @!attribute [rw] code
-#   @return [String, nil]
-#
-# @!attribute [rw] email
-#   @return [String, nil]
-#
-# @!attribute [rw] message
-#   @return [String, nil]
-#
-# @!attribute [rw] name
-#   @return [String, nil]
-#
-# @!attribute [rw] overrideLicense
-#   @return [String, nil]
-#
-# @!attribute [rw] providerApps
-#   @return [Array, nil]
-#
-# @!attribute [rw] timetableUrlTemplate
-#   @return [String, nil]
 CountryListMatch = Struct.new(
-  :active,
-  :allowPhotoUploads,
-  :code,
-  :email,
-  :message,
-  :name,
-  :overrideLicense,
-  :providerApps,
-  :timetableUrlTemplate,
+  :only_active,
   keyword_init: true
 )
 
@@ -279,74 +247,10 @@ Inbox = Struct.new(
 
 # Request payload for Inbox#list.
 #
-# @!attribute [rw] comment
-#   @return [String, nil]
-#
-# @!attribute [rw] countryCode
-#   @return [String, nil]
-#
-# @!attribute [rw] crc32
-#   @return [Integer, nil]
-#
-# @!attribute [rw] createdAt
-#   @return [Integer, nil]
-#
-# @!attribute [rw] filename
-#   @return [String, nil]
-#
-# @!attribute [rw] id
-#   @return [Integer, nil]
-#
-# @!attribute [rw] inboxUrl
-#   @return [String, nil]
-#
-# @!attribute [rw] lat
-#   @return [Float, nil]
-#
-# @!attribute [rw] lon
-#   @return [Float, nil]
-#
-# @!attribute [rw] newLat
-#   @return [Float, nil]
-#
-# @!attribute [rw] newLon
-#   @return [Float, nil]
-#
-# @!attribute [rw] newTitle
-#   @return [String, nil]
-#
-# @!attribute [rw] problemReportType
-#   @return [String, nil]
-#
-# @!attribute [rw] rejectedReason
-#   @return [String, nil]
-#
-# @!attribute [rw] state
-#   @return [String, nil]
-#
-# @!attribute [rw] stationId
-#   @return [String, nil]
-#
-# @!attribute [rw] title
-#   @return [String, nil]
+# @!attribute [rw] show_completed_entry
+#   @return [Boolean, nil]
 InboxListMatch = Struct.new(
-  :comment,
-  :countryCode,
-  :crc32,
-  :createdAt,
-  :filename,
-  :id,
-  :inboxUrl,
-  :lat,
-  :lon,
-  :newLat,
-  :newLon,
-  :newTitle,
-  :problemReportType,
-  :rejectedReason,
-  :state,
-  :stationId,
-  :title,
+  :show_completed_entry,
   keyword_init: true
 )
 
@@ -695,8 +599,37 @@ class Oauth
 end
 
 # Request payload for Oauth#load.
-class OauthLoadMatch
-end
+#
+# @!attribute [rw] client_id
+#   @return [String]
+#
+# @!attribute [rw] code_challenge
+#   @return [String, nil]
+#
+# @!attribute [rw] code_challenge_method
+#   @return [String, nil]
+#
+# @!attribute [rw] redirect_uri
+#   @return [String]
+#
+# @!attribute [rw] response_type
+#   @return [String]
+#
+# @!attribute [rw] scope
+#   @return [String]
+#
+# @!attribute [rw] state
+#   @return [String, nil]
+OauthLoadMatch = Struct.new(
+  :client_id,
+  :code_challenge,
+  :code_challenge_method,
+  :redirect_uri,
+  :response_type,
+  :scope,
+  :state,
+  keyword_init: true
+)
 
 # Request payload for Oauth#create.
 class OauthCreateData
@@ -713,9 +646,13 @@ end
 #
 # @!attribute [rw] filename
 #   @return [String]
+#
+# @!attribute [rw] width
+#   @return [Integer, nil]
 PhotoLoadMatch = Struct.new(
   :country,
   :filename,
+  :width,
   keyword_init: true
 )
 
@@ -727,8 +664,12 @@ end
 #
 # @!attribute [rw] filename
 #   @return [String]
+#
+# @!attribute [rw] width
+#   @return [Integer, nil]
 PhotoDownloadLoadMatch = Struct.new(
   :filename,
+  :width,
   keyword_init: true
 )
 
@@ -761,33 +702,25 @@ PhotoStation = Struct.new(
 #
 # @!attribute [rw] country
 #   @return [String]
+#
+# @!attribute [rw] has_photo
+#   @return [Boolean, nil]
+#
+# @!attribute [rw] is_active
+#   @return [Boolean, nil]
 PhotoStationLoadMatch = Struct.new(
   :country,
+  :has_photo,
+  :is_active,
   keyword_init: true
 )
 
 # Request payload for PhotoStation#list.
 #
-# @!attribute [rw] id
-#   @return [String, nil]
-#
-# @!attribute [rw] licenses
-#   @return [Array, nil]
-#
-# @!attribute [rw] photoBaseUrl
-#   @return [String, nil]
-#
-# @!attribute [rw] photographers
-#   @return [Array, nil]
-#
-# @!attribute [rw] stations
-#   @return [Array, nil]
+# @!attribute [rw] since_hour
+#   @return [Integer, nil]
 PhotoStationListMatch = Struct.new(
-  :id,
-  :licenses,
-  :photoBaseUrl,
-  :photographers,
-  :stations,
+  :since_hour,
   keyword_init: true
 )
 
@@ -804,8 +737,13 @@ class Photographer
 end
 
 # Request payload for Photographer#load.
-class PhotographerLoadMatch
-end
+#
+# @!attribute [rw] country
+#   @return [String, nil]
+PhotographerLoadMatch = Struct.new(
+  :country,
+  keyword_init: true
+)
 
 # Profile entity data model.
 #
@@ -1028,26 +966,10 @@ Stat = Struct.new(
 
 # Request payload for Stat#load.
 #
-# @!attribute [rw] countryCode
+# @!attribute [rw] country
 #   @return [String, nil]
-#
-# @!attribute [rw] photographers
-#   @return [Integer, nil]
-#
-# @!attribute [rw] total
-#   @return [Integer, nil]
-#
-# @!attribute [rw] withPhoto
-#   @return [Integer, nil]
-#
-# @!attribute [rw] withoutPhoto
-#   @return [Integer, nil]
 StatLoadMatch = Struct.new(
-  :countryCode,
-  :photographers,
-  :total,
-  :withPhoto,
-  :withoutPhoto,
+  :country,
   keyword_init: true
 )
 

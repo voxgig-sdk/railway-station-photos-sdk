@@ -61,15 +61,7 @@ type Country struct {
 
 // CountryListMatch is the typed request payload for Country.ListTyped.
 type CountryListMatch struct {
-	Active *bool `json:"active,omitempty"`
-	AllowPhotoUploads *bool `json:"allowPhotoUploads,omitempty"`
-	Code *string `json:"code,omitempty"`
-	Email *string `json:"email,omitempty"`
-	Message *string `json:"message,omitempty"`
-	Name *string `json:"name,omitempty"`
-	OverrideLicense *string `json:"overrideLicense,omitempty"`
-	ProviderApps *[]any `json:"providerApps,omitempty"`
-	TimetableUrlTemplate *string `json:"timetableUrlTemplate,omitempty"`
+	OnlyActive *bool `json:"only_active,omitempty"`
 }
 
 // Inbox is the typed data model for the inbox entity.
@@ -95,23 +87,7 @@ type Inbox struct {
 
 // InboxListMatch is the typed request payload for Inbox.ListTyped.
 type InboxListMatch struct {
-	Comment *string `json:"comment,omitempty"`
-	CountryCode *string `json:"countryCode,omitempty"`
-	Crc32 *int `json:"crc32,omitempty"`
-	CreatedAt *int `json:"createdAt,omitempty"`
-	Filename *string `json:"filename,omitempty"`
-	Id *int `json:"id,omitempty"`
-	InboxUrl *string `json:"inboxUrl,omitempty"`
-	Lat *float64 `json:"lat,omitempty"`
-	Lon *float64 `json:"lon,omitempty"`
-	NewLat *float64 `json:"newLat,omitempty"`
-	NewLon *float64 `json:"newLon,omitempty"`
-	NewTitle *string `json:"newTitle,omitempty"`
-	ProblemReportType *string `json:"problemReportType,omitempty"`
-	RejectedReason *string `json:"rejectedReason,omitempty"`
-	State *string `json:"state,omitempty"`
-	StationId *string `json:"stationId,omitempty"`
-	Title *string `json:"title,omitempty"`
+	ShowCompletedEntry *bool `json:"show_completed_entry,omitempty"`
 }
 
 // InboxCreateData is the typed request payload for Inbox.CreateTyped.
@@ -230,6 +206,13 @@ type Oauth struct {
 
 // OauthLoadMatch is the typed request payload for Oauth.LoadTyped.
 type OauthLoadMatch struct {
+	ClientId string `json:"client_id"`
+	CodeChallenge *string `json:"code_challenge,omitempty"`
+	CodeChallengeMethod *string `json:"code_challenge_method,omitempty"`
+	RedirectUri string `json:"redirect_uri"`
+	ResponseType string `json:"response_type"`
+	Scope string `json:"scope"`
+	State *string `json:"state,omitempty"`
 }
 
 // OauthCreateData is the typed request payload for Oauth.CreateTyped.
@@ -244,6 +227,7 @@ type Photo struct {
 type PhotoLoadMatch struct {
 	Country string `json:"country"`
 	Filename string `json:"filename"`
+	Width *int `json:"width,omitempty"`
 }
 
 // PhotoDownload is the typed data model for the photo_download entity.
@@ -253,6 +237,7 @@ type PhotoDownload struct {
 // PhotoDownloadLoadMatch is the typed request payload for PhotoDownload.LoadTyped.
 type PhotoDownloadLoadMatch struct {
 	Filename string `json:"filename"`
+	Width *int `json:"width,omitempty"`
 }
 
 // PhotoStation is the typed data model for the photo_station entity.
@@ -267,15 +252,13 @@ type PhotoStation struct {
 // PhotoStationLoadMatch is the typed request payload for PhotoStation.LoadTyped.
 type PhotoStationLoadMatch struct {
 	Country string `json:"country"`
+	HasPhoto *bool `json:"has_photo,omitempty"`
+	IsActive *bool `json:"is_active,omitempty"`
 }
 
 // PhotoStationListMatch is the typed request payload for PhotoStation.ListTyped.
 type PhotoStationListMatch struct {
-	Id *string `json:"id,omitempty"`
-	Licenses *[]any `json:"licenses,omitempty"`
-	PhotoBaseUrl *string `json:"photoBaseUrl,omitempty"`
-	Photographers *[]any `json:"photographers,omitempty"`
-	Stations *[]any `json:"stations,omitempty"`
+	SinceHour *int `json:"since_hour,omitempty"`
 }
 
 // PhotoUpload is the typed data model for the photo_upload entity.
@@ -292,6 +275,7 @@ type Photographer struct {
 
 // PhotographerLoadMatch is the typed request payload for Photographer.LoadTyped.
 type PhotographerLoadMatch struct {
+	Country *string `json:"country,omitempty"`
 }
 
 // Profile is the typed data model for the profile entity.
@@ -370,11 +354,7 @@ type Stat struct {
 
 // StatLoadMatch is the typed request payload for Stat.LoadTyped.
 type StatLoadMatch struct {
-	CountryCode *string `json:"countryCode,omitempty"`
-	Photographers *int `json:"photographers,omitempty"`
-	Total *int `json:"total,omitempty"`
-	WithPhoto *int `json:"withPhoto,omitempty"`
-	WithoutPhoto *int `json:"withoutPhoto,omitempty"`
+	Country *string `json:"country,omitempty"`
 }
 
 // asMap turns a typed request/data struct into the map[string]any the

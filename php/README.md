@@ -753,7 +753,7 @@ Create an instance: `$oauth = $client->Oauth();`
 
 ```php
 // load() returns the ENTITY — call data_get() for the Oauth record (throws on error).
-$oauth = $client->Oauth()->load();
+$oauth = $client->Oauth()->load(["client_id" => "client_id", "redirect_uri" => "redirect_uri", "response_type" => "response_type", "scope" => "scope"]);
 ```
 
 #### Example: Create
@@ -972,6 +972,29 @@ Create an instance: `$stat = $client->Stat();`
 // load() returns the ENTITY — call data_get() for the Stat record (throws on error).
 $stat = $client->Stat()->load();
 ```
+
+## Features
+
+This SDK ships 1 optional features. Each is **inactive until you
+switch it on**, so an SDK you have not configured behaves exactly as if none of
+them existed — no retries, no cache, no logging, no measurable overhead.
+
+Activate a feature by name in the client options, alongside the options shown
+above:
+
+| Feature | What it does |
+|---|---|
+| [`test`](#test) | In-memory mock transport for testing without a live server |
+
+### test
+
+In-memory mock transport for testing without a live server.
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+
+Set `feature.test.active` to enable it, then override any of the options above.
 
 
 ## Advanced

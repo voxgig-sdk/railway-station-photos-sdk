@@ -65,15 +65,7 @@ class Country
 /** Request payload for Country#list. */
 class CountryListMatch
 {
-    public ?bool $active = null;
-    public ?bool $allowPhotoUploads = null;
-    public ?string $code = null;
-    public ?string $email = null;
-    public ?string $message = null;
-    public ?string $name = null;
-    public ?string $overrideLicense = null;
-    public ?array $providerApps = null;
-    public ?string $timetableUrlTemplate = null;
+    public ?bool $only_active = null;
 }
 
 /** Inbox entity data model. */
@@ -101,23 +93,7 @@ class Inbox
 /** Request payload for Inbox#list. */
 class InboxListMatch
 {
-    public ?string $comment = null;
-    public ?string $countryCode = null;
-    public ?int $crc32 = null;
-    public ?int $createdAt = null;
-    public ?string $filename = null;
-    public ?int $id = null;
-    public ?string $inboxUrl = null;
-    public ?float $lat = null;
-    public ?float $lon = null;
-    public ?float $newLat = null;
-    public ?float $newLon = null;
-    public ?string $newTitle = null;
-    public ?string $problemReportType = null;
-    public ?string $rejectedReason = null;
-    public ?string $state = null;
-    public ?string $stationId = null;
-    public ?string $title = null;
+    public ?bool $show_completed_entry = null;
 }
 
 /** Request payload for Inbox#create. */
@@ -247,6 +223,13 @@ class Oauth
 /** Request payload for Oauth#load. */
 class OauthLoadMatch
 {
+    public string $client_id;
+    public ?string $code_challenge = null;
+    public ?string $code_challenge_method = null;
+    public string $redirect_uri;
+    public string $response_type;
+    public string $scope;
+    public ?string $state = null;
 }
 
 /** Request payload for Oauth#create. */
@@ -264,6 +247,7 @@ class PhotoLoadMatch
 {
     public string $country;
     public string $filename;
+    public ?int $width = null;
 }
 
 /** PhotoDownload entity data model. */
@@ -275,6 +259,7 @@ class PhotoDownload
 class PhotoDownloadLoadMatch
 {
     public string $filename;
+    public ?int $width = null;
 }
 
 /** PhotoStation entity data model. */
@@ -291,16 +276,14 @@ class PhotoStation
 class PhotoStationLoadMatch
 {
     public string $country;
+    public ?bool $has_photo = null;
+    public ?bool $is_active = null;
 }
 
 /** Request payload for PhotoStation#list. */
 class PhotoStationListMatch
 {
-    public ?string $id = null;
-    public ?array $licenses = null;
-    public ?string $photoBaseUrl = null;
-    public ?array $photographers = null;
-    public ?array $stations = null;
+    public ?int $since_hour = null;
 }
 
 /** PhotoUpload entity data model. */
@@ -321,6 +304,7 @@ class Photographer
 /** Request payload for Photographer#load. */
 class PhotographerLoadMatch
 {
+    public ?string $country = null;
 }
 
 /** Profile entity data model. */
@@ -407,10 +391,6 @@ class Stat
 /** Request payload for Stat#load. */
 class StatLoadMatch
 {
-    public ?string $countryCode = null;
-    public ?int $photographers = null;
-    public ?int $total = null;
-    public ?int $withPhoto = null;
-    public ?int $withoutPhoto = null;
+    public ?string $country = null;
 }
 

@@ -70,15 +70,7 @@ class Country(CountryRequired, total=False):
 
 
 class CountryListMatch(TypedDict, total=False):
-    active: bool
-    allowPhotoUploads: bool
-    code: str
-    email: str
-    message: str
-    name: str
-    overrideLicense: str
-    providerApps: list
-    timetableUrlTemplate: str
+    only_active: bool
 
 
 class InboxRequired(TypedDict):
@@ -105,23 +97,7 @@ class Inbox(InboxRequired, total=False):
 
 
 class InboxListMatch(TypedDict, total=False):
-    comment: str
-    countryCode: str
-    crc32: int
-    createdAt: int
-    filename: str
-    id: int
-    inboxUrl: str
-    lat: float
-    lon: float
-    newLat: float
-    newLon: float
-    newTitle: str
-    problemReportType: str
-    rejectedReason: str
-    state: str
-    stationId: str
-    title: str
+    show_completed_entry: bool
 
 
 class InboxCreateDataRequired(TypedDict):
@@ -242,8 +218,17 @@ class Oauth(TypedDict):
     pass
 
 
-class OauthLoadMatch(TypedDict):
-    pass
+class OauthLoadMatchRequired(TypedDict):
+    client_id: str
+    redirect_uri: str
+    response_type: str
+    scope: str
+
+
+class OauthLoadMatch(OauthLoadMatchRequired, total=False):
+    code_challenge: str
+    code_challenge_method: str
+    state: str
 
 
 class OauthCreateData(TypedDict):
@@ -254,17 +239,25 @@ class Photo(TypedDict):
     pass
 
 
-class PhotoLoadMatch(TypedDict):
+class PhotoLoadMatchRequired(TypedDict):
     country: str
     filename: str
+
+
+class PhotoLoadMatch(PhotoLoadMatchRequired, total=False):
+    width: int
 
 
 class PhotoDownload(TypedDict):
     pass
 
 
-class PhotoDownloadLoadMatch(TypedDict):
+class PhotoDownloadLoadMatchRequired(TypedDict):
     filename: str
+
+
+class PhotoDownloadLoadMatch(PhotoDownloadLoadMatchRequired, total=False):
+    width: int
 
 
 class PhotoStationRequired(TypedDict):
@@ -278,16 +271,17 @@ class PhotoStation(PhotoStationRequired, total=False):
     id: str
 
 
-class PhotoStationLoadMatch(TypedDict):
+class PhotoStationLoadMatchRequired(TypedDict):
     country: str
 
 
+class PhotoStationLoadMatch(PhotoStationLoadMatchRequired, total=False):
+    has_photo: bool
+    is_active: bool
+
+
 class PhotoStationListMatch(TypedDict, total=False):
-    id: str
-    licenses: list
-    photoBaseUrl: str
-    photographers: list
-    stations: list
+    since_hour: int
 
 
 class PhotoUpload(TypedDict):
@@ -302,8 +296,8 @@ class Photographer(TypedDict):
     pass
 
 
-class PhotographerLoadMatch(TypedDict):
-    pass
+class PhotographerLoadMatch(TypedDict, total=False):
+    country: str
 
 
 class ProfileRequired(TypedDict):
@@ -386,8 +380,4 @@ class Stat(StatRequired, total=False):
 
 
 class StatLoadMatch(TypedDict, total=False):
-    countryCode: str
-    photographers: int
-    total: int
-    withPhoto: int
-    withoutPhoto: int
+    country: str

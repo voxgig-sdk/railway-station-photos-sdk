@@ -48,15 +48,7 @@
 ---@field timetableUrlTemplate? string
 
 ---@class CountryListMatch
----@field active? boolean
----@field allowPhotoUploads? boolean
----@field code? string
----@field email? string
----@field message? string
----@field name? string
----@field overrideLicense? string
----@field providerApps? table
----@field timetableUrlTemplate? string
+---@field only_active? boolean
 
 ---@class Inbox
 ---@field comment? string
@@ -78,23 +70,7 @@
 ---@field title? string
 
 ---@class InboxListMatch
----@field comment? string
----@field countryCode? string
----@field crc32? number
----@field createdAt? number
----@field filename? string
----@field id? number
----@field inboxUrl? string
----@field lat? number
----@field lon? number
----@field newLat? number
----@field newLon? number
----@field newTitle? string
----@field problemReportType? string
----@field rejectedReason? string
----@field state? string
----@field stationId? string
----@field title? string
+---@field show_completed_entry? boolean
 
 ---@class InboxCreateData
 ---@field comment? string
@@ -191,6 +167,13 @@
 ---@class Oauth
 
 ---@class OauthLoadMatch
+---@field client_id string
+---@field code_challenge? string
+---@field code_challenge_method? string
+---@field redirect_uri string
+---@field response_type string
+---@field scope string
+---@field state? string
 
 ---@class OauthCreateData
 
@@ -199,11 +182,13 @@
 ---@class PhotoLoadMatch
 ---@field country string
 ---@field filename string
+---@field width? number
 
 ---@class PhotoDownload
 
 ---@class PhotoDownloadLoadMatch
 ---@field filename string
+---@field width? number
 
 ---@class PhotoStation
 ---@field id? string
@@ -214,13 +199,11 @@
 
 ---@class PhotoStationLoadMatch
 ---@field country string
+---@field has_photo? boolean
+---@field is_active? boolean
 
 ---@class PhotoStationListMatch
----@field id? string
----@field licenses? table
----@field photoBaseUrl? string
----@field photographers? table
----@field stations? table
+---@field since_hour? number
 
 ---@class PhotoUpload
 
@@ -229,6 +212,7 @@
 ---@class Photographer
 
 ---@class PhotographerLoadMatch
+---@field country? string
 
 ---@class Profile
 ---@field admin? boolean
@@ -291,11 +275,7 @@
 ---@field withoutPhoto number
 
 ---@class StatLoadMatch
----@field countryCode? string
----@field photographers? number
----@field total? number
----@field withPhoto? number
----@field withoutPhoto? number
+---@field country? string
 
 local M = {}
 
