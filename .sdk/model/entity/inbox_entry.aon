@@ -23,6 +23,7 @@ main: kit: entity: inbox_entry: {
       type: "`$STRING`"
     }
     {
+      format: "int64"
       name: "createdAt"
       req: true
       type: "`$INTEGER`"
@@ -52,6 +53,7 @@ main: kit: entity: inbox_entry: {
       type: "`$BOOLEAN`"
     }
     {
+      format: "int64"
       name: "id"
       req: true
       type: "`$INTEGER`"
@@ -69,21 +71,25 @@ main: kit: entity: inbox_entry: {
       type: "`$BOOLEAN`"
     }
     {
+      format: "double"
       name: "lat"
       req: false
       type: "`$NUMBER`"
     }
     {
+      format: "double"
       name: "lon"
       req: false
       type: "`$NUMBER`"
     }
     {
+      format: "double"
       name: "newLat"
       req: false
       type: "`$NUMBER`"
     }
     {
+      format: "double"
       name: "newLon"
       req: false
       type: "`$NUMBER`"
@@ -94,6 +100,7 @@ main: kit: entity: inbox_entry: {
       type: "`$STRING`"
     }
     {
+      format: "int64"
       name: "photoId"
       req: false
       short: "ID of the photo"
@@ -151,8 +158,10 @@ main: kit: entity: inbox_entry: {
           }
           method: "GET"
           orig: "/adminInbox"
-          parts: [
-            "adminInbox"
+          segments: [
+            {
+              lit: "adminInbox"
+            }
           ]
           select: {
             exist: [

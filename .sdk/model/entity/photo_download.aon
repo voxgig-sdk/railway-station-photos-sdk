@@ -32,10 +32,16 @@ main: kit: entity: photo_download: {
           }
           method: "GET"
           orig: "/inbox/done/{filename}"
-          parts: [
-            "inbox"
-            "done"
-            "{filename}"
+          segments: [
+            {
+              lit: "inbox"
+            }
+            {
+              lit: "done"
+            }
+            {
+              var: "filename"
+            }
           ]
           select: {
             exist: [
@@ -71,10 +77,16 @@ main: kit: entity: photo_download: {
           }
           method: "GET"
           orig: "/inbox/processed/{filename}"
-          parts: [
-            "inbox"
-            "processed"
-            "{filename}"
+          segments: [
+            {
+              lit: "inbox"
+            }
+            {
+              lit: "processed"
+            }
+            {
+              var: "filename"
+            }
           ]
           select: {
             exist: [
@@ -110,10 +122,16 @@ main: kit: entity: photo_download: {
           }
           method: "GET"
           orig: "/inbox/rejected/{filename}"
-          parts: [
-            "inbox"
-            "rejected"
-            "{filename}"
+          segments: [
+            {
+              lit: "inbox"
+            }
+            {
+              lit: "rejected"
+            }
+            {
+              var: "filename"
+            }
           ]
           select: {
             exist: [
@@ -149,9 +167,13 @@ main: kit: entity: photo_download: {
           }
           method: "GET"
           orig: "/inbox/{filename}"
-          parts: [
-            "inbox"
-            "{filename}"
+          segments: [
+            {
+              lit: "inbox"
+            }
+            {
+              var: "filename"
+            }
           ]
           select: {
             exist: [

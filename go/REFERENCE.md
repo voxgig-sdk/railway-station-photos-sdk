@@ -646,6 +646,12 @@ photo := client.Photo(nil)
 fmt.Println(photo.GetName()) // "photo"
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
 ### Operations
 
 #### `Load(reqmatch, ctrl map[string]any) (any, error)`

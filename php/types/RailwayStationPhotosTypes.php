@@ -240,6 +240,7 @@ class OauthCreateData
 /** Photo entity data model. */
 class Photo
 {
+    public ?string $id = null;
 }
 
 /** Request payload for Photo#load. */

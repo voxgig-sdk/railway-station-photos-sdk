@@ -638,6 +638,12 @@ Return the entity name.
 local photo = client:Photo(nil)
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
 ### Operations
 
 #### `load(reqmatch, ctrl) -> any, err`

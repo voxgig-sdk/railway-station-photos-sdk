@@ -79,8 +79,10 @@ main: kit: entity: photo_upload: {
           }
           method: "POST"
           orig: "/photoUpload"
-          parts: [
-            "photoUpload"
+          segments: [
+            {
+              lit: "photoUpload"
+            }
           ]
           select: {
             exist: [

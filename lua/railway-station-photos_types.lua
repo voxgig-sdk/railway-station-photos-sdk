@@ -178,6 +178,7 @@
 ---@class OauthCreateData
 
 ---@class Photo
+---@field id? string
 
 ---@class PhotoLoadMatch
 ---@field country string

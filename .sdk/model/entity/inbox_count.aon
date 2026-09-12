@@ -6,6 +6,7 @@ main: kit: entity: inbox_count: {
 
   fields: [
     {
+      format: "int64"
       name: "pendingInboxEntries"
       req: true
       type: "`$INTEGER`"
@@ -20,8 +21,10 @@ main: kit: entity: inbox_count: {
         {
           method: "GET"
           orig: "/adminInboxCount"
-          parts: [
-            "adminInboxCount"
+          segments: [
+            {
+              lit: "adminInboxCount"
+            }
           ]
           transform: {
             req: "`reqdata`"

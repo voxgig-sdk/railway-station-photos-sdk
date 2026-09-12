@@ -12,11 +12,13 @@ main: kit: entity: public_inbox: {
       type: "`$STRING`"
     }
     {
+      format: "double"
       name: "lat"
       req: true
       type: "`$NUMBER`"
     }
     {
+      format: "double"
       name: "lon"
       req: true
       type: "`$NUMBER`"
@@ -41,8 +43,10 @@ main: kit: entity: public_inbox: {
         {
           method: "GET"
           orig: "/publicInbox"
-          parts: [
-            "publicInbox"
+          segments: [
+            {
+              lit: "publicInbox"
+            }
           ]
           transform: {
             req: "`reqdata`"

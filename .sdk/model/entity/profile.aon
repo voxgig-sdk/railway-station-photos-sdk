@@ -16,6 +16,7 @@ main: kit: entity: profile: {
       type: "`$BOOLEAN`"
     }
     {
+      format: "email"
       name: "email"
       op: {
         create: {
@@ -44,6 +45,7 @@ main: kit: entity: profile: {
       type: "`$STRING`"
     }
     {
+      format: "uri"
       name: "link"
       req: false
       type: "`$STRING`"
@@ -95,8 +97,10 @@ main: kit: entity: profile: {
           }
           method: "POST"
           orig: "/changePassword"
-          parts: [
-            "changePassword"
+          segments: [
+            {
+              lit: "changePassword"
+            }
           ]
           select: {
             exist: [
@@ -122,8 +126,10 @@ main: kit: entity: profile: {
           }
           method: "POST"
           orig: "/myProfile"
-          parts: [
-            "myProfile"
+          segments: [
+            {
+              lit: "myProfile"
+            }
           ]
           select: {
             exist: [
@@ -149,8 +155,10 @@ main: kit: entity: profile: {
           }
           method: "POST"
           orig: "/resendEmailVerification"
-          parts: [
-            "resendEmailVerification"
+          segments: [
+            {
+              lit: "resendEmailVerification"
+            }
           ]
           select: {
             exist: [
@@ -181,8 +189,10 @@ main: kit: entity: profile: {
           }
           method: "GET"
           orig: "/myProfile"
-          parts: [
-            "myProfile"
+          segments: [
+            {
+              lit: "myProfile"
+            }
           ]
           select: {
             exist: [
@@ -208,9 +218,13 @@ main: kit: entity: profile: {
           }
           method: "GET"
           orig: "/emailVerification/{token}"
-          parts: [
-            "emailVerification"
-            "{token}"
+          segments: [
+            {
+              lit: "emailVerification"
+            }
+            {
+              var: "token"
+            }
           ]
           select: {
             exist: [
@@ -241,8 +255,10 @@ main: kit: entity: profile: {
           }
           method: "DELETE"
           orig: "/myProfile"
-          parts: [
-            "myProfile"
+          segments: [
+            {
+              lit: "myProfile"
+            }
           ]
           select: {
             exist: [

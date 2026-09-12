@@ -221,6 +221,7 @@ type OauthCreateData struct {
 
 // Photo is the typed data model for the photo entity.
 type Photo struct {
+	Id *string `json:"id,omitempty"`
 }
 
 // PhotoLoadMatch is the typed request payload for Photo.LoadTyped.

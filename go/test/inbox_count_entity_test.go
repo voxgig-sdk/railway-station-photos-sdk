@@ -50,7 +50,7 @@ func TestInboxCountEntity(t *testing.T) {
 		client := setup.client
 
 		// Bootstrap entity data from existing test data (no create step in flow).
-		inboxCountRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath("existing.inbox_count", setup.data)))
+		inboxCountRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.inbox_count")))
 		var inboxCountRef01Data map[string]any
 		if len(inboxCountRef01DataRaw) > 0 {
 			inboxCountRef01Data = core.ToMapAny(inboxCountRef01DataRaw[0][1])
@@ -97,7 +97,7 @@ func inbox_countBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"inbox_count01", "inbox_count02", "inbox_count03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -125,10 +125,22 @@ func inbox_countBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["RAILWAY_STATION_PHOTOS_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewRailwayStationPhotosSDK(core.ToMapAny(mergedOpts))
 	}

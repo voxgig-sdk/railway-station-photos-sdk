@@ -641,6 +641,12 @@ Return the entity name.
 photo = client.Photo
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `String` | No |  |
+
 ### Operations
 
 #### `load(reqmatch, ctrl = nil) -> result`

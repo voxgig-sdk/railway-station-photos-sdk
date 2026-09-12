@@ -50,7 +50,7 @@ func TestPhotoDownloadEntity(t *testing.T) {
 		client := setup.client
 
 		// Bootstrap entity data from existing test data (no create step in flow).
-		photoDownloadRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath("existing.photo_download", setup.data)))
+		photoDownloadRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.photo_download")))
 		var photoDownloadRef01Data map[string]any
 		if len(photoDownloadRef01DataRaw) > 0 {
 			photoDownloadRef01Data = core.ToMapAny(photoDownloadRef01DataRaw[0][1])
@@ -97,7 +97,7 @@ func photo_downloadBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"photo_download01", "photo_download02", "photo_download03", "done01", "done02", "done03", "processed01", "processed02", "processed03", "rejected01", "rejected02", "rejected03", "inbox01", "inbox02", "inbox03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -125,10 +125,22 @@ func photo_downloadBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["RAILWAY_STATION_PHOTOS_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewRailwayStationPhotosSDK(core.ToMapAny(mergedOpts))
 	}

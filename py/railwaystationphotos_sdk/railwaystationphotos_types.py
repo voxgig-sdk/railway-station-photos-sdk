@@ -235,8 +235,8 @@ class OauthCreateData(TypedDict):
     pass
 
 
-class Photo(TypedDict):
-    pass
+class Photo(TypedDict, total=False):
+    id: str
 
 
 class PhotoLoadMatchRequired(TypedDict):

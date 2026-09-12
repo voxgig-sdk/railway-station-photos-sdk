@@ -4,6 +4,24 @@ main: kit: entity: photo: {
 
   alias: field: {}
 
+  fields: [
+    {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+    parts: [
+      "country"
+      "filename"
+    ]
+    sep: "/"
+  }
+
   name: "photo"
   op: {
     load: {
@@ -39,10 +57,16 @@ main: kit: entity: photo: {
           }
           method: "GET"
           orig: "/photos/{country}/{filename}"
-          parts: [
-            "photos"
-            "{country}"
-            "{filename}"
+          segments: [
+            {
+              lit: "photos"
+            }
+            {
+              var: "country"
+            }
+            {
+              var: "filename"
+            }
           ]
           select: {
             exist: [

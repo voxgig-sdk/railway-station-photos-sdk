@@ -39,6 +39,11 @@ main: kit: entity: photo_station: {
   id: {
     field: "id"
     name: "id"
+    parts: [
+      "country"
+      "id"
+    ]
+    sep: "/"
   }
 
   name: "photo_station"
@@ -61,8 +66,10 @@ main: kit: entity: photo_station: {
           }
           method: "GET"
           orig: "/photoStationsByRecentPhotoImports"
-          parts: [
-            "photoStationsByRecentPhotoImports"
+          segments: [
+            {
+              lit: "photoStationsByRecentPhotoImports"
+            }
           ]
           select: {
             exist: [
@@ -109,9 +116,13 @@ main: kit: entity: photo_station: {
           }
           method: "GET"
           orig: "/photoStationsByCountry/{country}"
-          parts: [
-            "photoStationsByCountry"
-            "{country}"
+          segments: [
+            {
+              lit: "photoStationsByCountry"
+            }
+            {
+              var: "country"
+            }
           ]
           select: {
             exist: [
@@ -146,10 +157,16 @@ main: kit: entity: photo_station: {
           }
           method: "GET"
           orig: "/photoStationById/{country}/{id}"
-          parts: [
-            "photoStationById"
-            "{country}"
-            "{id}"
+          segments: [
+            {
+              lit: "photoStationById"
+            }
+            {
+              var: "country"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -185,9 +202,13 @@ main: kit: entity: photo_station: {
           }
           method: "GET"
           orig: "/photoStationsByPhotographer/{photographer}"
-          parts: [
-            "photoStationsByPhotographer"
-            "{photographer}"
+          segments: [
+            {
+              lit: "photoStationsByPhotographer"
+            }
+            {
+              var: "photographer"
+            }
           ]
           select: {
             exist: [

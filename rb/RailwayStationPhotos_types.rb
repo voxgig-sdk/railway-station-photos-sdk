@@ -636,8 +636,13 @@ class OauthCreateData
 end
 
 # Photo entity data model.
-class Photo
-end
+#
+# @!attribute [rw] id
+#   @return [String, nil]
+Photo = Struct.new(
+  :id,
+  keyword_init: true
+)
 
 # Request payload for Photo#load.
 #

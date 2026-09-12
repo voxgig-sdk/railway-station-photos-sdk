@@ -12,21 +12,25 @@ main: kit: entity: stat: {
       type: "`$STRING`"
     }
     {
+      format: "int64"
       name: "photographers"
       req: true
       type: "`$INTEGER`"
     }
     {
+      format: "int64"
       name: "total"
       req: true
       type: "`$INTEGER`"
     }
     {
+      format: "int64"
       name: "withPhoto"
       req: true
       type: "`$INTEGER`"
     }
     {
+      format: "int64"
       name: "withoutPhoto"
       req: true
       type: "`$INTEGER`"
@@ -52,8 +56,10 @@ main: kit: entity: stat: {
           }
           method: "GET"
           orig: "/stats"
-          parts: [
-            "stats"
+          segments: [
+            {
+              lit: "stats"
+            }
           ]
           select: {
             exist: [

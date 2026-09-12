@@ -68,18 +68,21 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "id",
               "req": true,
               "type": "`$INTEGER`"
             },
             {
               "active": true,
+              "format": "double",
               "name": "lat",
               "req": false,
               "type": "`$NUMBER`"
             },
             {
               "active": true,
+              "format": "double",
               "name": "lon",
               "req": false,
               "type": "`$NUMBER`"
@@ -106,6 +109,7 @@
             },
             {
               "active": true,
+              "format": "int32",
               "name": "status",
               "req": true,
               "type": "`$INTEGER`"
@@ -144,8 +148,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/adminInbox",
-                  "parts": [
-                    "adminInbox"
+                  "segments": [
+                    {
+                      "lit": "adminInbox"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -257,8 +263,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/countries",
-                  "parts": [
-                    "countries"
+                  "segments": [
+                    {
+                      "lit": "countries"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -298,6 +306,7 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "crc32",
               "req": false,
               "short": "CRC32 checksum of the uploaded photo",
@@ -305,6 +314,7 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "createdAt",
               "req": false,
               "type": "`$INTEGER`"
@@ -318,6 +328,7 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "id",
               "req": true,
               "type": "`$INTEGER`"
@@ -331,24 +342,28 @@
             },
             {
               "active": true,
+              "format": "double",
               "name": "lat",
               "req": false,
               "type": "`$NUMBER`"
             },
             {
               "active": true,
+              "format": "double",
               "name": "lon",
               "req": false,
               "type": "`$NUMBER`"
             },
             {
               "active": true,
+              "format": "double",
               "name": "newLat",
               "req": false,
               "type": "`$NUMBER`"
             },
             {
               "active": true,
+              "format": "double",
               "name": "newLon",
               "req": false,
               "type": "`$NUMBER`"
@@ -418,8 +433,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/reportProblem",
-                  "parts": [
-                    "reportProblem"
+                  "segments": [
+                    {
+                      "lit": "reportProblem"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -448,8 +465,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/userInbox",
-                  "parts": [
-                    "userInbox"
+                  "segments": [
+                    {
+                      "lit": "userInbox"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -494,8 +513,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/userInbox",
-                  "parts": [
-                    "userInbox"
+                  "segments": [
+                    {
+                      "lit": "userInbox"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -531,9 +552,13 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/userInbox/{id}",
-                  "parts": [
-                    "userInbox",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "userInbox"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -560,6 +585,7 @@
           "fields": [
             {
               "active": true,
+              "format": "int64",
               "name": "pendingInboxEntries",
               "req": true,
               "type": "`$INTEGER`"
@@ -577,8 +603,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/adminInboxCount",
-                  "parts": [
-                    "adminInboxCount"
+                  "segments": [
+                    {
+                      "lit": "adminInboxCount"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -621,6 +649,7 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "createdAt",
               "req": true,
               "type": "`$INTEGER`"
@@ -655,6 +684,7 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "id",
               "req": true,
               "type": "`$INTEGER`"
@@ -675,24 +705,28 @@
             },
             {
               "active": true,
+              "format": "double",
               "name": "lat",
               "req": false,
               "type": "`$NUMBER`"
             },
             {
               "active": true,
+              "format": "double",
               "name": "lon",
               "req": false,
               "type": "`$NUMBER`"
             },
             {
               "active": true,
+              "format": "double",
               "name": "newLat",
               "req": false,
               "type": "`$NUMBER`"
             },
             {
               "active": true,
+              "format": "double",
               "name": "newLon",
               "req": false,
               "type": "`$NUMBER`"
@@ -705,6 +739,7 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "photoId",
               "req": false,
               "short": "ID of the photo",
@@ -769,8 +804,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/adminInbox",
-                  "parts": [
-                    "adminInbox"
+                  "segments": [
+                    {
+                      "lit": "adminInbox"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -815,6 +852,7 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "expires_in",
               "req": false,
               "type": "`$INTEGER`"
@@ -861,9 +899,13 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/oauth2/token",
-                  "parts": [
-                    "oauth2",
-                    "token"
+                  "segments": [
+                    {
+                      "lit": "oauth2"
+                    },
+                    {
+                      "lit": "token"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -911,9 +953,13 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/oauth2/revoke",
-                  "parts": [
-                    "oauth2",
-                    "revoke"
+                  "segments": [
+                    {
+                      "lit": "oauth2"
+                    },
+                    {
+                      "lit": "revoke"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -996,9 +1042,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/oauth2/authorize",
-                  "parts": [
-                    "oauth2",
-                    "authorize"
+                  "segments": [
+                    {
+                      "lit": "oauth2"
+                    },
+                    {
+                      "lit": "authorize"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1028,7 +1078,23 @@
           "alias": {
             "field": {}
           },
-          "fields": [],
+          "fields": [
+            {
+              "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$STRING`"
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id",
+            "parts": [
+              "country",
+              "filename"
+            ],
+            "sep": "/"
+          },
           "name": "photo",
           "op": {
             "load": {
@@ -1070,10 +1136,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/photos/{country}/{filename}",
-                  "parts": [
-                    "photos",
-                    "{country}",
-                    "{filename}"
+                  "segments": [
+                    {
+                      "lit": "photos"
+                    },
+                    {
+                      "var": "country"
+                    },
+                    {
+                      "var": "filename"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1137,10 +1209,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/inbox/done/{filename}",
-                  "parts": [
-                    "inbox",
-                    "done",
-                    "{filename}"
+                  "segments": [
+                    {
+                      "lit": "inbox"
+                    },
+                    {
+                      "lit": "done"
+                    },
+                    {
+                      "var": "filename"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1180,10 +1258,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/inbox/processed/{filename}",
-                  "parts": [
-                    "inbox",
-                    "processed",
-                    "{filename}"
+                  "segments": [
+                    {
+                      "lit": "inbox"
+                    },
+                    {
+                      "lit": "processed"
+                    },
+                    {
+                      "var": "filename"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1223,10 +1307,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/inbox/rejected/{filename}",
-                  "parts": [
-                    "inbox",
-                    "rejected",
-                    "{filename}"
+                  "segments": [
+                    {
+                      "lit": "inbox"
+                    },
+                    {
+                      "lit": "rejected"
+                    },
+                    {
+                      "var": "filename"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1266,9 +1356,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/inbox/{filename}",
-                  "parts": [
-                    "inbox",
-                    "{filename}"
+                  "segments": [
+                    {
+                      "lit": "inbox"
+                    },
+                    {
+                      "var": "filename"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1344,7 +1438,12 @@
           ],
           "id": {
             "field": "id",
-            "name": "id"
+            "name": "id",
+            "parts": [
+              "country",
+              "id"
+            ],
+            "sep": "/"
           },
           "name": "photo_station",
           "op": {
@@ -1370,8 +1469,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/photoStationsByRecentPhotoImports",
-                  "parts": [
-                    "photoStationsByRecentPhotoImports"
+                  "segments": [
+                    {
+                      "lit": "photoStationsByRecentPhotoImports"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1424,9 +1525,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/photoStationsByCountry/{country}",
-                  "parts": [
-                    "photoStationsByCountry",
-                    "{country}"
+                  "segments": [
+                    {
+                      "lit": "photoStationsByCountry"
+                    },
+                    {
+                      "var": "country"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1465,10 +1570,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/photoStationById/{country}/{id}",
-                  "parts": [
-                    "photoStationById",
-                    "{country}",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "photoStationById"
+                    },
+                    {
+                      "var": "country"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1508,9 +1619,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/photoStationsByPhotographer/{photographer}",
-                  "parts": [
-                    "photoStationsByPhotographer",
-                    "{photographer}"
+                  "segments": [
+                    {
+                      "lit": "photoStationsByPhotographer"
+                    },
+                    {
+                      "var": "photographer"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1633,8 +1748,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/photoUpload",
-                  "parts": [
-                    "photoUpload"
+                  "segments": [
+                    {
+                      "lit": "photoUpload"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1690,8 +1807,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/photographers",
-                  "parts": [
-                    "photographers"
+                  "segments": [
+                    {
+                      "lit": "photographers"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1730,6 +1849,7 @@
             },
             {
               "active": true,
+              "format": "email",
               "name": "email",
               "op": {
                 "create": {
@@ -1761,6 +1881,7 @@
             },
             {
               "active": true,
+              "format": "uri",
               "name": "link",
               "req": false,
               "type": "`$STRING`"
@@ -1819,8 +1940,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/changePassword",
-                  "parts": [
-                    "changePassword"
+                  "segments": [
+                    {
+                      "lit": "changePassword"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1849,8 +1972,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/myProfile",
-                  "parts": [
-                    "myProfile"
+                  "segments": [
+                    {
+                      "lit": "myProfile"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1879,8 +2004,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/resendEmailVerification",
-                  "parts": [
-                    "resendEmailVerification"
+                  "segments": [
+                    {
+                      "lit": "resendEmailVerification"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1915,8 +2042,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/myProfile",
-                  "parts": [
-                    "myProfile"
+                  "segments": [
+                    {
+                      "lit": "myProfile"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1945,9 +2074,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/emailVerification/{token}",
-                  "parts": [
-                    "emailVerification",
-                    "{token}"
+                  "segments": [
+                    {
+                      "lit": "emailVerification"
+                    },
+                    {
+                      "var": "token"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1982,8 +2115,10 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/myProfile",
-                  "parts": [
-                    "myProfile"
+                  "segments": [
+                    {
+                      "lit": "myProfile"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2021,12 +2156,14 @@
             },
             {
               "active": true,
+              "format": "double",
               "name": "lat",
               "req": true,
               "type": "`$NUMBER`"
             },
             {
               "active": true,
+              "format": "double",
               "name": "lon",
               "req": true,
               "type": "`$NUMBER`"
@@ -2056,8 +2193,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/publicInbox",
-                  "parts": [
-                    "publicInbox"
+                  "segments": [
+                    {
+                      "lit": "publicInbox"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -2087,24 +2226,28 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "photographers",
               "req": true,
               "type": "`$INTEGER`"
             },
             {
               "active": true,
+              "format": "int64",
               "name": "total",
               "req": true,
               "type": "`$INTEGER`"
             },
             {
               "active": true,
+              "format": "int64",
               "name": "withPhoto",
               "req": true,
               "type": "`$INTEGER`"
             },
             {
               "active": true,
+              "format": "int64",
               "name": "withoutPhoto",
               "req": true,
               "type": "`$INTEGER`"
@@ -2133,8 +2276,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/stats",
-                  "parts": [
-                    "stats"
+                  "segments": [
+                    {
+                      "lit": "stats"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2218,8 +2363,11 @@
             }
           },
           "name": "test",
+          "needs": {},
           "origname": "",
           "package": "@voxgig/sdkgen",
+          "plugin": {},
+          "spec": {},
           "target": {
             "go": {
               "deps": {}
@@ -2829,6 +2977,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2854,6 +3005,10 @@
             "version": "0.0.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/runner_test.go",
+            "test/struct_runner_test.go"
+          ],
           "title": "Golang"
         },
         "go-cli": {
@@ -2905,6 +3060,7 @@
               "active": false
             }
           },
+          "provides": {},
           "publish": {
             "registry": {
               "active": false,
@@ -2929,6 +3085,7 @@
             },
             "version": "0.0.1"
           },
+          "superseded": [],
           "title": "Go CLI"
         },
         "go-mcp": {
@@ -2980,6 +3137,7 @@
               "active": false
             }
           },
+          "provides": {},
           "publish": {
             "registry": {
               "active": false,
@@ -3004,6 +3162,7 @@
             },
             "version": "0.0.1"
           },
+          "superseded": [],
           "title": "Go MCP server"
         },
         "lua": {
@@ -3044,6 +3203,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3069,6 +3231,9 @@
             "version": "0.0.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.lua"
+          ],
           "title": "Lua"
         },
         "php": {
@@ -3103,6 +3268,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3128,6 +3296,9 @@
             "version": "0.0.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/StructRunner.php"
+          ],
           "title": "PHP"
         },
         "py": {
@@ -3168,6 +3339,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3193,6 +3367,9 @@
             "version": "0.0.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.py"
+          ],
           "title": "Python"
         },
         "rb": {
@@ -3238,6 +3415,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3263,6 +3443,9 @@
             "version": "0.0.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.rb"
+          ],
           "title": "Ruby"
         },
         "ts": {
@@ -3280,11 +3463,6 @@
               "active": true,
               "kind": "dev",
               "version": "^25.6.0"
-            },
-            "dotenv": {
-              "active": true,
-              "kind": "dev",
-              "version": "^17.4.2"
             },
             "typescript": {
               "active": true,
@@ -3313,6 +3491,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3337,6 +3518,14 @@
             },
             "version": "0.0.1"
           },
+          "superseded": [
+            "test/runner.ts",
+            "test/vendor/omni/compat.ts",
+            "src/feature/secrets/sekreto/Providers.ts",
+            "src/feature/secrets/sekreto/Sigv4.ts",
+            "src/feature/secrets/sekreto/provider/Registry.ts",
+            "src/feature/secrets/sekreto/provider/http.ts"
+          ],
           "title": "TypeScript"
         }
       },

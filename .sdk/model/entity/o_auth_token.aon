@@ -11,6 +11,7 @@ main: kit: entity: o_auth_token: {
       type: "`$STRING`"
     }
     {
+      format: "int64"
       name: "expires_in"
       req: false
       type: "`$INTEGER`"
@@ -51,9 +52,13 @@ main: kit: entity: o_auth_token: {
           }
           method: "POST"
           orig: "/oauth2/token"
-          parts: [
-            "oauth2"
-            "token"
+          segments: [
+            {
+              lit: "oauth2"
+            }
+            {
+              lit: "token"
+            }
           ]
           select: {
             exist: [

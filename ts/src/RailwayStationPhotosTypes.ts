@@ -195,6 +195,7 @@ export interface OauthCreateData {
 }
 
 export interface Photo {
+  id?: string
 }
 
 export interface PhotoLoadMatch {

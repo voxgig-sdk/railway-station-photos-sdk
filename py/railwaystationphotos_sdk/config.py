@@ -1,6 +1,14 @@
 # RailwayStationPhotos SDK configuration
 
 
+# The sekreto plugin DEFINITIONS the model selected per feature, imported
+# above by name from the modules the catalogue's active `plugin.def`
+# entries declare. Handed to each feature (secrets builds its Sekreto
+# with them): a provider kind not listed here is unknown to that SDK.
+FEATURE_PLUGINS = {
+}
+
+
 _shared_config = None
 
 
@@ -93,15 +101,18 @@ def make_config():
             "type": "`$STRING`",
           },
           {
+            "format": "int64",
             "name": "id",
             "req": True,
             "type": "`$INTEGER`",
           },
           {
+            "format": "double",
             "name": "lat",
             "type": "`$NUMBER`",
           },
           {
+            "format": "double",
             "name": "lon",
             "type": "`$NUMBER`",
           },
@@ -121,6 +132,7 @@ def make_config():
             "type": "`$STRING`",
           },
           {
+            "format": "int32",
             "name": "status",
             "req": True,
             "type": "`$INTEGER`",
@@ -130,6 +142,10 @@ def make_config():
             "type": "`$STRING`",
           },
         ],
+        "id": {
+          "field": "id",
+          "name": "id",
+        },
         "name": "admin_inbox",
         "op": {
           "create": {
@@ -151,8 +167,10 @@ def make_config():
                 "kind": "http",
                 "method": "POST",
                 "orig": "/adminInbox",
-                "parts": [
-                  "adminInbox",
+                "segments": [
+                  {
+                    "lit": "adminInbox",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -163,6 +181,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "adminInbox",
+                ],
               },
             ],
           },
@@ -243,8 +264,10 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/countries",
-                "parts": [
-                  "countries",
+                "segments": [
+                  {
+                    "lit": "countries",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -255,6 +278,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "countries",
+                ],
               },
             ],
           },
@@ -275,11 +301,13 @@ def make_config():
             "type": "`$STRING`",
           },
           {
+            "format": "int64",
             "name": "crc32",
             "short": "CRC32 checksum of the uploaded photo",
             "type": "`$INTEGER`",
           },
           {
+            "format": "int64",
             "name": "createdAt",
             "type": "`$INTEGER`",
           },
@@ -289,6 +317,7 @@ def make_config():
             "type": "`$STRING`",
           },
           {
+            "format": "int64",
             "name": "id",
             "req": True,
             "type": "`$INTEGER`",
@@ -299,18 +328,22 @@ def make_config():
             "type": "`$STRING`",
           },
           {
+            "format": "double",
             "name": "lat",
             "type": "`$NUMBER`",
           },
           {
+            "format": "double",
             "name": "lon",
             "type": "`$NUMBER`",
           },
           {
+            "format": "double",
             "name": "newLat",
             "type": "`$NUMBER`",
           },
           {
+            "format": "double",
             "name": "newLon",
             "type": "`$NUMBER`",
           },
@@ -341,6 +374,10 @@ def make_config():
             "type": "`$STRING`",
           },
         ],
+        "id": {
+          "field": "id",
+          "name": "id",
+        },
         "name": "inbox",
         "op": {
           "create": {
@@ -362,8 +399,10 @@ def make_config():
                 "kind": "http",
                 "method": "POST",
                 "orig": "/reportProblem",
-                "parts": [
-                  "reportProblem",
+                "segments": [
+                  {
+                    "lit": "reportProblem",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -374,6 +413,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "reportProblem",
+                ],
               },
               {
                 "args": {
@@ -390,8 +432,10 @@ def make_config():
                 "kind": "http",
                 "method": "POST",
                 "orig": "/userInbox",
-                "parts": [
-                  "userInbox",
+                "segments": [
+                  {
+                    "lit": "userInbox",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -402,6 +446,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "userInbox",
+                ],
               },
             ],
           },
@@ -432,8 +479,10 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/userInbox",
-                "parts": [
-                  "userInbox",
+                "segments": [
+                  {
+                    "lit": "userInbox",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -445,6 +494,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "userInbox",
+                ],
               },
             ],
           },
@@ -467,9 +519,13 @@ def make_config():
                 "kind": "http",
                 "method": "DELETE",
                 "orig": "/userInbox/{id}",
-                "parts": [
-                  "userInbox",
-                  "{id}",
+                "segments": [
+                  {
+                    "lit": "userInbox",
+                  },
+                  {
+                    "var": "id",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -480,6 +536,10 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "userInbox",
+                  "{id}",
+                ],
               },
             ],
           },
@@ -491,6 +551,7 @@ def make_config():
       "inbox_count": {
         "fields": [
           {
+            "format": "int64",
             "name": "pendingInboxEntries",
             "req": True,
             "type": "`$INTEGER`",
@@ -507,14 +568,19 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/adminInboxCount",
-                "parts": [
-                  "adminInboxCount",
+                "segments": [
+                  {
+                    "lit": "adminInboxCount",
+                  },
                 ],
                 "select": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "adminInboxCount",
+                ],
               },
             ],
           },
@@ -541,6 +607,7 @@ def make_config():
             "type": "`$STRING`",
           },
           {
+            "format": "int64",
             "name": "createdAt",
             "req": True,
             "type": "`$INTEGER`",
@@ -568,6 +635,7 @@ def make_config():
             "type": "`$BOOLEAN`",
           },
           {
+            "format": "int64",
             "name": "id",
             "req": True,
             "type": "`$INTEGER`",
@@ -583,18 +651,22 @@ def make_config():
             "type": "`$BOOLEAN`",
           },
           {
+            "format": "double",
             "name": "lat",
             "type": "`$NUMBER`",
           },
           {
+            "format": "double",
             "name": "lon",
             "type": "`$NUMBER`",
           },
           {
+            "format": "double",
             "name": "newLat",
             "type": "`$NUMBER`",
           },
           {
+            "format": "double",
             "name": "newLon",
             "type": "`$NUMBER`",
           },
@@ -603,6 +675,7 @@ def make_config():
             "type": "`$STRING`",
           },
           {
+            "format": "int64",
             "name": "photoId",
             "short": "ID of the photo",
             "type": "`$INTEGER`",
@@ -630,6 +703,10 @@ def make_config():
             "type": "`$STRING`",
           },
         ],
+        "id": {
+          "field": "id",
+          "name": "id",
+        },
         "name": "inbox_entry",
         "op": {
           "list": {
@@ -651,8 +728,10 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/adminInbox",
-                "parts": [
-                  "adminInbox",
+                "segments": [
+                  {
+                    "lit": "adminInbox",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -663,6 +742,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "adminInbox",
+                ],
               },
             ],
           },
@@ -687,6 +769,7 @@ def make_config():
             "type": "`$STRING`",
           },
           {
+            "format": "int64",
             "name": "expires_in",
             "type": "`$INTEGER`",
           },
@@ -726,9 +809,13 @@ def make_config():
                 "kind": "http",
                 "method": "POST",
                 "orig": "/oauth2/token",
-                "parts": [
-                  "oauth2",
-                  "token",
+                "segments": [
+                  {
+                    "lit": "oauth2",
+                  },
+                  {
+                    "lit": "token",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -739,6 +826,10 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "oauth2",
+                  "token",
+                ],
               },
             ],
           },
@@ -770,9 +861,13 @@ def make_config():
                 "kind": "http",
                 "method": "POST",
                 "orig": "/oauth2/revoke",
-                "parts": [
-                  "oauth2",
-                  "revoke",
+                "segments": [
+                  {
+                    "lit": "oauth2",
+                  },
+                  {
+                    "lit": "revoke",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -783,6 +878,10 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "oauth2",
+                  "revoke",
+                ],
               },
             ],
           },
@@ -844,9 +943,13 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/oauth2/authorize",
-                "parts": [
-                  "oauth2",
-                  "authorize",
+                "segments": [
+                  {
+                    "lit": "oauth2",
+                  },
+                  {
+                    "lit": "authorize",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -863,6 +966,10 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "oauth2",
+                  "authorize",
+                ],
               },
             ],
           },
@@ -872,7 +979,21 @@ def make_config():
         },
       },
       "photo": {
-        "fields": [],
+        "fields": [
+          {
+            "name": "id",
+            "type": "`$STRING`",
+          },
+        ],
+        "id": {
+          "field": "id",
+          "name": "id",
+          "parts": [
+            "country",
+            "filename",
+          ],
+          "sep": "/",
+        },
         "name": "photo",
         "op": {
           "load": {
@@ -909,10 +1030,16 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/photos/{country}/{filename}",
-                "parts": [
-                  "photos",
-                  "{country}",
-                  "{filename}",
+                "segments": [
+                  {
+                    "lit": "photos",
+                  },
+                  {
+                    "var": "country",
+                  },
+                  {
+                    "var": "filename",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -925,6 +1052,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "photos",
+                  "{country}",
+                  "{filename}",
+                ],
               },
             ],
           },
@@ -968,10 +1100,16 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/inbox/done/{filename}",
-                "parts": [
-                  "inbox",
-                  "done",
-                  "{filename}",
+                "segments": [
+                  {
+                    "lit": "inbox",
+                  },
+                  {
+                    "lit": "done",
+                  },
+                  {
+                    "var": "filename",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -983,6 +1121,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "inbox",
+                  "done",
+                  "{filename}",
+                ],
               },
               {
                 "args": {
@@ -1007,10 +1150,16 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/inbox/processed/{filename}",
-                "parts": [
-                  "inbox",
-                  "processed",
-                  "{filename}",
+                "segments": [
+                  {
+                    "lit": "inbox",
+                  },
+                  {
+                    "lit": "processed",
+                  },
+                  {
+                    "var": "filename",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1022,6 +1171,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "inbox",
+                  "processed",
+                  "{filename}",
+                ],
               },
               {
                 "args": {
@@ -1046,10 +1200,16 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/inbox/rejected/{filename}",
-                "parts": [
-                  "inbox",
-                  "rejected",
-                  "{filename}",
+                "segments": [
+                  {
+                    "lit": "inbox",
+                  },
+                  {
+                    "lit": "rejected",
+                  },
+                  {
+                    "var": "filename",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1061,6 +1221,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "inbox",
+                  "rejected",
+                  "{filename}",
+                ],
               },
               {
                 "args": {
@@ -1085,9 +1250,13 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/inbox/{filename}",
-                "parts": [
-                  "inbox",
-                  "{filename}",
+                "segments": [
+                  {
+                    "lit": "inbox",
+                  },
+                  {
+                    "var": "filename",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1099,6 +1268,10 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "inbox",
+                  "{filename}",
+                ],
               },
             ],
           },
@@ -1151,6 +1324,15 @@ def make_config():
             "type": "`$ARRAY`",
           },
         ],
+        "id": {
+          "field": "id",
+          "name": "id",
+          "parts": [
+            "country",
+            "id",
+          ],
+          "sep": "/",
+        },
         "name": "photo_station",
         "op": {
           "list": {
@@ -1172,8 +1354,10 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/photoStationsByRecentPhotoImports",
-                "parts": [
-                  "photoStationsByRecentPhotoImports",
+                "segments": [
+                  {
+                    "lit": "photoStationsByRecentPhotoImports",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1184,6 +1368,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "photoStationsByRecentPhotoImports",
+                ],
               },
             ],
           },
@@ -1220,9 +1407,13 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/photoStationsByCountry/{country}",
-                "parts": [
-                  "photoStationsByCountry",
-                  "{country}",
+                "segments": [
+                  {
+                    "lit": "photoStationsByCountry",
+                  },
+                  {
+                    "var": "country",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1235,6 +1426,10 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "photoStationsByCountry",
+                  "{country}",
+                ],
               },
               {
                 "args": {
@@ -1258,10 +1453,16 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/photoStationById/{country}/{id}",
-                "parts": [
-                  "photoStationById",
-                  "{country}",
-                  "{id}",
+                "segments": [
+                  {
+                    "lit": "photoStationById",
+                  },
+                  {
+                    "var": "country",
+                  },
+                  {
+                    "var": "id",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1273,6 +1474,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "photoStationById",
+                  "{country}",
+                  "{id}",
+                ],
               },
               {
                 "args": {
@@ -1297,9 +1503,13 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/photoStationsByPhotographer/{photographer}",
-                "parts": [
-                  "photoStationsByPhotographer",
-                  "{photographer}",
+                "segments": [
+                  {
+                    "lit": "photoStationsByPhotographer",
+                  },
+                  {
+                    "var": "photographer",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1311,6 +1521,10 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "photoStationsByPhotographer",
+                  "{photographer}",
+                ],
               },
             ],
           },
@@ -1401,8 +1615,10 @@ def make_config():
                 "kind": "http",
                 "method": "POST",
                 "orig": "/photoUpload",
-                "parts": [
-                  "photoUpload",
+                "segments": [
+                  {
+                    "lit": "photoUpload",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1421,6 +1637,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "photoUpload",
+                ],
               },
             ],
           },
@@ -1451,8 +1670,10 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/photographers",
-                "parts": [
-                  "photographers",
+                "segments": [
+                  {
+                    "lit": "photographers",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1463,6 +1684,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "photographers",
+                ],
               },
             ],
           },
@@ -1482,6 +1706,7 @@ def make_config():
             "type": "`$BOOLEAN`",
           },
           {
+            "format": "email",
             "name": "email",
             "op": {
               "create": {
@@ -1507,6 +1732,7 @@ def make_config():
             "type": "`$STRING`",
           },
           {
+            "format": "uri",
             "name": "link",
             "type": "`$STRING`",
           },
@@ -1556,8 +1782,10 @@ def make_config():
                 "kind": "http",
                 "method": "POST",
                 "orig": "/changePassword",
-                "parts": [
-                  "changePassword",
+                "segments": [
+                  {
+                    "lit": "changePassword",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1568,6 +1796,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "changePassword",
+                ],
               },
               {
                 "args": {
@@ -1584,8 +1815,10 @@ def make_config():
                 "kind": "http",
                 "method": "POST",
                 "orig": "/myProfile",
-                "parts": [
-                  "myProfile",
+                "segments": [
+                  {
+                    "lit": "myProfile",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1596,6 +1829,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "myProfile",
+                ],
               },
               {
                 "args": {
@@ -1612,8 +1848,10 @@ def make_config():
                 "kind": "http",
                 "method": "POST",
                 "orig": "/resendEmailVerification",
-                "parts": [
-                  "resendEmailVerification",
+                "segments": [
+                  {
+                    "lit": "resendEmailVerification",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1624,6 +1862,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "resendEmailVerification",
+                ],
               },
             ],
           },
@@ -1646,8 +1887,10 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/myProfile",
-                "parts": [
-                  "myProfile",
+                "segments": [
+                  {
+                    "lit": "myProfile",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1658,6 +1901,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "myProfile",
+                ],
               },
               {
                 "args": {
@@ -1674,9 +1920,13 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/emailVerification/{token}",
-                "parts": [
-                  "emailVerification",
-                  "{token}",
+                "segments": [
+                  {
+                    "lit": "emailVerification",
+                  },
+                  {
+                    "var": "token",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1687,6 +1937,10 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "emailVerification",
+                  "{token}",
+                ],
               },
             ],
           },
@@ -1709,8 +1963,10 @@ def make_config():
                 "kind": "http",
                 "method": "DELETE",
                 "orig": "/myProfile",
-                "parts": [
-                  "myProfile",
+                "segments": [
+                  {
+                    "lit": "myProfile",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1721,6 +1977,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "myProfile",
+                ],
               },
             ],
           },
@@ -1741,11 +2000,13 @@ def make_config():
             "type": "`$STRING`",
           },
           {
+            "format": "double",
             "name": "lat",
             "req": True,
             "type": "`$NUMBER`",
           },
           {
+            "format": "double",
             "name": "lon",
             "req": True,
             "type": "`$NUMBER`",
@@ -1771,14 +2032,19 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/publicInbox",
-                "parts": [
-                  "publicInbox",
+                "segments": [
+                  {
+                    "lit": "publicInbox",
+                  },
                 ],
                 "select": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "publicInbox",
+                ],
               },
             ],
           },
@@ -1795,21 +2061,25 @@ def make_config():
             "type": "`$STRING`",
           },
           {
+            "format": "int64",
             "name": "photographers",
             "req": True,
             "type": "`$INTEGER`",
           },
           {
+            "format": "int64",
             "name": "total",
             "req": True,
             "type": "`$INTEGER`",
           },
           {
+            "format": "int64",
             "name": "withPhoto",
             "req": True,
             "type": "`$INTEGER`",
           },
           {
+            "format": "int64",
             "name": "withoutPhoto",
             "req": True,
             "type": "`$INTEGER`",
@@ -1835,8 +2105,10 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/stats",
-                "parts": [
-                  "stats",
+                "segments": [
+                  {
+                    "lit": "stats",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1847,6 +2119,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "stats",
+                ],
               },
             ],
           },

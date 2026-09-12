@@ -1,0 +1,87 @@
+import { AdminInboxEntity } from './entity/AdminInboxEntity';
+import { CountryEntity } from './entity/CountryEntity';
+import { InboxEntity } from './entity/InboxEntity';
+import { InboxCountEntity } from './entity/InboxCountEntity';
+import { InboxEntryEntity } from './entity/InboxEntryEntity';
+import { InboxStateQueryEntity } from './entity/InboxStateQueryEntity';
+import { OAuthTokenEntity } from './entity/OAuthTokenEntity';
+import { OauthEntity } from './entity/OauthEntity';
+import { PhotoEntity } from './entity/PhotoEntity';
+import { PhotoDownloadEntity } from './entity/PhotoDownloadEntity';
+import { PhotoStationEntity } from './entity/PhotoStationEntity';
+import { PhotoUploadEntity } from './entity/PhotoUploadEntity';
+import { PhotographerEntity } from './entity/PhotographerEntity';
+import { ProfileEntity } from './entity/ProfileEntity';
+import { PublicInboxEntity } from './entity/PublicInboxEntity';
+import { StatEntity } from './entity/StatEntity';
+export type * from './RailwayStationPhotosTypes';
+import { inspect } from 'node:util';
+import type { Context, Feature } from './types';
+import { config } from './Config';
+import { RailwayStationPhotosEntityBase } from './RailwayStationPhotosEntityBase';
+import { Utility } from './utility/Utility';
+import { BaseFeature } from './feature/base/BaseFeature';
+declare const stdutil: Utility;
+declare class RailwayStationPhotosSDK {
+    _mode: string;
+    _options: any;
+    _utility: Utility;
+    _features: Feature[];
+    _rootctx: Context;
+    constructor(options?: any);
+    options(): any;
+    utility(): any;
+    prepare(fetchargs?: any): Promise<any>;
+    direct(fetchargs?: any): Promise<Error | {
+        ok: boolean;
+        status: number;
+        headers: any;
+        data: any;
+        err?: undefined;
+    } | {
+        ok: boolean;
+        err: any;
+        status?: undefined;
+        headers?: undefined;
+        data?: undefined;
+    }>;
+    _rawRequest(fetchargs?: any): Promise<Error | {
+        ok: boolean;
+        status: number;
+        headers: any;
+        data: any;
+        err?: undefined;
+    } | {
+        ok: boolean;
+        err: any;
+        status?: undefined;
+        headers?: undefined;
+        data?: undefined;
+    }>;
+    graphql(query: string, variables?: any, ctrl?: any): Promise<any>;
+    AdminInbox(entopts?: Record<string, any>): AdminInboxEntity;
+    Country(entopts?: Record<string, any>): CountryEntity;
+    Inbox(entopts?: Record<string, any>): InboxEntity;
+    InboxCount(entopts?: Record<string, any>): InboxCountEntity;
+    InboxEntry(entopts?: Record<string, any>): InboxEntryEntity;
+    InboxStateQuery(entopts?: Record<string, any>): InboxStateQueryEntity;
+    OAuthToken(entopts?: Record<string, any>): OAuthTokenEntity;
+    Oauth(entopts?: Record<string, any>): OauthEntity;
+    Photo(entopts?: Record<string, any>): PhotoEntity;
+    PhotoDownload(entopts?: Record<string, any>): PhotoDownloadEntity;
+    PhotoStation(entopts?: Record<string, any>): PhotoStationEntity;
+    PhotoUpload(entopts?: Record<string, any>): PhotoUploadEntity;
+    Photographer(entopts?: Record<string, any>): PhotographerEntity;
+    Profile(entopts?: Record<string, any>): ProfileEntity;
+    PublicInbox(entopts?: Record<string, any>): PublicInboxEntity;
+    Stat(entopts?: Record<string, any>): StatEntity;
+    static test(testoptsarg?: any, sdkoptsarg?: any): RailwayStationPhotosSDK;
+    tester(testopts?: any, sdkopts?: any): RailwayStationPhotosSDK;
+    toJSON(): {
+        name: string;
+    };
+    toString(): string;
+    [inspect.custom](): string;
+}
+declare const SDK: typeof RailwayStationPhotosSDK;
+export { stdutil, config, BaseFeature, RailwayStationPhotosEntityBase, RailwayStationPhotosSDK, SDK, };

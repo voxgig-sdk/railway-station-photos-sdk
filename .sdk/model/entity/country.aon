@@ -80,8 +80,10 @@ main: kit: entity: country: {
           }
           method: "GET"
           orig: "/countries"
-          parts: [
-            "countries"
+          segments: [
+            {
+              lit: "countries"
+            }
           ]
           select: {
             exist: [

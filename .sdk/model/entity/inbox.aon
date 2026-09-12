@@ -17,12 +17,14 @@ main: kit: entity: inbox: {
       type: "`$STRING`"
     }
     {
+      format: "int64"
       name: "crc32"
       req: false
       short: "CRC32 checksum of the uploaded photo"
       type: "`$INTEGER`"
     }
     {
+      format: "int64"
       name: "createdAt"
       req: false
       type: "`$INTEGER`"
@@ -34,6 +36,7 @@ main: kit: entity: inbox: {
       type: "`$STRING`"
     }
     {
+      format: "int64"
       name: "id"
       req: true
       type: "`$INTEGER`"
@@ -45,21 +48,25 @@ main: kit: entity: inbox: {
       type: "`$STRING`"
     }
     {
+      format: "double"
       name: "lat"
       req: false
       type: "`$NUMBER`"
     }
     {
+      format: "double"
       name: "lon"
       req: false
       type: "`$NUMBER`"
     }
     {
+      format: "double"
       name: "newLat"
       req: false
       type: "`$NUMBER`"
     }
     {
+      format: "double"
       name: "newLon"
       req: false
       type: "`$NUMBER`"
@@ -121,8 +128,10 @@ main: kit: entity: inbox: {
           }
           method: "POST"
           orig: "/reportProblem"
-          parts: [
-            "reportProblem"
+          segments: [
+            {
+              lit: "reportProblem"
+            }
           ]
           select: {
             exist: [
@@ -148,8 +157,10 @@ main: kit: entity: inbox: {
           }
           method: "POST"
           orig: "/userInbox"
-          parts: [
-            "userInbox"
+          segments: [
+            {
+              lit: "userInbox"
+            }
           ]
           select: {
             exist: [
@@ -189,8 +200,10 @@ main: kit: entity: inbox: {
           }
           method: "GET"
           orig: "/userInbox"
-          parts: [
-            "userInbox"
+          segments: [
+            {
+              lit: "userInbox"
+            }
           ]
           select: {
             exist: [
@@ -222,9 +235,13 @@ main: kit: entity: inbox: {
           }
           method: "DELETE"
           orig: "/userInbox/{id}"
-          parts: [
-            "userInbox"
-            "{id}"
+          segments: [
+            {
+              lit: "userInbox"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [

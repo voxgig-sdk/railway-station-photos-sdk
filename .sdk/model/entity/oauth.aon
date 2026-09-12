@@ -23,9 +23,13 @@ main: kit: entity: oauth: {
           }
           method: "POST"
           orig: "/oauth2/revoke"
-          parts: [
-            "oauth2"
-            "revoke"
+          segments: [
+            {
+              lit: "oauth2"
+            }
+            {
+              lit: "revoke"
+            }
           ]
           select: {
             exist: [
@@ -98,9 +102,13 @@ main: kit: entity: oauth: {
           }
           method: "GET"
           orig: "/oauth2/authorize"
-          parts: [
-            "oauth2"
-            "authorize"
+          segments: [
+            {
+              lit: "oauth2"
+            }
+            {
+              lit: "authorize"
+            }
           ]
           select: {
             exist: [

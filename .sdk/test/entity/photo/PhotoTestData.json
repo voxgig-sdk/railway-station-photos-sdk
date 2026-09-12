@@ -2,19 +2,19 @@
   "existing": {
     "photo": {
       "PHOTO00": {
+        "id": "PHOTO00",
         "country": "COUNTRY01",
-        "filename": "FILENAME01",
-        "id": "PHOTO00"
+        "filename": "FILENAME01"
       },
       "PHOTO01": {
+        "id": "PHOTO01",
         "country": "COUNTRY01",
-        "filename": "FILENAME01",
-        "id": "PHOTO01"
+        "filename": "FILENAME01"
       },
       "PHOTO02": {
+        "id": "PHOTO02",
         "country": "COUNTRY01",
-        "filename": "FILENAME01",
-        "id": "PHOTO02"
+        "filename": "FILENAME01"
       }
     }
   },
