@@ -110,7 +110,7 @@ local results, err = client:PublicInbox():list()
 
 | Language | Package | Install |
 | --- | --- | --- |
-| TypeScript | `@voxgig-sdk/railway-station-photos` | publish pending — [install from git tag](https://github.com/voxgig-sdk/railway-station-photos-sdk/releases) |
+| TypeScript | `@voxgig-sdk/railway-station-photos-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/railway-station-photos-sdk/releases) |
 | Python | `voxgig-sdk-railway-station-photos` | publish pending — [install from git tag](https://github.com/voxgig-sdk/railway-station-photos-sdk/releases) |
 | PHP | `voxgig-sdk/railway-station-photos` | publish pending — [install from git tag](https://github.com/voxgig-sdk/railway-station-photos-sdk/releases) |
 | Golang | `github.com/voxgig-sdk/railway-station-photos-sdk/go` | `go get github.com/voxgig-sdk/railway-station-photos-sdk/go@latest` |
@@ -124,7 +124,7 @@ local results, err = client:PublicInbox():list()
 ### TypeScript
 
 ```ts
-import { RailwayStationPhotosSDK } from '@voxgig-sdk/railway-station-photos'
+import { RailwayStationPhotosSDK } from '@voxgig-sdk/railway-station-photos-sdk'
 
 const client = new RailwayStationPhotosSDK()
 
