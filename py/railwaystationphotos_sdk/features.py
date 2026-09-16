@@ -1,12 +1,18 @@
 # RailwayStationPhotos SDK feature factory
 
 from railwaystationphotos_sdk.feature.base_feature import RailwayStationPhotosBaseFeature
+from railwaystationphotos_sdk.feature.ratelimit_feature import RailwayStationPhotosRatelimitFeature
+from railwaystationphotos_sdk.feature.retry_feature import RailwayStationPhotosRetryFeature
 from railwaystationphotos_sdk.feature.test_feature import RailwayStationPhotosTestFeature
+from railwaystationphotos_sdk.feature.timeout_feature import RailwayStationPhotosTimeoutFeature
 
 
 _FEATURES = {
     "base": lambda: RailwayStationPhotosBaseFeature(),
+    "ratelimit": lambda: RailwayStationPhotosRatelimitFeature(),
+    "retry": lambda: RailwayStationPhotosRetryFeature(),
     "test": lambda: RailwayStationPhotosTestFeature(),
+    "timeout": lambda: RailwayStationPhotosTimeoutFeature(),
 }
 
 

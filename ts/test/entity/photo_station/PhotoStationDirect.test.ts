@@ -2,6 +2,7 @@
 
 import { test, describe, afterEach } from 'node:test'
 import assert from 'node:assert'
+import { createLiveTransport } from '../../live-runner'
 
 
 import { RailwayStationPhotosSDK } from '../../..'
@@ -43,6 +44,7 @@ describe('PhotoStationDirect', async () => {
 
 
   test('direct-load-photo_station', async (t: any) => {
+    if (liveScenariosActive()) { t.skip('Covered by live operation scenarios'); return }
     const setup = directSetup({ id: 'direct01' })
     if (maybeSkipControl(t, 'direct', 'direct-load-photo_station', setup.live)) return
     if (skipIfMissingIds(t, setup, ["country01"])) return
@@ -58,16 +60,15 @@ describe('PhotoStationDirect', async () => {
 
         },
       })
-      if (!listResult.ok) {
-        return // skip: list call failed (likely synthetic IDs against live API)
-      }
+      assert(listResult.ok && listResult.status >= 200 && listResult.status < 300,
+        'Live list discovery failed')
       const listArr = unwrapListData(listResult.data)
       if (null == listArr || listArr.length === 0) {
-        return // skip: no entities to load in live mode
+        throw new Error('Live load blocked: discovery returned no entities')
       }
       const candidateId = listArr[0]?.country ?? listArr[0]?.id
       if (null == candidateId) {
-        return // skip: list response shape does not expose load identifier
+        throw new Error('Live load blocked: discovery returned no usable identity')
       }
       params.country = candidateId
       params.country = setup.idmap['country01']
@@ -83,12 +84,18 @@ describe('PhotoStationDirect', async () => {
     })
 
     if (setup.live) {
-      // Live mode is lenient: synthetic IDs frequently 4xx. Skip rather
-      // than fail when the load endpoint isn't reachable with the IDs we
-      // can construct from setup.idmap.
-      if (!result.ok || result.status < 200 || result.status >= 300) {
-        return
-      }
+      // STRICT live mode: a non-2xx is a real failure - this project owns
+      // the server it points at, so there is nothing to be lenient about.
+      //
+      // What is NOT asserted here is the MOCK's own fixtures. `direct01`
+      // is a scripted id and `calls` records the mock transport; neither
+      // exists on a live run, so asserting them made strict mode mean
+      // "compare the live server against the mock's script" - a suite that
+      // could not pass against any real API, including this project's own.
+      assert(result.ok === true,
+        'Live request failed: HTTP ' + result.status)
+      assert(result.status >= 200 && result.status < 300)
+      assert(null != result.data)
     } else {
       assert(result.ok === true)
       assert(result.status === 200)
@@ -101,6 +108,7 @@ describe('PhotoStationDirect', async () => {
   })
 
   test('direct-list-photo_station', async (t: any) => {
+    if (liveScenariosActive()) { t.skip('Covered by live operation scenarios'); return }
     const setup = directSetup([{ id: 'direct01' }, { id: 'direct02' }])
     if (maybeSkipControl(t, 'direct', 'direct-list-photo_station', setup.live)) return
     const { client, calls } = setup
@@ -116,16 +124,18 @@ describe('PhotoStationDirect', async () => {
     })
 
     if (setup.live) {
-      // Live mode is lenient: synthetic IDs frequently 4xx and the list-
-      // response shape varies wildly across public APIs. Skip rather than
-      // fail when the call doesn't return a usable list.
-      if (!result.ok || result.status < 200 || result.status >= 300) {
-        return
-      }
-      const listArr = unwrapListData(result.data)
-      if (!Array.isArray(listArr)) {
-        return
-      }
+      // STRICT live mode: a non-2xx is a real failure - this project owns
+      // the server it points at, so there is nothing to be lenient about.
+      //
+      // What is NOT asserted here is the MOCK's own fixtures. `direct01`
+      // is a scripted id and `calls` records the mock transport; neither
+      // exists on a live run, so asserting them made strict mode mean
+      // "compare the live server against the mock's script" - a suite that
+      // could not pass against any real API, including this project's own.
+      assert(result.ok === true,
+        'Live request failed: HTTP ' + result.status)
+      assert(result.status >= 200 && result.status < 300)
+      assert(Array.isArray(unwrapListData(result.data)), 'Expected live list response')
     } else {
       assert(result.ok === true)
       assert(result.status === 200)
@@ -142,6 +152,7 @@ describe('PhotoStationDirect', async () => {
 
 
 
+function liveScenariosActive() { return false && process.env.RAILWAY_STATION_PHOTOS_TEST_LIVE === 'TRUE' }
 function directSetup(mockres?: any) {
   const calls: any[] = []
 
@@ -153,10 +164,11 @@ function directSetup(mockres?: any) {
   const live = 'TRUE' === env.RAILWAY_STATION_PHOTOS_TEST_LIVE
 
   if (live) {
+    const transport = createLiveTransport()
     // Merged so the generated fields win: sdk-test-control.json's
     // test.client.options adds to the live client, it does not redirect it.
     const client = new RailwayStationPhotosSDK(
-      Object.assign({}, liveClientOptions(), {
+      Object.assign({}, liveClientOptions(), { system: { fetch: transport.fetch },
       }))
 
     let idmap: any = env['RAILWAY_STATION_PHOTOS_TEST_PHOTO_STATION_ENTID']
@@ -164,7 +176,7 @@ function directSetup(mockres?: any) {
       idmap = JSON.parse(idmap)
     }
 
-    return { client, calls, live, idmap }
+    return { client, calls, live, idmap, transport }
   }
 
   const mockFetch = async (url: string, init: any) => {

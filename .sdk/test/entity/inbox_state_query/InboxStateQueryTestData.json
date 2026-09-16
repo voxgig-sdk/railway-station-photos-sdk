@@ -10,5 +10,6 @@
     "inbox_state_query": {
       "inbox_state_query_ref01": {}
     }
-  }
+  },
+  "requests": {}
 }

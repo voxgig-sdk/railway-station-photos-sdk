@@ -5,6 +5,8 @@ import * as Fs from 'node:fs'
 
 import { test, describe, afterEach } from 'node:test'
 import assert from 'node:assert'
+import { createLiveTransport } from '../../live-runner'
+import { runLiveEntity } from '../../live-entity'
 
 
 import { RailwayStationPhotosSDK, BaseFeature, stdutil } from '../../..'
@@ -47,16 +49,13 @@ describe('CountryEntity', async () => {
 
     const live = 'TRUE' === process.env.RAILWAY_STATION_PHOTOS_TEST_LIVE
     for (const op of ['list']) {
-      if (maybeSkipControl(t, 'entityOp', 'country.' + op, live)) return
+      if (!live && maybeSkipControl(t, 'entityOp', 'country.' + op, live)) return
     }
 
+    
     const setup = basicSetup()
-    // The basic flow consumes synthetic IDs and field values from the
-    // fixture (entity TestData.json). Those don't exist on the live API.
-    // Skip live runs unless the user provided a real ENTID env override.
-    if (setup.syntheticOnly) {
-      t.skip('live entity test uses synthetic IDs from fixture — set RAILWAY_STATION_PHOTOS_TEST_COUNTRY_ENTID JSON to run live')
-      return
+    if (setup.live) {
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":[{"active":true,"name":"active","req":true,"short":"Is this an active country where we collect photos?","type":"`$BOOLEAN`","index$":0},{"active":true,"name":"allowPhotoUploads","req":true,"short":"Are photo uploads allowed?","type":"`$BOOLEAN`","index$":1},{"active":true,"name":"code","req":true,"short":"a two character country code","type":"`$STRING`","index$":2},{"active":true,"name":"email","req":false,"short":"Contact email address","type":"`$STRING`","index$":3},{"active":true,"name":"message","req":false,"short":"Informational message about this country","type":"`$STRING`","index$":4},{"active":true,"name":"name","req":true,"short":"Name of the country","type":"`$STRING`","index$":5},{"active":true,"name":"overrideLicense","req":false,"short":"if a country needs a special license","type":"`$STRING`","index$":6},{"active":true,"name":"providerApps","req":false,"short":"array with links to provider apps","type":"`$ARRAY`","index$":7},{"active":true,"name":"timetableUrlTemplate","req":false,"short":"URL template for the timetable, contains {title}, {id} and {DS100} placeholders which need to be replaced","type":"`$STRING`","index$":8}],"name":"country","op":{"list":{"input":"data","name":"list","points":[{"active":true,"args":{"query":[{"active":true,"kind":"query","name":"only_active","orig":"only_active","reqd":false,"type":"`$BOOLEAN`","index$":0}]},"contract":{"id":"GET /countries","json":"{\"operationId\":\"getCountries\",\"parameters\":[{\"description\":\"return only active countries? Defaults to true.\",\"in\":\"query\",\"name\":\"onlyActive\",\"schema\":{\"type\":\"boolean\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"items\":{\"description\":\"Supported Country with its configuration\",\"properties\":{\"active\":{\"description\":\"Is this an active country where we collect photos?\",\"type\":\"boolean\"},\"allowPhotoUploads\":{\"description\":\"Are photo uploads allowed?\",\"type\":\"boolean\"},\"code\":{\"description\":\"a two character country code\",\"maxLength\":2,\"minLength\":2,\"type\":\"string\"},\"email\":{\"description\":\"Contact email address\",\"type\":\"string\"},\"message\":{\"description\":\"Informational message about this country\",\"type\":\"string\"},\"name\":{\"description\":\"Name of the country\",\"type\":\"string\"},\"overrideLicense\":{\"description\":\"if a country needs a special license\",\"type\":\"string\"},\"providerApps\":{\"description\":\"array with links to provider apps\",\"items\":{\"description\":\"Provider App information\",\"properties\":{\"name\":{\"type\":\"string\"},\"type\":{\"enum\":[\"android\",\"ios\",\"web\"],\"type\":\"string\"},\"url\":{\"type\":\"string\"}},\"required\":[\"type\",\"name\",\"url\"],\"type\":\"object\"},\"type\":\"array\"},\"timetableUrlTemplate\":{\"description\":\"URL template for the timetable, contains {title}, {id} and\\n{DS100} placeholders which need to be replaced\\n\",\"type\":\"string\"}},\"required\":[\"code\",\"name\",\"active\",\"allowPhotoUploads\"],\"type\":\"object\"},\"type\":\"array\"}}},\"description\":\"successful operation\"},\"default\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"General error message\",\"properties\":{\"error\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"},\"path\":{\"type\":\"string\"},\"status\":{\"format\":\"int32\",\"type\":\"integer\"},\"timestamp\":{\"format\":\"int64\",\"type\":\"integer\"}},\"required\":[\"status\",\"message\"],\"type\":\"object\"}}},\"description\":\"Unexpected error\"}},\"securitySource\":\"unspecified\"}","source":"openapi3","version":1},"kind":"http","method":"GET","orig":"/countries","segments":[{"lit":"countries"}],"select":{"exist":["only_active"]},"transform":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"list"}},"relations":{"ancestors":[]},"key$":"country","name__orig":"country","Name":"Country","name_":"country","name-":"country","NAME":"COUNTRY","index$":1}, {"active":true,"entity":"country","key$":"BasicCountryFlow","kind":"basic","name":"BasicCountryFlow","param":{},"step":[{"active":true,"data":{},"input":{},"match":{},"op":"list","spec":[],"valid":[{"apply":"ItemExists","def":{"ref":"country_ref01"}}],"index$":0}]}, 'Country')
     }
     const client = setup.client
     const struct = setup.struct
@@ -109,13 +108,6 @@ function basicSetup(extra?: any) {
       }]
     })
 
-  // Detect whether the user provided a real ENTID JSON via env var. The
-  // basic flow consumes synthetic IDs from the fixture file; without an
-  // override those synthetic IDs reach the live API and 4xx. Surface this
-  // to the test so it can skip rather than fail.
-  const idmapEnvVal = process.env['RAILWAY_STATION_PHOTOS_TEST_COUNTRY_ENTID']
-  const idmapOverridden = null != idmapEnvVal && idmapEnvVal.trim().startsWith('{')
-
   const env = envOverride({
     'RAILWAY_STATION_PHOTOS_TEST_COUNTRY_ENTID': idmap,
     'RAILWAY_STATION_PHOTOS_TEST_LIVE': 'FALSE',
@@ -126,7 +118,13 @@ function basicSetup(extra?: any) {
 
   const live = 'TRUE' === env.RAILWAY_STATION_PHOTOS_TEST_LIVE
 
+  const transport = createLiveTransport()
   if (live) {
+    const rawIds = process.env['RAILWAY_STATION_PHOTOS_TEST_COUNTRY_ENTID']
+    idmap = rawIds && rawIds.trim() ? JSON.parse(rawIds) : {}
+    if (!idmap || Array.isArray(idmap) || typeof idmap !== 'object') {
+      throw new Error('Live ENTID must be a JSON object')
+    }
     client = new RailwayStationPhotosSDK(merge([
       // FIRST, so the generated fields below win: sdk-test-control.json's
       // test.client.options adds to the live client, it does not redirect it.
@@ -138,7 +136,8 @@ function basicSetup(extra?: any) {
       // argument at all - so a bare 'extra' silently discarded the apikey
       // and server values above and handed the SDK undefined. Harmless
       // while there was nothing in that object; not harmless now.
-      extra || {}
+      extra || {},
+      { system: { fetch: transport.fetch } }
     ]))
   }
 
@@ -151,7 +150,7 @@ function basicSetup(extra?: any) {
     data: entityData,
     explain: 'TRUE' === env.RAILWAY_STATION_PHOTOS_TEST_EXPLAIN,
     live,
-    syntheticOnly: live && !idmapOverridden,
+    transport,
     now: Date.now(),
   }
 

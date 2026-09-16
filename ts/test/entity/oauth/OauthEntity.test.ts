@@ -5,6 +5,8 @@ import * as Fs from 'node:fs'
 
 import { test, describe, afterEach } from 'node:test'
 import assert from 'node:assert'
+import { createLiveTransport } from '../../live-runner'
+import { runLiveEntity } from '../../live-entity'
 
 
 import { RailwayStationPhotosSDK, BaseFeature, stdutil } from '../../..'
@@ -47,16 +49,13 @@ describe('OauthEntity', async () => {
 
     const live = 'TRUE' === process.env.RAILWAY_STATION_PHOTOS_TEST_LIVE
     for (const op of ['create', 'load']) {
-      if (maybeSkipControl(t, 'entityOp', 'oauth.' + op, live)) return
+      if (!live && maybeSkipControl(t, 'entityOp', 'oauth.' + op, live)) return
     }
 
+    
     const setup = basicSetup()
-    // The basic flow consumes synthetic IDs and field values from the
-    // fixture (entity TestData.json). Those don't exist on the live API.
-    // Skip live runs unless the user provided a real ENTID env override.
-    if (setup.syntheticOnly) {
-      t.skip('live entity test uses synthetic IDs from fixture — set RAILWAY_STATION_PHOTOS_TEST_OAUTH_ENTID JSON to run live')
-      return
+    if (setup.live) {
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":[],"name":"oauth","op":{"create":{"input":"data","name":"create","points":[{"active":true,"args":{"header":[{"active":true,"kind":"header","name":"authorization","orig":"authorization","reqd":true,"type":"`$STRING`"}]},"contract":{"id":"POST /oauth2/revoke","json":"{\"operationId\":\"postOAuth2Revoke\",\"parameters\":[{\"description\":\"JWT authorization\\n\",\"in\":\"header\",\"name\":\"Authorization\",\"required\":true,\"schema\":{\"type\":\"string\"}}],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/x-www-form-urlencoded\":{\"schema\":{\"description\":\"OAuth2 token revocation request\",\"properties\":{\"token\":{\"type\":\"string\"},\"token_type_hint\":{\"enum\":[\"access_token\",\"refresh_token\"],\"type\":\"string\"}},\"required\":[\"token\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"200\":{\"description\":\"successfully revoked the token\"},\"default\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"General error message\",\"properties\":{\"error\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"},\"path\":{\"type\":\"string\"},\"status\":{\"format\":\"int32\",\"type\":\"integer\"},\"timestamp\":{\"format\":\"int64\",\"type\":\"integer\"}},\"required\":[\"status\",\"message\"],\"type\":\"object\"}}},\"description\":\"Unexpected error\"}},\"securitySource\":\"unspecified\"}","source":"openapi3","version":1},"kind":"http","method":"POST","orig":"/oauth2/revoke","segments":[{"lit":"oauth2"},{"lit":"revoke"}],"select":{"exist":["authorization"]},"transform":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"},"load":{"input":"data","name":"load","points":[{"active":true,"args":{"query":[{"active":true,"kind":"query","name":"client_id","orig":"client_id","reqd":true,"type":"`$STRING`","index$":0},{"active":true,"kind":"query","name":"code_challenge","orig":"code_challenge","reqd":false,"type":"`$STRING`","index$":1},{"active":true,"kind":"query","name":"code_challenge_method","orig":"code_challenge_method","reqd":false,"type":"`$STRING`","index$":2},{"active":true,"kind":"query","name":"redirect_uri","orig":"redirect_uri","reqd":true,"type":"`$STRING`","index$":3},{"active":true,"kind":"query","name":"response_type","orig":"response_type","reqd":true,"type":"`$STRING`","index$":4},{"active":true,"kind":"query","name":"scope","orig":"scope","reqd":true,"type":"`$STRING`","index$":5},{"active":true,"kind":"query","name":"state","orig":"state","reqd":false,"type":"`$STRING`","index$":6}]},"contract":{"id":"GET /oauth2/authorize","json":"{\"operationId\":\"getOAuth2Authorize\",\"parameters\":[{\"description\":\"ID of the OAuth client\",\"in\":\"query\",\"name\":\"client_id\",\"required\":true,\"schema\":{\"type\":\"string\"}},{\"description\":\"OAuth scope\",\"in\":\"query\",\"name\":\"scope\",\"required\":true,\"schema\":{\"enum\":[\"all\"],\"type\":\"string\"}},{\"description\":\"OAuth response type\",\"in\":\"query\",\"name\":\"response_type\",\"required\":true,\"schema\":{\"enum\":[\"code\",\"token\"],\"type\":\"string\"}},{\"description\":\"OAuth redirect URI\",\"in\":\"query\",\"name\":\"redirect_uri\",\"required\":true,\"schema\":{\"format\":\"uri\",\"type\":\"string\"}},{\"description\":\"OAuth state\",\"in\":\"query\",\"name\":\"state\",\"schema\":{\"type\":\"string\"}},{\"description\":\"BASE64URL-ENCODE(SHA256(ASCII(code_verifier)))\",\"in\":\"query\",\"name\":\"code_challenge\",\"schema\":{\"type\":\"string\"}},{\"description\":\"OAuth code challenge method\",\"in\":\"query\",\"name\":\"code_challenge_method\",\"schema\":{\"enum\":[\"S256\"],\"type\":\"string\"}}],\"protocol\":\"http\",\"responses\":{\"302\":{\"description\":\"redirect to `redirect_uri` with `code` and `state` query parameter\"},\"default\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"General error message\",\"properties\":{\"error\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"},\"path\":{\"type\":\"string\"},\"status\":{\"format\":\"int32\",\"type\":\"integer\"},\"timestamp\":{\"format\":\"int64\",\"type\":\"integer\"}},\"required\":[\"status\",\"message\"],\"type\":\"object\"}}},\"description\":\"Unexpected error\"}},\"securitySource\":\"unspecified\"}","source":"openapi3","version":1},"kind":"http","method":"GET","orig":"/oauth2/authorize","segments":[{"lit":"oauth2"},{"lit":"authorize"}],"select":{"exist":["client_id","code_challenge","code_challenge_method","redirect_uri","response_type","scope","state"]},"transform":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"oauth","name__orig":"oauth","Name":"Oauth","name_":"oauth","name-":"oauth","NAME":"OAUTH","index$":7}, {"active":true,"entity":"oauth","key$":"BasicOauthFlow","kind":"basic","name":"BasicOauthFlow","param":{},"step":[{"active":true,"data":{},"input":{"ref":"oauth_ref01"},"match":{},"op":"create","spec":[],"valid":[],"index$":0},{"active":true,"data":{},"input":{"ref":"oauth_ref01","srcdatavar":"oauth_ref01_data","suffix":"_dt0"},"match":{},"op":"load","spec":[],"valid":[{"apply":"TextFieldMark","def":{"mark":"Mark01-oauth_ref01"}}],"index$":1}]}, 'Oauth')
     }
     const client = setup.client
     const struct = setup.struct
@@ -115,13 +114,6 @@ function basicSetup(extra?: any) {
       }]
     })
 
-  // Detect whether the user provided a real ENTID JSON via env var. The
-  // basic flow consumes synthetic IDs from the fixture file; without an
-  // override those synthetic IDs reach the live API and 4xx. Surface this
-  // to the test so it can skip rather than fail.
-  const idmapEnvVal = process.env['RAILWAY_STATION_PHOTOS_TEST_OAUTH_ENTID']
-  const idmapOverridden = null != idmapEnvVal && idmapEnvVal.trim().startsWith('{')
-
   const env = envOverride({
     'RAILWAY_STATION_PHOTOS_TEST_OAUTH_ENTID': idmap,
     'RAILWAY_STATION_PHOTOS_TEST_LIVE': 'FALSE',
@@ -132,7 +124,13 @@ function basicSetup(extra?: any) {
 
   const live = 'TRUE' === env.RAILWAY_STATION_PHOTOS_TEST_LIVE
 
+  const transport = createLiveTransport()
   if (live) {
+    const rawIds = process.env['RAILWAY_STATION_PHOTOS_TEST_OAUTH_ENTID']
+    idmap = rawIds && rawIds.trim() ? JSON.parse(rawIds) : {}
+    if (!idmap || Array.isArray(idmap) || typeof idmap !== 'object') {
+      throw new Error('Live ENTID must be a JSON object')
+    }
     client = new RailwayStationPhotosSDK(merge([
       // FIRST, so the generated fields below win: sdk-test-control.json's
       // test.client.options adds to the live client, it does not redirect it.
@@ -144,7 +142,8 @@ function basicSetup(extra?: any) {
       // argument at all - so a bare 'extra' silently discarded the apikey
       // and server values above and handed the SDK undefined. Harmless
       // while there was nothing in that object; not harmless now.
-      extra || {}
+      extra || {},
+      { system: { fetch: transport.fetch } }
     ]))
   }
 
@@ -157,7 +156,7 @@ function basicSetup(extra?: any) {
     data: entityData,
     explain: 'TRUE' === env.RAILWAY_STATION_PHOTOS_TEST_EXPLAIN,
     live,
-    syntheticOnly: live && !idmapOverridden,
+    transport,
     now: Date.now(),
   }
 

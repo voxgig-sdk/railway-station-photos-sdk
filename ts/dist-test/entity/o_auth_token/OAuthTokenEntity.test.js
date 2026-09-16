@@ -40,6 +40,8 @@ const node_path_1 = __importDefault(require("node:path"));
 const Fs = __importStar(require("node:fs"));
 const node_test_1 = require("node:test");
 const node_assert_1 = __importDefault(require("node:assert"));
+const live_runner_1 = require("../../live-runner");
+const live_entity_1 = require("../../live-entity");
 const __1 = require("../../..");
 const utility_1 = require("../../utility");
 // AFTER the imports on purpose: TypeScript hoists `import` above any
@@ -59,16 +61,12 @@ const utility_1 = require("../../utility");
     (0, node_test_1.test)('basic', async (t) => {
         const live = 'TRUE' === process.env.RAILWAY_STATION_PHOTOS_TEST_LIVE;
         for (const op of ['create']) {
-            if ((0, utility_1.maybeSkipControl)(t, 'entityOp', 'o_auth_token.' + op, live))
+            if (!live && (0, utility_1.maybeSkipControl)(t, 'entityOp', 'o_auth_token.' + op, live))
                 return;
         }
         const setup = basicSetup();
-        // The basic flow consumes synthetic IDs and field values from the
-        // fixture (entity TestData.json). Those don't exist on the live API.
-        // Skip live runs unless the user provided a real ENTID env override.
-        if (setup.syntheticOnly) {
-            t.skip('live entity test uses synthetic IDs from fixture — set RAILWAY_STATION_PHOTOS_TEST_O_AUTH_TOKEN_ENTID JSON to run live');
-            return;
+        if (setup.live) {
+            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": [{ "active": true, "name": "access_token", "req": true, "type": "`$STRING`", "index$": 0 }, { "active": true, "format": "int64", "name": "expires_in", "req": false, "type": "`$INTEGER`", "index$": 1 }, { "active": true, "name": "refresh_token", "req": false, "type": "`$STRING`", "index$": 2 }, { "active": true, "name": "scope", "req": true, "type": "`$STRING`", "index$": 3 }, { "active": true, "name": "token_type", "req": true, "type": "`$STRING`", "index$": 4 }], "name": "o_auth_token", "op": { "create": { "input": "data", "name": "create", "points": [{ "active": true, "args": { "header": [{ "active": true, "kind": "header", "name": "authorization", "orig": "authorization", "reqd": true, "type": "`$STRING`" }] }, "contract": { "id": "POST /oauth2/token", "json": "{\"operationId\":\"postOAuth2Token\",\"parameters\":[{\"description\":\"JWT authorization\\n\",\"in\":\"header\",\"name\":\"Authorization\",\"required\":true,\"schema\":{\"type\":\"string\"}}],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/x-www-form-urlencoded\":{\"schema\":{\"description\":\"OAuth2 token request\",\"properties\":{\"client_id\":{\"type\":\"string\"},\"code\":{\"type\":\"string\"},\"code_verifier\":{\"type\":\"string\"},\"grant_type\":{\"enum\":[\"authorization_code\",\"refresh_token\"],\"type\":\"string\"},\"redirect_uri\":{\"format\":\"uri\",\"type\":\"string\"},\"refresh_token\":{\"type\":\"string\"}},\"required\":[\"grant_type\",\"client_id\",\"redirect_uri\"],\"type\":\"object\"}}},\"description\":\"OAuth token request body\",\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"OAuth2 token response\",\"properties\":{\"access_token\":{\"type\":\"string\"},\"expires_in\":{\"format\":\"int64\",\"type\":\"integer\"},\"refresh_token\":{\"type\":\"string\"},\"scope\":{\"type\":\"string\"},\"token_type\":{\"enum\":[\"Bearer\"],\"type\":\"string\"}},\"required\":[\"access_token\",\"scope\",\"token_type\"],\"type\":\"object\"}}},\"description\":\"successful token request\"},\"default\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"General error message\",\"properties\":{\"error\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"},\"path\":{\"type\":\"string\"},\"status\":{\"format\":\"int32\",\"type\":\"integer\"},\"timestamp\":{\"format\":\"int64\",\"type\":\"integer\"}},\"required\":[\"status\",\"message\"],\"type\":\"object\"}}},\"description\":\"Unexpected error\"}},\"securitySource\":\"unspecified\"}", "source": "openapi3", "version": 1 }, "kind": "http", "method": "POST", "orig": "/oauth2/token", "segments": [{ "lit": "oauth2" }, { "lit": "token" }], "select": { "exist": ["authorization"] }, "transform": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }], "key$": "create" } }, "relations": { "ancestors": [] }, "key$": "o_auth_token", "name__orig": "o_auth_token", "Name": "OAuthToken", "name_": "o_auth_token", "name-": "o-auth-token", "NAME": "O_AUTH_TOKEN", "index$": 6 }, { "active": true, "entity": "o_auth_token", "key$": "BasicOAuthTokenFlow", "kind": "basic", "name": "BasicOAuthTokenFlow", "param": {}, "step": [{ "active": true, "data": {}, "input": { "ref": "o_auth_token_ref01" }, "match": {}, "op": "create", "spec": [], "valid": [], "index$": 0 }] }, 'OAuthToken');
         }
         const client = setup.client;
         const struct = setup.struct;
@@ -101,12 +99,6 @@ function basicSetup(extra) {
                 '`$VAL`': ['`$FORMAT`', 'upper', '`$COPY`']
             }]
     });
-    // Detect whether the user provided a real ENTID JSON via env var. The
-    // basic flow consumes synthetic IDs from the fixture file; without an
-    // override those synthetic IDs reach the live API and 4xx. Surface this
-    // to the test so it can skip rather than fail.
-    const idmapEnvVal = process.env['RAILWAY_STATION_PHOTOS_TEST_O_AUTH_TOKEN_ENTID'];
-    const idmapOverridden = null != idmapEnvVal && idmapEnvVal.trim().startsWith('{');
     const env = (0, utility_1.envOverride)({
         'RAILWAY_STATION_PHOTOS_TEST_O_AUTH_TOKEN_ENTID': idmap,
         'RAILWAY_STATION_PHOTOS_TEST_LIVE': 'FALSE',
@@ -114,7 +106,13 @@ function basicSetup(extra) {
     });
     idmap = env['RAILWAY_STATION_PHOTOS_TEST_O_AUTH_TOKEN_ENTID'];
     const live = 'TRUE' === env.RAILWAY_STATION_PHOTOS_TEST_LIVE;
+    const transport = (0, live_runner_1.createLiveTransport)();
     if (live) {
+        const rawIds = process.env['RAILWAY_STATION_PHOTOS_TEST_O_AUTH_TOKEN_ENTID'];
+        idmap = rawIds && rawIds.trim() ? JSON.parse(rawIds) : {};
+        if (!idmap || Array.isArray(idmap) || typeof idmap !== 'object') {
+            throw new Error('Live ENTID must be a JSON object');
+        }
         client = new __1.RailwayStationPhotosSDK(merge([
             // FIRST, so the generated fields below win: sdk-test-control.json's
             // test.client.options adds to the live client, it does not redirect it.
@@ -125,7 +123,8 @@ function basicSetup(extra) {
             // argument at all - so a bare 'extra' silently discarded the apikey
             // and server values above and handed the SDK undefined. Harmless
             // while there was nothing in that object; not harmless now.
-            extra || {}
+            extra || {},
+            { system: { fetch: transport.fetch } }
         ]));
     }
     const setup = {
@@ -137,7 +136,7 @@ function basicSetup(extra) {
         data: entityData,
         explain: 'TRUE' === env.RAILWAY_STATION_PHOTOS_TEST_EXPLAIN,
         live,
-        syntheticOnly: live && !idmapOverridden,
+        transport,
         now: Date.now(),
     };
     return setup;

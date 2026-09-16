@@ -5,6 +5,8 @@ import * as Fs from 'node:fs'
 
 import { test, describe, afterEach } from 'node:test'
 import assert from 'node:assert'
+import { createLiveTransport } from '../../live-runner'
+import { runLiveEntity } from '../../live-entity'
 
 
 import { RailwayStationPhotosSDK, BaseFeature, stdutil } from '../../..'
@@ -47,16 +49,13 @@ describe('PhotoDownloadEntity', async () => {
 
     const live = 'TRUE' === process.env.RAILWAY_STATION_PHOTOS_TEST_LIVE
     for (const op of ['load']) {
-      if (maybeSkipControl(t, 'entityOp', 'photo_download.' + op, live)) return
+      if (!live && maybeSkipControl(t, 'entityOp', 'photo_download.' + op, live)) return
     }
 
+    
     const setup = basicSetup()
-    // The basic flow consumes synthetic IDs and field values from the
-    // fixture (entity TestData.json). Those don't exist on the live API.
-    // Skip live runs unless the user provided a real ENTID env override.
-    if (setup.syntheticOnly) {
-      t.skip('live entity test uses synthetic IDs from fixture — set RAILWAY_STATION_PHOTOS_TEST_PHOTO_DOWNLOAD_ENTID JSON to run live')
-      return
+    if (setup.live) {
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":[],"name":"photo_download","op":{"load":{"input":"data","name":"load","points":[{"active":true,"args":{"params":[{"active":true,"kind":"param","name":"filename","orig":"filename","reqd":true,"type":"`$STRING`","index$":0}],"query":[{"active":true,"kind":"query","name":"width","orig":"width","reqd":false,"type":"`$INTEGER`","index$":0}]},"contract":{"id":"GET /inbox/done/{filename}","json":"{\"operationId\":\"getInboxDoneFile\",\"parameters\":[{\"description\":\"filename of the photo\",\"in\":\"path\",\"name\":\"filename\",\"required\":true,\"schema\":{\"type\":\"string\"}},{\"description\":\"scale the image to the given width\",\"in\":\"query\",\"name\":\"width\",\"schema\":{\"format\":\"int32\",\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"image/jpeg\":{\"schema\":{\"format\":\"binary\",\"type\":\"string\"}},\"image/png\":{\"schema\":{\"format\":\"binary\",\"type\":\"string\"}}},\"description\":\"ok\"},\"404\":{\"content\":{},\"description\":\"file not found\"},\"default\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"General error message\",\"properties\":{\"error\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"},\"path\":{\"type\":\"string\"},\"status\":{\"format\":\"int32\",\"type\":\"integer\"},\"timestamp\":{\"format\":\"int64\",\"type\":\"integer\"}},\"required\":[\"status\",\"message\"],\"type\":\"object\"}}},\"description\":\"Unexpected error\"}},\"securitySource\":\"unspecified\"}","source":"openapi3","version":1},"kind":"http","method":"GET","orig":"/inbox/done/{filename}","segments":[{"lit":"inbox"},{"lit":"done"},{"var":"filename"}],"select":{"exist":["filename","width"]},"transform":{"req":"`reqdata`","res":"`body`"},"index$":0},{"active":true,"args":{"params":[{"active":true,"kind":"param","name":"filename","orig":"filename","reqd":true,"type":"`$STRING`","index$":0}],"query":[{"active":true,"kind":"query","name":"width","orig":"width","reqd":false,"type":"`$INTEGER`","index$":0}]},"contract":{"id":"GET /inbox/processed/{filename}","json":"{\"operationId\":\"getInboxProcessedFile\",\"parameters\":[{\"description\":\"filename of the photo\",\"in\":\"path\",\"name\":\"filename\",\"required\":true,\"schema\":{\"type\":\"string\"}},{\"description\":\"scale the image to the given width\",\"in\":\"query\",\"name\":\"width\",\"schema\":{\"format\":\"int32\",\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"image/jpeg\":{\"schema\":{\"format\":\"binary\",\"type\":\"string\"}},\"image/png\":{\"schema\":{\"format\":\"binary\",\"type\":\"string\"}}},\"description\":\"ok\"},\"404\":{\"content\":{},\"description\":\"file not found\"},\"default\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"General error message\",\"properties\":{\"error\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"},\"path\":{\"type\":\"string\"},\"status\":{\"format\":\"int32\",\"type\":\"integer\"},\"timestamp\":{\"format\":\"int64\",\"type\":\"integer\"}},\"required\":[\"status\",\"message\"],\"type\":\"object\"}}},\"description\":\"Unexpected error\"}},\"securitySource\":\"unspecified\"}","source":"openapi3","version":1},"kind":"http","method":"GET","orig":"/inbox/processed/{filename}","segments":[{"lit":"inbox"},{"lit":"processed"},{"var":"filename"}],"select":{"exist":["filename","width"]},"transform":{"req":"`reqdata`","res":"`body`"},"index$":1},{"active":true,"args":{"params":[{"active":true,"kind":"param","name":"filename","orig":"filename","reqd":true,"type":"`$STRING`","index$":0}],"query":[{"active":true,"kind":"query","name":"width","orig":"width","reqd":false,"type":"`$INTEGER`","index$":0}]},"contract":{"id":"GET /inbox/rejected/{filename}","json":"{\"operationId\":\"getInboxRejectedFile\",\"parameters\":[{\"description\":\"filename of the photo\",\"in\":\"path\",\"name\":\"filename\",\"required\":true,\"schema\":{\"type\":\"string\"}},{\"description\":\"scale the image to the given width\",\"in\":\"query\",\"name\":\"width\",\"schema\":{\"format\":\"int32\",\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"image/jpeg\":{\"schema\":{\"format\":\"binary\",\"type\":\"string\"}},\"image/png\":{\"schema\":{\"format\":\"binary\",\"type\":\"string\"}}},\"description\":\"ok\"},\"404\":{\"content\":{},\"description\":\"file not found\"},\"default\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"General error message\",\"properties\":{\"error\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"},\"path\":{\"type\":\"string\"},\"status\":{\"format\":\"int32\",\"type\":\"integer\"},\"timestamp\":{\"format\":\"int64\",\"type\":\"integer\"}},\"required\":[\"status\",\"message\"],\"type\":\"object\"}}},\"description\":\"Unexpected error\"}},\"securitySource\":\"unspecified\"}","source":"openapi3","version":1},"kind":"http","method":"GET","orig":"/inbox/rejected/{filename}","segments":[{"lit":"inbox"},{"lit":"rejected"},{"var":"filename"}],"select":{"exist":["filename","width"]},"transform":{"req":"`reqdata`","res":"`body`"},"index$":2},{"active":true,"args":{"params":[{"active":true,"kind":"param","name":"filename","orig":"filename","reqd":true,"type":"`$STRING`","index$":0}],"query":[{"active":true,"kind":"query","name":"width","orig":"width","reqd":false,"type":"`$INTEGER`","index$":0}]},"contract":{"id":"GET /inbox/{filename}","json":"{\"operationId\":\"getInboxFile\",\"parameters\":[{\"description\":\"filename of the photo\",\"in\":\"path\",\"name\":\"filename\",\"required\":true,\"schema\":{\"type\":\"string\"}},{\"description\":\"scale the image to the given width\",\"in\":\"query\",\"name\":\"width\",\"schema\":{\"format\":\"int32\",\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"image/jpeg\":{\"schema\":{\"format\":\"binary\",\"type\":\"string\"}},\"image/png\":{\"schema\":{\"format\":\"binary\",\"type\":\"string\"}}},\"description\":\"ok\"},\"404\":{\"content\":{},\"description\":\"file not found\"},\"default\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"General error message\",\"properties\":{\"error\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"},\"path\":{\"type\":\"string\"},\"status\":{\"format\":\"int32\",\"type\":\"integer\"},\"timestamp\":{\"format\":\"int64\",\"type\":\"integer\"}},\"required\":[\"status\",\"message\"],\"type\":\"object\"}}},\"description\":\"Unexpected error\"}},\"securitySource\":\"unspecified\"}","source":"openapi3","version":1},"kind":"http","method":"GET","orig":"/inbox/{filename}","segments":[{"lit":"inbox"},{"var":"filename"}],"select":{"exist":["filename","width"]},"transform":{"req":"`reqdata`","res":"`body`"},"index$":3}],"key$":"load"}},"relations":{"ancestors":[["done"],["processed"],["rejected"],["inbox"]]},"key$":"photo_download","name__orig":"photo_download","Name":"PhotoDownload","name_":"photo_download","name-":"photo-download","NAME":"PHOTO_DOWNLOAD","index$":9}, {"active":true,"entity":"photo_download","key$":"BasicPhotoDownloadFlow","kind":"basic","name":"BasicPhotoDownloadFlow","param":{},"step":[{"active":true,"data":{},"input":{"ref":"photo_download_ref01","srcdatavar":"photo_download_ref01_data","suffix":"_dt0"},"match":{"id":"photo_download01"},"op":"load","spec":[],"valid":[{"apply":"TextFieldMark","def":{"mark":"Mark01-photo_download_ref01"}}],"index$":0}]}, 'PhotoDownload')
     }
     const client = setup.client
     const struct = setup.struct
@@ -107,13 +106,6 @@ function basicSetup(extra?: any) {
       }]
     })
 
-  // Detect whether the user provided a real ENTID JSON via env var. The
-  // basic flow consumes synthetic IDs from the fixture file; without an
-  // override those synthetic IDs reach the live API and 4xx. Surface this
-  // to the test so it can skip rather than fail.
-  const idmapEnvVal = process.env['RAILWAY_STATION_PHOTOS_TEST_PHOTO_DOWNLOAD_ENTID']
-  const idmapOverridden = null != idmapEnvVal && idmapEnvVal.trim().startsWith('{')
-
   const env = envOverride({
     'RAILWAY_STATION_PHOTOS_TEST_PHOTO_DOWNLOAD_ENTID': idmap,
     'RAILWAY_STATION_PHOTOS_TEST_LIVE': 'FALSE',
@@ -124,7 +116,13 @@ function basicSetup(extra?: any) {
 
   const live = 'TRUE' === env.RAILWAY_STATION_PHOTOS_TEST_LIVE
 
+  const transport = createLiveTransport()
   if (live) {
+    const rawIds = process.env['RAILWAY_STATION_PHOTOS_TEST_PHOTO_DOWNLOAD_ENTID']
+    idmap = rawIds && rawIds.trim() ? JSON.parse(rawIds) : {}
+    if (!idmap || Array.isArray(idmap) || typeof idmap !== 'object') {
+      throw new Error('Live ENTID must be a JSON object')
+    }
     client = new RailwayStationPhotosSDK(merge([
       // FIRST, so the generated fields below win: sdk-test-control.json's
       // test.client.options adds to the live client, it does not redirect it.
@@ -136,7 +134,8 @@ function basicSetup(extra?: any) {
       // argument at all - so a bare 'extra' silently discarded the apikey
       // and server values above and handed the SDK undefined. Harmless
       // while there was nothing in that object; not harmless now.
-      extra || {}
+      extra || {},
+      { system: { fetch: transport.fetch } }
     ]))
   }
 
@@ -149,7 +148,7 @@ function basicSetup(extra?: any) {
     data: entityData,
     explain: 'TRUE' === env.RAILWAY_STATION_PHOTOS_TEST_EXPLAIN,
     live,
-    syntheticOnly: live && !idmapOverridden,
+    transport,
     now: Date.now(),
   }
 

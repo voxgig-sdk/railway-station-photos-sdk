@@ -3,26 +3,26 @@
     "stat": {
       "STAT00": {
         "countryCode": "s32",
-        "photographers": "s33",
-        "total": "s34",
-        "withPhoto": "s35",
-        "withoutPhoto": "s36",
+        "photographers": 51,
+        "total": 52,
+        "withPhoto": 53,
+        "withoutPhoto": 54,
         "id": "STAT00"
       },
       "STAT01": {
         "countryCode": "s64",
-        "photographers": "s65",
-        "total": "s66",
-        "withPhoto": "s67",
-        "withoutPhoto": "s68",
+        "photographers": 101,
+        "total": 102,
+        "withPhoto": 103,
+        "withoutPhoto": 104,
         "id": "STAT01"
       },
       "STAT02": {
         "countryCode": "s96",
-        "photographers": "s97",
-        "total": "s98",
-        "withPhoto": "s99",
-        "withoutPhoto": "s9a",
+        "photographers": 151,
+        "total": 152,
+        "withPhoto": 153,
+        "withoutPhoto": 154,
         "id": "STAT02"
       }
     }
@@ -31,10 +31,115 @@
     "stat": {
       "stat_ref01": {
         "countryCode": "sc8",
-        "photographers": "sc9",
-        "total": "sca",
-        "withPhoto": "scb",
-        "withoutPhoto": "scc"
+        "photographers": 201,
+        "total": 202,
+        "withPhoto": 203,
+        "withoutPhoto": 204
+      }
+    }
+  },
+  "requests": {
+    "GET /stats": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "getStats",
+        "parameters": [
+          {
+            "description": "filter by country code",
+            "in": "query",
+            "name": "country",
+            "schema": {
+              "description": "a two character country code",
+              "maxLength": 2,
+              "minLength": 2,
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Statistic of number of stations with and without photos",
+                  "properties": {
+                    "countryCode": {
+                      "description": "an optional two character country code",
+                      "maxLength": 2,
+                      "minLength": 2,
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "photographers": {
+                      "format": "int64",
+                      "type": "integer"
+                    },
+                    "total": {
+                      "format": "int64",
+                      "type": "integer"
+                    },
+                    "withPhoto": {
+                      "format": "int64",
+                      "type": "integer"
+                    },
+                    "withoutPhoto": {
+                      "format": "int64",
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "total",
+                    "withPhoto",
+                    "withoutPhoto",
+                    "photographers"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "successful operation"
+          },
+          "404": {
+            "content": {},
+            "description": "Country not found"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "General error message",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "path": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "format": "int32",
+                      "type": "integer"
+                    },
+                    "timestamp": {
+                      "format": "int64",
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Unexpected error"
+          }
+        },
+        "securitySource": "unspecified"
       }
     }
   }

@@ -4,8 +4,8 @@
       "INBOX00": {
         "comment": "saa",
         "countryCode": "sab",
-        "crc32": "sac",
-        "createdAt": "sad",
+        "crc32": 172,
+        "createdAt": 173,
         "filename": "sae",
         "id": "INBOX00",
         "inboxUrl": "sb0",
@@ -23,8 +23,8 @@
       "INBOX01": {
         "comment": "s154",
         "countryCode": "s155",
-        "crc32": "s156",
-        "createdAt": "s157",
+        "crc32": 342,
+        "createdAt": 343,
         "filename": "s158",
         "id": "INBOX01",
         "inboxUrl": "s15a",
@@ -42,8 +42,8 @@
       "INBOX02": {
         "comment": "s1fe",
         "countryCode": "s1ff",
-        "crc32": "s200",
-        "createdAt": "s201",
+        "crc32": 512,
+        "createdAt": 513,
         "filename": "s202",
         "id": "INBOX02",
         "inboxUrl": "s204",
@@ -65,8 +65,8 @@
       "inbox_ref01": {
         "comment": "s2a8",
         "countryCode": "s2a9",
-        "crc32": "s2aa",
-        "createdAt": "s2ab",
+        "crc32": 682,
+        "createdAt": 683,
         "filename": "s2ac",
         "inboxUrl": "s2ae",
         "lat": 687,
@@ -79,6 +79,706 @@
         "state": "s2b6",
         "stationId": "s2b7",
         "title": "s2b8"
+      }
+    }
+  },
+  "requests": {
+    "POST /reportProblem": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "postReportProblem",
+        "parameters": [
+          {
+            "description": "JWT authorization\n",
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "description": "Represents a report of a problem with a station",
+                "properties": {
+                  "comment": {
+                    "type": "string"
+                  },
+                  "countryCode": {
+                    "description": "a two character country code",
+                    "maxLength": 2,
+                    "minLength": 2,
+                    "type": "string"
+                  },
+                  "lat": {
+                    "description": "new latitude value for the station",
+                    "format": "double",
+                    "type": "number"
+                  },
+                  "lon": {
+                    "description": "new longitude value for the station",
+                    "format": "double",
+                    "type": "number"
+                  },
+                  "photoId": {
+                    "description": "Unique id of a photo, can be used for WRONG_PHOTO and PHOTO_OUTDATED type.",
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "stationId": {
+                    "type": "string"
+                  },
+                  "title": {
+                    "description": "a new title for the station",
+                    "type": "string"
+                  },
+                  "type": {
+                    "description": "types of problem reports",
+                    "enum": [
+                      "WRONG_LOCATION",
+                      "STATION_INACTIVE",
+                      "STATION_ACTIVE",
+                      "STATION_NONEXISTENT",
+                      "WRONG_NAME",
+                      "WRONG_PHOTO",
+                      "PHOTO_OUTDATED",
+                      "OTHER",
+                      "DUPLICATE"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "countryCode",
+                  "stationId",
+                  "comment",
+                  "type"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "description": "The problem report",
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Response status of photo uploads and problem reports",
+                  "properties": {
+                    "crc32": {
+                      "description": "CRC32 checksum of the uploaded photo",
+                      "format": "int64",
+                      "type": "integer"
+                    },
+                    "filename": {
+                      "description": "filename in inbox",
+                      "type": "string"
+                    },
+                    "id": {
+                      "format": "int64",
+                      "type": "integer"
+                    },
+                    "inboxUrl": {
+                      "description": "url of the photo in the inbox",
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "state": {
+                      "enum": [
+                        "REVIEW",
+                        "LAT_LON_OUT_OF_RANGE",
+                        "NOT_ENOUGH_DATA",
+                        "UNSUPPORTED_CONTENT_TYPE",
+                        "PHOTO_TOO_LARGE",
+                        "PHOTO_UPLOAD_NOT_ALLOWED",
+                        "COUNTRY_DISABLED",
+                        "CONFLICT",
+                        "UNAUTHORIZED",
+                        "ERROR"
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "state"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "report successful"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Response status of photo uploads and problem reports",
+                  "properties": {
+                    "crc32": {
+                      "description": "CRC32 checksum of the uploaded photo",
+                      "format": "int64",
+                      "type": "integer"
+                    },
+                    "filename": {
+                      "description": "filename in inbox",
+                      "type": "string"
+                    },
+                    "id": {
+                      "format": "int64",
+                      "type": "integer"
+                    },
+                    "inboxUrl": {
+                      "description": "url of the photo in the inbox",
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "state": {
+                      "enum": [
+                        "REVIEW",
+                        "LAT_LON_OUT_OF_RANGE",
+                        "NOT_ENOUGH_DATA",
+                        "UNSUPPORTED_CONTENT_TYPE",
+                        "PHOTO_TOO_LARGE",
+                        "PHOTO_UPLOAD_NOT_ALLOWED",
+                        "COUNTRY_DISABLED",
+                        "CONFLICT",
+                        "UNAUTHORIZED",
+                        "ERROR"
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "state"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Response status of photo uploads and problem reports",
+                  "properties": {
+                    "crc32": {
+                      "description": "CRC32 checksum of the uploaded photo",
+                      "format": "int64",
+                      "type": "integer"
+                    },
+                    "filename": {
+                      "description": "filename in inbox",
+                      "type": "string"
+                    },
+                    "id": {
+                      "format": "int64",
+                      "type": "integer"
+                    },
+                    "inboxUrl": {
+                      "description": "url of the photo in the inbox",
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "state": {
+                      "enum": [
+                        "REVIEW",
+                        "LAT_LON_OUT_OF_RANGE",
+                        "NOT_ENOUGH_DATA",
+                        "UNSUPPORTED_CONTENT_TYPE",
+                        "PHOTO_TOO_LARGE",
+                        "PHOTO_UPLOAD_NOT_ALLOWED",
+                        "COUNTRY_DISABLED",
+                        "CONFLICT",
+                        "UNAUTHORIZED",
+                        "ERROR"
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "state"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "authorization failed"
+          },
+          "403": {
+            "content": {},
+            "description": "forbidden"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "General error message",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "path": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "format": "int32",
+                      "type": "integer"
+                    },
+                    "timestamp": {
+                      "format": "int64",
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Unexpected error"
+          }
+        },
+        "securitySource": "unspecified"
+      }
+    },
+    "POST /userInbox": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "postUserInbox",
+        "parameters": [
+          {
+            "description": "JWT authorization\n",
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "description": "Contains an inbox entry ID to query its state",
+                  "properties": {
+                    "id": {
+                      "format": "int64",
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              }
+            }
+          },
+          "description": "Inbox state query request",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "description": "Inbox state query",
+                    "properties": {
+                      "comment": {
+                        "type": "string"
+                      },
+                      "countryCode": {
+                        "description": "a two character country code",
+                        "maxLength": 2,
+                        "minLength": 2,
+                        "type": "string"
+                      },
+                      "crc32": {
+                        "description": "CRC32 checksum of the uploaded photo",
+                        "format": "int64",
+                        "type": "integer"
+                      },
+                      "createdAt": {
+                        "format": "int64",
+                        "type": "integer"
+                      },
+                      "filename": {
+                        "description": "filename in inbox",
+                        "type": "string"
+                      },
+                      "id": {
+                        "format": "int64",
+                        "type": "integer"
+                      },
+                      "inboxUrl": {
+                        "description": "url of the photo in the inbox",
+                        "type": "string"
+                      },
+                      "lat": {
+                        "format": "double",
+                        "type": "number"
+                      },
+                      "lon": {
+                        "format": "double",
+                        "type": "number"
+                      },
+                      "newLat": {
+                        "format": "double",
+                        "type": "number"
+                      },
+                      "newLon": {
+                        "format": "double",
+                        "type": "number"
+                      },
+                      "newTitle": {
+                        "type": "string"
+                      },
+                      "problemReportType": {
+                        "description": "types of problem reports",
+                        "enum": [
+                          "WRONG_LOCATION",
+                          "STATION_INACTIVE",
+                          "STATION_ACTIVE",
+                          "STATION_NONEXISTENT",
+                          "WRONG_NAME",
+                          "WRONG_PHOTO",
+                          "PHOTO_OUTDATED",
+                          "OTHER",
+                          "DUPLICATE"
+                        ],
+                        "type": "string"
+                      },
+                      "rejectedReason": {
+                        "type": "string"
+                      },
+                      "state": {
+                        "enum": [
+                          "UNKNOWN",
+                          "REVIEW",
+                          "CONFLICT",
+                          "ACCEPTED",
+                          "REJECTED"
+                        ],
+                        "type": "string"
+                      },
+                      "stationId": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "state"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "array of InboxStateQueryResponse objects"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "General error message",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "path": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "format": "int32",
+                      "type": "integer"
+                    },
+                    "timestamp": {
+                      "format": "int64",
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Unexpected error"
+          }
+        },
+        "securitySource": "unspecified"
+      }
+    },
+    "GET /userInbox": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "getUserInbox",
+        "parameters": [
+          {
+            "description": "JWT authorization\n",
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "show completed entries or only entries in state review",
+            "in": "query",
+            "name": "showCompletedEntries",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "description": "Inbox state query",
+                    "properties": {
+                      "comment": {
+                        "type": "string"
+                      },
+                      "countryCode": {
+                        "description": "a two character country code",
+                        "maxLength": 2,
+                        "minLength": 2,
+                        "type": "string"
+                      },
+                      "crc32": {
+                        "description": "CRC32 checksum of the uploaded photo",
+                        "format": "int64",
+                        "type": "integer"
+                      },
+                      "createdAt": {
+                        "format": "int64",
+                        "type": "integer"
+                      },
+                      "filename": {
+                        "description": "filename in inbox",
+                        "type": "string"
+                      },
+                      "id": {
+                        "format": "int64",
+                        "type": "integer"
+                      },
+                      "inboxUrl": {
+                        "description": "url of the photo in the inbox",
+                        "type": "string"
+                      },
+                      "lat": {
+                        "format": "double",
+                        "type": "number"
+                      },
+                      "lon": {
+                        "format": "double",
+                        "type": "number"
+                      },
+                      "newLat": {
+                        "format": "double",
+                        "type": "number"
+                      },
+                      "newLon": {
+                        "format": "double",
+                        "type": "number"
+                      },
+                      "newTitle": {
+                        "type": "string"
+                      },
+                      "problemReportType": {
+                        "description": "types of problem reports",
+                        "enum": [
+                          "WRONG_LOCATION",
+                          "STATION_INACTIVE",
+                          "STATION_ACTIVE",
+                          "STATION_NONEXISTENT",
+                          "WRONG_NAME",
+                          "WRONG_PHOTO",
+                          "PHOTO_OUTDATED",
+                          "OTHER",
+                          "DUPLICATE"
+                        ],
+                        "type": "string"
+                      },
+                      "rejectedReason": {
+                        "type": "string"
+                      },
+                      "state": {
+                        "enum": [
+                          "UNKNOWN",
+                          "REVIEW",
+                          "CONFLICT",
+                          "ACCEPTED",
+                          "REJECTED"
+                        ],
+                        "type": "string"
+                      },
+                      "stationId": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "state"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "array of InboxStateQueryResponse objects"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "General error message",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "path": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "format": "int32",
+                      "type": "integer"
+                    },
+                    "timestamp": {
+                      "format": "int64",
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Unexpected error"
+          }
+        },
+        "securitySource": "unspecified"
+      }
+    },
+    "DELETE /userInbox/{id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "deleteUserInbox",
+        "parameters": [
+          {
+            "description": "id of the inbox entry",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "204": {
+            "description": "inbox entry got deleted"
+          },
+          "400": {
+            "content": {},
+            "description": "bad request, e.g. if the inbox entry is already done and can't be deleted anymore"
+          },
+          "401": {
+            "content": {},
+            "description": "authorization failed"
+          },
+          "403": {
+            "content": {},
+            "description": "forbidden"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "General error message",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "path": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "format": "int32",
+                      "type": "integer"
+                    },
+                    "timestamp": {
+                      "format": "int64",
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Unexpected error"
+          }
+        },
+        "securitySource": "unspecified"
       }
     }
   }
