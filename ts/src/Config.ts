@@ -127,54 +127,54 @@ class Config {
 
     entity: {
       
-      admin_inbox: {
-      },
-
-      country: {
-      },
-
-      inbox: {
-      },
-
-      inbox_count: {
-      },
-
-      inbox_entry: {
-      },
-
-      inbox_state_query: {
-      },
-
-      o_auth_token: {
-      },
-
-      oauth: {
-      },
-
-      photo: {
-      },
-
-      photo_download: {
-      },
-
-      photo_station: {
-      },
-
-      photo_upload: {
-      },
-
-      photographer: {
-      },
-
-      profile: {
-      },
-
-      public_inbox: {
-      },
-
-      stat: {
-      },
-
+        admin_inbox: {
+        },
+  
+        country: {
+        },
+  
+        inbox: {
+        },
+  
+        inbox_count: {
+        },
+  
+        inbox_entry: {
+        },
+  
+        inbox_state_query: {
+        },
+  
+        o_auth_token: {
+        },
+  
+        oauth: {
+        },
+  
+        photo: {
+        },
+  
+        photo_download: {
+        },
+  
+        photo_station: {
+        },
+  
+        photo_upload: {
+        },
+  
+        photographer: {
+        },
+  
+        profile: {
+        },
+  
+        public_inbox: {
+        },
+  
+        stat: {
+        },
+  
     }
   }
 
