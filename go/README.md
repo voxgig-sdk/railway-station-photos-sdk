@@ -223,12 +223,14 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `Inbox` | `(data map[string]any) RailwayStationPhotosEntity` | Create an Inbox entity instance. |
 | `InboxCount` | `(data map[string]any) RailwayStationPhotosEntity` | Create an InboxCount entity instance. |
 | `InboxEntry` | `(data map[string]any) RailwayStationPhotosEntity` | Create an InboxEntry entity instance. |
-| `InboxStateQuery` | `(data map[string]any) RailwayStationPhotosEntity` | Create an InboxStateQuery entity instance. |
 | `OAuthToken` | `(data map[string]any) RailwayStationPhotosEntity` | Create an OAuthToken entity instance. |
 | `Oauth` | `(data map[string]any) RailwayStationPhotosEntity` | Create an Oauth entity instance. |
 | `Photo` | `(data map[string]any) RailwayStationPhotosEntity` | Create a Photo entity instance. |
 | `PhotoDownload` | `(data map[string]any) RailwayStationPhotosEntity` | Create a PhotoDownload entity instance. |
-| `PhotoStation` | `(data map[string]any) RailwayStationPhotosEntity` | Create a PhotoStation entity instance. |
+| `PhotoStationById` | `(data map[string]any) RailwayStationPhotosEntity` | Create a PhotoStationById entity instance. |
+| `PhotoStationsByCountry` | `(data map[string]any) RailwayStationPhotosEntity` | Create a PhotoStationsByCountry entity instance. |
+| `PhotoStationsByPhotographer` | `(data map[string]any) RailwayStationPhotosEntity` | Create a PhotoStationsByPhotographer entity instance. |
+| `PhotoStationsByRecentPhotoImport` | `(data map[string]any) RailwayStationPhotosEntity` | Create a PhotoStationsByRecentPhotoImport entity instance. |
 | `PhotoUpload` | `(data map[string]any) RailwayStationPhotosEntity` | Create a PhotoUpload entity instance. |
 | `Photographer` | `(data map[string]any) RailwayStationPhotosEntity` | Create a Photographer entity instance. |
 | `Profile` | `(data map[string]any) RailwayStationPhotosEntity` | Create a Profile entity instance. |
@@ -380,15 +382,6 @@ Operations: List.
 
 API path: `/adminInbox`
 
-#### InboxStateQuery
-
-| Field | Description |
-| --- | --- |
-
-Operations: .
-
-API path: ``
-
 #### OAuthToken
 
 | Field | Description |
@@ -431,7 +424,7 @@ Operations: Load.
 
 API path: `/inbox/done/{filename}`
 
-#### PhotoStation
+#### PhotoStationById
 
 | Field | Description |
 | --- | --- |
@@ -441,7 +434,48 @@ API path: `/inbox/done/{filename}`
 | `"photographers"` | List of all photographers, might be empty if no photos available |
 | `"stations"` | List of the stations |
 
-Operations: List, Load.
+Operations: Load.
+
+API path: `/photoStationById/{country}/{id}`
+
+#### PhotoStationsByCountry
+
+| Field | Description |
+| --- | --- |
+| `"id"` |  |
+| `"licenses"` | List of used licenses, might be empty if no photos available |
+| `"photoBaseUrl"` | Base URL of all photos |
+| `"photographers"` | List of all photographers, might be empty if no photos available |
+| `"stations"` | List of the stations |
+
+Operations: Load.
+
+API path: `/photoStationsByCountry/{country}`
+
+#### PhotoStationsByPhotographer
+
+| Field | Description |
+| --- | --- |
+| `"id"` |  |
+| `"licenses"` | List of used licenses, might be empty if no photos available |
+| `"photoBaseUrl"` | Base URL of all photos |
+| `"photographers"` | List of all photographers, might be empty if no photos available |
+| `"stations"` | List of the stations |
+
+Operations: Load.
+
+API path: `/photoStationsByPhotographer/{photographer}`
+
+#### PhotoStationsByRecentPhotoImport
+
+| Field | Description |
+| --- | --- |
+| `"licenses"` | List of used licenses, might be empty if no photos available |
+| `"photoBaseUrl"` | Base URL of all photos |
+| `"photographers"` | List of all photographers, might be empty if no photos available |
+| `"stations"` | List of the stations |
+
+Operations: List.
 
 API path: `/photoStationsByRecentPhotoImports`
 
@@ -727,11 +761,6 @@ fmt.Println(inboxEntrys) // the array of records
 ```
 
 
-### InboxStateQuery
-
-Create an instance: `inboxStateQuery := client.InboxStateQuery(nil)`
-
-
 ### OAuthToken
 
 Create an instance: `oAuthToken := client.OAuthToken(nil)`
@@ -848,15 +877,14 @@ fmt.Println(photoDownload) // the loaded record
 ```
 
 
-### PhotoStation
+### PhotoStationById
 
-Create an instance: `photoStation := client.PhotoStation(nil)`
+Create an instance: `photoStationById := client.PhotoStationById(nil)`
 
 #### Operations
 
 | Method | Description |
 | --- | --- |
-| `List(match, ctrl)` | List entities matching the criteria. |
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
 
 #### Fields
@@ -872,21 +900,103 @@ Create an instance: `photoStation := client.PhotoStation(nil)`
 #### Example: Load
 
 ```go
-photoStation, err := client.PhotoStation(nil).Load(map[string]any{"country": "country"}, nil)
+photoStationById, err := client.PhotoStationById(nil).Load(map[string]any{"id": "photo_station_by_id_id", "country": "country"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(photoStation) // the loaded record
+fmt.Println(photoStationById) // the loaded record
 ```
+
+
+### PhotoStationsByCountry
+
+Create an instance: `photoStationsByCountry := client.PhotoStationsByCountry(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `Load(match, ctrl)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+| `licenses` | `[]any` | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `string` | Base URL of all photos |
+| `photographers` | `[]any` | List of all photographers, might be empty if no photos available |
+| `stations` | `[]any` | List of the stations |
+
+#### Example: Load
+
+```go
+photoStationsByCountry, err := client.PhotoStationsByCountry(nil).Load(map[string]any{"id": "photo_stations_by_country_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(photoStationsByCountry) // the loaded record
+```
+
+
+### PhotoStationsByPhotographer
+
+Create an instance: `photoStationsByPhotographer := client.PhotoStationsByPhotographer(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `Load(match, ctrl)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+| `licenses` | `[]any` | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `string` | Base URL of all photos |
+| `photographers` | `[]any` | List of all photographers, might be empty if no photos available |
+| `stations` | `[]any` | List of the stations |
+
+#### Example: Load
+
+```go
+photoStationsByPhotographer, err := client.PhotoStationsByPhotographer(nil).Load(map[string]any{"id": "photo_stations_by_photographer_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(photoStationsByPhotographer) // the loaded record
+```
+
+
+### PhotoStationsByRecentPhotoImport
+
+Create an instance: `photoStationsByRecentPhotoImport := client.PhotoStationsByRecentPhotoImport(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `List(match, ctrl)` | List entities matching the criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `licenses` | `[]any` | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `string` | Base URL of all photos |
+| `photographers` | `[]any` | List of all photographers, might be empty if no photos available |
+| `stations` | `[]any` | List of the stations |
 
 #### Example: List
 
 ```go
-photoStations, err := client.PhotoStation(nil).List(nil, nil)
+photoStationsByRecentPhotoImports, err := client.PhotoStationsByRecentPhotoImport(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(photoStations) // the array of records
+fmt.Println(photoStationsByRecentPhotoImports) // the array of records
 ```
 
 

@@ -431,24 +431,6 @@ class RailwayStationPhotosSDK
     }
 
 
-    private $_inbox_state_query = null;
-
-    // Canonical facade: $client->InboxStateQuery()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->inbox_state_query()
-    // resolves here too.
-    public function InboxStateQuery($data = null)
-    {
-        require_once __DIR__ . '/entity/inbox_state_query_entity.php';
-        if ($data === null) {
-            if ($this->_inbox_state_query === null) {
-                $this->_inbox_state_query = new InboxStateQueryEntity($this, null);
-            }
-            return $this->_inbox_state_query;
-        }
-        return new InboxStateQueryEntity($this, $data);
-    }
-
-
     private $_o_auth_token = null;
 
     // Canonical facade: $client->OAuthToken()->list() / ->load(["id" => ...]).
@@ -521,21 +503,75 @@ class RailwayStationPhotosSDK
     }
 
 
-    private $_photo_station = null;
+    private $_photo_station_by_id = null;
 
-    // Canonical facade: $client->PhotoStation()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->photo_station()
+    // Canonical facade: $client->PhotoStationById()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->photo_station_by_id()
     // resolves here too.
-    public function PhotoStation($data = null)
+    public function PhotoStationById($data = null)
     {
-        require_once __DIR__ . '/entity/photo_station_entity.php';
+        require_once __DIR__ . '/entity/photo_station_by_id_entity.php';
         if ($data === null) {
-            if ($this->_photo_station === null) {
-                $this->_photo_station = new PhotoStationEntity($this, null);
+            if ($this->_photo_station_by_id === null) {
+                $this->_photo_station_by_id = new PhotoStationByIdEntity($this, null);
             }
-            return $this->_photo_station;
+            return $this->_photo_station_by_id;
         }
-        return new PhotoStationEntity($this, $data);
+        return new PhotoStationByIdEntity($this, $data);
+    }
+
+
+    private $_photo_stations_by_country = null;
+
+    // Canonical facade: $client->PhotoStationsByCountry()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->photo_stations_by_country()
+    // resolves here too.
+    public function PhotoStationsByCountry($data = null)
+    {
+        require_once __DIR__ . '/entity/photo_stations_by_country_entity.php';
+        if ($data === null) {
+            if ($this->_photo_stations_by_country === null) {
+                $this->_photo_stations_by_country = new PhotoStationsByCountryEntity($this, null);
+            }
+            return $this->_photo_stations_by_country;
+        }
+        return new PhotoStationsByCountryEntity($this, $data);
+    }
+
+
+    private $_photo_stations_by_photographer = null;
+
+    // Canonical facade: $client->PhotoStationsByPhotographer()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->photo_stations_by_photographer()
+    // resolves here too.
+    public function PhotoStationsByPhotographer($data = null)
+    {
+        require_once __DIR__ . '/entity/photo_stations_by_photographer_entity.php';
+        if ($data === null) {
+            if ($this->_photo_stations_by_photographer === null) {
+                $this->_photo_stations_by_photographer = new PhotoStationsByPhotographerEntity($this, null);
+            }
+            return $this->_photo_stations_by_photographer;
+        }
+        return new PhotoStationsByPhotographerEntity($this, $data);
+    }
+
+
+    private $_photo_stations_by_recent_photo_import = null;
+
+    // Canonical facade: $client->PhotoStationsByRecentPhotoImport()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->photo_stations_by_recent_photo_import()
+    // resolves here too.
+    public function PhotoStationsByRecentPhotoImport($data = null)
+    {
+        require_once __DIR__ . '/entity/photo_stations_by_recent_photo_import_entity.php';
+        if ($data === null) {
+            if ($this->_photo_stations_by_recent_photo_import === null) {
+                $this->_photo_stations_by_recent_photo_import = new PhotoStationsByRecentPhotoImportEntity($this, null);
+            }
+            return $this->_photo_stations_by_recent_photo_import;
+        }
+        return new PhotoStationsByRecentPhotoImportEntity($this, $data);
     }
 
 

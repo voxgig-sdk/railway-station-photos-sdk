@@ -1,0 +1,148 @@
+# Entity: admin_inbox
+
+main: kit: entity: admin_inbox: {
+
+  alias: field: {}
+
+  fields: {
+    DS100: {
+      h: "Ds100"
+      n: "DS100"
+      r: false
+      sh: "DS100 attribute of a new station"
+      t: "`$STRING`"
+    }
+    active: {
+      h: "Active"
+      n: "active"
+      r: false
+      sh: "active flag of a new station (default true)"
+      t: "`$BOOLEAN`"
+    }
+    command: {
+      h: "Command"
+      n: "command"
+      r: true
+      t: "`$STRING`"
+    }
+    conflictResolution: {
+      h: "Conflict Resolution"
+      n: "conflictResolution"
+      r: false
+      sh: "how to handle conflicts"
+      t: "`$STRING`"
+    }
+    countryCode: {
+      h: "Country Code"
+      n: "countryCode"
+      r: false
+      sh: "a two character country code"
+      t: "`$STRING`"
+    }
+    id: {
+      fo: "int64"
+      h: "Id"
+      n: "id"
+      r: true
+      t: "`$INTEGER`"
+    }
+    lat: {
+      fo: "double"
+      h: "Lat"
+      n: "lat"
+      r: false
+      t: "`$NUMBER`"
+    }
+    lon: {
+      fo: "double"
+      h: "Lon"
+      n: "lon"
+      r: false
+      t: "`$NUMBER`"
+    }
+    message: {
+      h: "Message"
+      n: "message"
+      r: true
+      t: "`$STRING`"
+    }
+    rejectReason: {
+      h: "Reject Reason"
+      n: "rejectReason"
+      r: false
+      sh: "explanation of a rejection"
+      t: "`$STRING`"
+    }
+    stationId: {
+      h: "Station Id"
+      n: "stationId"
+      r: false
+      sh: "ID of a new station"
+      t: "`$STRING`"
+    }
+    status: {
+      fo: "int32"
+      h: "Status"
+      n: "status"
+      r: true
+      t: "`$INTEGER`"
+    }
+    title: {
+      h: "Title"
+      n: "title"
+      r: false
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "admin_inbox"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /adminInbox"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "authorization"
+                or: "authorization"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/adminInbox"
+          q: {
+            exist: [
+              "authorization"
+            ]
+          }
+          s: [
+            {
+              lit: "adminInbox"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

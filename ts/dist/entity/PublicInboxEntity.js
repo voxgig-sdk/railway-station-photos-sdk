@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PublicInboxEntity = void 0;
 const RailwayStationPhotosEntityBase_1 = require("../RailwayStationPhotosEntityBase");
-// TODO: needs Entity superclass
 class PublicInboxEntity extends RailwayStationPhotosEntityBase_1.RailwayStationPhotosEntityBase {
     constructor(client, entopts) {
         super(client, entopts);

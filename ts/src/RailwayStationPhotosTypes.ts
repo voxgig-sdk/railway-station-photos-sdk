@@ -1,7 +1,7 @@
 // Typed models for the RailwayStationPhotos SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 
@@ -159,9 +159,6 @@ export interface InboxEntryListMatch {
   title?: string
 }
 
-export interface InboxStateQuery {
-}
-
 export interface OAuthToken {
   access_token: string
   expires_in?: number
@@ -212,7 +209,7 @@ export interface PhotoDownloadLoadMatch {
   width?: number
 }
 
-export interface PhotoStation {
+export interface PhotoStationById {
   id?: string
   licenses: any[]
   photoBaseUrl: string
@@ -220,13 +217,46 @@ export interface PhotoStation {
   stations: any[]
 }
 
-export interface PhotoStationLoadMatch {
+export interface PhotoStationByIdLoadMatch {
   country: string
+  id: string
+}
+
+export interface PhotoStationsByCountry {
+  id?: string
+  licenses: any[]
+  photoBaseUrl: string
+  photographers: any[]
+  stations: any[]
+}
+
+export interface PhotoStationsByCountryLoadMatch {
+  id: string
   has_photo?: boolean
   is_active?: boolean
 }
 
-export interface PhotoStationListMatch {
+export interface PhotoStationsByPhotographer {
+  id?: string
+  licenses: any[]
+  photoBaseUrl: string
+  photographers: any[]
+  stations: any[]
+}
+
+export interface PhotoStationsByPhotographerLoadMatch {
+  id: string
+  country?: string
+}
+
+export interface PhotoStationsByRecentPhotoImport {
+  licenses: any[]
+  photoBaseUrl: string
+  photographers: any[]
+  stations: any[]
+}
+
+export interface PhotoStationsByRecentPhotoImportListMatch {
   since_hour?: number
 }
 

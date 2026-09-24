@@ -324,13 +324,6 @@ class RailwayStationPhotosSDK
   end
 
 
-  # Canonical facade: client.InboxStateQuery.list / client.InboxStateQuery.load({ "id" => ... })
-  def InboxStateQuery(data = nil)
-    require_relative 'entity/inbox_state_query_entity'
-    InboxStateQueryEntity.new(self, data)
-  end
-
-
   # Canonical facade: client.OAuthToken.list / client.OAuthToken.load({ "id" => ... })
   def OAuthToken(data = nil)
     require_relative 'entity/o_auth_token_entity'
@@ -359,10 +352,31 @@ class RailwayStationPhotosSDK
   end
 
 
-  # Canonical facade: client.PhotoStation.list / client.PhotoStation.load({ "id" => ... })
-  def PhotoStation(data = nil)
-    require_relative 'entity/photo_station_entity'
-    PhotoStationEntity.new(self, data)
+  # Canonical facade: client.PhotoStationById.list / client.PhotoStationById.load({ "id" => ... })
+  def PhotoStationById(data = nil)
+    require_relative 'entity/photo_station_by_id_entity'
+    PhotoStationByIdEntity.new(self, data)
+  end
+
+
+  # Canonical facade: client.PhotoStationsByCountry.list / client.PhotoStationsByCountry.load({ "id" => ... })
+  def PhotoStationsByCountry(data = nil)
+    require_relative 'entity/photo_stations_by_country_entity'
+    PhotoStationsByCountryEntity.new(self, data)
+  end
+
+
+  # Canonical facade: client.PhotoStationsByPhotographer.list / client.PhotoStationsByPhotographer.load({ "id" => ... })
+  def PhotoStationsByPhotographer(data = nil)
+    require_relative 'entity/photo_stations_by_photographer_entity'
+    PhotoStationsByPhotographerEntity.new(self, data)
+  end
+
+
+  # Canonical facade: client.PhotoStationsByRecentPhotoImport.list / client.PhotoStationsByRecentPhotoImport.load({ "id" => ... })
+  def PhotoStationsByRecentPhotoImport(data = nil)
+    require_relative 'entity/photo_stations_by_recent_photo_import_entity'
+    PhotoStationsByRecentPhotoImportEntity.new(self, data)
   end
 
 

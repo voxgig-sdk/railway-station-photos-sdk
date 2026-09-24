@@ -1,0 +1,119 @@
+# Entity: photo_upload
+
+main: kit: entity: photo_upload: {
+
+  alias: field: {}
+
+  name: "photo_upload"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /photoUpload"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "active"
+                or: "active"
+                r: false
+                t: "`$BOOLEAN`"
+              }
+              {
+                k: "header"
+                n: "authorization"
+                or: "authorization"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "header"
+                n: "comment"
+                or: "comment"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "header"
+                n: "content_type"
+                or: "content_type"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "header"
+                n: "country"
+                or: "country"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "header"
+                n: "latitude"
+                or: "latitude"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                k: "header"
+                n: "longitude"
+                or: "longitude"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                k: "header"
+                n: "station_id"
+                or: "station_id"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "header"
+                n: "station_title"
+                or: "station_title"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/photoUpload"
+          q: {
+            exist: [
+              "active"
+              "authorization"
+              "comment"
+              "content_type"
+              "country"
+              "latitude"
+              "longitude"
+              "station_id"
+              "station_title"
+            ]
+          }
+          s: [
+            {
+              lit: "photoUpload"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  fields: {
+  }
+
+
+
+}

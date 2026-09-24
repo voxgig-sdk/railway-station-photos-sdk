@@ -56,9 +56,6 @@ func init() {
 	core.NewInboxEntryEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
 		return entity.NewInboxEntryEntity(client, entopts)
 	}
-	core.NewInboxStateQueryEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
-		return entity.NewInboxStateQueryEntity(client, entopts)
-	}
 	core.NewOAuthTokenEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
 		return entity.NewOAuthTokenEntity(client, entopts)
 	}
@@ -71,8 +68,17 @@ func init() {
 	core.NewPhotoDownloadEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
 		return entity.NewPhotoDownloadEntity(client, entopts)
 	}
-	core.NewPhotoStationEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
-		return entity.NewPhotoStationEntity(client, entopts)
+	core.NewPhotoStationByIdEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
+		return entity.NewPhotoStationByIdEntity(client, entopts)
+	}
+	core.NewPhotoStationsByCountryEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
+		return entity.NewPhotoStationsByCountryEntity(client, entopts)
+	}
+	core.NewPhotoStationsByPhotographerEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
+		return entity.NewPhotoStationsByPhotographerEntity(client, entopts)
+	}
+	core.NewPhotoStationsByRecentPhotoImportEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
+		return entity.NewPhotoStationsByRecentPhotoImportEntity(client, entopts)
 	}
 	core.NewPhotoUploadEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
 		return entity.NewPhotoUploadEntity(client, entopts)

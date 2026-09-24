@@ -70,7 +70,7 @@ function photo_download_basic_setup($extra)
 
     // Generate idmap.
     $idmap = [];
-    foreach (["photo_download01", "photo_download02", "photo_download03", "done01", "done02", "done03", "processed01", "processed02", "processed03", "rejected01", "rejected02", "rejected03", "inbox01", "inbox02", "inbox03"] as $k) {
+    foreach (["photo_download01", "photo_download02", "photo_download03", "inbox01", "inbox02", "inbox03"] as $k) {
         $idmap[$k] = strtoupper($k);
     }
 

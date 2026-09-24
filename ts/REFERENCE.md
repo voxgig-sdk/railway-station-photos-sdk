@@ -108,18 +108,6 @@ Create a new `InboxEntry` entity instance.
 
 **Returns:** `InboxEntryEntity` instance.
 
-#### `InboxStateQuery(data?: object)`
-
-Create a new `InboxStateQuery` entity instance.
-
-**Parameters:**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `data` | `object` | Initial entity data. |
-
-**Returns:** `InboxStateQueryEntity` instance.
-
 #### `OAuthToken(data?: object)`
 
 Create a new `OAuthToken` entity instance.
@@ -168,9 +156,9 @@ Create a new `PhotoDownload` entity instance.
 
 **Returns:** `PhotoDownloadEntity` instance.
 
-#### `PhotoStation(data?: object)`
+#### `PhotoStationById(data?: object)`
 
-Create a new `PhotoStation` entity instance.
+Create a new `PhotoStationById` entity instance.
 
 **Parameters:**
 
@@ -178,7 +166,43 @@ Create a new `PhotoStation` entity instance.
 | --- | --- | --- |
 | `data` | `object` | Initial entity data. |
 
-**Returns:** `PhotoStationEntity` instance.
+**Returns:** `PhotoStationByIdEntity` instance.
+
+#### `PhotoStationsByCountry(data?: object)`
+
+Create a new `PhotoStationsByCountry` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `PhotoStationsByCountryEntity` instance.
+
+#### `PhotoStationsByPhotographer(data?: object)`
+
+Create a new `PhotoStationsByPhotographer` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `PhotoStationsByPhotographerEntity` instance.
+
+#### `PhotoStationsByRecentPhotoImport(data?: object)`
+
+Create a new `PhotoStationsByRecentPhotoImport` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `PhotoStationsByRecentPhotoImportEntity` instance.
 
 #### `PhotoUpload(data?: object)`
 
@@ -617,40 +641,6 @@ Return a copy of the entity options.
 
 ---
 
-## InboxStateQueryEntity
-
-```ts
-const inbox_state_query = client.InboxStateQuery()
-```
-
-### Common Methods
-
-#### `data(data?: object)`
-
-Get or set the entity data. When called with data, sets the entity's
-internal data and returns the current data. When called without
-arguments, returns a copy of the current data.
-
-#### `match(match?: object)`
-
-Get or set the entity match criteria. Works the same as `data()`.
-
-#### `make()`
-
-Create a new `InboxStateQueryEntity` instance with the same client and
-options.
-
-#### `client()`
-
-Return the parent `RailwayStationPhotosSDK` instance.
-
-#### `entopts()`
-
-Return a copy of the entity options.
-
-
----
-
 ## OAuthTokenEntity
 
 ```ts
@@ -856,10 +846,10 @@ Return a copy of the entity options.
 
 ---
 
-## PhotoStationEntity
+## PhotoStationByIdEntity
 
 ```ts
-const photo_station = client.PhotoStation()
+const photo_station_by_id = client.PhotoStationById()
 ```
 
 ### Fields
@@ -874,20 +864,12 @@ const photo_station = client.PhotoStation()
 
 ### Operations
 
-#### `list(match: object, ctrl?: object)`
-
-List entities matching the given criteria. Returns an array.
-
-```ts
-const results = await client.PhotoStation().list()
-```
-
 #### `load(match: object, ctrl?: object)`
 
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.PhotoStation().load({ country: 'country' })
+const result = await client.PhotoStationById().load({ id: 'photo_station_by_id_id', country: 'country' })
 ```
 
 ### Common Methods
@@ -904,7 +886,168 @@ Get or set the entity match criteria. Works the same as `data()`.
 
 #### `make()`
 
-Create a new `PhotoStationEntity` instance with the same client and
+Create a new `PhotoStationByIdEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `RailwayStationPhotosSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## PhotoStationsByCountryEntity
+
+```ts
+const photo_stations_by_country = client.PhotoStationsByCountry()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+| `licenses` | `any[]` | Yes | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `string` | Yes | Base URL of all photos |
+| `photographers` | `any[]` | Yes | List of all photographers, might be empty if no photos available |
+| `stations` | `any[]` | Yes | List of the stations |
+
+### Operations
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria.
+
+```ts
+const result = await client.PhotoStationsByCountry().load({ id: 'photo_stations_by_country_id' })
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `PhotoStationsByCountryEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `RailwayStationPhotosSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## PhotoStationsByPhotographerEntity
+
+```ts
+const photo_stations_by_photographer = client.PhotoStationsByPhotographer()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+| `licenses` | `any[]` | Yes | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `string` | Yes | Base URL of all photos |
+| `photographers` | `any[]` | Yes | List of all photographers, might be empty if no photos available |
+| `stations` | `any[]` | Yes | List of the stations |
+
+### Operations
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria.
+
+```ts
+const result = await client.PhotoStationsByPhotographer().load({ id: 'photo_stations_by_photographer_id' })
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `PhotoStationsByPhotographerEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `RailwayStationPhotosSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## PhotoStationsByRecentPhotoImportEntity
+
+```ts
+const photo_stations_by_recent_photo_import = client.PhotoStationsByRecentPhotoImport()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `licenses` | `any[]` | Yes | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `string` | Yes | Base URL of all photos |
+| `photographers` | `any[]` | Yes | List of all photographers, might be empty if no photos available |
+| `stations` | `any[]` | Yes | List of the stations |
+
+### Operations
+
+#### `list(match: object, ctrl?: object)`
+
+List entities matching the given criteria. Returns an array.
+
+```ts
+const results = await client.PhotoStationsByRecentPhotoImport().list()
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `PhotoStationsByRecentPhotoImportEntity` instance with the same client and
 options.
 
 #### `client()`

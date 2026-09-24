@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 // Typed models for the RailwayStationPhotos SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 //
@@ -190,11 +190,6 @@ class InboxEntryListMatch
     public ?string $title = null;
 }
 
-/** InboxStateQuery entity data model. */
-class InboxStateQuery
-{
-}
-
 /** OAuthToken entity data model. */
 class OAuthToken
 {
@@ -263,8 +258,8 @@ class PhotoDownloadLoadMatch
     public ?int $width = null;
 }
 
-/** PhotoStation entity data model. */
-class PhotoStation
+/** PhotoStationById entity data model. */
+class PhotoStationById
 {
     public ?string $id = null;
     public array $licenses;
@@ -273,16 +268,59 @@ class PhotoStation
     public array $stations;
 }
 
-/** Request payload for PhotoStation#load. */
-class PhotoStationLoadMatch
+/** Request payload for PhotoStationById#load. */
+class PhotoStationByIdLoadMatch
 {
     public string $country;
+    public string $id;
+}
+
+/** PhotoStationsByCountry entity data model. */
+class PhotoStationsByCountry
+{
+    public ?string $id = null;
+    public array $licenses;
+    public string $photoBaseUrl;
+    public array $photographers;
+    public array $stations;
+}
+
+/** Request payload for PhotoStationsByCountry#load. */
+class PhotoStationsByCountryLoadMatch
+{
+    public string $id;
     public ?bool $has_photo = null;
     public ?bool $is_active = null;
 }
 
-/** Request payload for PhotoStation#list. */
-class PhotoStationListMatch
+/** PhotoStationsByPhotographer entity data model. */
+class PhotoStationsByPhotographer
+{
+    public ?string $id = null;
+    public array $licenses;
+    public string $photoBaseUrl;
+    public array $photographers;
+    public array $stations;
+}
+
+/** Request payload for PhotoStationsByPhotographer#load. */
+class PhotoStationsByPhotographerLoadMatch
+{
+    public string $id;
+    public ?string $country = null;
+}
+
+/** PhotoStationsByRecentPhotoImport entity data model. */
+class PhotoStationsByRecentPhotoImport
+{
+    public array $licenses;
+    public string $photoBaseUrl;
+    public array $photographers;
+    public array $stations;
+}
+
+/** Request payload for PhotoStationsByRecentPhotoImport#list. */
+class PhotoStationsByRecentPhotoImportListMatch
 {
     public ?int $since_hour = null;
 }

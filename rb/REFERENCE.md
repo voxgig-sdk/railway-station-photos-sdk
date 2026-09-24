@@ -61,10 +61,6 @@ Create a new `InboxCount` entity instance. Pass `nil` for no initial data.
 
 Create a new `InboxEntry` entity instance. Pass `nil` for no initial data.
 
-#### `InboxStateQuery(data = nil)`
-
-Create a new `InboxStateQuery` entity instance. Pass `nil` for no initial data.
-
 #### `OAuthToken(data = nil)`
 
 Create a new `OAuthToken` entity instance. Pass `nil` for no initial data.
@@ -81,9 +77,21 @@ Create a new `Photo` entity instance. Pass `nil` for no initial data.
 
 Create a new `PhotoDownload` entity instance. Pass `nil` for no initial data.
 
-#### `PhotoStation(data = nil)`
+#### `PhotoStationById(data = nil)`
 
-Create a new `PhotoStation` entity instance. Pass `nil` for no initial data.
+Create a new `PhotoStationById` entity instance. Pass `nil` for no initial data.
+
+#### `PhotoStationsByCountry(data = nil)`
+
+Create a new `PhotoStationsByCountry` entity instance. Pass `nil` for no initial data.
+
+#### `PhotoStationsByPhotographer(data = nil)`
+
+Create a new `PhotoStationsByPhotographer` entity instance. Pass `nil` for no initial data.
+
+#### `PhotoStationsByRecentPhotoImport(data = nil)`
+
+Create a new `PhotoStationsByRecentPhotoImport` entity instance. Pass `nil` for no initial data.
 
 #### `PhotoUpload(data = nil)`
 
@@ -484,42 +492,6 @@ Return the entity name.
 
 ---
 
-## InboxStateQueryEntity
-
-```ruby
-inbox_state_query = client.InboxStateQuery
-```
-
-### Common Methods
-
-#### `data_get -> Hash`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get -> Hash`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make -> Entity`
-
-Create a new `InboxStateQueryEntity` instance with the same client and
-options.
-
-#### `get_name -> String`
-
-Return the entity name.
-
-
----
-
 ## OAuthTokenEntity
 
 ```ruby
@@ -733,10 +705,10 @@ Return the entity name.
 
 ---
 
-## PhotoStationEntity
+## PhotoStationByIdEntity
 
 ```ruby
-photo_station = client.PhotoStation
+photo_station_by_id = client.PhotoStationById
 ```
 
 ### Fields
@@ -751,20 +723,12 @@ photo_station = client.PhotoStation
 
 ### Operations
 
-#### `list(reqmatch = nil, ctrl = nil) -> Array`
-
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
-
-```ruby
-results = client.PhotoStation.list
-```
-
 #### `load(reqmatch, ctrl = nil) -> result`
 
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.PhotoStation.load({ "country" => "country" })
+result = client.PhotoStationById.load({ "id" => "photo_station_by_id_id", "country" => "country" })
 ```
 
 ### Common Methods
@@ -787,7 +751,174 @@ Set the entity match criteria.
 
 #### `make -> Entity`
 
-Create a new `PhotoStationEntity` instance with the same client and
+Create a new `PhotoStationByIdEntity` instance with the same client and
+options.
+
+#### `get_name -> String`
+
+Return the entity name.
+
+
+---
+
+## PhotoStationsByCountryEntity
+
+```ruby
+photo_stations_by_country = client.PhotoStationsByCountry
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `String` | No |  |
+| `licenses` | `Array` | Yes | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `String` | Yes | Base URL of all photos |
+| `photographers` | `Array` | Yes | List of all photographers, might be empty if no photos available |
+| `stations` | `Array` | Yes | List of the stations |
+
+### Operations
+
+#### `load(reqmatch, ctrl = nil) -> result`
+
+Load a single entity matching the given criteria. Raises on error.
+
+```ruby
+result = client.PhotoStationsByCountry.load({ "id" => "photo_stations_by_country_id" })
+```
+
+### Common Methods
+
+#### `data_get -> Hash`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get -> Hash`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make -> Entity`
+
+Create a new `PhotoStationsByCountryEntity` instance with the same client and
+options.
+
+#### `get_name -> String`
+
+Return the entity name.
+
+
+---
+
+## PhotoStationsByPhotographerEntity
+
+```ruby
+photo_stations_by_photographer = client.PhotoStationsByPhotographer
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `String` | No |  |
+| `licenses` | `Array` | Yes | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `String` | Yes | Base URL of all photos |
+| `photographers` | `Array` | Yes | List of all photographers, might be empty if no photos available |
+| `stations` | `Array` | Yes | List of the stations |
+
+### Operations
+
+#### `load(reqmatch, ctrl = nil) -> result`
+
+Load a single entity matching the given criteria. Raises on error.
+
+```ruby
+result = client.PhotoStationsByPhotographer.load({ "id" => "photo_stations_by_photographer_id" })
+```
+
+### Common Methods
+
+#### `data_get -> Hash`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get -> Hash`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make -> Entity`
+
+Create a new `PhotoStationsByPhotographerEntity` instance with the same client and
+options.
+
+#### `get_name -> String`
+
+Return the entity name.
+
+
+---
+
+## PhotoStationsByRecentPhotoImportEntity
+
+```ruby
+photo_stations_by_recent_photo_import = client.PhotoStationsByRecentPhotoImport
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `licenses` | `Array` | Yes | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `String` | Yes | Base URL of all photos |
+| `photographers` | `Array` | Yes | List of all photographers, might be empty if no photos available |
+| `stations` | `Array` | Yes | List of the stations |
+
+### Operations
+
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
+
+List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+
+```ruby
+results = client.PhotoStationsByRecentPhotoImport.list
+```
+
+### Common Methods
+
+#### `data_get -> Hash`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get -> Hash`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make -> Entity`
+
+Create a new `PhotoStationsByRecentPhotoImportEntity` instance with the same client and
 options.
 
 #### `get_name -> String`

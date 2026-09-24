@@ -1,0 +1,221 @@
+# Entity: photo_download
+
+main: kit: entity: photo_download: {
+
+  alias: field: {}
+
+  name: "photo_download"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /inbox/done/{filename}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "filename"
+                or: "filename"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "width"
+                or: "width"
+                r: false
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/inbox/done/{filename}"
+          q: {
+            exist: [
+              "filename"
+              "width"
+            ]
+          }
+          s: [
+            {
+              lit: "inbox"
+            }
+            {
+              lit: "done"
+            }
+            {
+              var: "filename"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "GET /inbox/processed/{filename}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "filename"
+                or: "filename"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "width"
+                or: "width"
+                r: false
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/inbox/processed/{filename}"
+          q: {
+            exist: [
+              "filename"
+              "width"
+            ]
+          }
+          s: [
+            {
+              lit: "inbox"
+            }
+            {
+              lit: "processed"
+            }
+            {
+              var: "filename"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "GET /inbox/rejected/{filename}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "filename"
+                or: "filename"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "width"
+                or: "width"
+                r: false
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/inbox/rejected/{filename}"
+          q: {
+            exist: [
+              "filename"
+              "width"
+            ]
+          }
+          s: [
+            {
+              lit: "inbox"
+            }
+            {
+              lit: "rejected"
+            }
+            {
+              var: "filename"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "GET /inbox/{filename}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "filename"
+                or: "filename"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "width"
+                or: "width"
+                r: false
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/inbox/{filename}"
+          q: {
+            exist: [
+              "filename"
+              "width"
+            ]
+          }
+          s: [
+            {
+              lit: "inbox"
+            }
+            {
+              var: "filename"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  fields: {
+  }
+
+
+  relations: ancestors: [
+    [path("$.main.kit.entity.inbox")]
+  ]
+
+}

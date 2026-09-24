@@ -1,0 +1,209 @@
+# Entity: inbox_entry
+
+main: kit: entity: inbox_entry: {
+
+  alias: field: {}
+
+  fields: {
+    active: {
+      h: "Active"
+      n: "active"
+      r: false
+      sh: "active flag provided by the user"
+      t: "`$BOOLEAN`"
+    }
+    comment: {
+      h: "Comment"
+      n: "comment"
+      r: true
+      t: "`$STRING`"
+    }
+    countryCode: {
+      h: "Country Code"
+      n: "countryCode"
+      r: false
+      sh: "a two character country code"
+      t: "`$STRING`"
+    }
+    createdAt: {
+      fo: "int64"
+      h: "Created At"
+      n: "createdAt"
+      r: true
+      t: "`$INTEGER`"
+    }
+    done: {
+      h: "Done"
+      n: "done"
+      r: true
+      sh: "true if this photo was already imported or rejected"
+      t: "`$BOOLEAN`"
+    }
+    filename: {
+      h: "Filename"
+      n: "filename"
+      r: false
+      sh: "name of the file in inbox"
+      t: "`$STRING`"
+    }
+    hasConflict: {
+      h: "Has Conflict"
+      n: "hasConflict"
+      r: false
+      sh: "conflict with another upload or existing photo"
+      t: "`$BOOLEAN`"
+    }
+    hasPhoto: {
+      h: "Has Photo"
+      n: "hasPhoto"
+      r: true
+      sh: "this station has already a photo (conflict)"
+      t: "`$BOOLEAN`"
+    }
+    id: {
+      fo: "int64"
+      h: "Id"
+      n: "id"
+      r: true
+      t: "`$INTEGER`"
+    }
+    inboxUrl: {
+      h: "Inbox Url"
+      n: "inboxUrl"
+      r: false
+      sh: "url of the photo in the inbox"
+      t: "`$STRING`"
+    }
+    isProcessed: {
+      h: "Is Processed"
+      n: "isProcessed"
+      r: false
+      sh: "was this image process (e.g."
+      t: "`$BOOLEAN`"
+    }
+    lat: {
+      fo: "double"
+      h: "Lat"
+      n: "lat"
+      r: false
+      t: "`$NUMBER`"
+    }
+    lon: {
+      fo: "double"
+      h: "Lon"
+      n: "lon"
+      r: false
+      t: "`$NUMBER`"
+    }
+    newLat: {
+      fo: "double"
+      h: "New Lat"
+      n: "newLat"
+      r: false
+      t: "`$NUMBER`"
+    }
+    newLon: {
+      fo: "double"
+      h: "New Lon"
+      n: "newLon"
+      r: false
+      t: "`$NUMBER`"
+    }
+    newTitle: {
+      h: "New Title"
+      n: "newTitle"
+      r: false
+      t: "`$STRING`"
+    }
+    photoId: {
+      fo: "int64"
+      h: "Photo Id"
+      n: "photoId"
+      r: false
+      sh: "ID of the photo"
+      t: "`$INTEGER`"
+    }
+    photographerEmail: {
+      h: "Photographer Email"
+      n: "photographerEmail"
+      r: false
+      t: "`$STRING`"
+    }
+    photographerNickname: {
+      h: "Photographer Nickname"
+      n: "photographerNickname"
+      r: true
+      t: "`$STRING`"
+    }
+    problemReportType: {
+      h: "Problem Report Type"
+      n: "problemReportType"
+      r: false
+      sh: "types of problem reports"
+      t: "`$STRING`"
+    }
+    stationId: {
+      h: "Station Id"
+      n: "stationId"
+      r: false
+      t: "`$STRING`"
+    }
+    title: {
+      h: "Title"
+      n: "title"
+      r: false
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "inbox_entry"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /adminInbox"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "authorization"
+                or: "authorization"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/adminInbox"
+          q: {
+            exist: [
+              "authorization"
+            ]
+          }
+          s: [
+            {
+              lit: "adminInbox"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

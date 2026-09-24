@@ -1,0 +1,36 @@
+# BasicOauthFlow
+
+main: kit: flow: BasicOauthFlow:
+{
+  entity: "oauth",
+  kind: "basic",
+  name: "BasicOauthFlow",
+  step: [
+    {
+      i: {
+        ref: "oauth_ref01"
+      }
+
+      o: "create"
+    }
+
+    {
+      i: {
+        ref: "oauth_ref01",
+        srcdatavar: "oauth_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-oauth_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicOauthFlow"
+}

@@ -1,0 +1,32 @@
+# BasicPhotoStationsByPhotographerFlow
+
+main: kit: flow: BasicPhotoStationsByPhotographerFlow:
+{
+  entity: "photo_stations_by_photographer",
+  kind: "basic",
+  name: "BasicPhotoStationsByPhotographerFlow",
+  step: [
+    {
+      i: {
+        ref: "photo_stations_by_photographer_ref01",
+        srcdatavar: "photo_stations_by_photographer_ref01_data",
+        suffix: "_dt0"
+      }
+
+      m: {
+        id: "photo_stations_by_photographer01"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-photo_stations_by_photographer_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicPhotoStationsByPhotographerFlow"
+}

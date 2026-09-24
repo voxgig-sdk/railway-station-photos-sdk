@@ -1,0 +1,113 @@
+# Entity: photo_station_by_id
+
+main: kit: entity: photo_station_by_id: {
+
+  alias: field: {}
+
+  fields: {
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      t: "`$STRING`"
+    }
+    licenses: {
+      h: "Licenses"
+      n: "licenses"
+      r: true
+      sh: "List of used licenses, might be empty if no photos available"
+      t: "`$ARRAY`"
+    }
+    photoBaseUrl: {
+      h: "Photo Base Url"
+      n: "photoBaseUrl"
+      r: true
+      sh: "Base URL of all photos"
+      t: "`$STRING`"
+    }
+    photographers: {
+      h: "Photographers"
+      n: "photographers"
+      r: true
+      sh: "List of all photographers, might be empty if no photos available"
+      t: "`$ARRAY`"
+    }
+    stations: {
+      h: "Stations"
+      n: "stations"
+      r: true
+      sh: "List of the stations"
+      t: "`$ARRAY`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+    parts: [
+      "country"
+      "id"
+    ]
+    sep: "/"
+  }
+
+  name: "photo_station_by_id"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /photoStationById/{country}/{id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "country"
+                or: "country"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "param"
+                n: "id"
+                or: "id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/photoStationById/{country}/{id}"
+          q: {
+            exist: [
+              "country"
+              "id"
+            ]
+          }
+          s: [
+            {
+              lit: "photoStationById"
+            }
+            {
+              var: "country"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

@@ -337,12 +337,6 @@ class RailwayStationPhotosSDK:
         return InboxEntryEntity(self, data)
 
 
-    def InboxStateQuery(self, data=None) -> "InboxStateQueryEntity":
-        """Entity factory: client.InboxStateQuery().list() / client.InboxStateQuery().load({"id": ...})."""
-        from railwaystationphotos_sdk.entity.inbox_state_query_entity import InboxStateQueryEntity
-        return InboxStateQueryEntity(self, data)
-
-
     def OAuthToken(self, data=None) -> "OAuthTokenEntity":
         """Entity factory: client.OAuthToken().list() / client.OAuthToken().load({"id": ...})."""
         from railwaystationphotos_sdk.entity.o_auth_token_entity import OAuthTokenEntity
@@ -367,10 +361,28 @@ class RailwayStationPhotosSDK:
         return PhotoDownloadEntity(self, data)
 
 
-    def PhotoStation(self, data=None) -> "PhotoStationEntity":
-        """Entity factory: client.PhotoStation().list() / client.PhotoStation().load({"id": ...})."""
-        from railwaystationphotos_sdk.entity.photo_station_entity import PhotoStationEntity
-        return PhotoStationEntity(self, data)
+    def PhotoStationById(self, data=None) -> "PhotoStationByIdEntity":
+        """Entity factory: client.PhotoStationById().list() / client.PhotoStationById().load({"id": ...})."""
+        from railwaystationphotos_sdk.entity.photo_station_by_id_entity import PhotoStationByIdEntity
+        return PhotoStationByIdEntity(self, data)
+
+
+    def PhotoStationsByCountry(self, data=None) -> "PhotoStationsByCountryEntity":
+        """Entity factory: client.PhotoStationsByCountry().list() / client.PhotoStationsByCountry().load({"id": ...})."""
+        from railwaystationphotos_sdk.entity.photo_stations_by_country_entity import PhotoStationsByCountryEntity
+        return PhotoStationsByCountryEntity(self, data)
+
+
+    def PhotoStationsByPhotographer(self, data=None) -> "PhotoStationsByPhotographerEntity":
+        """Entity factory: client.PhotoStationsByPhotographer().list() / client.PhotoStationsByPhotographer().load({"id": ...})."""
+        from railwaystationphotos_sdk.entity.photo_stations_by_photographer_entity import PhotoStationsByPhotographerEntity
+        return PhotoStationsByPhotographerEntity(self, data)
+
+
+    def PhotoStationsByRecentPhotoImport(self, data=None) -> "PhotoStationsByRecentPhotoImportEntity":
+        """Entity factory: client.PhotoStationsByRecentPhotoImport().list() / client.PhotoStationsByRecentPhotoImport().load({"id": ...})."""
+        from railwaystationphotos_sdk.entity.photo_stations_by_recent_photo_import_entity import PhotoStationsByRecentPhotoImportEntity
+        return PhotoStationsByRecentPhotoImportEntity(self, data)
 
 
     def PhotoUpload(self, data=None) -> "PhotoUploadEntity":
@@ -435,12 +447,14 @@ if TYPE_CHECKING:
     from railwaystationphotos_sdk.entity.inbox_entity import InboxEntity
     from railwaystationphotos_sdk.entity.inbox_count_entity import InboxCountEntity
     from railwaystationphotos_sdk.entity.inbox_entry_entity import InboxEntryEntity
-    from railwaystationphotos_sdk.entity.inbox_state_query_entity import InboxStateQueryEntity
     from railwaystationphotos_sdk.entity.o_auth_token_entity import OAuthTokenEntity
     from railwaystationphotos_sdk.entity.oauth_entity import OauthEntity
     from railwaystationphotos_sdk.entity.photo_entity import PhotoEntity
     from railwaystationphotos_sdk.entity.photo_download_entity import PhotoDownloadEntity
-    from railwaystationphotos_sdk.entity.photo_station_entity import PhotoStationEntity
+    from railwaystationphotos_sdk.entity.photo_station_by_id_entity import PhotoStationByIdEntity
+    from railwaystationphotos_sdk.entity.photo_stations_by_country_entity import PhotoStationsByCountryEntity
+    from railwaystationphotos_sdk.entity.photo_stations_by_photographer_entity import PhotoStationsByPhotographerEntity
+    from railwaystationphotos_sdk.entity.photo_stations_by_recent_photo_import_entity import PhotoStationsByRecentPhotoImportEntity
     from railwaystationphotos_sdk.entity.photo_upload_entity import PhotoUploadEntity
     from railwaystationphotos_sdk.entity.photographer_entity import PhotographerEntity
     from railwaystationphotos_sdk.entity.profile_entity import ProfileEntity

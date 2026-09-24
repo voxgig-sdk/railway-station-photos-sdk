@@ -1,0 +1,118 @@
+# Entity: country
+
+main: kit: entity: country: {
+
+  alias: field: {}
+
+  fields: {
+    active: {
+      h: "Active"
+      n: "active"
+      r: true
+      sh: "Is this an active country where we collect photos?"
+      t: "`$BOOLEAN`"
+    }
+    allowPhotoUploads: {
+      h: "Allow Photo Uploads"
+      n: "allowPhotoUploads"
+      r: true
+      sh: "Are photo uploads allowed?"
+      t: "`$BOOLEAN`"
+    }
+    code: {
+      h: "Code"
+      n: "code"
+      r: true
+      sh: "a two character country code"
+      t: "`$STRING`"
+    }
+    email: {
+      h: "Email"
+      n: "email"
+      r: false
+      sh: "Contact email address"
+      t: "`$STRING`"
+    }
+    message: {
+      h: "Message"
+      n: "message"
+      r: false
+      sh: "Informational message about this country"
+      t: "`$STRING`"
+    }
+    name: {
+      h: "Name"
+      n: "name"
+      r: true
+      sh: "Name of the country"
+      t: "`$STRING`"
+    }
+    overrideLicense: {
+      h: "Override License"
+      n: "overrideLicense"
+      r: false
+      sh: "if a country needs a special license"
+      t: "`$STRING`"
+    }
+    providerApps: {
+      h: "Provider Apps"
+      n: "providerApps"
+      r: false
+      sh: "array with links to provider apps"
+      t: "`$ARRAY`"
+    }
+    timetableUrlTemplate: {
+      h: "Timetable Url Template"
+      n: "timetableUrlTemplate"
+      r: false
+      sh: "URL template for the timetable, contains {title}, {id} and {DS100} placeholders which need to be replaced"
+      t: "`$STRING`"
+    }
+  }
+
+  name: "country"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /countries"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "only_active"
+                or: "only_active"
+                r: false
+                t: "`$BOOLEAN`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/countries"
+          q: {
+            exist: [
+              "only_active"
+            ]
+          }
+          s: [
+            {
+              lit: "countries"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

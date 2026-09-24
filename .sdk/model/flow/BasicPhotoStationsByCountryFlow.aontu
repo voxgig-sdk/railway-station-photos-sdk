@@ -1,0 +1,32 @@
+# BasicPhotoStationsByCountryFlow
+
+main: kit: flow: BasicPhotoStationsByCountryFlow:
+{
+  entity: "photo_stations_by_country",
+  kind: "basic",
+  name: "BasicPhotoStationsByCountryFlow",
+  step: [
+    {
+      i: {
+        ref: "photo_stations_by_country_ref01",
+        srcdatavar: "photo_stations_by_country_ref01_data",
+        suffix: "_dt0"
+      }
+
+      m: {
+        id: "photo_stations_by_country01"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-photo_stations_by_country_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicPhotoStationsByCountryFlow"
+}

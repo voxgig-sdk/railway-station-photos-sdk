@@ -20,7 +20,7 @@ import (
 const prompt = "railway-station-photos"
 
 // entitiesHelp is the space-separated entity list shown by /help.
-const entitiesHelp = "admin_inbox country inbox inbox_count inbox_entry inbox_state_query o_auth_token oauth photo photo_download photo_station photo_upload photographer profile public_inbox stat"
+const entitiesHelp = "admin_inbox country inbox inbox_count inbox_entry o_auth_token oauth photo photo_download photo_station_by_id photo_stations_by_country photo_stations_by_photographer photo_stations_by_recent_photo_import photo_upload photographer profile public_inbox stat"
 
 func main() {
 	os.Exit(run(os.Args[1:], os.Stdin, os.Stdout, os.Stderr))

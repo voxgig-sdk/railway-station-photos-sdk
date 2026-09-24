@@ -67,10 +67,6 @@ Create a new `InboxCount` entity instance. Pass `nil` for no initial data.
 
 Create a new `InboxEntry` entity instance. Pass `nil` for no initial data.
 
-#### `InboxStateQuery(data map[string]any) RailwayStationPhotosEntity`
-
-Create a new `InboxStateQuery` entity instance. Pass `nil` for no initial data.
-
 #### `OAuthToken(data map[string]any) RailwayStationPhotosEntity`
 
 Create a new `OAuthToken` entity instance. Pass `nil` for no initial data.
@@ -87,9 +83,21 @@ Create a new `Photo` entity instance. Pass `nil` for no initial data.
 
 Create a new `PhotoDownload` entity instance. Pass `nil` for no initial data.
 
-#### `PhotoStation(data map[string]any) RailwayStationPhotosEntity`
+#### `PhotoStationById(data map[string]any) RailwayStationPhotosEntity`
 
-Create a new `PhotoStation` entity instance. Pass `nil` for no initial data.
+Create a new `PhotoStationById` entity instance. Pass `nil` for no initial data.
+
+#### `PhotoStationsByCountry(data map[string]any) RailwayStationPhotosEntity`
+
+Create a new `PhotoStationsByCountry` entity instance. Pass `nil` for no initial data.
+
+#### `PhotoStationsByPhotographer(data map[string]any) RailwayStationPhotosEntity`
+
+Create a new `PhotoStationsByPhotographer` entity instance. Pass `nil` for no initial data.
+
+#### `PhotoStationsByRecentPhotoImport(data map[string]any) RailwayStationPhotosEntity`
+
+Create a new `PhotoStationsByRecentPhotoImport` entity instance. Pass `nil` for no initial data.
 
 #### `PhotoUpload(data map[string]any) RailwayStationPhotosEntity`
 
@@ -491,37 +499,6 @@ Return the entity name.
 
 ---
 
-## InboxStateQueryEntity
-
-```go
-inboxStateQuery := client.InboxStateQuery(nil)
-fmt.Println(inboxStateQuery.GetName()) // "inbox_state_query"
-```
-
-### Common Methods
-
-#### `Data(args ...any) any`
-
-Get or set the entity data. When called with data, sets the entity's
-internal data and returns the current data. When called without
-arguments, returns a copy of the current data.
-
-#### `Match(args ...any) any`
-
-Get or set the entity match criteria. Works the same as `Data()`.
-
-#### `Make() Entity`
-
-Create a new `InboxStateQueryEntity` instance with the same client and
-options.
-
-#### `GetName() string`
-
-Return the entity name.
-
-
----
-
 ## OAuthTokenEntity
 
 ```go
@@ -735,11 +712,11 @@ Return the entity name.
 
 ---
 
-## PhotoStationEntity
+## PhotoStationByIdEntity
 
 ```go
-photoStation := client.PhotoStation(nil)
-fmt.Println(photoStation.GetName()) // "photo_station"
+photoStationById := client.PhotoStationById(nil)
+fmt.Println(photoStationById.GetName()) // "photo_station_by_id"
 ```
 
 ### Fields
@@ -754,24 +731,12 @@ fmt.Println(photoStation.GetName()) // "photo_station"
 
 ### Operations
 
-#### `List(reqmatch, ctrl map[string]any) (any, error)`
-
-List entities matching the given criteria. Returns an array.
-
-```go
-results, err := client.PhotoStation(nil).List(nil, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(results)
-```
-
 #### `Load(reqmatch, ctrl map[string]any) (any, error)`
 
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.PhotoStation(nil).Load(map[string]any{"country": "country"}, nil)
+result, err := client.PhotoStationById(nil).Load(map[string]any{"id": "photo_station_by_id_id", "country": "country"}, nil)
 if err != nil {
     panic(err)
 }
@@ -792,7 +757,171 @@ Get or set the entity match criteria. Works the same as `Data()`.
 
 #### `Make() Entity`
 
-Create a new `PhotoStationEntity` instance with the same client and
+Create a new `PhotoStationByIdEntity` instance with the same client and
+options.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## PhotoStationsByCountryEntity
+
+```go
+photoStationsByCountry := client.PhotoStationsByCountry(nil)
+fmt.Println(photoStationsByCountry.GetName()) // "photo_stations_by_country"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+| `licenses` | `[]any` | Yes | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `string` | Yes | Base URL of all photos |
+| `photographers` | `[]any` | Yes | List of all photographers, might be empty if no photos available |
+| `stations` | `[]any` | Yes | List of the stations |
+
+### Operations
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria.
+
+```go
+result, err := client.PhotoStationsByCountry(nil).Load(map[string]any{"id": "photo_stations_by_country_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `PhotoStationsByCountryEntity` instance with the same client and
+options.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## PhotoStationsByPhotographerEntity
+
+```go
+photoStationsByPhotographer := client.PhotoStationsByPhotographer(nil)
+fmt.Println(photoStationsByPhotographer.GetName()) // "photo_stations_by_photographer"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+| `licenses` | `[]any` | Yes | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `string` | Yes | Base URL of all photos |
+| `photographers` | `[]any` | Yes | List of all photographers, might be empty if no photos available |
+| `stations` | `[]any` | Yes | List of the stations |
+
+### Operations
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria.
+
+```go
+result, err := client.PhotoStationsByPhotographer(nil).Load(map[string]any{"id": "photo_stations_by_photographer_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `PhotoStationsByPhotographerEntity` instance with the same client and
+options.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## PhotoStationsByRecentPhotoImportEntity
+
+```go
+photoStationsByRecentPhotoImport := client.PhotoStationsByRecentPhotoImport(nil)
+fmt.Println(photoStationsByRecentPhotoImport.GetName()) // "photo_stations_by_recent_photo_import"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `licenses` | `[]any` | Yes | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `string` | Yes | Base URL of all photos |
+| `photographers` | `[]any` | Yes | List of all photographers, might be empty if no photos available |
+| `stations` | `[]any` | Yes | List of the stations |
+
+### Operations
+
+#### `List(reqmatch, ctrl map[string]any) (any, error)`
+
+List entities matching the given criteria. Returns an array.
+
+```go
+results, err := client.PhotoStationsByRecentPhotoImport(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(results)
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `PhotoStationsByRecentPhotoImportEntity` instance with the same client and
 options.
 
 #### `GetName() string`

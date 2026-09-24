@@ -1,0 +1,112 @@
+# Entity: photo_stations_by_photographer
+
+main: kit: entity: photo_stations_by_photographer: {
+
+  alias: field: {}
+
+  fields: {
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      t: "`$STRING`"
+    }
+    licenses: {
+      h: "Licenses"
+      n: "licenses"
+      r: true
+      sh: "List of used licenses, might be empty if no photos available"
+      t: "`$ARRAY`"
+    }
+    photoBaseUrl: {
+      h: "Photo Base Url"
+      n: "photoBaseUrl"
+      r: true
+      sh: "Base URL of all photos"
+      t: "`$STRING`"
+    }
+    photographers: {
+      h: "Photographers"
+      n: "photographers"
+      r: true
+      sh: "List of all photographers, might be empty if no photos available"
+      t: "`$ARRAY`"
+    }
+    stations: {
+      h: "Stations"
+      n: "stations"
+      r: true
+      sh: "List of the stations"
+      t: "`$ARRAY`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "photo_stations_by_photographer"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /photoStationsByPhotographer/{photographer}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "photographer"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "country"
+                or: "country"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/photoStationsByPhotographer/{photographer}"
+          q: {
+            exist: [
+              "country"
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              photographer: "id"
+            }
+          }
+          s: [
+            {
+              lit: "photoStationsByPhotographer"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

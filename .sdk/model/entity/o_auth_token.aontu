@@ -1,0 +1,89 @@
+# Entity: o_auth_token
+
+main: kit: entity: o_auth_token: {
+
+  alias: field: {}
+
+  fields: {
+    access_token: {
+      h: "Access Token"
+      n: "access_token"
+      r: true
+      t: "`$STRING`"
+    }
+    expires_in: {
+      fo: "int64"
+      h: "Expires In"
+      n: "expires_in"
+      r: false
+      t: "`$INTEGER`"
+    }
+    refresh_token: {
+      h: "Refresh Token"
+      n: "refresh_token"
+      r: false
+      t: "`$STRING`"
+    }
+    scope: {
+      h: "Scope"
+      n: "scope"
+      r: true
+      t: "`$STRING`"
+    }
+    token_type: {
+      h: "Token Type"
+      n: "token_type"
+      r: true
+      t: "`$STRING`"
+    }
+  }
+
+  name: "o_auth_token"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /oauth2/token"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "authorization"
+                or: "authorization"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/oauth2/token"
+          q: {
+            exist: [
+              "authorization"
+            ]
+          }
+          s: [
+            {
+              lit: "oauth2"
+            }
+            {
+              lit: "token"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

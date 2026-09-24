@@ -1,0 +1,41 @@
+{
+  "existing": {
+    "photo_stations_by_recent_photo_import": {
+      "PHOTO_STATIONS_BY_RECENT_PHOTO_IMPORT00": {
+        "licenses": [],
+        "photoBaseUrl": "s29",
+        "photographers": [],
+        "stations": []
+      },
+      "PHOTO_STATIONS_BY_RECENT_PHOTO_IMPORT01": {
+        "licenses": [],
+        "photoBaseUrl": "s51",
+        "photographers": [],
+        "stations": []
+      },
+      "PHOTO_STATIONS_BY_RECENT_PHOTO_IMPORT02": {
+        "licenses": [],
+        "photoBaseUrl": "s79",
+        "photographers": [],
+        "stations": []
+      }
+    }
+  },
+  "new": {
+    "photo_stations_by_recent_photo_import": {
+      "photo_stations_by_recent_photo_import_ref01": {
+        "licenses": [],
+        "photoBaseUrl": "sa1",
+        "photographers": [],
+        "stations": []
+      }
+    }
+  },
+  "requests": {
+    "GET /photoStationsByRecentPhotoImports": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

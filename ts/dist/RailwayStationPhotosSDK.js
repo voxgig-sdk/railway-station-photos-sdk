@@ -7,12 +7,14 @@ const CountryEntity_1 = require("./entity/CountryEntity");
 const InboxEntity_1 = require("./entity/InboxEntity");
 const InboxCountEntity_1 = require("./entity/InboxCountEntity");
 const InboxEntryEntity_1 = require("./entity/InboxEntryEntity");
-const InboxStateQueryEntity_1 = require("./entity/InboxStateQueryEntity");
 const OAuthTokenEntity_1 = require("./entity/OAuthTokenEntity");
 const OauthEntity_1 = require("./entity/OauthEntity");
 const PhotoEntity_1 = require("./entity/PhotoEntity");
 const PhotoDownloadEntity_1 = require("./entity/PhotoDownloadEntity");
-const PhotoStationEntity_1 = require("./entity/PhotoStationEntity");
+const PhotoStationByIdEntity_1 = require("./entity/PhotoStationByIdEntity");
+const PhotoStationsByCountryEntity_1 = require("./entity/PhotoStationsByCountryEntity");
+const PhotoStationsByPhotographerEntity_1 = require("./entity/PhotoStationsByPhotographerEntity");
+const PhotoStationsByRecentPhotoImportEntity_1 = require("./entity/PhotoStationsByRecentPhotoImportEntity");
 const PhotoUploadEntity_1 = require("./entity/PhotoUploadEntity");
 const PhotographerEntity_1 = require("./entity/PhotographerEntity");
 const ProfileEntity_1 = require("./entity/ProfileEntity");
@@ -99,7 +101,6 @@ class RailwayStationPhotosSDK {
             ctrl: fetchargs.ctrl || {},
         }, this._rootctx);
         const options = this._options;
-        // Build spec directly from SDK options + user-provided fetch args.
         const spec = {
             base: options.base,
             prefix: options.prefix,
@@ -113,14 +114,12 @@ class RailwayStationPhotosSDK {
             step: 'start',
         };
         ctx.spec = spec;
-        // Merge user-provided headers over SDK defaults.
         if (fetchargs.headers) {
             const uheaders = fetchargs.headers;
             for (let key in uheaders) {
                 spec.headers[key] = uheaders[key];
             }
         }
-        // Apply SDK auth (apikey, auth prefix, etc.)
         const authResult = prepareAuth(ctx);
         if (authResult instanceof Error) {
             return authResult;
@@ -195,18 +194,6 @@ class RailwayStationPhotosSDK {
             return { ok: false, err };
         }
     }
-    // Raw GraphQL access: the pressure valve that makes the generated
-    // surface's deliberate omissions (per-call selection sets, typed filter
-    // builders, batching, subscriptions) livable — the whole schema stays
-    // reachable.
-    //
-    // Thin wrapper over the same prepare/fetch path `direct` uses, with the
-    // one thing raw `direct` cannot do for GraphQL: a GraphQL failure rides
-    // HTTP 200 as a top-level `errors` array, so status alone would report a
-    // failed query as ok.
-    //
-    // NOTE: like `direct`, this bypasses the feature pipeline — no retry,
-    // ratelimit or paging features apply.
     async graphql(query, variables, ctrl) {
         const options = this._options;
         if (!options.allow.op.includes('graphql')) {
@@ -275,13 +262,6 @@ class RailwayStationPhotosSDK {
         const self = this;
         return new InboxEntryEntity_1.InboxEntryEntity(self, entopts);
     }
-    // Entity access: `client.InboxStateQuery().list()` / `client.InboxStateQuery().load({ id })`.
-    // The argument is the entity OPTIONS object (passed to the entity
-    // constructor as entopts), not initial entity data.
-    InboxStateQuery(entopts) {
-        const self = this;
-        return new InboxStateQueryEntity_1.InboxStateQueryEntity(self, entopts);
-    }
     // Entity access: `client.OAuthToken().list()` / `client.OAuthToken().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity
     // constructor as entopts), not initial entity data.
@@ -310,12 +290,33 @@ class RailwayStationPhotosSDK {
         const self = this;
         return new PhotoDownloadEntity_1.PhotoDownloadEntity(self, entopts);
     }
-    // Entity access: `client.PhotoStation().list()` / `client.PhotoStation().load({ id })`.
+    // Entity access: `client.PhotoStationById().list()` / `client.PhotoStationById().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity
     // constructor as entopts), not initial entity data.
-    PhotoStation(entopts) {
+    PhotoStationById(entopts) {
         const self = this;
-        return new PhotoStationEntity_1.PhotoStationEntity(self, entopts);
+        return new PhotoStationByIdEntity_1.PhotoStationByIdEntity(self, entopts);
+    }
+    // Entity access: `client.PhotoStationsByCountry().list()` / `client.PhotoStationsByCountry().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    PhotoStationsByCountry(entopts) {
+        const self = this;
+        return new PhotoStationsByCountryEntity_1.PhotoStationsByCountryEntity(self, entopts);
+    }
+    // Entity access: `client.PhotoStationsByPhotographer().list()` / `client.PhotoStationsByPhotographer().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    PhotoStationsByPhotographer(entopts) {
+        const self = this;
+        return new PhotoStationsByPhotographerEntity_1.PhotoStationsByPhotographerEntity(self, entopts);
+    }
+    // Entity access: `client.PhotoStationsByRecentPhotoImport().list()` / `client.PhotoStationsByRecentPhotoImport().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    PhotoStationsByRecentPhotoImport(entopts) {
+        const self = this;
+        return new PhotoStationsByRecentPhotoImportEntity_1.PhotoStationsByRecentPhotoImportEntity(self, entopts);
     }
     // Entity access: `client.PhotoUpload().list()` / `client.PhotoUpload().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity

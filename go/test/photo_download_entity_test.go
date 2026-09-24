@@ -98,7 +98,7 @@ func photo_downloadBasicSetup(extra map[string]any) *entityTestSetup {
 
 	// Generate idmap via transform, matching TS pattern.
 	idmap, _ := vs.Transform(
-		[]any{"photo_download01", "photo_download02", "photo_download03", "done01", "done02", "done03", "processed01", "processed02", "processed03", "rejected01", "rejected02", "rejected03", "inbox01", "inbox02", "inbox03"},
+		[]any{"photo_download01", "photo_download02", "photo_download03", "inbox01", "inbox02", "inbox03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
 				"`$KEY`": "`$COPY`",

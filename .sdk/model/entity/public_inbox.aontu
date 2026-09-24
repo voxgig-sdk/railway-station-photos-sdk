@@ -1,0 +1,72 @@
+# Entity: public_inbox
+
+main: kit: entity: public_inbox: {
+
+  alias: field: {}
+
+  fields: {
+    countryCode: {
+      h: "Country Code"
+      n: "countryCode"
+      r: false
+      sh: "a two character country code"
+      t: "`$STRING`"
+    }
+    lat: {
+      fo: "double"
+      h: "Lat"
+      n: "lat"
+      r: true
+      t: "`$NUMBER`"
+    }
+    lon: {
+      fo: "double"
+      h: "Lon"
+      n: "lon"
+      r: true
+      t: "`$NUMBER`"
+    }
+    stationId: {
+      h: "Station Id"
+      n: "stationId"
+      r: false
+      t: "`$STRING`"
+    }
+    title: {
+      h: "Title"
+      n: "title"
+      r: true
+      t: "`$STRING`"
+    }
+  }
+
+  name: "public_inbox"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /publicInbox"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/publicInbox"
+          s: [
+            {
+              lit: "publicInbox"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

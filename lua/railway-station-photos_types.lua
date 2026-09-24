@@ -1,7 +1,7 @@
 -- Typed models for the RailwayStationPhotos SDK (LuaLS annotations).
 --
--- GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
--- params (op.<name>.points[].args.params[]). Field/param types come from the
+-- GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+-- params (op.<name>.points[].g.params[]). Field/param types come from the
 -- canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 -- @voxgig/apidef VALID_CANON). Annotations only — no runtime effect. Do not
 -- edit by hand.
@@ -148,8 +148,6 @@
 ---@field stationId? string
 ---@field title? string
 
----@class InboxStateQuery
-
 ---@class OAuthToken
 ---@field access_token string
 ---@field expires_in? number
@@ -191,19 +189,47 @@
 ---@field filename string
 ---@field width? number
 
----@class PhotoStation
+---@class PhotoStationById
 ---@field id? string
 ---@field licenses table
 ---@field photoBaseUrl string
 ---@field photographers table
 ---@field stations table
 
----@class PhotoStationLoadMatch
+---@class PhotoStationByIdLoadMatch
 ---@field country string
+---@field id string
+
+---@class PhotoStationsByCountry
+---@field id? string
+---@field licenses table
+---@field photoBaseUrl string
+---@field photographers table
+---@field stations table
+
+---@class PhotoStationsByCountryLoadMatch
+---@field id string
 ---@field has_photo? boolean
 ---@field is_active? boolean
 
----@class PhotoStationListMatch
+---@class PhotoStationsByPhotographer
+---@field id? string
+---@field licenses table
+---@field photoBaseUrl string
+---@field photographers table
+---@field stations table
+
+---@class PhotoStationsByPhotographerLoadMatch
+---@field id string
+---@field country? string
+
+---@class PhotoStationsByRecentPhotoImport
+---@field licenses table
+---@field photoBaseUrl string
+---@field photographers table
+---@field stations table
+
+---@class PhotoStationsByRecentPhotoImportListMatch
 ---@field since_hour? number
 
 ---@class PhotoUpload

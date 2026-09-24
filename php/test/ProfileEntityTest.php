@@ -71,7 +71,7 @@ function profile_basic_setup($extra)
 
     // Generate idmap.
     $idmap = [];
-    foreach (["profile01", "profile02", "profile03", "email_verification01", "email_verification02", "email_verification03"] as $k) {
+    foreach (["profile01", "profile02", "profile03"] as $k) {
         $idmap[$k] = strtoupper($k);
     }
 

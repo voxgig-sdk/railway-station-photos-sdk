@@ -14,13 +14,13 @@ Metadata kindly supplied by [www.freepublicapis.com](https://www.freepublicapis.
 
 > TypeScript, Python, PHP, Golang, Ruby, Lua SDKs, a CLI with an interactive REPL, and an MCP server for AI agents — all generated from one OpenAPI spec by [@voxgig/sdkgen](https://github.com/voxgig/sdkgen).
 
-> **Features:** `ratelimit`, `retry`, `test`, `timeout` — opt-in,
+> **Features:** `undefined`, `undefined`, `undefined`, `undefined` — opt-in,
 > inactive until switched on, and configured per client. See the Features
 > section of any SDK README below for what each one does.
 
 ## Entities, not endpoints
 
-This SDK exposes the API as **16 semantic entities** that you
+This SDK exposes the API as **18 semantic entities** that you
 call directly, instead of assembling URL paths and query strings. See the [Entities](#entities) table below for the full list. Entities are
 **Capitalised** to mark them as the primary surface, each with the operations they
 support (`list`, `load`, `create`, `remove`):
@@ -129,12 +129,11 @@ import { RailwayStationPhotosSDK } from '@voxgig-sdk/railway-station-photos-sdk'
 const client = new RailwayStationPhotosSDK()
 
 
-// Load a specific photo (returns a Photo)
-const photo = await client.Photo().load({
-  country: 'example_country',
+// Load a specific photodownload (returns a PhotoDownload)
+const photodownload = await client.PhotoDownload().load({
   filename: 'example_filename',
 })
-console.log(photo)
+console.log(photodownload)
 ```
 
 See the [TypeScript README](ts/README.md) for the full guide.
@@ -171,7 +170,7 @@ Then add it to your agent's MCP config (Claude Desktop, Cursor, etc.):
 
 ## Entities
 
-The API exposes 16 entities:
+The API exposes 18 entities:
 
 | Entity | Description | API path |
 | --- | --- | --- |
@@ -180,12 +179,14 @@ The API exposes 16 entities:
 | **Inbox** | The Inbox entity (create, list, remove). | `/userInbox` |
 | **InboxCount** | The InboxCount entity (load). | `/adminInboxCount` |
 | **InboxEntry** | The InboxEntry entity (list). | `/adminInbox` |
-| **InboxStateQuery** | The InboxStateQuery entity. | `` |
 | **OAuthToken** | The OAuthToken entity (create). | `/oauth2/token` |
 | **Oauth** | The Oauth entity (create, load). | `/oauth2/authorize` |
 | **Photo** | The Photo entity (load). | `/photos/{country}/{filename}` |
 | **PhotoDownload** | The PhotoDownload entity (load). | `/inbox/done/{filename}` |
-| **PhotoStation** | The PhotoStation entity (list, load). | `/photoStationsByRecentPhotoImports` |
+| **PhotoStationById** | The PhotoStationById entity (load). | `/photoStationById/{country}/{id}` |
+| **PhotoStationsByCountry** | The PhotoStationsByCountry entity (load). | `/photoStationsByCountry/{country}` |
+| **PhotoStationsByPhotographer** | The PhotoStationsByPhotographer entity (load). | `/photoStationsByPhotographer/{photographer}` |
+| **PhotoStationsByRecentPhotoImport** | The PhotoStationsByRecentPhotoImport entity (list). | `/photoStationsByRecentPhotoImports` |
 | **PhotoUpload** | The PhotoUpload entity (create). | `/photoUpload` |
 | **Photographer** | The Photographer entity (load). | `/photographers` |
 | **Profile** | The Profile entity (create, load, remove). | `/myProfile` |
@@ -224,14 +225,14 @@ import sdk "github.com/voxgig-sdk/railway-station-photos-sdk/go"
 client := sdk.New()
 
 
-// Load a specific photo
-photo, err := client.Photo(nil).Load(
-    map[string]any{"country": "example_country", "filename": "example_filename"}, nil,
+// Load a specific photodownload
+photoDownload, err := client.PhotoDownload(nil).Load(
+    map[string]any{"filename": "example_filename"}, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(photo)
+fmt.Println(photoDownload)
 ```
 
 ### Ruby

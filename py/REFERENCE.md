@@ -61,10 +61,6 @@ Create a new `InboxCountEntity` instance. Pass `None` for no initial data.
 
 Create a new `InboxEntryEntity` instance. Pass `None` for no initial data.
 
-#### `InboxStateQuery(data=None)`
-
-Create a new `InboxStateQueryEntity` instance. Pass `None` for no initial data.
-
 #### `OAuthToken(data=None)`
 
 Create a new `OAuthTokenEntity` instance. Pass `None` for no initial data.
@@ -81,9 +77,21 @@ Create a new `PhotoEntity` instance. Pass `None` for no initial data.
 
 Create a new `PhotoDownloadEntity` instance. Pass `None` for no initial data.
 
-#### `PhotoStation(data=None)`
+#### `PhotoStationById(data=None)`
 
-Create a new `PhotoStationEntity` instance. Pass `None` for no initial data.
+Create a new `PhotoStationByIdEntity` instance. Pass `None` for no initial data.
+
+#### `PhotoStationsByCountry(data=None)`
+
+Create a new `PhotoStationsByCountryEntity` instance. Pass `None` for no initial data.
+
+#### `PhotoStationsByPhotographer(data=None)`
+
+Create a new `PhotoStationsByPhotographerEntity` instance. Pass `None` for no initial data.
+
+#### `PhotoStationsByRecentPhotoImport(data=None)`
+
+Create a new `PhotoStationsByRecentPhotoImportEntity` instance. Pass `None` for no initial data.
 
 #### `PhotoUpload(data=None)`
 
@@ -479,41 +487,6 @@ Return the entity name.
 
 ---
 
-## InboxStateQueryEntity
-
-```python
-inbox_state_query = client.InboxStateQuery()
-```
-
-### Common Methods
-
-#### `data_get() -> dict`
-
-Get the entity data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get() -> dict`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `InboxStateQueryEntity` instance with the same options.
-
-#### `get_name() -> str`
-
-Return the entity name.
-
-
----
-
 ## OAuthTokenEntity
 
 ```python
@@ -723,10 +696,10 @@ Return the entity name.
 
 ---
 
-## PhotoStationEntity
+## PhotoStationByIdEntity
 
 ```python
-photo_station = client.PhotoStation()
+photo_station_by_id = client.PhotoStationById()
 ```
 
 ### Fields
@@ -741,22 +714,12 @@ photo_station = client.PhotoStation()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
-
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
-
-```python
-results = client.PhotoStation().list()
-for photo_station in results:
-    print(photo_station)
-```
-
 #### `load(reqmatch, ctrl=None) -> dict`
 
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.PhotoStation().load({"country": "country"})
+result = client.PhotoStationById().load({"id": "photo_station_by_id_id", "country": "country"})
 ```
 
 ### Common Methods
@@ -779,7 +742,173 @@ Set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `PhotoStationEntity` instance with the same options.
+Create a new `PhotoStationByIdEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## PhotoStationsByCountryEntity
+
+```python
+photo_stations_by_country = client.PhotoStationsByCountry()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `str` | No |  |
+| `licenses` | `list` | Yes | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `str` | Yes | Base URL of all photos |
+| `photographers` | `list` | Yes | List of all photographers, might be empty if no photos available |
+| `stations` | `list` | Yes | List of the stations |
+
+### Operations
+
+#### `load(reqmatch, ctrl=None) -> dict`
+
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
+
+```python
+result = client.PhotoStationsByCountry().load({"id": "photo_stations_by_country_id"})
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `PhotoStationsByCountryEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## PhotoStationsByPhotographerEntity
+
+```python
+photo_stations_by_photographer = client.PhotoStationsByPhotographer()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `str` | No |  |
+| `licenses` | `list` | Yes | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `str` | Yes | Base URL of all photos |
+| `photographers` | `list` | Yes | List of all photographers, might be empty if no photos available |
+| `stations` | `list` | Yes | List of the stations |
+
+### Operations
+
+#### `load(reqmatch, ctrl=None) -> dict`
+
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
+
+```python
+result = client.PhotoStationsByPhotographer().load({"id": "photo_stations_by_photographer_id"})
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `PhotoStationsByPhotographerEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## PhotoStationsByRecentPhotoImportEntity
+
+```python
+photo_stations_by_recent_photo_import = client.PhotoStationsByRecentPhotoImport()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `licenses` | `list` | Yes | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `str` | Yes | Base URL of all photos |
+| `photographers` | `list` | Yes | List of all photographers, might be empty if no photos available |
+| `stations` | `list` | Yes | List of the stations |
+
+### Operations
+
+#### `list(reqmatch=None, ctrl=None) -> list`
+
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+
+```python
+results = client.PhotoStationsByRecentPhotoImport().list()
+for photo_stations_by_recent_photo_import in results:
+    print(photo_stations_by_recent_photo_import)
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `PhotoStationsByRecentPhotoImportEntity` instance with the same options.
 
 #### `get_name() -> str`
 

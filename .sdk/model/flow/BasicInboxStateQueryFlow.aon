@@ -1,9 +1,0 @@
-# BasicInboxStateQueryFlow
-
-main: kit: flow: BasicInboxStateQueryFlow:
-{
-  entity: "inbox_state_query",
-  kind: "basic",
-  name: "BasicInboxStateQueryFlow",
-  "key$": "BasicInboxStateQueryFlow"
-}

@@ -1,7 +1,7 @@
 # Typed models for the RailwayStationPhotos SDK.
 #
-# GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-# params (op.<name>.points[].args.params[]). Field/param types come from the
+# GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+# params (op.<name>.points[].g.params[]). Field/param types come from the
 # canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 # @voxgig/apidef VALID_CANON). Do not edit by hand.
 #
@@ -188,10 +188,6 @@ class InboxEntryListMatch(TypedDict, total=False):
     title: str
 
 
-class InboxStateQuery(TypedDict):
-    pass
-
-
 class OAuthTokenRequired(TypedDict):
     access_token: str
     scope: str
@@ -260,27 +256,69 @@ class PhotoDownloadLoadMatch(PhotoDownloadLoadMatchRequired, total=False):
     width: int
 
 
-class PhotoStationRequired(TypedDict):
+class PhotoStationByIdRequired(TypedDict):
     licenses: list
     photoBaseUrl: str
     photographers: list
     stations: list
 
 
-class PhotoStation(PhotoStationRequired, total=False):
+class PhotoStationById(PhotoStationByIdRequired, total=False):
     id: str
 
 
-class PhotoStationLoadMatchRequired(TypedDict):
+class PhotoStationByIdLoadMatch(TypedDict):
     country: str
+    id: str
 
 
-class PhotoStationLoadMatch(PhotoStationLoadMatchRequired, total=False):
+class PhotoStationsByCountryRequired(TypedDict):
+    licenses: list
+    photoBaseUrl: str
+    photographers: list
+    stations: list
+
+
+class PhotoStationsByCountry(PhotoStationsByCountryRequired, total=False):
+    id: str
+
+
+class PhotoStationsByCountryLoadMatchRequired(TypedDict):
+    id: str
+
+
+class PhotoStationsByCountryLoadMatch(PhotoStationsByCountryLoadMatchRequired, total=False):
     has_photo: bool
     is_active: bool
 
 
-class PhotoStationListMatch(TypedDict, total=False):
+class PhotoStationsByPhotographerRequired(TypedDict):
+    licenses: list
+    photoBaseUrl: str
+    photographers: list
+    stations: list
+
+
+class PhotoStationsByPhotographer(PhotoStationsByPhotographerRequired, total=False):
+    id: str
+
+
+class PhotoStationsByPhotographerLoadMatchRequired(TypedDict):
+    id: str
+
+
+class PhotoStationsByPhotographerLoadMatch(PhotoStationsByPhotographerLoadMatchRequired, total=False):
+    country: str
+
+
+class PhotoStationsByRecentPhotoImport(TypedDict):
+    licenses: list
+    photoBaseUrl: str
+    photographers: list
+    stations: list
+
+
+class PhotoStationsByRecentPhotoImportListMatch(TypedDict, total=False):
     since_hour: int
 
 

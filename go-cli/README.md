@@ -94,7 +94,7 @@ make build-all   # linux/darwin/windows x amd64/arm64, under dist/<os>-<arch>/
 ### Discover the available entities
 
 `/help` in the REPL prints the full entity list, or see [Entities](#entities)
-below — this SDK exposes 16 entities.
+below — this SDK exposes 18 entities.
 
 ## Reference
 
@@ -148,9 +148,9 @@ Meta-commands use the `/` prefix (everything else on a line is evaluated as boru
 
 ### Entities
 
-The 16 entities this SDK exposes (any is valid as `<entity>`):
+The 18 entities this SDK exposes (any is valid as `<entity>`):
 
-admin_inbox country inbox inbox_count inbox_entry inbox_state_query o_auth_token oauth photo photo_download photo_station photo_upload photographer profile public_inbox stat
+admin_inbox country inbox inbox_count inbox_entry o_auth_token oauth photo photo_download photo_station_by_id photo_stations_by_country photo_stations_by_photographer photo_stations_by_recent_photo_import photo_upload photographer profile public_inbox stat
 
 ## Explanation
 

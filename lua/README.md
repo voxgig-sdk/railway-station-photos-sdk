@@ -33,14 +33,14 @@ local sdk = require("railway-station-photos_sdk")
 local client = sdk.new()
 ```
 
-### 3. Load a photo
+### 3. Load a photodownload
 
-Photo is nested under country, so provide the `country`.
+PhotoDownload is nested under filename, so provide the `filename`.
 
 ```lua
-local photo, err = client:Photo():load({ country = "example_country", filename = "example_filename" })
+local photodownload, err = client:PhotoDownload():load({ filename = "example_filename" })
 if err then error(err) end
-print(photo)
+print(photodownload)
 ```
 
 ### 4. Create, update, and remove
@@ -201,12 +201,14 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `Inbox` | `(data) -> InboxEntity` | Create an Inbox entity instance. |
 | `InboxCount` | `(data) -> InboxCountEntity` | Create an InboxCount entity instance. |
 | `InboxEntry` | `(data) -> InboxEntryEntity` | Create an InboxEntry entity instance. |
-| `InboxStateQuery` | `(data) -> InboxStateQueryEntity` | Create an InboxStateQuery entity instance. |
 | `OAuthToken` | `(data) -> OAuthTokenEntity` | Create an OAuthToken entity instance. |
 | `Oauth` | `(data) -> OauthEntity` | Create an Oauth entity instance. |
 | `Photo` | `(data) -> PhotoEntity` | Create a Photo entity instance. |
 | `PhotoDownload` | `(data) -> PhotoDownloadEntity` | Create a PhotoDownload entity instance. |
-| `PhotoStation` | `(data) -> PhotoStationEntity` | Create a PhotoStation entity instance. |
+| `PhotoStationById` | `(data) -> PhotoStationByIdEntity` | Create a PhotoStationById entity instance. |
+| `PhotoStationsByCountry` | `(data) -> PhotoStationsByCountryEntity` | Create a PhotoStationsByCountry entity instance. |
+| `PhotoStationsByPhotographer` | `(data) -> PhotoStationsByPhotographerEntity` | Create a PhotoStationsByPhotographer entity instance. |
+| `PhotoStationsByRecentPhotoImport` | `(data) -> PhotoStationsByRecentPhotoImportEntity` | Create a PhotoStationsByRecentPhotoImport entity instance. |
 | `PhotoUpload` | `(data) -> PhotoUploadEntity` | Create a PhotoUpload entity instance. |
 | `Photographer` | `(data) -> PhotographerEntity` | Create a Photographer entity instance. |
 | `Profile` | `(data) -> ProfileEntity` | Create a Profile entity instance. |
@@ -358,15 +360,6 @@ Operations: List.
 
 API path: `/adminInbox`
 
-#### InboxStateQuery
-
-| Field | Description |
-| --- | --- |
-
-Operations: .
-
-API path: ``
-
 #### OAuthToken
 
 | Field | Description |
@@ -409,7 +402,7 @@ Operations: Load.
 
 API path: `/inbox/done/{filename}`
 
-#### PhotoStation
+#### PhotoStationById
 
 | Field | Description |
 | --- | --- |
@@ -419,7 +412,48 @@ API path: `/inbox/done/{filename}`
 | `photographers` | List of all photographers, might be empty if no photos available |
 | `stations` | List of the stations |
 
-Operations: List, Load.
+Operations: Load.
+
+API path: `/photoStationById/{country}/{id}`
+
+#### PhotoStationsByCountry
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+| `licenses` | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | Base URL of all photos |
+| `photographers` | List of all photographers, might be empty if no photos available |
+| `stations` | List of the stations |
+
+Operations: Load.
+
+API path: `/photoStationsByCountry/{country}`
+
+#### PhotoStationsByPhotographer
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+| `licenses` | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | Base URL of all photos |
+| `photographers` | List of all photographers, might be empty if no photos available |
+| `stations` | List of the stations |
+
+Operations: Load.
+
+API path: `/photoStationsByPhotographer/{photographer}`
+
+#### PhotoStationsByRecentPhotoImport
+
+| Field | Description |
+| --- | --- |
+| `licenses` | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | Base URL of all photos |
+| `photographers` | List of all photographers, might be empty if no photos available |
+| `stations` | List of the stations |
+
+Operations: List.
 
 API path: `/photoStationsByRecentPhotoImports`
 
@@ -681,11 +715,6 @@ local inbox_entrys, err = client:InboxEntry():list()
 ```
 
 
-### InboxStateQuery
-
-Create an instance: `local inbox_state_query = client:InboxStateQuery(nil)`
-
-
 ### OAuthToken
 
 Create an instance: `local o_auth_token = client:OAuthToken(nil)`
@@ -782,15 +811,14 @@ local photo_download, err = client:PhotoDownload():load({ filename = "filename" 
 ```
 
 
-### PhotoStation
+### PhotoStationById
 
-Create an instance: `local photo_station = client:PhotoStation(nil)`
+Create an instance: `local photo_station_by_id = client:PhotoStationById(nil)`
 
 #### Operations
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
@@ -806,13 +834,87 @@ Create an instance: `local photo_station = client:PhotoStation(nil)`
 #### Example: Load
 
 ```lua
-local photo_station, err = client:PhotoStation():load({ country = "country" })
+local photo_station_by_id, err = client:PhotoStationById():load({ id = "photo_station_by_id_id", country = "country" })
 ```
+
+
+### PhotoStationsByCountry
+
+Create an instance: `local photo_stations_by_country = client:PhotoStationsByCountry(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+| `licenses` | `table` | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `string` | Base URL of all photos |
+| `photographers` | `table` | List of all photographers, might be empty if no photos available |
+| `stations` | `table` | List of the stations |
+
+#### Example: Load
+
+```lua
+local photo_stations_by_country, err = client:PhotoStationsByCountry():load({ id = "photo_stations_by_country_id" })
+```
+
+
+### PhotoStationsByPhotographer
+
+Create an instance: `local photo_stations_by_photographer = client:PhotoStationsByPhotographer(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+| `licenses` | `table` | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `string` | Base URL of all photos |
+| `photographers` | `table` | List of all photographers, might be empty if no photos available |
+| `stations` | `table` | List of the stations |
+
+#### Example: Load
+
+```lua
+local photo_stations_by_photographer, err = client:PhotoStationsByPhotographer():load({ id = "photo_stations_by_photographer_id" })
+```
+
+
+### PhotoStationsByRecentPhotoImport
+
+Create an instance: `local photo_stations_by_recent_photo_import = client:PhotoStationsByRecentPhotoImport(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `list(match)` | List entities matching the criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `licenses` | `table` | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `string` | Base URL of all photos |
+| `photographers` | `table` | List of all photographers, might be empty if no photos available |
+| `stations` | `table` | List of the stations |
 
 #### Example: List
 
 ```lua
-local photo_stations, err = client:PhotoStation():list()
+local photo_stations_by_recent_photo_imports, err = client:PhotoStationsByRecentPhotoImport():list()
 ```
 
 

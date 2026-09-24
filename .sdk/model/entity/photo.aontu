@@ -1,0 +1,95 @@
+# Entity: photo
+
+main: kit: entity: photo: {
+
+  alias: field: {}
+
+  fields: {
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+    parts: [
+      "country"
+      "filename"
+    ]
+    sep: "/"
+  }
+
+  name: "photo"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /photos/{country}/{filename}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "country"
+                or: "country"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "param"
+                n: "filename"
+                or: "filename"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "width"
+                or: "width"
+                r: false
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/photos/{country}/{filename}"
+          q: {
+            exist: [
+              "country"
+              "filename"
+              "width"
+            ]
+          }
+          s: [
+            {
+              lit: "photos"
+            }
+            {
+              var: "country"
+            }
+            {
+              var: "filename"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

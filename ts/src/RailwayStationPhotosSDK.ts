@@ -5,12 +5,14 @@ import { CountryEntity } from './entity/CountryEntity'
 import { InboxEntity } from './entity/InboxEntity'
 import { InboxCountEntity } from './entity/InboxCountEntity'
 import { InboxEntryEntity } from './entity/InboxEntryEntity'
-import { InboxStateQueryEntity } from './entity/InboxStateQueryEntity'
 import { OAuthTokenEntity } from './entity/OAuthTokenEntity'
 import { OauthEntity } from './entity/OauthEntity'
 import { PhotoEntity } from './entity/PhotoEntity'
 import { PhotoDownloadEntity } from './entity/PhotoDownloadEntity'
-import { PhotoStationEntity } from './entity/PhotoStationEntity'
+import { PhotoStationByIdEntity } from './entity/PhotoStationByIdEntity'
+import { PhotoStationsByCountryEntity } from './entity/PhotoStationsByCountryEntity'
+import { PhotoStationsByPhotographerEntity } from './entity/PhotoStationsByPhotographerEntity'
+import { PhotoStationsByRecentPhotoImportEntity } from './entity/PhotoStationsByRecentPhotoImportEntity'
 import { PhotoUploadEntity } from './entity/PhotoUploadEntity'
 import { PhotographerEntity } from './entity/PhotographerEntity'
 import { ProfileEntity } from './entity/ProfileEntity'
@@ -139,7 +141,6 @@ class RailwayStationPhotosSDK {
 
     const options = this._options
 
-    // Build spec directly from SDK options + user-provided fetch args.
     const spec: any = {
       base: options.base,
       prefix: options.prefix,
@@ -155,7 +156,6 @@ class RailwayStationPhotosSDK {
 
     ctx.spec = spec
 
-    // Merge user-provided headers over SDK defaults.
     if (fetchargs.headers) {
       const uheaders = fetchargs.headers
       for (let key in uheaders) {
@@ -165,7 +165,6 @@ class RailwayStationPhotosSDK {
 
     
 
-    // Apply SDK auth (apikey, auth prefix, etc.)
     const authResult = prepareAuth(ctx)
     if (authResult instanceof Error) {
       return authResult
@@ -258,18 +257,6 @@ class RailwayStationPhotosSDK {
 
 
 
-  // Raw GraphQL access: the pressure valve that makes the generated
-  // surface's deliberate omissions (per-call selection sets, typed filter
-  // builders, batching, subscriptions) livable — the whole schema stays
-  // reachable.
-  //
-  // Thin wrapper over the same prepare/fetch path `direct` uses, with the
-  // one thing raw `direct` cannot do for GraphQL: a GraphQL failure rides
-  // HTTP 200 as a top-level `errors` array, so status alone would report a
-  // failed query as ok.
-  //
-  // NOTE: like `direct`, this bypasses the feature pipeline — no retry,
-  // ratelimit or paging features apply.
   async graphql(query: string, variables?: any, ctrl?: any) {
     const options = this._options
 
@@ -357,15 +344,6 @@ class RailwayStationPhotosSDK {
   }
 
 
-  // Entity access: `client.InboxStateQuery().list()` / `client.InboxStateQuery().load({ id })`.
-  // The argument is the entity OPTIONS object (passed to the entity
-  // constructor as entopts), not initial entity data.
-  InboxStateQuery(entopts?: Record<string, any>) {
-    const self = this
-    return new InboxStateQueryEntity(self, entopts)
-  }
-
-
   // Entity access: `client.OAuthToken().list()` / `client.OAuthToken().load({ id })`.
   // The argument is the entity OPTIONS object (passed to the entity
   // constructor as entopts), not initial entity data.
@@ -402,12 +380,39 @@ class RailwayStationPhotosSDK {
   }
 
 
-  // Entity access: `client.PhotoStation().list()` / `client.PhotoStation().load({ id })`.
+  // Entity access: `client.PhotoStationById().list()` / `client.PhotoStationById().load({ id })`.
   // The argument is the entity OPTIONS object (passed to the entity
   // constructor as entopts), not initial entity data.
-  PhotoStation(entopts?: Record<string, any>) {
+  PhotoStationById(entopts?: Record<string, any>) {
     const self = this
-    return new PhotoStationEntity(self, entopts)
+    return new PhotoStationByIdEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.PhotoStationsByCountry().list()` / `client.PhotoStationsByCountry().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  PhotoStationsByCountry(entopts?: Record<string, any>) {
+    const self = this
+    return new PhotoStationsByCountryEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.PhotoStationsByPhotographer().list()` / `client.PhotoStationsByPhotographer().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  PhotoStationsByPhotographer(entopts?: Record<string, any>) {
+    const self = this
+    return new PhotoStationsByPhotographerEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.PhotoStationsByRecentPhotoImport().list()` / `client.PhotoStationsByRecentPhotoImport().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  PhotoStationsByRecentPhotoImport(entopts?: Record<string, any>) {
+    const self = this
+    return new PhotoStationsByRecentPhotoImportEntity(self, entopts)
   }
 
 

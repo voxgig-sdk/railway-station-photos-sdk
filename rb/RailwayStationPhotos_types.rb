@@ -2,8 +2,8 @@
 
 # Typed models for the RailwayStationPhotos SDK.
 #
-# GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-# params (op.<name>.points[].args.params[]). Member types come from the
+# GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+# params (op.<name>.points[].g.params[]). Member types come from the
 # canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 # @voxgig/apidef VALID_CANON). Ruby types are unenforced; these YARD
 # annotations document the shapes. Do not edit by hand.
@@ -540,10 +540,6 @@ InboxEntryListMatch = Struct.new(
   keyword_init: true
 )
 
-# InboxStateQuery entity data model.
-class InboxStateQuery
-end
-
 # OAuthToken entity data model.
 #
 # @!attribute [rw] access_token
@@ -678,7 +674,7 @@ PhotoDownloadLoadMatch = Struct.new(
   keyword_init: true
 )
 
-# PhotoStation entity data model.
+# PhotoStationById entity data model.
 #
 # @!attribute [rw] id
 #   @return [String, nil]
@@ -694,7 +690,7 @@ PhotoDownloadLoadMatch = Struct.new(
 #
 # @!attribute [rw] stations
 #   @return [Array]
-PhotoStation = Struct.new(
+PhotoStationById = Struct.new(
   :id,
   :licenses,
   :photoBaseUrl,
@@ -703,9 +699,47 @@ PhotoStation = Struct.new(
   keyword_init: true
 )
 
-# Request payload for PhotoStation#load.
+# Request payload for PhotoStationById#load.
 #
 # @!attribute [rw] country
+#   @return [String]
+#
+# @!attribute [rw] id
+#   @return [String]
+PhotoStationByIdLoadMatch = Struct.new(
+  :country,
+  :id,
+  keyword_init: true
+)
+
+# PhotoStationsByCountry entity data model.
+#
+# @!attribute [rw] id
+#   @return [String, nil]
+#
+# @!attribute [rw] licenses
+#   @return [Array]
+#
+# @!attribute [rw] photoBaseUrl
+#   @return [String]
+#
+# @!attribute [rw] photographers
+#   @return [Array]
+#
+# @!attribute [rw] stations
+#   @return [Array]
+PhotoStationsByCountry = Struct.new(
+  :id,
+  :licenses,
+  :photoBaseUrl,
+  :photographers,
+  :stations,
+  keyword_init: true
+)
+
+# Request payload for PhotoStationsByCountry#load.
+#
+# @!attribute [rw] id
 #   @return [String]
 #
 # @!attribute [rw] has_photo
@@ -713,18 +747,77 @@ PhotoStation = Struct.new(
 #
 # @!attribute [rw] is_active
 #   @return [Boolean, nil]
-PhotoStationLoadMatch = Struct.new(
-  :country,
+PhotoStationsByCountryLoadMatch = Struct.new(
+  :id,
   :has_photo,
   :is_active,
   keyword_init: true
 )
 
-# Request payload for PhotoStation#list.
+# PhotoStationsByPhotographer entity data model.
+#
+# @!attribute [rw] id
+#   @return [String, nil]
+#
+# @!attribute [rw] licenses
+#   @return [Array]
+#
+# @!attribute [rw] photoBaseUrl
+#   @return [String]
+#
+# @!attribute [rw] photographers
+#   @return [Array]
+#
+# @!attribute [rw] stations
+#   @return [Array]
+PhotoStationsByPhotographer = Struct.new(
+  :id,
+  :licenses,
+  :photoBaseUrl,
+  :photographers,
+  :stations,
+  keyword_init: true
+)
+
+# Request payload for PhotoStationsByPhotographer#load.
+#
+# @!attribute [rw] id
+#   @return [String]
+#
+# @!attribute [rw] country
+#   @return [String, nil]
+PhotoStationsByPhotographerLoadMatch = Struct.new(
+  :id,
+  :country,
+  keyword_init: true
+)
+
+# PhotoStationsByRecentPhotoImport entity data model.
+#
+# @!attribute [rw] licenses
+#   @return [Array]
+#
+# @!attribute [rw] photoBaseUrl
+#   @return [String]
+#
+# @!attribute [rw] photographers
+#   @return [Array]
+#
+# @!attribute [rw] stations
+#   @return [Array]
+PhotoStationsByRecentPhotoImport = Struct.new(
+  :licenses,
+  :photoBaseUrl,
+  :photographers,
+  :stations,
+  keyword_init: true
+)
+
+# Request payload for PhotoStationsByRecentPhotoImport#list.
 #
 # @!attribute [rw] since_hour
 #   @return [Integer, nil]
-PhotoStationListMatch = Struct.new(
+PhotoStationsByRecentPhotoImportListMatch = Struct.new(
   :since_hour,
   keyword_init: true
 )

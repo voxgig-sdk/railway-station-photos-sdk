@@ -1,0 +1,55 @@
+# Entity: photographer
+
+main: kit: entity: photographer: {
+
+  alias: field: {}
+
+  name: "photographer"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /photographers"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "country"
+                or: "country"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/photographers"
+          q: {
+            exist: [
+              "country"
+            ]
+          }
+          s: [
+            {
+              lit: "photographers"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  fields: {
+  }
+
+
+
+}

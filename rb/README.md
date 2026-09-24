@@ -30,15 +30,15 @@ require_relative "RailwayStationPhotos_sdk"
 client = RailwayStationPhotosSDK.new
 ```
 
-### 3. Load a photo
+### 3. Load a photodownload
 
-Photo is nested under country, so provide the `country`.
+PhotoDownload is nested under filename, so provide the `filename`.
 
 ```ruby
 begin
-  # load returns the ENTITY — call data_get for the Photo record (raises on error).
-  photo = client.Photo.load({ "country" => "example_country", "filename" => "example_filename" })
-  puts photo
+  # load returns the ENTITY — call data_get for the PhotoDownload record (raises on error).
+  photodownload = client.PhotoDownload.load({ "filename" => "example_filename" })
+  puts photodownload
 rescue => err
   warn "load failed: #{err}"
 end
@@ -211,12 +211,14 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `Inbox` | `(data) -> InboxEntity` | Create an Inbox entity instance. |
 | `InboxCount` | `(data) -> InboxCountEntity` | Create an InboxCount entity instance. |
 | `InboxEntry` | `(data) -> InboxEntryEntity` | Create an InboxEntry entity instance. |
-| `InboxStateQuery` | `(data) -> InboxStateQueryEntity` | Create an InboxStateQuery entity instance. |
 | `OAuthToken` | `(data) -> OAuthTokenEntity` | Create an OAuthToken entity instance. |
 | `Oauth` | `(data) -> OauthEntity` | Create an Oauth entity instance. |
 | `Photo` | `(data) -> PhotoEntity` | Create a Photo entity instance. |
 | `PhotoDownload` | `(data) -> PhotoDownloadEntity` | Create a PhotoDownload entity instance. |
-| `PhotoStation` | `(data) -> PhotoStationEntity` | Create a PhotoStation entity instance. |
+| `PhotoStationById` | `(data) -> PhotoStationByIdEntity` | Create a PhotoStationById entity instance. |
+| `PhotoStationsByCountry` | `(data) -> PhotoStationsByCountryEntity` | Create a PhotoStationsByCountry entity instance. |
+| `PhotoStationsByPhotographer` | `(data) -> PhotoStationsByPhotographerEntity` | Create a PhotoStationsByPhotographer entity instance. |
+| `PhotoStationsByRecentPhotoImport` | `(data) -> PhotoStationsByRecentPhotoImportEntity` | Create a PhotoStationsByRecentPhotoImport entity instance. |
 | `PhotoUpload` | `(data) -> PhotoUploadEntity` | Create a PhotoUpload entity instance. |
 | `Photographer` | `(data) -> PhotographerEntity` | Create a Photographer entity instance. |
 | `Profile` | `(data) -> ProfileEntity` | Create a Profile entity instance. |
@@ -366,15 +368,6 @@ Operations: List.
 
 API path: `/adminInbox`
 
-#### InboxStateQuery
-
-| Field | Description |
-| --- | --- |
-
-Operations: .
-
-API path: ``
-
 #### OAuthToken
 
 | Field | Description |
@@ -417,7 +410,7 @@ Operations: Load.
 
 API path: `/inbox/done/{filename}`
 
-#### PhotoStation
+#### PhotoStationById
 
 | Field | Description |
 | --- | --- |
@@ -427,7 +420,48 @@ API path: `/inbox/done/{filename}`
 | `photographers` | List of all photographers, might be empty if no photos available |
 | `stations` | List of the stations |
 
-Operations: List, Load.
+Operations: Load.
+
+API path: `/photoStationById/{country}/{id}`
+
+#### PhotoStationsByCountry
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+| `licenses` | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | Base URL of all photos |
+| `photographers` | List of all photographers, might be empty if no photos available |
+| `stations` | List of the stations |
+
+Operations: Load.
+
+API path: `/photoStationsByCountry/{country}`
+
+#### PhotoStationsByPhotographer
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+| `licenses` | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | Base URL of all photos |
+| `photographers` | List of all photographers, might be empty if no photos available |
+| `stations` | List of the stations |
+
+Operations: Load.
+
+API path: `/photoStationsByPhotographer/{photographer}`
+
+#### PhotoStationsByRecentPhotoImport
+
+| Field | Description |
+| --- | --- |
+| `licenses` | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | Base URL of all photos |
+| `photographers` | List of all photographers, might be empty if no photos available |
+| `stations` | List of the stations |
+
+Operations: List.
 
 API path: `/photoStationsByRecentPhotoImports`
 
@@ -693,11 +727,6 @@ inbox_entrys = client.InboxEntry.list
 ```
 
 
-### InboxStateQuery
-
-Create an instance: `inbox_state_query = client.InboxStateQuery`
-
-
 ### OAuthToken
 
 Create an instance: `o_auth_token = client.OAuthToken`
@@ -797,15 +826,14 @@ photo_download = client.PhotoDownload.load({ "filename" => "filename" })
 ```
 
 
-### PhotoStation
+### PhotoStationById
 
-Create an instance: `photo_station = client.PhotoStation`
+Create an instance: `photo_station_by_id = client.PhotoStationById`
 
 #### Operations
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
@@ -821,15 +849,91 @@ Create an instance: `photo_station = client.PhotoStation`
 #### Example: Load
 
 ```ruby
-# load returns the ENTITY — call data_get for the PhotoStation record (raises on error).
-photo_station = client.PhotoStation.load({ "country" => "country" })
+# load returns the ENTITY — call data_get for the PhotoStationById record (raises on error).
+photo_station_by_id = client.PhotoStationById.load({ "id" => "photo_station_by_id_id", "country" => "country" })
 ```
+
+
+### PhotoStationsByCountry
+
+Create an instance: `photo_stations_by_country = client.PhotoStationsByCountry`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `String` |  |
+| `licenses` | `Array` | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `String` | Base URL of all photos |
+| `photographers` | `Array` | List of all photographers, might be empty if no photos available |
+| `stations` | `Array` | List of the stations |
+
+#### Example: Load
+
+```ruby
+# load returns the ENTITY — call data_get for the PhotoStationsByCountry record (raises on error).
+photo_stations_by_country = client.PhotoStationsByCountry.load({ "id" => "photo_stations_by_country_id" })
+```
+
+
+### PhotoStationsByPhotographer
+
+Create an instance: `photo_stations_by_photographer = client.PhotoStationsByPhotographer`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `String` |  |
+| `licenses` | `Array` | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `String` | Base URL of all photos |
+| `photographers` | `Array` | List of all photographers, might be empty if no photos available |
+| `stations` | `Array` | List of the stations |
+
+#### Example: Load
+
+```ruby
+# load returns the ENTITY — call data_get for the PhotoStationsByPhotographer record (raises on error).
+photo_stations_by_photographer = client.PhotoStationsByPhotographer.load({ "id" => "photo_stations_by_photographer_id" })
+```
+
+
+### PhotoStationsByRecentPhotoImport
+
+Create an instance: `photo_stations_by_recent_photo_import = client.PhotoStationsByRecentPhotoImport`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `list(match)` | List entities matching the criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `licenses` | `Array` | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `String` | Base URL of all photos |
+| `photographers` | `Array` | List of all photographers, might be empty if no photos available |
+| `stations` | `Array` | List of the stations |
 
 #### Example: List
 
 ```ruby
-# list returns an Array of PhotoStation records (raises on error).
-photo_stations = client.PhotoStation.list
+# list returns an Array of PhotoStationsByRecentPhotoImport records (raises on error).
+photo_stations_by_recent_photo_imports = client.PhotoStationsByRecentPhotoImport.list
 ```
 
 

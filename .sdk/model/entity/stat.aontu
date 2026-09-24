@@ -1,0 +1,90 @@
+# Entity: stat
+
+main: kit: entity: stat: {
+
+  alias: field: {}
+
+  fields: {
+    countryCode: {
+      h: "Country Code"
+      n: "countryCode"
+      r: false
+      sh: "an optional two character country code"
+      t: "`$STRING`"
+    }
+    photographers: {
+      fo: "int64"
+      h: "Photographers"
+      n: "photographers"
+      r: true
+      t: "`$INTEGER`"
+    }
+    total: {
+      fo: "int64"
+      h: "Total"
+      n: "total"
+      r: true
+      t: "`$INTEGER`"
+    }
+    withPhoto: {
+      fo: "int64"
+      h: "With Photo"
+      n: "withPhoto"
+      r: true
+      t: "`$INTEGER`"
+    }
+    withoutPhoto: {
+      fo: "int64"
+      h: "Without Photo"
+      n: "withoutPhoto"
+      r: true
+      t: "`$INTEGER`"
+    }
+  }
+
+  name: "stat"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /stats"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "country"
+                or: "country"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/stats"
+          q: {
+            exist: [
+              "country"
+            ]
+          }
+          s: [
+            {
+              lit: "stats"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

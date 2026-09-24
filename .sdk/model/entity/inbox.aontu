@@ -1,0 +1,299 @@
+# Entity: inbox
+
+main: kit: entity: inbox: {
+
+  alias: field: {}
+
+  fields: {
+    comment: {
+      h: "Comment"
+      n: "comment"
+      r: false
+      t: "`$STRING`"
+    }
+    countryCode: {
+      h: "Country Code"
+      n: "countryCode"
+      r: false
+      sh: "a two character country code"
+      t: "`$STRING`"
+    }
+    crc32: {
+      fo: "int64"
+      h: "Crc32"
+      n: "crc32"
+      r: false
+      sh: "CRC32 checksum of the uploaded photo"
+      t: "`$INTEGER`"
+    }
+    createdAt: {
+      fo: "int64"
+      h: "Created At"
+      n: "createdAt"
+      r: false
+      t: "`$INTEGER`"
+    }
+    filename: {
+      h: "Filename"
+      n: "filename"
+      r: false
+      sh: "filename in inbox"
+      t: "`$STRING`"
+    }
+    id: {
+      fo: "int64"
+      h: "Id"
+      n: "id"
+      r: true
+      t: "`$INTEGER`"
+    }
+    inboxUrl: {
+      h: "Inbox Url"
+      n: "inboxUrl"
+      r: false
+      sh: "url of the photo in the inbox"
+      t: "`$STRING`"
+    }
+    lat: {
+      fo: "double"
+      h: "Lat"
+      n: "lat"
+      r: false
+      t: "`$NUMBER`"
+    }
+    lon: {
+      fo: "double"
+      h: "Lon"
+      n: "lon"
+      r: false
+      t: "`$NUMBER`"
+    }
+    newLat: {
+      fo: "double"
+      h: "New Lat"
+      n: "newLat"
+      r: false
+      t: "`$NUMBER`"
+    }
+    newLon: {
+      fo: "double"
+      h: "New Lon"
+      n: "newLon"
+      r: false
+      t: "`$NUMBER`"
+    }
+    newTitle: {
+      h: "New Title"
+      n: "newTitle"
+      r: false
+      t: "`$STRING`"
+    }
+    problemReportType: {
+      h: "Problem Report Type"
+      n: "problemReportType"
+      r: false
+      sh: "types of problem reports"
+      t: "`$STRING`"
+    }
+    rejectedReason: {
+      h: "Rejected Reason"
+      n: "rejectedReason"
+      r: false
+      t: "`$STRING`"
+    }
+    state: {
+      h: "State"
+      n: "state"
+      r: true
+      t: "`$STRING`"
+    }
+    stationId: {
+      h: "Station Id"
+      n: "stationId"
+      r: false
+      t: "`$STRING`"
+    }
+    title: {
+      h: "Title"
+      n: "title"
+      r: false
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "inbox"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /reportProblem"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "authorization"
+                or: "authorization"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/reportProblem"
+          q: {
+            exist: [
+              "authorization"
+            ]
+          }
+          s: [
+            {
+              lit: "reportProblem"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "POST /userInbox"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "authorization"
+                or: "authorization"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/userInbox"
+          q: {
+            exist: [
+              "authorization"
+            ]
+          }
+          s: [
+            {
+              lit: "userInbox"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /userInbox"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "authorization"
+                or: "authorization"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "show_completed_entry"
+                or: "show_completed_entry"
+                r: false
+                t: "`$BOOLEAN`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/userInbox"
+          q: {
+            exist: [
+              "authorization"
+              "show_completed_entry"
+            ]
+          }
+          s: [
+            {
+              lit: "userInbox"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          co: {
+            id: "DELETE /userInbox/{id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "id"
+                r: true
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "DELETE"
+          o: "/userInbox/{id}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          s: [
+            {
+              lit: "userInbox"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

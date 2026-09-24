@@ -33,18 +33,17 @@ import { RailwayStationPhotosSDK } from '@voxgig-sdk/railway-station-photos-sdk'
 const client = new RailwayStationPhotosSDK()
 ```
 
-### 3. Load a photo
+### 3. Load a photodownload
 
-Photo is nested under country, so provide the `country`.
+PhotoDownload is nested under filename, so provide the `filename`.
 `load()` returns the entity directly and throws on failure:
 
 ```ts
 try {
-  const photo = await client.Photo().load({
-    country: 'example_country',
+  const photodownload = await client.PhotoDownload().load({
     filename: 'example_filename',
   })
-  console.log(photo)
+  console.log(photodownload)
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -243,12 +242,14 @@ new RailwayStationPhotosSDK(options?: {
 | `Inbox(data?)` | `InboxEntity` | Create an Inbox entity instance. |
 | `InboxCount(data?)` | `InboxCountEntity` | Create an InboxCount entity instance. |
 | `InboxEntry(data?)` | `InboxEntryEntity` | Create an InboxEntry entity instance. |
-| `InboxStateQuery(data?)` | `InboxStateQueryEntity` | Create an InboxStateQuery entity instance. |
 | `OAuthToken(data?)` | `OAuthTokenEntity` | Create an OAuthToken entity instance. |
 | `Oauth(data?)` | `OauthEntity` | Create an Oauth entity instance. |
 | `Photo(data?)` | `PhotoEntity` | Create a Photo entity instance. |
 | `PhotoDownload(data?)` | `PhotoDownloadEntity` | Create a PhotoDownload entity instance. |
-| `PhotoStation(data?)` | `PhotoStationEntity` | Create a PhotoStation entity instance. |
+| `PhotoStationById(data?)` | `PhotoStationByIdEntity` | Create a PhotoStationById entity instance. |
+| `PhotoStationsByCountry(data?)` | `PhotoStationsByCountryEntity` | Create a PhotoStationsByCountry entity instance. |
+| `PhotoStationsByPhotographer(data?)` | `PhotoStationsByPhotographerEntity` | Create a PhotoStationsByPhotographer entity instance. |
+| `PhotoStationsByRecentPhotoImport(data?)` | `PhotoStationsByRecentPhotoImportEntity` | Create a PhotoStationsByRecentPhotoImport entity instance. |
 | `PhotoUpload(data?)` | `PhotoUploadEntity` | Create a PhotoUpload entity instance. |
 | `Photographer(data?)` | `PhotographerEntity` | Create a Photographer entity instance. |
 | `Profile(data?)` | `ProfileEntity` | Create a Profile entity instance. |
@@ -431,15 +432,6 @@ Operations: list.
 
 API path: `/adminInbox`
 
-#### InboxStateQuery
-
-| Field | Description |
-| --- | --- |
-
-Operations: .
-
-API path: ``
-
 #### OAuthToken
 
 | Field | Description |
@@ -482,7 +474,7 @@ Operations: load.
 
 API path: `/inbox/done/{filename}`
 
-#### PhotoStation
+#### PhotoStationById
 
 | Field | Description |
 | --- | --- |
@@ -492,7 +484,48 @@ API path: `/inbox/done/{filename}`
 | `photographers` | List of all photographers, might be empty if no photos available |
 | `stations` | List of the stations |
 
-Operations: list, load.
+Operations: load.
+
+API path: `/photoStationById/{country}/{id}`
+
+#### PhotoStationsByCountry
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+| `licenses` | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | Base URL of all photos |
+| `photographers` | List of all photographers, might be empty if no photos available |
+| `stations` | List of the stations |
+
+Operations: load.
+
+API path: `/photoStationsByCountry/{country}`
+
+#### PhotoStationsByPhotographer
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+| `licenses` | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | Base URL of all photos |
+| `photographers` | List of all photographers, might be empty if no photos available |
+| `stations` | List of the stations |
+
+Operations: load.
+
+API path: `/photoStationsByPhotographer/{photographer}`
+
+#### PhotoStationsByRecentPhotoImport
+
+| Field | Description |
+| --- | --- |
+| `licenses` | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | Base URL of all photos |
+| `photographers` | List of all photographers, might be empty if no photos available |
+| `stations` | List of the stations |
+
+Operations: list.
 
 API path: `/photoStationsByRecentPhotoImports`
 
@@ -754,11 +787,6 @@ const inbox_entrys = await client.InboxEntry().list()
 ```
 
 
-### InboxStateQuery
-
-Create an instance: `const inbox_state_query = client.InboxStateQuery()`
-
-
 ### OAuthToken
 
 Create an instance: `const o_auth_token = client.OAuthToken()`
@@ -855,15 +883,14 @@ const photo_download = await client.PhotoDownload().load({ filename: 'filename' 
 ```
 
 
-### PhotoStation
+### PhotoStationById
 
-Create an instance: `const photo_station = client.PhotoStation()`
+Create an instance: `const photo_station_by_id = client.PhotoStationById()`
 
 #### Operations
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
@@ -879,13 +906,87 @@ Create an instance: `const photo_station = client.PhotoStation()`
 #### Example: Load
 
 ```ts
-const photo_station = await client.PhotoStation().load({ country: 'country' })
+const photo_station_by_id = await client.PhotoStationById().load({ id: 'photo_station_by_id_id', country: 'country' })
 ```
+
+
+### PhotoStationsByCountry
+
+Create an instance: `const photo_stations_by_country = client.PhotoStationsByCountry()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+| `licenses` | `any[]` | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `string` | Base URL of all photos |
+| `photographers` | `any[]` | List of all photographers, might be empty if no photos available |
+| `stations` | `any[]` | List of the stations |
+
+#### Example: Load
+
+```ts
+const photo_stations_by_country = await client.PhotoStationsByCountry().load({ id: 'photo_stations_by_country_id' })
+```
+
+
+### PhotoStationsByPhotographer
+
+Create an instance: `const photo_stations_by_photographer = client.PhotoStationsByPhotographer()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+| `licenses` | `any[]` | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `string` | Base URL of all photos |
+| `photographers` | `any[]` | List of all photographers, might be empty if no photos available |
+| `stations` | `any[]` | List of the stations |
+
+#### Example: Load
+
+```ts
+const photo_stations_by_photographer = await client.PhotoStationsByPhotographer().load({ id: 'photo_stations_by_photographer_id' })
+```
+
+
+### PhotoStationsByRecentPhotoImport
+
+Create an instance: `const photo_stations_by_recent_photo_import = client.PhotoStationsByRecentPhotoImport()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `list(match)` | List entities matching the criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `licenses` | `any[]` | List of used licenses, might be empty if no photos available |
+| `photoBaseUrl` | `string` | Base URL of all photos |
+| `photographers` | `any[]` | List of all photographers, might be empty if no photos available |
+| `stations` | `any[]` | List of the stations |
 
 #### Example: List
 
 ```ts
-const photo_stations = await client.PhotoStation().list()
+const photo_stations_by_recent_photo_imports = await client.PhotoStationsByRecentPhotoImport().list()
 ```
 
 

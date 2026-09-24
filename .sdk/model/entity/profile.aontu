@@ -1,0 +1,319 @@
+# Entity: profile
+
+main: kit: entity: profile: {
+
+  alias: field: {}
+
+  fields: {
+    admin: {
+      h: "Admin"
+      n: "admin"
+      r: false
+      t: "`$BOOLEAN`"
+    }
+    anonymous: {
+      h: "Anonymous"
+      n: "anonymous"
+      r: false
+      t: "`$BOOLEAN`"
+    }
+    email: {
+      fo: "email"
+      h: "Email"
+      n: "email"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
+      r: false
+      t: "`$STRING`"
+    }
+    emailVerified: {
+      h: "Email Verified"
+      n: "emailVerified"
+      r: false
+      t: "`$BOOLEAN`"
+    }
+    license: {
+      h: "License"
+      n: "license"
+      op: {
+        create: {
+          req: false
+          type: "`$STRING`"
+        }
+      }
+      r: true
+      sh: "the only accepted type is \"CC0 1.0 Universell (CC0 1.0)\", the others are listed for backward compatibility"
+      t: "`$STRING`"
+    }
+    link: {
+      fo: "uri"
+      h: "Link"
+      n: "link"
+      r: false
+      t: "`$STRING`"
+    }
+    newPassword: {
+      h: "New Password"
+      n: "newPassword"
+      r: true
+      t: "`$STRING`"
+    }
+    nickname: {
+      h: "Nickname"
+      n: "nickname"
+      r: true
+      t: "`$STRING`"
+    }
+    photoOwner: {
+      h: "Photo Owner"
+      n: "photoOwner"
+      op: {
+        create: {
+          req: false
+          type: "`$BOOLEAN`"
+        }
+      }
+      r: true
+      t: "`$BOOLEAN`"
+    }
+    sendNotifications: {
+      h: "Send Notifications"
+      n: "sendNotifications"
+      r: false
+      t: "`$BOOLEAN`"
+    }
+  }
+
+  name: "profile"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /changePassword"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "authorization"
+                or: "authorization"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/changePassword"
+          q: {
+            exist: [
+              "authorization"
+            ]
+          }
+          s: [
+            {
+              lit: "changePassword"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "POST /myProfile"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "authorization"
+                or: "authorization"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/myProfile"
+          q: {
+            exist: [
+              "authorization"
+            ]
+          }
+          s: [
+            {
+              lit: "myProfile"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "POST /resendEmailVerification"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "authorization"
+                or: "authorization"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/resendEmailVerification"
+          q: {
+            exist: [
+              "authorization"
+            ]
+          }
+          s: [
+            {
+              lit: "resendEmailVerification"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /myProfile"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "authorization"
+                or: "authorization"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/myProfile"
+          q: {
+            exist: [
+              "authorization"
+            ]
+          }
+          s: [
+            {
+              lit: "myProfile"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "GET /emailVerification/{token}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "token"
+                or: "token"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/emailVerification/{token}"
+          q: {
+            exist: [
+              "token"
+            ]
+          }
+          s: [
+            {
+              lit: "emailVerification"
+            }
+            {
+              var: "token"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          co: {
+            id: "DELETE /myProfile"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "authorization"
+                or: "authorization"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "DELETE"
+          o: "/myProfile"
+          q: {
+            exist: [
+              "authorization"
+            ]
+          }
+          s: [
+            {
+              lit: "myProfile"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

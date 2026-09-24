@@ -1,0 +1,28 @@
+# BasicPhotographerFlow
+
+main: kit: flow: BasicPhotographerFlow:
+{
+  entity: "photographer",
+  kind: "basic",
+  name: "BasicPhotographerFlow",
+  step: [
+    {
+      i: {
+        ref: "photographer_ref01",
+        srcdatavar: "photographer_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-photographer_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicPhotographerFlow"
+}

@@ -129,7 +129,7 @@ Both tools take the same argument object:
 
 | Field | Type | Notes |
 |-------|------|-------|
-| `entity` | string | One of the 16 supported entities (see below). |
+| `entity` | string | One of the 18 supported entities (see below). |
 | `query` | object | Optional match map. `{"id":N}` for load; omit or `{}` for list. |
 
 JSON schemas are emitted by the SDK from the `Args` struct's `json` /
@@ -151,9 +151,9 @@ JSON schemas are emitted by the SDK from the `Args` struct's `json` /
 
 ### Entities
 
-The 16 entities valid as the `entity` argument:
+The 18 entities valid as the `entity` argument:
 
-admin_inbox | country | inbox | inbox_count | inbox_entry | inbox_state_query | o_auth_token | oauth | photo | photo_download | photo_station | photo_upload | photographer | profile | public_inbox | stat
+admin_inbox | country | inbox | inbox_count | inbox_entry | o_auth_token | oauth | photo | photo_download | photo_station_by_id | photo_stations_by_country | photo_stations_by_photographer | photo_stations_by_recent_photo_import | photo_upload | photographer | profile | public_inbox | stat
 
 ### Smoke test via HTTP (raw JSON-RPC)
 

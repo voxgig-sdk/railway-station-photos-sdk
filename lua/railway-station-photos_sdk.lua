@@ -419,20 +419,6 @@ function RailwayStationPhotosSDK:InboxEntry(data)
 end
 
 
--- Idiomatic facade: client:InboxStateQuery():list() / client:InboxStateQuery():load({ id = ... })
--- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function RailwayStationPhotosSDK:InboxStateQuery(data)
-  local EntityMod = require("entity.inbox_state_query_entity")
-  if data == nil then
-    if self._inbox_state_query == nil then
-      self._inbox_state_query = EntityMod.new(self, nil)
-    end
-    return self._inbox_state_query
-  end
-  return EntityMod.new(self, data)
-end
-
-
 -- Idiomatic facade: client:OAuthToken():list() / client:OAuthToken():load({ id = ... })
 -- Entity access is capitalised (PascalCase) for parity with the other SDKs.
 function RailwayStationPhotosSDK:OAuthToken(data)
@@ -489,15 +475,57 @@ function RailwayStationPhotosSDK:PhotoDownload(data)
 end
 
 
--- Idiomatic facade: client:PhotoStation():list() / client:PhotoStation():load({ id = ... })
+-- Idiomatic facade: client:PhotoStationById():list() / client:PhotoStationById():load({ id = ... })
 -- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function RailwayStationPhotosSDK:PhotoStation(data)
-  local EntityMod = require("entity.photo_station_entity")
+function RailwayStationPhotosSDK:PhotoStationById(data)
+  local EntityMod = require("entity.photo_station_by_id_entity")
   if data == nil then
-    if self._photo_station == nil then
-      self._photo_station = EntityMod.new(self, nil)
+    if self._photo_station_by_id == nil then
+      self._photo_station_by_id = EntityMod.new(self, nil)
     end
-    return self._photo_station
+    return self._photo_station_by_id
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:PhotoStationsByCountry():list() / client:PhotoStationsByCountry():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function RailwayStationPhotosSDK:PhotoStationsByCountry(data)
+  local EntityMod = require("entity.photo_stations_by_country_entity")
+  if data == nil then
+    if self._photo_stations_by_country == nil then
+      self._photo_stations_by_country = EntityMod.new(self, nil)
+    end
+    return self._photo_stations_by_country
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:PhotoStationsByPhotographer():list() / client:PhotoStationsByPhotographer():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function RailwayStationPhotosSDK:PhotoStationsByPhotographer(data)
+  local EntityMod = require("entity.photo_stations_by_photographer_entity")
+  if data == nil then
+    if self._photo_stations_by_photographer == nil then
+      self._photo_stations_by_photographer = EntityMod.new(self, nil)
+    end
+    return self._photo_stations_by_photographer
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:PhotoStationsByRecentPhotoImport():list() / client:PhotoStationsByRecentPhotoImport():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function RailwayStationPhotosSDK:PhotoStationsByRecentPhotoImport(data)
+  local EntityMod = require("entity.photo_stations_by_recent_photo_import_entity")
+  if data == nil then
+    if self._photo_stations_by_recent_photo_import == nil then
+      self._photo_stations_by_recent_photo_import = EntityMod.new(self, nil)
+    end
+    return self._photo_stations_by_recent_photo_import
   end
   return EntityMod.new(self, data)
 end

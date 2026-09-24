@@ -1,0 +1,151 @@
+# Generated from the API definition and overwritten on every build: do not
+# edit this file. Put customizations in the guide entry file, which includes
+# this one and overrides its defaults:
+#   guide.aontu
+
+guide: {
+  metrics: count: entity: 18
+  metrics: count: path: 26
+  metrics: count: method: 30
+
+  entity: admin_inbox: {
+    path: "/adminInbox": {
+      op: create: method: *POST
+    }
+  }
+
+  entity: country: {
+    path: "/countries": {
+      op: list: method: *GET
+    }
+  }
+
+  entity: inbox: {
+    path: "/reportProblem": {
+      op: create: method: *POST
+    }
+    path: "/userInbox": {
+      op: create: method: *POST
+      op: list: method: *GET
+    }
+    path: "/userInbox/{id}": {
+      op: remove: method: *DELETE
+    }
+  }
+
+  entity: inbox_count: {
+    path: "/adminInboxCount": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: inbox_entry: {
+    path: "/adminInbox": {
+      op: list: method: *GET
+    }
+  }
+
+  entity: o_auth_token: {
+    path: "/oauth2/token": {
+      op: create: method: *POST
+    }
+  }
+
+  entity: oauth: {
+    path: "/oauth2/authorize": {
+      op: load: method: *GET
+    }
+    path: "/oauth2/revoke": {
+      op: create: method: *POST
+    }
+  }
+
+  entity: photo: {
+    path: "/photos/{country}/{filename}": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: photo_download: {
+    path: "/inbox/done/{filename}": {
+      op: load: method: *GET
+    }
+    path: "/inbox/processed/{filename}": {
+      op: load: method: *GET
+    }
+    path: "/inbox/rejected/{filename}": {
+      op: load: method: *GET
+    }
+    path: "/inbox/{filename}": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: photo_station_by_id: {
+    path: "/photoStationById/{country}/{id}": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: photo_stations_by_country: {
+    path: "/photoStationsByCountry/{country}": {
+      rename: param: "country": *"id"
+      op: load: method: *GET
+    }
+  }
+
+  entity: photo_stations_by_photographer: {
+    path: "/photoStationsByPhotographer/{photographer}": {
+      rename: param: "photographer": *"id"
+      op: load: method: *GET
+    }
+  }
+
+  entity: photo_stations_by_recent_photo_import: {
+    path: "/photoStationsByRecentPhotoImports": {
+      op: list: method: *GET
+    }
+  }
+
+  entity: photo_upload: {
+    path: "/photoUpload": {
+      op: create: method: *POST
+    }
+  }
+
+  entity: photographer: {
+    path: "/photographers": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: profile: {
+    path: "/changePassword": {
+      op: create: method: *POST
+    }
+    path: "/emailVerification/{token}": {
+      op: load: method: *GET
+    }
+    path: "/myProfile": {
+      op: create: method: *POST
+      op: load: method: *GET
+      op: remove: method: *DELETE
+    }
+    path: "/resendEmailVerification": {
+      op: create: method: *POST
+    }
+  }
+
+  entity: public_inbox: {
+    path: "/publicInbox": {
+      op: list: method: *GET
+    }
+  }
+
+  entity: stat: {
+    path: "/stats": {
+      op: load: method: *GET
+    }
+  }
+
+}

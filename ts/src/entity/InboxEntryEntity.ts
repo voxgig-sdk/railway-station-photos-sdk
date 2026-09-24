@@ -19,7 +19,6 @@ import type {
   InboxEntryListMatch,
 } from '../RailwayStationPhotosTypes'
 
-// TODO: needs Entity superclass
 class InboxEntryEntity extends RailwayStationPhotosEntityBase<InboxEntry> {
 
   constructor(client: RailwayStationPhotosSDK, entopts: any) {

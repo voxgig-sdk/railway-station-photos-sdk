@@ -22,8 +22,6 @@ var NewInboxCountEntityFunc func(client *RailwayStationPhotosSDK, entopts map[st
 
 var NewInboxEntryEntityFunc func(client *RailwayStationPhotosSDK, entopts map[string]any) RailwayStationPhotosEntity
 
-var NewInboxStateQueryEntityFunc func(client *RailwayStationPhotosSDK, entopts map[string]any) RailwayStationPhotosEntity
-
 var NewOAuthTokenEntityFunc func(client *RailwayStationPhotosSDK, entopts map[string]any) RailwayStationPhotosEntity
 
 var NewOauthEntityFunc func(client *RailwayStationPhotosSDK, entopts map[string]any) RailwayStationPhotosEntity
@@ -32,7 +30,13 @@ var NewPhotoEntityFunc func(client *RailwayStationPhotosSDK, entopts map[string]
 
 var NewPhotoDownloadEntityFunc func(client *RailwayStationPhotosSDK, entopts map[string]any) RailwayStationPhotosEntity
 
-var NewPhotoStationEntityFunc func(client *RailwayStationPhotosSDK, entopts map[string]any) RailwayStationPhotosEntity
+var NewPhotoStationByIdEntityFunc func(client *RailwayStationPhotosSDK, entopts map[string]any) RailwayStationPhotosEntity
+
+var NewPhotoStationsByCountryEntityFunc func(client *RailwayStationPhotosSDK, entopts map[string]any) RailwayStationPhotosEntity
+
+var NewPhotoStationsByPhotographerEntityFunc func(client *RailwayStationPhotosSDK, entopts map[string]any) RailwayStationPhotosEntity
+
+var NewPhotoStationsByRecentPhotoImportEntityFunc func(client *RailwayStationPhotosSDK, entopts map[string]any) RailwayStationPhotosEntity
 
 var NewPhotoUploadEntityFunc func(client *RailwayStationPhotosSDK, entopts map[string]any) RailwayStationPhotosEntity
 

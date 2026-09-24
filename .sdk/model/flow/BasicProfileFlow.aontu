@@ -1,0 +1,49 @@
+# BasicProfileFlow
+
+main: kit: flow: BasicProfileFlow:
+{
+  entity: "profile",
+  kind: "basic",
+  name: "BasicProfileFlow",
+  step: [
+    {
+      i: {
+        ref: "profile_ref01"
+      }
+
+      o: "create"
+    }
+
+    {
+      i: {
+        ref: "profile_ref01",
+        srcdatavar: "profile_ref01_data",
+        suffix: "_dt0"
+      }
+
+      m: {
+        id: "profile01"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-profile_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      i: {
+        ref: "profile_ref01",
+        suffix: "_rm0"
+      }
+
+      o: "remove"
+    }
+  ],
+  "key$": "BasicProfileFlow"
+}

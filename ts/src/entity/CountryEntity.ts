@@ -19,7 +19,6 @@ import type {
   CountryListMatch,
 } from '../RailwayStationPhotosTypes'
 
-// TODO: needs Entity superclass
 class CountryEntity extends RailwayStationPhotosEntityBase<Country> {
 
   constructor(client: RailwayStationPhotosSDK, entopts: any) {

@@ -63,7 +63,7 @@ def profile_basic_setup(extra)
 
   # Generate idmap via transform.
   idmap = Vs.transform(
-    ["profile01", "profile02", "profile03", "email_verification01", "email_verification02", "email_verification03"],
+    ["profile01", "profile02", "profile03"],
     {
       "`$PACK`" => ["", {
         "`$KEY`" => "`$COPY`",

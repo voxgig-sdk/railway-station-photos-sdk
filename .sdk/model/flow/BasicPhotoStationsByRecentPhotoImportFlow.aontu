@@ -1,0 +1,22 @@
+# BasicPhotoStationsByRecentPhotoImportFlow
+
+main: kit: flow: BasicPhotoStationsByRecentPhotoImportFlow:
+{
+  entity: "photo_stations_by_recent_photo_import",
+  kind: "basic",
+  name: "BasicPhotoStationsByRecentPhotoImportFlow",
+  step: [
+    {
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "photo_stations_by_recent_photo_import_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicPhotoStationsByRecentPhotoImportFlow"
+}

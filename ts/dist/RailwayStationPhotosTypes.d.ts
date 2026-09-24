@@ -140,8 +140,6 @@ export interface InboxEntryListMatch {
     stationId?: string;
     title?: string;
 }
-export interface InboxStateQuery {
-}
 export interface OAuthToken {
     access_token: string;
     expires_in?: number;
@@ -183,19 +181,47 @@ export interface PhotoDownloadLoadMatch {
     filename: string;
     width?: number;
 }
-export interface PhotoStation {
+export interface PhotoStationById {
     id?: string;
     licenses: any[];
     photoBaseUrl: string;
     photographers: any[];
     stations: any[];
 }
-export interface PhotoStationLoadMatch {
+export interface PhotoStationByIdLoadMatch {
     country: string;
+    id: string;
+}
+export interface PhotoStationsByCountry {
+    id?: string;
+    licenses: any[];
+    photoBaseUrl: string;
+    photographers: any[];
+    stations: any[];
+}
+export interface PhotoStationsByCountryLoadMatch {
+    id: string;
     has_photo?: boolean;
     is_active?: boolean;
 }
-export interface PhotoStationListMatch {
+export interface PhotoStationsByPhotographer {
+    id?: string;
+    licenses: any[];
+    photoBaseUrl: string;
+    photographers: any[];
+    stations: any[];
+}
+export interface PhotoStationsByPhotographerLoadMatch {
+    id: string;
+    country?: string;
+}
+export interface PhotoStationsByRecentPhotoImport {
+    licenses: any[];
+    photoBaseUrl: string;
+    photographers: any[];
+    stations: any[];
+}
+export interface PhotoStationsByRecentPhotoImportListMatch {
     since_hour?: number;
 }
 export interface PhotoUpload {

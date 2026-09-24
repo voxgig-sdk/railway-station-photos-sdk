@@ -1,0 +1,120 @@
+# Entity: photo_stations_by_country
+
+main: kit: entity: photo_stations_by_country: {
+
+  alias: field: {}
+
+  fields: {
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      t: "`$STRING`"
+    }
+    licenses: {
+      h: "Licenses"
+      n: "licenses"
+      r: true
+      sh: "List of used licenses, might be empty if no photos available"
+      t: "`$ARRAY`"
+    }
+    photoBaseUrl: {
+      h: "Photo Base Url"
+      n: "photoBaseUrl"
+      r: true
+      sh: "Base URL of all photos"
+      t: "`$STRING`"
+    }
+    photographers: {
+      h: "Photographers"
+      n: "photographers"
+      r: true
+      sh: "List of all photographers, might be empty if no photos available"
+      t: "`$ARRAY`"
+    }
+    stations: {
+      h: "Stations"
+      n: "stations"
+      r: true
+      sh: "List of the stations"
+      t: "`$ARRAY`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "photo_stations_by_country"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /photoStationsByCountry/{country}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "country"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "has_photo"
+                or: "has_photo"
+                r: false
+                t: "`$BOOLEAN`"
+              }
+              {
+                k: "query"
+                n: "is_active"
+                or: "is_active"
+                r: false
+                t: "`$BOOLEAN`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/photoStationsByCountry/{country}"
+          q: {
+            exist: [
+              "has_photo"
+              "id"
+              "is_active"
+            ]
+          }
+          r: {
+            param: {
+              country: "id"
+            }
+          }
+          s: [
+            {
+              lit: "photoStationsByCountry"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

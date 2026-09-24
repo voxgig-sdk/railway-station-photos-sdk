@@ -1,0 +1,84 @@
+# Entity: photo_stations_by_recent_photo_import
+
+main: kit: entity: photo_stations_by_recent_photo_import: {
+
+  alias: field: {}
+
+  fields: {
+    licenses: {
+      h: "Licenses"
+      n: "licenses"
+      r: true
+      sh: "List of used licenses, might be empty if no photos available"
+      t: "`$ARRAY`"
+    }
+    photoBaseUrl: {
+      h: "Photo Base Url"
+      n: "photoBaseUrl"
+      r: true
+      sh: "Base URL of all photos"
+      t: "`$STRING`"
+    }
+    photographers: {
+      h: "Photographers"
+      n: "photographers"
+      r: true
+      sh: "List of all photographers, might be empty if no photos available"
+      t: "`$ARRAY`"
+    }
+    stations: {
+      h: "Stations"
+      n: "stations"
+      r: true
+      sh: "List of the stations"
+      t: "`$ARRAY`"
+    }
+  }
+
+  name: "photo_stations_by_recent_photo_import"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /photoStationsByRecentPhotoImports"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                ex: 10
+                k: "query"
+                n: "since_hour"
+                or: "since_hour"
+                r: false
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/photoStationsByRecentPhotoImports"
+          q: {
+            exist: [
+              "since_hour"
+            ]
+          }
+          s: [
+            {
+              lit: "photoStationsByRecentPhotoImports"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

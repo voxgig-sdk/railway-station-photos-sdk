@@ -1,0 +1,47 @@
+{
+  "existing": {
+    "photo_station_by_id": {
+      "PHOTO_STATION_BY_ID00": {
+        "id": "PHOTO_STATION_BY_ID00",
+        "licenses": [],
+        "photoBaseUrl": "s34",
+        "photographers": [],
+        "stations": [],
+        "country": "COUNTRY01"
+      },
+      "PHOTO_STATION_BY_ID01": {
+        "id": "PHOTO_STATION_BY_ID01",
+        "licenses": [],
+        "photoBaseUrl": "s66",
+        "photographers": [],
+        "stations": [],
+        "country": "COUNTRY01"
+      },
+      "PHOTO_STATION_BY_ID02": {
+        "id": "PHOTO_STATION_BY_ID02",
+        "licenses": [],
+        "photoBaseUrl": "s98",
+        "photographers": [],
+        "stations": [],
+        "country": "COUNTRY01"
+      }
+    }
+  },
+  "new": {
+    "photo_station_by_id": {
+      "photo_station_by_id_ref01": {
+        "licenses": [],
+        "photoBaseUrl": "sca",
+        "photographers": [],
+        "stations": []
+      }
+    }
+  },
+  "requests": {
+    "GET /photoStationById/{country}/{id}": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

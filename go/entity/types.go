@@ -1,7 +1,7 @@
 // Typed models for the RailwayStationPhotos SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 package entity
@@ -14,19 +14,6 @@ import (
 
 // AdminInbox is the typed data model for the admin_inbox entity.
 type AdminInbox struct {
-	DS100 *string `json:"DS100,omitempty"`
-	Active *bool `json:"active,omitempty"`
-	Command string `json:"command"`
-	ConflictResolution *string `json:"conflictResolution,omitempty"`
-	CountryCode *string `json:"countryCode,omitempty"`
-	Id int `json:"id"`
-	Lat *float64 `json:"lat,omitempty"`
-	Lon *float64 `json:"lon,omitempty"`
-	Message string `json:"message"`
-	RejectReason *string `json:"rejectReason,omitempty"`
-	StationId *string `json:"stationId,omitempty"`
-	Status int `json:"status"`
-	Title *string `json:"title,omitempty"`
 }
 
 // AdminInboxCreateData is the typed request payload for AdminInbox.CreateTyped.
@@ -48,15 +35,6 @@ type AdminInboxCreateData struct {
 
 // Country is the typed data model for the country entity.
 type Country struct {
-	Active bool `json:"active"`
-	AllowPhotoUploads bool `json:"allowPhotoUploads"`
-	Code string `json:"code"`
-	Email *string `json:"email,omitempty"`
-	Message *string `json:"message,omitempty"`
-	Name string `json:"name"`
-	OverrideLicense *string `json:"overrideLicense,omitempty"`
-	ProviderApps *[]any `json:"providerApps,omitempty"`
-	TimetableUrlTemplate *string `json:"timetableUrlTemplate,omitempty"`
 }
 
 // CountryListMatch is the typed request payload for Country.ListTyped.
@@ -66,23 +44,6 @@ type CountryListMatch struct {
 
 // Inbox is the typed data model for the inbox entity.
 type Inbox struct {
-	Comment *string `json:"comment,omitempty"`
-	CountryCode *string `json:"countryCode,omitempty"`
-	Crc32 *int `json:"crc32,omitempty"`
-	CreatedAt *int `json:"createdAt,omitempty"`
-	Filename *string `json:"filename,omitempty"`
-	Id int `json:"id"`
-	InboxUrl *string `json:"inboxUrl,omitempty"`
-	Lat *float64 `json:"lat,omitempty"`
-	Lon *float64 `json:"lon,omitempty"`
-	NewLat *float64 `json:"newLat,omitempty"`
-	NewLon *float64 `json:"newLon,omitempty"`
-	NewTitle *string `json:"newTitle,omitempty"`
-	ProblemReportType *string `json:"problemReportType,omitempty"`
-	RejectedReason *string `json:"rejectedReason,omitempty"`
-	State string `json:"state"`
-	StationId *string `json:"stationId,omitempty"`
-	Title *string `json:"title,omitempty"`
 }
 
 // InboxListMatch is the typed request payload for Inbox.ListTyped.
@@ -118,7 +79,6 @@ type InboxRemoveMatch struct {
 
 // InboxCount is the typed data model for the inbox_count entity.
 type InboxCount struct {
-	PendingInboxEntries int `json:"pendingInboxEntries"`
 }
 
 // InboxCountLoadMatch is the typed request payload for InboxCount.LoadTyped.
@@ -128,28 +88,6 @@ type InboxCountLoadMatch struct {
 
 // InboxEntry is the typed data model for the inbox_entry entity.
 type InboxEntry struct {
-	Active *bool `json:"active,omitempty"`
-	Comment string `json:"comment"`
-	CountryCode *string `json:"countryCode,omitempty"`
-	CreatedAt int `json:"createdAt"`
-	Done bool `json:"done"`
-	Filename *string `json:"filename,omitempty"`
-	HasConflict *bool `json:"hasConflict,omitempty"`
-	HasPhoto bool `json:"hasPhoto"`
-	Id int `json:"id"`
-	InboxUrl *string `json:"inboxUrl,omitempty"`
-	IsProcessed *bool `json:"isProcessed,omitempty"`
-	Lat *float64 `json:"lat,omitempty"`
-	Lon *float64 `json:"lon,omitempty"`
-	NewLat *float64 `json:"newLat,omitempty"`
-	NewLon *float64 `json:"newLon,omitempty"`
-	NewTitle *string `json:"newTitle,omitempty"`
-	PhotoId *int `json:"photoId,omitempty"`
-	PhotographerEmail *string `json:"photographerEmail,omitempty"`
-	PhotographerNickname string `json:"photographerNickname"`
-	ProblemReportType *string `json:"problemReportType,omitempty"`
-	StationId *string `json:"stationId,omitempty"`
-	Title *string `json:"title,omitempty"`
 }
 
 // InboxEntryListMatch is the typed request payload for InboxEntry.ListTyped.
@@ -178,17 +116,8 @@ type InboxEntryListMatch struct {
 	Title *string `json:"title,omitempty"`
 }
 
-// InboxStateQuery is the typed data model for the inbox_state_query entity.
-type InboxStateQuery struct {
-}
-
 // OAuthToken is the typed data model for the o_auth_token entity.
 type OAuthToken struct {
-	AccessToken string `json:"access_token"`
-	ExpiresIn *int `json:"expires_in,omitempty"`
-	RefreshToken *string `json:"refresh_token,omitempty"`
-	Scope string `json:"scope"`
-	TokenType string `json:"token_type"`
 }
 
 // OAuthTokenCreateData is the typed request payload for OAuthToken.CreateTyped.
@@ -221,7 +150,6 @@ type OauthCreateData struct {
 
 // Photo is the typed data model for the photo entity.
 type Photo struct {
-	Id *string `json:"id,omitempty"`
 }
 
 // PhotoLoadMatch is the typed request payload for Photo.LoadTyped.
@@ -241,24 +169,43 @@ type PhotoDownloadLoadMatch struct {
 	Width *int `json:"width,omitempty"`
 }
 
-// PhotoStation is the typed data model for the photo_station entity.
-type PhotoStation struct {
-	Id *string `json:"id,omitempty"`
-	Licenses []any `json:"licenses"`
-	PhotoBaseUrl string `json:"photoBaseUrl"`
-	Photographers []any `json:"photographers"`
-	Stations []any `json:"stations"`
+// PhotoStationById is the typed data model for the photo_station_by_id entity.
+type PhotoStationById struct {
 }
 
-// PhotoStationLoadMatch is the typed request payload for PhotoStation.LoadTyped.
-type PhotoStationLoadMatch struct {
+// PhotoStationByIdLoadMatch is the typed request payload for PhotoStationById.LoadTyped.
+type PhotoStationByIdLoadMatch struct {
 	Country string `json:"country"`
+	Id string `json:"id"`
+}
+
+// PhotoStationsByCountry is the typed data model for the photo_stations_by_country entity.
+type PhotoStationsByCountry struct {
+}
+
+// PhotoStationsByCountryLoadMatch is the typed request payload for PhotoStationsByCountry.LoadTyped.
+type PhotoStationsByCountryLoadMatch struct {
+	Id string `json:"id"`
 	HasPhoto *bool `json:"has_photo,omitempty"`
 	IsActive *bool `json:"is_active,omitempty"`
 }
 
-// PhotoStationListMatch is the typed request payload for PhotoStation.ListTyped.
-type PhotoStationListMatch struct {
+// PhotoStationsByPhotographer is the typed data model for the photo_stations_by_photographer entity.
+type PhotoStationsByPhotographer struct {
+}
+
+// PhotoStationsByPhotographerLoadMatch is the typed request payload for PhotoStationsByPhotographer.LoadTyped.
+type PhotoStationsByPhotographerLoadMatch struct {
+	Id string `json:"id"`
+	Country *string `json:"country,omitempty"`
+}
+
+// PhotoStationsByRecentPhotoImport is the typed data model for the photo_stations_by_recent_photo_import entity.
+type PhotoStationsByRecentPhotoImport struct {
+}
+
+// PhotoStationsByRecentPhotoImportListMatch is the typed request payload for PhotoStationsByRecentPhotoImport.ListTyped.
+type PhotoStationsByRecentPhotoImportListMatch struct {
 	SinceHour *int `json:"since_hour,omitempty"`
 }
 
@@ -281,16 +228,6 @@ type PhotographerLoadMatch struct {
 
 // Profile is the typed data model for the profile entity.
 type Profile struct {
-	Admin *bool `json:"admin,omitempty"`
-	Anonymous *bool `json:"anonymous,omitempty"`
-	Email *string `json:"email,omitempty"`
-	EmailVerified *bool `json:"emailVerified,omitempty"`
-	License string `json:"license"`
-	Link *string `json:"link,omitempty"`
-	NewPassword string `json:"newPassword"`
-	Nickname string `json:"nickname"`
-	PhotoOwner bool `json:"photoOwner"`
-	SendNotifications *bool `json:"sendNotifications,omitempty"`
 }
 
 // ProfileLoadMatch is the typed request payload for Profile.LoadTyped.
@@ -328,11 +265,6 @@ type ProfileRemoveMatch struct {
 
 // PublicInbox is the typed data model for the public_inbox entity.
 type PublicInbox struct {
-	CountryCode *string `json:"countryCode,omitempty"`
-	Lat float64 `json:"lat"`
-	Lon float64 `json:"lon"`
-	StationId *string `json:"stationId,omitempty"`
-	Title string `json:"title"`
 }
 
 // PublicInboxListMatch is the typed request payload for PublicInbox.ListTyped.
@@ -346,11 +278,6 @@ type PublicInboxListMatch struct {
 
 // Stat is the typed data model for the stat entity.
 type Stat struct {
-	CountryCode *string `json:"countryCode,omitempty"`
-	Photographers int `json:"photographers"`
-	Total int `json:"total"`
-	WithPhoto int `json:"withPhoto"`
-	WithoutPhoto int `json:"withoutPhoto"`
 }
 
 // StatLoadMatch is the typed request payload for Stat.LoadTyped.

@@ -1,0 +1,46 @@
+# Entity: inbox_count
+
+main: kit: entity: inbox_count: {
+
+  alias: field: {}
+
+  fields: {
+    pendingInboxEntries: {
+      fo: "int64"
+      h: "Pending Inbox Entries"
+      n: "pendingInboxEntries"
+      r: true
+      t: "`$INTEGER`"
+    }
+  }
+
+  name: "inbox_count"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /adminInboxCount"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/adminInboxCount"
+          s: [
+            {
+              lit: "adminInboxCount"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

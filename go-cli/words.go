@@ -9,18 +9,6 @@ import (
 	sdk "github.com/voxgig-sdk/railway-station-photos-sdk/go"
 )
 
-// registerSDKWords installs three native boru words bound to the SDK:
-// list / load / update. Each is declared with two overloads matching
-// the signature  [query?:(Node or Scalar) entity:atom]:
-//
-//   [entity:Atom]            — no query (e.g. `list book`)
-//   [query:Any entity:Atom]  — query is any Node or Scalar (e.g.
-//                              `load {id:1} book`, `load 1 book`)
-//
-// The entity slot is /q-quoted so a bareword `book` parses as the
-// Atom "book" rather than dispatching as an undefined word. Both
-// overloads are all-forward (BarrierAllForward), so args are collected
-// from the tokens following the word.
 func registerSDKWords(r *eng.Registry, client *sdk.RailwayStationPhotosSDK) {
 	for _, op := range []string{"list", "load", "update"} {
 		op := op
@@ -99,8 +87,6 @@ func entityFor(client *sdk.RailwayStationPhotosSDK, name string) (sdk.RailwaySta
 		return client.InboxCount(nil), nil
 	case "inbox_entry":
 		return client.InboxEntry(nil), nil
-	case "inbox_state_query":
-		return client.InboxStateQuery(nil), nil
 	case "o_auth_token":
 		return client.OAuthToken(nil), nil
 	case "oauth":
@@ -109,8 +95,14 @@ func entityFor(client *sdk.RailwayStationPhotosSDK, name string) (sdk.RailwaySta
 		return client.Photo(nil), nil
 	case "photo_download":
 		return client.PhotoDownload(nil), nil
-	case "photo_station":
-		return client.PhotoStation(nil), nil
+	case "photo_station_by_id":
+		return client.PhotoStationById(nil), nil
+	case "photo_stations_by_country":
+		return client.PhotoStationsByCountry(nil), nil
+	case "photo_stations_by_photographer":
+		return client.PhotoStationsByPhotographer(nil), nil
+	case "photo_stations_by_recent_photo_import":
+		return client.PhotoStationsByRecentPhotoImport(nil), nil
 	case "photo_upload":
 		return client.PhotoUpload(nil), nil
 	case "photographer":

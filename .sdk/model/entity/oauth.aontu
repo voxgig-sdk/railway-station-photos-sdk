@@ -1,0 +1,148 @@
+# Entity: oauth
+
+main: kit: entity: oauth: {
+
+  alias: field: {}
+
+  name: "oauth"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /oauth2/revoke"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "authorization"
+                or: "authorization"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/oauth2/revoke"
+          q: {
+            exist: [
+              "authorization"
+            ]
+          }
+          s: [
+            {
+              lit: "oauth2"
+            }
+            {
+              lit: "revoke"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /oauth2/authorize"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "client_id"
+                or: "client_id"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "code_challenge"
+                or: "code_challenge"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "code_challenge_method"
+                or: "code_challenge_method"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "redirect_uri"
+                or: "redirect_uri"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "response_type"
+                or: "response_type"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "scope"
+                or: "scope"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "state"
+                or: "state"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/oauth2/authorize"
+          q: {
+            exist: [
+              "client_id"
+              "code_challenge"
+              "code_challenge_method"
+              "redirect_uri"
+              "response_type"
+              "scope"
+              "state"
+            ]
+          }
+          s: [
+            {
+              lit: "oauth2"
+            }
+            {
+              lit: "authorize"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  fields: {
+  }
+
+
+
+}

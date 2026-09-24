@@ -264,7 +264,6 @@ func (sdk *RailwayStationPhotosSDK) rawRequest(fetchargs map[string]any) (map[st
 		if !noBody {
 			if jf := vs.GetProp(fm, "json"); jf != nil {
 				if f, ok := jf.(func() any); ok {
-					// f() returns nil on parse error in our fetcher.
 					jsonData = f()
 				}
 			}
@@ -281,17 +280,6 @@ func (sdk *RailwayStationPhotosSDK) rawRequest(fetchargs map[string]any) (map[st
 	return map[string]any{"ok": false, "err": ctx.MakeError("direct_invalid", "invalid response type")}, nil
 }
 
-// Raw GraphQL access: the pressure valve that makes the generated surface's
-// deliberate omissions (per-call selection sets, typed filter builders,
-// batching, subscriptions) livable — the whole schema stays reachable.
-//
-// Thin wrapper over the same prepare/fetch path Direct uses, with the one
-// thing raw Direct cannot do for GraphQL: a GraphQL failure rides HTTP 200
-// as a top-level `errors` array, so status alone would report a failed query
-// as ok.
-//
-// NOTE: like Direct, this bypasses the feature pipeline — no retry,
-// ratelimit or paging features apply.
 func (sdk *RailwayStationPhotosSDK) Graphql(
 	query string, variables map[string]any, ctrl map[string]any,
 ) (map[string]any, error) {
@@ -378,14 +366,6 @@ func (sdk *RailwayStationPhotosSDK) InboxEntry(data map[string]any) RailwayStati
 }
 
 
-// InboxStateQuery returns a InboxStateQuery entity bound to this client.
-// Idiomatic usage: client.InboxStateQuery(nil).List(nil, nil) or
-// client.InboxStateQuery(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RailwayStationPhotosSDK) InboxStateQuery(data map[string]any) RailwayStationPhotosEntity {
-	return NewInboxStateQueryEntityFunc(sdk, data)
-}
-
-
 // OAuthToken returns a OAuthToken entity bound to this client.
 // Idiomatic usage: client.OAuthToken(nil).List(nil, nil) or
 // client.OAuthToken(nil).Load(map[string]any{"id": ...}, nil).
@@ -418,11 +398,35 @@ func (sdk *RailwayStationPhotosSDK) PhotoDownload(data map[string]any) RailwaySt
 }
 
 
-// PhotoStation returns a PhotoStation entity bound to this client.
-// Idiomatic usage: client.PhotoStation(nil).List(nil, nil) or
-// client.PhotoStation(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RailwayStationPhotosSDK) PhotoStation(data map[string]any) RailwayStationPhotosEntity {
-	return NewPhotoStationEntityFunc(sdk, data)
+// PhotoStationById returns a PhotoStationById entity bound to this client.
+// Idiomatic usage: client.PhotoStationById(nil).List(nil, nil) or
+// client.PhotoStationById(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *RailwayStationPhotosSDK) PhotoStationById(data map[string]any) RailwayStationPhotosEntity {
+	return NewPhotoStationByIdEntityFunc(sdk, data)
+}
+
+
+// PhotoStationsByCountry returns a PhotoStationsByCountry entity bound to this client.
+// Idiomatic usage: client.PhotoStationsByCountry(nil).List(nil, nil) or
+// client.PhotoStationsByCountry(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *RailwayStationPhotosSDK) PhotoStationsByCountry(data map[string]any) RailwayStationPhotosEntity {
+	return NewPhotoStationsByCountryEntityFunc(sdk, data)
+}
+
+
+// PhotoStationsByPhotographer returns a PhotoStationsByPhotographer entity bound to this client.
+// Idiomatic usage: client.PhotoStationsByPhotographer(nil).List(nil, nil) or
+// client.PhotoStationsByPhotographer(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *RailwayStationPhotosSDK) PhotoStationsByPhotographer(data map[string]any) RailwayStationPhotosEntity {
+	return NewPhotoStationsByPhotographerEntityFunc(sdk, data)
+}
+
+
+// PhotoStationsByRecentPhotoImport returns a PhotoStationsByRecentPhotoImport entity bound to this client.
+// Idiomatic usage: client.PhotoStationsByRecentPhotoImport(nil).List(nil, nil) or
+// client.PhotoStationsByRecentPhotoImport(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *RailwayStationPhotosSDK) PhotoStationsByRecentPhotoImport(data map[string]any) RailwayStationPhotosEntity {
+	return NewPhotoStationsByRecentPhotoImportEntityFunc(sdk, data)
 }
 
 

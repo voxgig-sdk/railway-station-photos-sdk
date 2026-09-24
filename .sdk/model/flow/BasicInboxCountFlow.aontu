@@ -1,0 +1,28 @@
+# BasicInboxCountFlow
+
+main: kit: flow: BasicInboxCountFlow:
+{
+  entity: "inbox_count",
+  kind: "basic",
+  name: "BasicInboxCountFlow",
+  step: [
+    {
+      i: {
+        ref: "inbox_count_ref01",
+        srcdatavar: "inbox_count_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-inbox_count_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicInboxCountFlow"
+}
