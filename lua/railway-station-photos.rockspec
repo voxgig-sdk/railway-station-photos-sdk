@@ -1,4 +1,4 @@
-package = "voxgig-sdk-railway-station-photos"
+package = "voxgig-sdk-railway-station-photos-sdk"
 version = "0.0.1-1"
 source = {
   -- git+https (GitHub dropped git:// in 2022); pin the install to the release

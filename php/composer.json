@@ -1,5 +1,5 @@
 {
-  "name": "voxgig-sdk/railway-station-photos",
+  "name": "voxgig-sdk/railway-station-photos-sdk",
   "description": "Unofficial generated PHP SDK for the RS public API. Not affiliated with or endorsed by the upstream API provider.",
   "type": "library",
   "keywords": ["voxgig", "sdk", "generated-sdk", "openapi", "api-client", "railway-station-photos"],
