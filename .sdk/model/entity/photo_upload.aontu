@@ -4,6 +4,55 @@ main: kit: entity: photo_upload: {
 
   alias: field: {}
 
+  fields: {
+    crc32: {
+      fo: "int64"
+      h: "Crc32"
+      n: "crc32"
+      r: false
+      sh: "CRC32 checksum of the uploaded photo"
+      t: "`$INTEGER`"
+    }
+    filename: {
+      h: "Filename"
+      n: "filename"
+      r: false
+      sh: "filename in inbox"
+      t: "`$STRING`"
+    }
+    id: {
+      fo: "int64"
+      h: "Id"
+      n: "id"
+      r: false
+      t: "`$INTEGER`"
+    }
+    inboxUrl: {
+      h: "Inbox Url"
+      n: "inboxUrl"
+      r: false
+      sh: "url of the photo in the inbox"
+      t: "`$STRING`"
+    }
+    message: {
+      h: "Message"
+      n: "message"
+      r: false
+      t: "`$STRING`"
+    }
+    state: {
+      h: "State"
+      n: "state"
+      r: true
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
   name: "photo_upload"
   op: {
     create: {
@@ -20,63 +69,63 @@ main: kit: entity: photo_upload: {
               {
                 k: "header"
                 n: "active"
-                or: "active"
+                or: "Active"
                 r: false
                 t: "`$BOOLEAN`"
               }
               {
                 k: "header"
                 n: "authorization"
-                or: "authorization"
+                or: "Authorization"
                 r: true
                 t: "`$STRING`"
               }
               {
                 k: "header"
                 n: "comment"
-                or: "comment"
+                or: "Comment"
                 r: false
                 t: "`$STRING`"
               }
               {
                 k: "header"
                 n: "content_type"
-                or: "content_type"
+                or: "Content-Type"
                 r: true
                 t: "`$STRING`"
               }
               {
                 k: "header"
                 n: "country"
-                or: "country"
+                or: "Country"
                 r: false
                 t: "`$STRING`"
               }
               {
                 k: "header"
                 n: "latitude"
-                or: "latitude"
+                or: "Latitude"
                 r: false
                 t: "`$NUMBER`"
               }
               {
                 k: "header"
                 n: "longitude"
-                or: "longitude"
+                or: "Longitude"
                 r: false
                 t: "`$NUMBER`"
               }
               {
                 k: "header"
                 n: "station_id"
-                or: "station_id"
+                or: "Station-Id"
                 r: false
                 t: "`$STRING`"
               }
               {
                 k: "header"
                 n: "station_title"
-                or: "station_title"
+                or: "Station-Title"
                 r: false
                 t: "`$STRING`"
               }
@@ -109,9 +158,6 @@ main: kit: entity: photo_upload: {
         }
       ]
     }
-  }
-
-  fields: {
   }
 
 

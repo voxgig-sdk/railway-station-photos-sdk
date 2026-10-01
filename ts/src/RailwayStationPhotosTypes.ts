@@ -59,10 +59,11 @@ export interface Inbox {
   crc32?: number
   createdAt?: number
   filename?: string
-  id: number
+  id?: number
   inboxUrl?: string
   lat?: number
   lon?: number
+  message?: string
   newLat?: number
   newLon?: number
   newTitle?: string
@@ -83,10 +84,11 @@ export interface InboxCreateData {
   crc32?: number
   createdAt?: number
   filename?: string
-  id: number
+  id?: number
   inboxUrl?: string
   lat?: number
   lon?: number
+  message?: string
   newLat?: number
   newLon?: number
   newTitle?: string
@@ -261,9 +263,21 @@ export interface PhotoStationsByRecentPhotoImportListMatch {
 }
 
 export interface PhotoUpload {
+  crc32?: number
+  filename?: string
+  id?: number
+  inboxUrl?: string
+  message?: string
+  state: string
 }
 
 export interface PhotoUploadCreateData {
+  crc32?: number
+  filename?: string
+  id?: number
+  inboxUrl?: string
+  message?: string
+  state: string
 }
 
 export interface Photographer {

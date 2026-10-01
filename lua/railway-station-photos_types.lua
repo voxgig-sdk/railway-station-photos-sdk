@@ -56,10 +56,11 @@
 ---@field crc32? number
 ---@field createdAt? number
 ---@field filename? string
----@field id number
+---@field id? number
 ---@field inboxUrl? string
 ---@field lat? number
 ---@field lon? number
+---@field message? string
 ---@field newLat? number
 ---@field newLon? number
 ---@field newTitle? string
@@ -78,10 +79,11 @@
 ---@field crc32? number
 ---@field createdAt? number
 ---@field filename? string
----@field id number
+---@field id? number
 ---@field inboxUrl? string
 ---@field lat? number
 ---@field lon? number
+---@field message? string
 ---@field newLat? number
 ---@field newLon? number
 ---@field newTitle? string
@@ -233,8 +235,20 @@
 ---@field since_hour? number
 
 ---@class PhotoUpload
+---@field crc32? number
+---@field filename? string
+---@field id? number
+---@field inboxUrl? string
+---@field message? string
+---@field state string
 
 ---@class PhotoUploadCreateData
+---@field crc32? number
+---@field filename? string
+---@field id? number
+---@field inboxUrl? string
+---@field message? string
+---@field state string
 
 ---@class Photographer
 

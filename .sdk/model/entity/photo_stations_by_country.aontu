@@ -71,14 +71,14 @@ main: kit: entity: photo_stations_by_country: {
               {
                 k: "query"
                 n: "has_photo"
-                or: "has_photo"
+                or: "hasPhoto"
                 r: false
                 t: "`$BOOLEAN`"
               }
               {
                 k: "query"
                 n: "is_active"
-                or: "is_active"
+                or: "isActive"
                 r: false
                 t: "`$BOOLEAN`"
               }

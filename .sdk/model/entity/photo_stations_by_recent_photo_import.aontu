@@ -52,7 +52,7 @@ main: kit: entity: photo_stations_by_recent_photo_import: {
                 ex: 10
                 k: "query"
                 n: "since_hour"
-                or: "since_hour"
+                or: "sinceHours"
                 r: false
                 t: "`$INTEGER`"
               }

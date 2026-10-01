@@ -177,7 +177,7 @@ main: kit: entity: inbox_entry: {
               {
                 k: "header"
                 n: "authorization"
-                or: "authorization"
+                or: "Authorization"
                 r: true
                 t: "`$STRING`"
               }

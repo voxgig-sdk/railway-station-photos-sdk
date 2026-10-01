@@ -242,7 +242,7 @@ def make_config():
                   "header": [
                     {
                       "name": "authorization",
-                      "orig": "authorization",
+                      "orig": "Authorization",
                       "type": "`$STRING`",
                       "kind": "header",
                       "reqd": True,
@@ -350,7 +350,7 @@ def make_config():
                   "query": [
                     {
                       "name": "only_active",
-                      "orig": "only_active",
+                      "orig": "onlyActive",
                       "type": "`$BOOLEAN`",
                       "kind": "query",
                     },
@@ -405,7 +405,12 @@ def make_config():
             "name": "id",
             "title": "Id",
             "type": "`$INTEGER`",
-            "req": True,
+            "op": {
+              "list": {
+                "req": True,
+                "type": "`$INTEGER`",
+              },
+            },
             "format": "int64",
           },
           {
@@ -425,6 +430,11 @@ def make_config():
             "title": "Lon",
             "type": "`$NUMBER`",
             "format": "double",
+          },
+          {
+            "name": "message",
+            "title": "Message",
+            "type": "`$STRING`",
           },
           {
             "name": "newLat",
@@ -502,7 +512,7 @@ def make_config():
                   "header": [
                     {
                       "name": "authorization",
-                      "orig": "authorization",
+                      "orig": "Authorization",
                       "type": "`$STRING`",
                       "kind": "header",
                       "reqd": True,
@@ -536,7 +546,7 @@ def make_config():
                   "header": [
                     {
                       "name": "authorization",
-                      "orig": "authorization",
+                      "orig": "Authorization",
                       "type": "`$STRING`",
                       "kind": "header",
                       "reqd": True,
@@ -576,7 +586,7 @@ def make_config():
                   "header": [
                     {
                       "name": "authorization",
-                      "orig": "authorization",
+                      "orig": "Authorization",
                       "type": "`$STRING`",
                       "kind": "header",
                       "reqd": True,
@@ -585,7 +595,7 @@ def make_config():
                   "query": [
                     {
                       "name": "show_completed_entry",
-                      "orig": "show_completed_entry",
+                      "orig": "showCompletedEntries",
                       "type": "`$BOOLEAN`",
                       "kind": "query",
                     },
@@ -859,7 +869,7 @@ def make_config():
                   "header": [
                     {
                       "name": "authorization",
-                      "orig": "authorization",
+                      "orig": "Authorization",
                       "type": "`$STRING`",
                       "kind": "header",
                       "reqd": True,
@@ -942,7 +952,7 @@ def make_config():
                   "header": [
                     {
                       "name": "authorization",
-                      "orig": "authorization",
+                      "orig": "Authorization",
                       "type": "`$STRING`",
                       "kind": "header",
                       "reqd": True,
@@ -995,7 +1005,7 @@ def make_config():
                   "header": [
                     {
                       "name": "authorization",
-                      "orig": "authorization",
+                      "orig": "Authorization",
                       "type": "`$STRING`",
                       "kind": "header",
                       "reqd": True,
@@ -1604,13 +1614,13 @@ def make_config():
                   "query": [
                     {
                       "name": "has_photo",
-                      "orig": "has_photo",
+                      "orig": "hasPhoto",
                       "type": "`$BOOLEAN`",
                       "kind": "query",
                     },
                     {
                       "name": "is_active",
-                      "orig": "is_active",
+                      "orig": "isActive",
                       "type": "`$BOOLEAN`",
                       "kind": "query",
                     },
@@ -1793,7 +1803,7 @@ def make_config():
                   "query": [
                     {
                       "name": "since_hour",
-                      "orig": "since_hour",
+                      "orig": "sinceHours",
                       "type": "`$INTEGER`",
                       "kind": "query",
                       "example": 10,
@@ -1814,7 +1824,48 @@ def make_config():
         },
       },
       "photo_upload": {
-        "fields": [],
+        "fields": [
+          {
+            "name": "crc32",
+            "title": "Crc32",
+            "type": "`$INTEGER`",
+            "short": "CRC32 checksum of the uploaded photo",
+            "format": "int64",
+          },
+          {
+            "name": "filename",
+            "title": "Filename",
+            "type": "`$STRING`",
+            "short": "filename in inbox",
+          },
+          {
+            "name": "id",
+            "title": "Id",
+            "type": "`$INTEGER`",
+            "format": "int64",
+          },
+          {
+            "name": "inboxUrl",
+            "title": "Inbox Url",
+            "type": "`$STRING`",
+            "short": "url of the photo in the inbox",
+          },
+          {
+            "name": "message",
+            "title": "Message",
+            "type": "`$STRING`",
+          },
+          {
+            "name": "state",
+            "title": "State",
+            "type": "`$STRING`",
+            "req": True,
+          },
+        ],
+        "id": {
+          "field": "id",
+          "name": "id",
+        },
         "name": "photo_upload",
         "op": {
           "create": {
@@ -1842,57 +1893,57 @@ def make_config():
                   "header": [
                     {
                       "name": "active",
-                      "orig": "active",
+                      "orig": "Active",
                       "type": "`$BOOLEAN`",
                       "kind": "header",
                     },
                     {
                       "name": "authorization",
-                      "orig": "authorization",
+                      "orig": "Authorization",
                       "type": "`$STRING`",
                       "kind": "header",
                       "reqd": True,
                     },
                     {
                       "name": "comment",
-                      "orig": "comment",
+                      "orig": "Comment",
                       "type": "`$STRING`",
                       "kind": "header",
                     },
                     {
                       "name": "content_type",
-                      "orig": "content_type",
+                      "orig": "Content-Type",
                       "type": "`$STRING`",
                       "kind": "header",
                       "reqd": True,
                     },
                     {
                       "name": "country",
-                      "orig": "country",
+                      "orig": "Country",
                       "type": "`$STRING`",
                       "kind": "header",
                     },
                     {
                       "name": "latitude",
-                      "orig": "latitude",
+                      "orig": "Latitude",
                       "type": "`$NUMBER`",
                       "kind": "header",
                     },
                     {
                       "name": "longitude",
-                      "orig": "longitude",
+                      "orig": "Longitude",
                       "type": "`$NUMBER`",
                       "kind": "header",
                     },
                     {
                       "name": "station_id",
-                      "orig": "station_id",
+                      "orig": "Station-Id",
                       "type": "`$STRING`",
                       "kind": "header",
                     },
                     {
                       "name": "station_title",
-                      "orig": "station_title",
+                      "orig": "Station-Title",
                       "type": "`$STRING`",
                       "kind": "header",
                     },
@@ -2070,7 +2121,7 @@ def make_config():
                   "header": [
                     {
                       "name": "authorization",
-                      "orig": "authorization",
+                      "orig": "Authorization",
                       "type": "`$STRING`",
                       "kind": "header",
                       "reqd": True,
@@ -2104,7 +2155,7 @@ def make_config():
                   "header": [
                     {
                       "name": "authorization",
-                      "orig": "authorization",
+                      "orig": "Authorization",
                       "type": "`$STRING`",
                       "kind": "header",
                       "reqd": True,
@@ -2138,7 +2189,7 @@ def make_config():
                   "header": [
                     {
                       "name": "authorization",
-                      "orig": "authorization",
+                      "orig": "Authorization",
                       "type": "`$STRING`",
                       "kind": "header",
                       "reqd": True,
@@ -2178,7 +2229,7 @@ def make_config():
                   "header": [
                     {
                       "name": "authorization",
-                      "orig": "authorization",
+                      "orig": "Authorization",
                       "type": "`$STRING`",
                       "kind": "header",
                       "reqd": True,
@@ -2256,7 +2307,7 @@ def make_config():
                   "header": [
                     {
                       "name": "authorization",
-                      "orig": "authorization",
+                      "orig": "Authorization",
                       "type": "`$STRING`",
                       "kind": "header",
                       "reqd": True,

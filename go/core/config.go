@@ -217,7 +217,7 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "authorization",
-											"orig": "authorization",
+											"orig": "Authorization",
 											"type": "`$STRING`",
 											"kind": "header",
 											"reqd": true,
@@ -325,7 +325,7 @@ func MakeConfig() map[string]any {
 									"query": []any{
 										map[string]any{
 											"name": "only_active",
-											"orig": "only_active",
+											"orig": "onlyActive",
 											"type": "`$BOOLEAN`",
 											"kind": "query",
 										},
@@ -380,7 +380,12 @@ func MakeConfig() map[string]any {
 						"name": "id",
 						"title": "Id",
 						"type": "`$INTEGER`",
-						"req": true,
+						"op": map[string]any{
+							"list": map[string]any{
+								"req": true,
+								"type": "`$INTEGER`",
+							},
+						},
 						"format": "int64",
 					},
 					map[string]any{
@@ -400,6 +405,11 @@ func MakeConfig() map[string]any {
 						"title": "Lon",
 						"type": "`$NUMBER`",
 						"format": "double",
+					},
+					map[string]any{
+						"name": "message",
+						"title": "Message",
+						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "newLat",
@@ -477,7 +487,7 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "authorization",
-											"orig": "authorization",
+											"orig": "Authorization",
 											"type": "`$STRING`",
 											"kind": "header",
 											"reqd": true,
@@ -511,7 +521,7 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "authorization",
-											"orig": "authorization",
+											"orig": "Authorization",
 											"type": "`$STRING`",
 											"kind": "header",
 											"reqd": true,
@@ -551,7 +561,7 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "authorization",
-											"orig": "authorization",
+											"orig": "Authorization",
 											"type": "`$STRING`",
 											"kind": "header",
 											"reqd": true,
@@ -560,7 +570,7 @@ func MakeConfig() map[string]any {
 									"query": []any{
 										map[string]any{
 											"name": "show_completed_entry",
-											"orig": "show_completed_entry",
+											"orig": "showCompletedEntries",
 											"type": "`$BOOLEAN`",
 											"kind": "query",
 										},
@@ -834,7 +844,7 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "authorization",
-											"orig": "authorization",
+											"orig": "Authorization",
 											"type": "`$STRING`",
 											"kind": "header",
 											"reqd": true,
@@ -917,7 +927,7 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "authorization",
-											"orig": "authorization",
+											"orig": "Authorization",
 											"type": "`$STRING`",
 											"kind": "header",
 											"reqd": true,
@@ -970,7 +980,7 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "authorization",
-											"orig": "authorization",
+											"orig": "Authorization",
 											"type": "`$STRING`",
 											"kind": "header",
 											"reqd": true,
@@ -1579,13 +1589,13 @@ func MakeConfig() map[string]any {
 									"query": []any{
 										map[string]any{
 											"name": "has_photo",
-											"orig": "has_photo",
+											"orig": "hasPhoto",
 											"type": "`$BOOLEAN`",
 											"kind": "query",
 										},
 										map[string]any{
 											"name": "is_active",
-											"orig": "is_active",
+											"orig": "isActive",
 											"type": "`$BOOLEAN`",
 											"kind": "query",
 										},
@@ -1768,7 +1778,7 @@ func MakeConfig() map[string]any {
 									"query": []any{
 										map[string]any{
 											"name": "since_hour",
-											"orig": "since_hour",
+											"orig": "sinceHours",
 											"type": "`$INTEGER`",
 											"kind": "query",
 											"example": 10,
@@ -1789,7 +1799,48 @@ func MakeConfig() map[string]any {
 				},
 			},
 			"photo_upload": map[string]any{
-				"fields": []any{},
+				"fields": []any{
+					map[string]any{
+						"name": "crc32",
+						"title": "Crc32",
+						"type": "`$INTEGER`",
+						"short": "CRC32 checksum of the uploaded photo",
+						"format": "int64",
+					},
+					map[string]any{
+						"name": "filename",
+						"title": "Filename",
+						"type": "`$STRING`",
+						"short": "filename in inbox",
+					},
+					map[string]any{
+						"name": "id",
+						"title": "Id",
+						"type": "`$INTEGER`",
+						"format": "int64",
+					},
+					map[string]any{
+						"name": "inboxUrl",
+						"title": "Inbox Url",
+						"type": "`$STRING`",
+						"short": "url of the photo in the inbox",
+					},
+					map[string]any{
+						"name": "message",
+						"title": "Message",
+						"type": "`$STRING`",
+					},
+					map[string]any{
+						"name": "state",
+						"title": "State",
+						"type": "`$STRING`",
+						"req": true,
+					},
+				},
+				"id": map[string]any{
+					"field": "id",
+					"name": "id",
+				},
 				"name": "photo_upload",
 				"op": map[string]any{
 					"create": map[string]any{
@@ -1817,57 +1868,57 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "active",
-											"orig": "active",
+											"orig": "Active",
 											"type": "`$BOOLEAN`",
 											"kind": "header",
 										},
 										map[string]any{
 											"name": "authorization",
-											"orig": "authorization",
+											"orig": "Authorization",
 											"type": "`$STRING`",
 											"kind": "header",
 											"reqd": true,
 										},
 										map[string]any{
 											"name": "comment",
-											"orig": "comment",
+											"orig": "Comment",
 											"type": "`$STRING`",
 											"kind": "header",
 										},
 										map[string]any{
 											"name": "content_type",
-											"orig": "content_type",
+											"orig": "Content-Type",
 											"type": "`$STRING`",
 											"kind": "header",
 											"reqd": true,
 										},
 										map[string]any{
 											"name": "country",
-											"orig": "country",
+											"orig": "Country",
 											"type": "`$STRING`",
 											"kind": "header",
 										},
 										map[string]any{
 											"name": "latitude",
-											"orig": "latitude",
+											"orig": "Latitude",
 											"type": "`$NUMBER`",
 											"kind": "header",
 										},
 										map[string]any{
 											"name": "longitude",
-											"orig": "longitude",
+											"orig": "Longitude",
 											"type": "`$NUMBER`",
 											"kind": "header",
 										},
 										map[string]any{
 											"name": "station_id",
-											"orig": "station_id",
+											"orig": "Station-Id",
 											"type": "`$STRING`",
 											"kind": "header",
 										},
 										map[string]any{
 											"name": "station_title",
-											"orig": "station_title",
+											"orig": "Station-Title",
 											"type": "`$STRING`",
 											"kind": "header",
 										},
@@ -2045,7 +2096,7 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "authorization",
-											"orig": "authorization",
+											"orig": "Authorization",
 											"type": "`$STRING`",
 											"kind": "header",
 											"reqd": true,
@@ -2079,7 +2130,7 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "authorization",
-											"orig": "authorization",
+											"orig": "Authorization",
 											"type": "`$STRING`",
 											"kind": "header",
 											"reqd": true,
@@ -2113,7 +2164,7 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "authorization",
-											"orig": "authorization",
+											"orig": "Authorization",
 											"type": "`$STRING`",
 											"kind": "header",
 											"reqd": true,
@@ -2153,7 +2204,7 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "authorization",
-											"orig": "authorization",
+											"orig": "Authorization",
 											"type": "`$STRING`",
 											"kind": "header",
 											"reqd": true,
@@ -2231,7 +2282,7 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "authorization",
-											"orig": "authorization",
+											"orig": "Authorization",
 											"type": "`$STRING`",
 											"kind": "header",
 											"reqd": true,

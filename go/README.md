@@ -328,6 +328,7 @@ API path: `/countries`
 | `"inboxUrl"` | url of the photo in the inbox |
 | `"lat"` |  |
 | `"lon"` |  |
+| `"message"` |  |
 | `"newLat"` |  |
 | `"newLon"` |  |
 | `"newTitle"` |  |
@@ -483,6 +484,12 @@ API path: `/photoStationsByRecentPhotoImports`
 
 | Field | Description |
 | --- | --- |
+| `"crc32"` | CRC32 checksum of the uploaded photo |
+| `"filename"` | filename in inbox |
+| `"id"` |  |
+| `"inboxUrl"` | url of the photo in the inbox |
+| `"message"` |  |
+| `"state"` |  |
 
 Operations: Create.
 
@@ -653,6 +660,7 @@ Create an instance: `inbox := client.Inbox(nil)`
 | `inboxUrl` | `string` | url of the photo in the inbox |
 | `lat` | `float64` |  |
 | `lon` | `float64` |  |
+| `message` | `string` |  |
 | `newLat` | `float64` |  |
 | `newLon` | `float64` |  |
 | `newTitle` | `string` |  |
@@ -676,7 +684,6 @@ fmt.Println(inboxs) // the array of records
 
 ```go
 result, err := client.Inbox(nil).Create(map[string]any{
-    "id": 1,
     "state": "example_state",
 }, nil)
 if err != nil {
@@ -1010,10 +1017,22 @@ Create an instance: `photoUpload := client.PhotoUpload(nil)`
 | --- | --- |
 | `Create(data, ctrl)` | Create a new entity with the given data. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `crc32` | `int` | CRC32 checksum of the uploaded photo |
+| `filename` | `string` | filename in inbox |
+| `id` | `int` |  |
+| `inboxUrl` | `string` | url of the photo in the inbox |
+| `message` | `string` |  |
+| `state` | `string` |  |
+
 #### Example: Create
 
 ```go
 result, err := client.PhotoUpload(nil).Create(map[string]any{
+    "state": "example_state",
 }, nil)
 if err != nil {
     panic(err)

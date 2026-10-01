@@ -33,6 +33,8 @@ require_relative 'transform_response'
 
 RailwayStationPhotosUtility.registrar = ->(u) {
   u.clean = RailwayStationPhotosUtilities::Clean
+  u.clean_add = RailwayStationPhotosUtilities::CleanAdd
+  u.clean_explain = RailwayStationPhotosUtilities::CleanExplain
   u.done = RailwayStationPhotosUtilities::Done
   u.make_error = RailwayStationPhotosUtilities::MakeError
   u.feature_add = RailwayStationPhotosUtilities::FeatureAdd

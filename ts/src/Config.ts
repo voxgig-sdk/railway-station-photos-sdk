@@ -292,7 +292,7 @@ class Config {
                 "header": [
                   {
                     "name": "authorization",
-                    "orig": "authorization",
+                    "orig": "Authorization",
                     "type": "`$STRING`",
                     "kind": "header",
                     "reqd": true
@@ -400,7 +400,7 @@ class Config {
                 "query": [
                   {
                     "name": "only_active",
-                    "orig": "only_active",
+                    "orig": "onlyActive",
                     "type": "`$BOOLEAN`",
                     "kind": "query"
                   }
@@ -455,7 +455,12 @@ class Config {
           "name": "id",
           "title": "Id",
           "type": "`$INTEGER`",
-          "req": true,
+          "op": {
+            "list": {
+              "req": true,
+              "type": "`$INTEGER`"
+            }
+          },
           "format": "int64"
         },
         {
@@ -475,6 +480,11 @@ class Config {
           "title": "Lon",
           "type": "`$NUMBER`",
           "format": "double"
+        },
+        {
+          "name": "message",
+          "title": "Message",
+          "type": "`$STRING`"
         },
         {
           "name": "newLat",
@@ -552,7 +562,7 @@ class Config {
                 "header": [
                   {
                     "name": "authorization",
-                    "orig": "authorization",
+                    "orig": "Authorization",
                     "type": "`$STRING`",
                     "kind": "header",
                     "reqd": true
@@ -586,7 +596,7 @@ class Config {
                 "header": [
                   {
                     "name": "authorization",
-                    "orig": "authorization",
+                    "orig": "Authorization",
                     "type": "`$STRING`",
                     "kind": "header",
                     "reqd": true
@@ -626,7 +636,7 @@ class Config {
                 "header": [
                   {
                     "name": "authorization",
-                    "orig": "authorization",
+                    "orig": "Authorization",
                     "type": "`$STRING`",
                     "kind": "header",
                     "reqd": true
@@ -635,7 +645,7 @@ class Config {
                 "query": [
                   {
                     "name": "show_completed_entry",
-                    "orig": "show_completed_entry",
+                    "orig": "showCompletedEntries",
                     "type": "`$BOOLEAN`",
                     "kind": "query"
                   }
@@ -909,7 +919,7 @@ class Config {
                 "header": [
                   {
                     "name": "authorization",
-                    "orig": "authorization",
+                    "orig": "Authorization",
                     "type": "`$STRING`",
                     "kind": "header",
                     "reqd": true
@@ -992,7 +1002,7 @@ class Config {
                 "header": [
                   {
                     "name": "authorization",
-                    "orig": "authorization",
+                    "orig": "Authorization",
                     "type": "`$STRING`",
                     "kind": "header",
                     "reqd": true
@@ -1045,7 +1055,7 @@ class Config {
                 "header": [
                   {
                     "name": "authorization",
-                    "orig": "authorization",
+                    "orig": "Authorization",
                     "type": "`$STRING`",
                     "kind": "header",
                     "reqd": true
@@ -1654,13 +1664,13 @@ class Config {
                 "query": [
                   {
                     "name": "has_photo",
-                    "orig": "has_photo",
+                    "orig": "hasPhoto",
                     "type": "`$BOOLEAN`",
                     "kind": "query"
                   },
                   {
                     "name": "is_active",
-                    "orig": "is_active",
+                    "orig": "isActive",
                     "type": "`$BOOLEAN`",
                     "kind": "query"
                   }
@@ -1843,7 +1853,7 @@ class Config {
                 "query": [
                   {
                     "name": "since_hour",
-                    "orig": "since_hour",
+                    "orig": "sinceHours",
                     "type": "`$INTEGER`",
                     "kind": "query",
                     "example": 10
@@ -1864,7 +1874,48 @@ class Config {
       }
     },
     "photo_upload": {
-      "fields": [],
+      "fields": [
+        {
+          "name": "crc32",
+          "title": "Crc32",
+          "type": "`$INTEGER`",
+          "short": "CRC32 checksum of the uploaded photo",
+          "format": "int64"
+        },
+        {
+          "name": "filename",
+          "title": "Filename",
+          "type": "`$STRING`",
+          "short": "filename in inbox"
+        },
+        {
+          "name": "id",
+          "title": "Id",
+          "type": "`$INTEGER`",
+          "format": "int64"
+        },
+        {
+          "name": "inboxUrl",
+          "title": "Inbox Url",
+          "type": "`$STRING`",
+          "short": "url of the photo in the inbox"
+        },
+        {
+          "name": "message",
+          "title": "Message",
+          "type": "`$STRING`"
+        },
+        {
+          "name": "state",
+          "title": "State",
+          "type": "`$STRING`",
+          "req": true
+        }
+      ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "photo_upload",
       "op": {
         "create": {
@@ -1892,57 +1943,57 @@ class Config {
                 "header": [
                   {
                     "name": "active",
-                    "orig": "active",
+                    "orig": "Active",
                     "type": "`$BOOLEAN`",
                     "kind": "header"
                   },
                   {
                     "name": "authorization",
-                    "orig": "authorization",
+                    "orig": "Authorization",
                     "type": "`$STRING`",
                     "kind": "header",
                     "reqd": true
                   },
                   {
                     "name": "comment",
-                    "orig": "comment",
+                    "orig": "Comment",
                     "type": "`$STRING`",
                     "kind": "header"
                   },
                   {
                     "name": "content_type",
-                    "orig": "content_type",
+                    "orig": "Content-Type",
                     "type": "`$STRING`",
                     "kind": "header",
                     "reqd": true
                   },
                   {
                     "name": "country",
-                    "orig": "country",
+                    "orig": "Country",
                     "type": "`$STRING`",
                     "kind": "header"
                   },
                   {
                     "name": "latitude",
-                    "orig": "latitude",
+                    "orig": "Latitude",
                     "type": "`$NUMBER`",
                     "kind": "header"
                   },
                   {
                     "name": "longitude",
-                    "orig": "longitude",
+                    "orig": "Longitude",
                     "type": "`$NUMBER`",
                     "kind": "header"
                   },
                   {
                     "name": "station_id",
-                    "orig": "station_id",
+                    "orig": "Station-Id",
                     "type": "`$STRING`",
                     "kind": "header"
                   },
                   {
                     "name": "station_title",
-                    "orig": "station_title",
+                    "orig": "Station-Title",
                     "type": "`$STRING`",
                     "kind": "header"
                   }
@@ -2120,7 +2171,7 @@ class Config {
                 "header": [
                   {
                     "name": "authorization",
-                    "orig": "authorization",
+                    "orig": "Authorization",
                     "type": "`$STRING`",
                     "kind": "header",
                     "reqd": true
@@ -2154,7 +2205,7 @@ class Config {
                 "header": [
                   {
                     "name": "authorization",
-                    "orig": "authorization",
+                    "orig": "Authorization",
                     "type": "`$STRING`",
                     "kind": "header",
                     "reqd": true
@@ -2188,7 +2239,7 @@ class Config {
                 "header": [
                   {
                     "name": "authorization",
-                    "orig": "authorization",
+                    "orig": "Authorization",
                     "type": "`$STRING`",
                     "kind": "header",
                     "reqd": true
@@ -2228,7 +2279,7 @@ class Config {
                 "header": [
                   {
                     "name": "authorization",
-                    "orig": "authorization",
+                    "orig": "Authorization",
                     "type": "`$STRING`",
                     "kind": "header",
                     "reqd": true
@@ -2306,7 +2357,7 @@ class Config {
                 "header": [
                   {
                     "name": "authorization",
-                    "orig": "authorization",
+                    "orig": "Authorization",
                     "type": "`$STRING`",
                     "kind": "header",
                     "reqd": true

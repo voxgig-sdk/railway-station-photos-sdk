@@ -76,10 +76,11 @@ class Inbox
     public ?int $crc32 = null;
     public ?int $createdAt = null;
     public ?string $filename = null;
-    public int $id;
+    public ?int $id = null;
     public ?string $inboxUrl = null;
     public ?float $lat = null;
     public ?float $lon = null;
+    public ?string $message = null;
     public ?float $newLat = null;
     public ?float $newLon = null;
     public ?string $newTitle = null;
@@ -104,10 +105,11 @@ class InboxCreateData
     public ?int $crc32 = null;
     public ?int $createdAt = null;
     public ?string $filename = null;
-    public int $id;
+    public ?int $id = null;
     public ?string $inboxUrl = null;
     public ?float $lat = null;
     public ?float $lon = null;
+    public ?string $message = null;
     public ?float $newLat = null;
     public ?float $newLon = null;
     public ?string $newTitle = null;
@@ -328,11 +330,23 @@ class PhotoStationsByRecentPhotoImportListMatch
 /** PhotoUpload entity data model. */
 class PhotoUpload
 {
+    public ?int $crc32 = null;
+    public ?string $filename = null;
+    public ?int $id = null;
+    public ?string $inboxUrl = null;
+    public ?string $message = null;
+    public string $state;
 }
 
 /** Request payload for PhotoUpload#create. */
 class PhotoUploadCreateData
 {
+    public ?int $crc32 = null;
+    public ?string $filename = null;
+    public ?int $id = null;
+    public ?string $inboxUrl = null;
+    public ?string $message = null;
+    public string $state;
 }
 
 /** Photographer entity data model. */

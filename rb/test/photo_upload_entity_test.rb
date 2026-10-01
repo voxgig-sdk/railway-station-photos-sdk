@@ -39,6 +39,7 @@ class PhotoUploadEntityTest < Minitest::Test
     photo_upload_ref01_data_result = photo_upload_ref01_ent.create(photo_upload_ref01_data, nil)
     photo_upload_ref01_data = Helpers.to_map(photo_upload_ref01_data_result.respond_to?(:data_get) ? photo_upload_ref01_data_result.data_get : photo_upload_ref01_data_result)
     assert !photo_upload_ref01_data.nil?
+    assert !photo_upload_ref01_data["id"].nil?
 
   end
 end

@@ -46,6 +46,7 @@ class TestPhotoUploadEntity:
 
         photo_upload_ref01_data = helpers.to_map(runner.entity_data(photo_upload_ref01_ent.create(photo_upload_ref01_data, None)))
         assert photo_upload_ref01_data is not None
+        assert photo_upload_ref01_data["id"] is not None
 
 
 

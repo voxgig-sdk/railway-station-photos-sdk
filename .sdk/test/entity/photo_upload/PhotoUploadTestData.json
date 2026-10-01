@@ -2,19 +2,40 @@
   "existing": {
     "photo_upload": {
       "PHOTO_UPLOAD00": {
-        "id": "PHOTO_UPLOAD00"
+        "crc32": 60,
+        "filename": "s3d",
+        "id": "PHOTO_UPLOAD00",
+        "inboxUrl": "s3f",
+        "message": "s40",
+        "state": "s41"
       },
       "PHOTO_UPLOAD01": {
-        "id": "PHOTO_UPLOAD01"
+        "crc32": 120,
+        "filename": "s79",
+        "id": "PHOTO_UPLOAD01",
+        "inboxUrl": "s7b",
+        "message": "s7c",
+        "state": "s7d"
       },
       "PHOTO_UPLOAD02": {
-        "id": "PHOTO_UPLOAD02"
+        "crc32": 180,
+        "filename": "sb5",
+        "id": "PHOTO_UPLOAD02",
+        "inboxUrl": "sb7",
+        "message": "sb8",
+        "state": "sb9"
       }
     }
   },
   "new": {
     "photo_upload": {
-      "photo_upload_ref01": {}
+      "photo_upload_ref01": {
+        "crc32": 240,
+        "filename": "sf1",
+        "inboxUrl": "sf3",
+        "message": "sf4",
+        "state": "sf5"
+      }
     }
   },
   "requests": {

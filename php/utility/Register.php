@@ -37,6 +37,8 @@ require_once __DIR__ . '/TransformResponse.php';
 
 RailwayStationPhotosUtility::setRegistrar(function (RailwayStationPhotosUtility $u): void {
     $u->clean = [RailwayStationPhotosClean::class, 'call'];
+    $u->clean_add = [RailwayStationPhotosClean::class, 'add'];
+    $u->clean_explain = [RailwayStationPhotosDone::class, 'clean_explain'];
     $u->done = [RailwayStationPhotosDone::class, 'call'];
     $u->make_error = [RailwayStationPhotosMakeError::class, 'call'];
     $u->feature_add = [RailwayStationPhotosFeatureAdd::class, 'call'];

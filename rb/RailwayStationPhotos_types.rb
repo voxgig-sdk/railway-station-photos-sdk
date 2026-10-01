@@ -190,7 +190,7 @@ CountryListMatch = Struct.new(
 #   @return [String, nil]
 #
 # @!attribute [rw] id
-#   @return [Integer]
+#   @return [Integer, nil]
 #
 # @!attribute [rw] inboxUrl
 #   @return [String, nil]
@@ -200,6 +200,9 @@ CountryListMatch = Struct.new(
 #
 # @!attribute [rw] lon
 #   @return [Float, nil]
+#
+# @!attribute [rw] message
+#   @return [String, nil]
 #
 # @!attribute [rw] newLat
 #   @return [Float, nil]
@@ -234,6 +237,7 @@ Inbox = Struct.new(
   :inboxUrl,
   :lat,
   :lon,
+  :message,
   :newLat,
   :newLon,
   :newTitle,
@@ -272,7 +276,7 @@ InboxListMatch = Struct.new(
 #   @return [String, nil]
 #
 # @!attribute [rw] id
-#   @return [Integer]
+#   @return [Integer, nil]
 #
 # @!attribute [rw] inboxUrl
 #   @return [String, nil]
@@ -282,6 +286,9 @@ InboxListMatch = Struct.new(
 #
 # @!attribute [rw] lon
 #   @return [Float, nil]
+#
+# @!attribute [rw] message
+#   @return [String, nil]
 #
 # @!attribute [rw] newLat
 #   @return [Float, nil]
@@ -316,6 +323,7 @@ InboxCreateData = Struct.new(
   :inboxUrl,
   :lat,
   :lon,
+  :message,
   :newLat,
   :newLon,
   :newTitle,
@@ -823,12 +831,62 @@ PhotoStationsByRecentPhotoImportListMatch = Struct.new(
 )
 
 # PhotoUpload entity data model.
-class PhotoUpload
-end
+#
+# @!attribute [rw] crc32
+#   @return [Integer, nil]
+#
+# @!attribute [rw] filename
+#   @return [String, nil]
+#
+# @!attribute [rw] id
+#   @return [Integer, nil]
+#
+# @!attribute [rw] inboxUrl
+#   @return [String, nil]
+#
+# @!attribute [rw] message
+#   @return [String, nil]
+#
+# @!attribute [rw] state
+#   @return [String]
+PhotoUpload = Struct.new(
+  :crc32,
+  :filename,
+  :id,
+  :inboxUrl,
+  :message,
+  :state,
+  keyword_init: true
+)
 
 # Request payload for PhotoUpload#create.
-class PhotoUploadCreateData
-end
+#
+# @!attribute [rw] crc32
+#   @return [Integer, nil]
+#
+# @!attribute [rw] filename
+#   @return [String, nil]
+#
+# @!attribute [rw] id
+#   @return [Integer, nil]
+#
+# @!attribute [rw] inboxUrl
+#   @return [String, nil]
+#
+# @!attribute [rw] message
+#   @return [String, nil]
+#
+# @!attribute [rw] state
+#   @return [String]
+PhotoUploadCreateData = Struct.new(
+  :crc32,
+  :filename,
+  :id,
+  :inboxUrl,
+  :message,
+  :state,
+  keyword_init: true
+)
 
 # Photographer entity data model.
 class Photographer

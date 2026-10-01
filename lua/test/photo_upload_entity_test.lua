@@ -43,6 +43,7 @@ describe("PhotoUploadEntity", function()
     assert.is_nil(err)
     photo_upload_ref01_data = helpers.to_map(type(photo_upload_ref01_data_result) == 'table' and photo_upload_ref01_data_result.data_get and photo_upload_ref01_data_result:data_get() or photo_upload_ref01_data_result)
     assert.is_not_nil(photo_upload_ref01_data)
+    assert.is_not_nil(photo_upload_ref01_data["id"])
 
   end)
 end)

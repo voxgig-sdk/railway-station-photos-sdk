@@ -295,10 +295,11 @@ inbox = client.Inbox
 | `crc32` | `Integer` | No | CRC32 checksum of the uploaded photo |
 | `createdAt` | `Integer` | No |  |
 | `filename` | `String` | No | filename in inbox |
-| `id` | `Integer` | Yes |  |
+| `id` | `Integer` | No |  |
 | `inboxUrl` | `String` | No | url of the photo in the inbox |
 | `lat` | `Float` | No |  |
 | `lon` | `Float` | No |  |
+| `message` | `String` | No |  |
 | `newLat` | `Float` | No |  |
 | `newLon` | `Float` | No |  |
 | `newTitle` | `String` | No |  |
@@ -308,6 +309,29 @@ inbox = client.Inbox
 | `stationId` | `String` | No |  |
 | `title` | `String` | No |  |
 
+### Field Usage by Operation
+
+| Field | list | create | remove |
+| --- | --- | --- | --- |
+| `comment` | - | - | - |
+| `countryCode` | - | - | - |
+| `crc32` | - | - | - |
+| `createdAt` | - | - | - |
+| `filename` | - | - | - |
+| `id` | Yes | - | - |
+| `inboxUrl` | - | - | - |
+| `lat` | - | - | - |
+| `lon` | - | - | - |
+| `message` | - | - | - |
+| `newLat` | - | - | - |
+| `newLon` | - | - | - |
+| `newTitle` | - | - | - |
+| `problemReportType` | - | - | - |
+| `rejectedReason` | - | - | - |
+| `state` | - | - | - |
+| `stationId` | - | - | - |
+| `title` | - | - | - |
+
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
@@ -316,7 +340,6 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.Inbox.create({
-  "id" => 1, # Integer
   "state" => "example_state", # String
 })
 ```
@@ -934,6 +957,17 @@ Return the entity name.
 photo_upload = client.PhotoUpload
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `crc32` | `Integer` | No | CRC32 checksum of the uploaded photo |
+| `filename` | `String` | No | filename in inbox |
+| `id` | `Integer` | No |  |
+| `inboxUrl` | `String` | No | url of the photo in the inbox |
+| `message` | `String` | No |  |
+| `state` | `String` | Yes |  |
+
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
@@ -942,6 +976,7 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.PhotoUpload.create({
+  "state" => "example_state", # String
 })
 ```
 

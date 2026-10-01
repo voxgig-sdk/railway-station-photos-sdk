@@ -58,10 +58,11 @@ type InboxCreateData struct {
 	Crc32 *int `json:"crc32,omitempty"`
 	CreatedAt *int `json:"createdAt,omitempty"`
 	Filename *string `json:"filename,omitempty"`
-	Id int `json:"id"`
+	Id *int `json:"id,omitempty"`
 	InboxUrl *string `json:"inboxUrl,omitempty"`
 	Lat *float64 `json:"lat,omitempty"`
 	Lon *float64 `json:"lon,omitempty"`
+	Message *string `json:"message,omitempty"`
 	NewLat *float64 `json:"newLat,omitempty"`
 	NewLon *float64 `json:"newLon,omitempty"`
 	NewTitle *string `json:"newTitle,omitempty"`
@@ -215,6 +216,12 @@ type PhotoUpload struct {
 
 // PhotoUploadCreateData is the typed request payload for PhotoUpload.CreateTyped.
 type PhotoUploadCreateData struct {
+	Crc32 *int `json:"crc32,omitempty"`
+	Filename *string `json:"filename,omitempty"`
+	Id *int `json:"id,omitempty"`
+	InboxUrl *string `json:"inboxUrl,omitempty"`
+	Message *string `json:"message,omitempty"`
+	State string `json:"state"`
 }
 
 // Photographer is the typed data model for the photographer entity.

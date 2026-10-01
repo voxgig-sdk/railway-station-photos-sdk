@@ -116,7 +116,7 @@ main: kit: entity: admin_inbox: {
               {
                 k: "header"
                 n: "authorization"
-                or: "authorization"
+                or: "Authorization"
                 r: true
                 t: "`$STRING`"
               }

@@ -294,10 +294,11 @@ $inbox = $client->Inbox();
 | `crc32` | `int` | No | CRC32 checksum of the uploaded photo |
 | `createdAt` | `int` | No |  |
 | `filename` | `string` | No | filename in inbox |
-| `id` | `int` | Yes |  |
+| `id` | `int` | No |  |
 | `inboxUrl` | `string` | No | url of the photo in the inbox |
 | `lat` | `float` | No |  |
 | `lon` | `float` | No |  |
+| `message` | `string` | No |  |
 | `newLat` | `float` | No |  |
 | `newLon` | `float` | No |  |
 | `newTitle` | `string` | No |  |
@@ -307,6 +308,29 @@ $inbox = $client->Inbox();
 | `stationId` | `string` | No |  |
 | `title` | `string` | No |  |
 
+### Field Usage by Operation
+
+| Field | list | create | remove |
+| --- | --- | --- | --- |
+| `comment` | - | - | - |
+| `countryCode` | - | - | - |
+| `crc32` | - | - | - |
+| `createdAt` | - | - | - |
+| `filename` | - | - | - |
+| `id` | Yes | - | - |
+| `inboxUrl` | - | - | - |
+| `lat` | - | - | - |
+| `lon` | - | - | - |
+| `message` | - | - | - |
+| `newLat` | - | - | - |
+| `newLon` | - | - | - |
+| `newTitle` | - | - | - |
+| `problemReportType` | - | - | - |
+| `rejectedReason` | - | - | - |
+| `state` | - | - | - |
+| `stationId` | - | - | - |
+| `title` | - | - | - |
+
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
@@ -315,7 +339,6 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->Inbox()->create([
-  "id" => null, // int
   "state" => null, // string
 ]);
 ```
@@ -933,6 +956,17 @@ Return the entity name.
 $photo_upload = $client->PhotoUpload();
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `crc32` | `int` | No | CRC32 checksum of the uploaded photo |
+| `filename` | `string` | No | filename in inbox |
+| `id` | `int` | No |  |
+| `inboxUrl` | `string` | No | url of the photo in the inbox |
+| `message` | `string` | No |  |
+| `state` | `string` | Yes |  |
+
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
@@ -941,6 +975,7 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->PhotoUpload()->create([
+  "state" => null, // string
 ]);
 ```
 

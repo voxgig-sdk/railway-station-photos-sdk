@@ -74,7 +74,6 @@ class CountryListMatch(TypedDict, total=False):
 
 
 class InboxRequired(TypedDict):
-    id: int
     state: str
 
 
@@ -84,9 +83,11 @@ class Inbox(InboxRequired, total=False):
     crc32: int
     createdAt: int
     filename: str
+    id: int
     inboxUrl: str
     lat: float
     lon: float
+    message: str
     newLat: float
     newLon: float
     newTitle: str
@@ -101,7 +102,6 @@ class InboxListMatch(TypedDict, total=False):
 
 
 class InboxCreateDataRequired(TypedDict):
-    id: int
     state: str
 
 
@@ -111,9 +111,11 @@ class InboxCreateData(InboxCreateDataRequired, total=False):
     crc32: int
     createdAt: int
     filename: str
+    id: int
     inboxUrl: str
     lat: float
     lon: float
+    message: str
     newLat: float
     newLon: float
     newTitle: str
@@ -322,12 +324,28 @@ class PhotoStationsByRecentPhotoImportListMatch(TypedDict, total=False):
     since_hour: int
 
 
-class PhotoUpload(TypedDict):
-    pass
+class PhotoUploadRequired(TypedDict):
+    state: str
 
 
-class PhotoUploadCreateData(TypedDict):
-    pass
+class PhotoUpload(PhotoUploadRequired, total=False):
+    crc32: int
+    filename: str
+    id: int
+    inboxUrl: str
+    message: str
+
+
+class PhotoUploadCreateDataRequired(TypedDict):
+    state: str
+
+
+class PhotoUploadCreateData(PhotoUploadCreateDataRequired, total=False):
+    crc32: int
+    filename: str
+    id: int
+    inboxUrl: str
+    message: str
 
 
 class Photographer(TypedDict):

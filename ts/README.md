@@ -15,9 +15,13 @@ predictable and low-friction for both humans and AI agents.
 
 ## Install
 This package is not yet published to npm. Install it from the GitHub
-release tag (`ts/vX.Y.Z`):
+release tag (`ts/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/railway-station-photos-sdk/releases)), or from a
+clone, which carries the compiled `dist/`:
 
-- Releases: [https://github.com/voxgig-sdk/railway-station-photos-sdk/releases](https://github.com/voxgig-sdk/railway-station-photos-sdk/releases)
+```bash
+git clone https://github.com/voxgig-sdk/railway-station-photos-sdk
+npm install ./railway-station-photos-sdk/ts
+```
 
 
 ## Tutorial: your first API call
@@ -378,6 +382,7 @@ API path: `/countries`
 | `inboxUrl` | url of the photo in the inbox |
 | `lat` |  |
 | `lon` |  |
+| `message` |  |
 | `newLat` |  |
 | `newLon` |  |
 | `newTitle` |  |
@@ -533,6 +538,12 @@ API path: `/photoStationsByRecentPhotoImports`
 
 | Field | Description |
 | --- | --- |
+| `crc32` | CRC32 checksum of the uploaded photo |
+| `filename` | filename in inbox |
+| `id` |  |
+| `inboxUrl` | url of the photo in the inbox |
+| `message` |  |
+| `state` |  |
 
 Operations: create.
 
@@ -695,6 +706,7 @@ Create an instance: `const inbox = client.Inbox()`
 | `inboxUrl` | `string` | url of the photo in the inbox |
 | `lat` | `number` |  |
 | `lon` | `number` |  |
+| `message` | `string` |  |
 | `newLat` | `number` |  |
 | `newLon` | `number` |  |
 | `newTitle` | `string` |  |
@@ -714,7 +726,6 @@ const inboxs = await client.Inbox().list()
 
 ```ts
 const inbox = await client.Inbox().create({
-  id: 1,
   state: 'example_state',
 })
 ```
@@ -1000,10 +1011,22 @@ Create an instance: `const photo_upload = client.PhotoUpload()`
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `crc32` | `number` | CRC32 checksum of the uploaded photo |
+| `filename` | `string` | filename in inbox |
+| `id` | `number` |  |
+| `inboxUrl` | `string` | url of the photo in the inbox |
+| `message` | `string` |  |
+| `state` | `string` |  |
+
 #### Example: Create
 
 ```ts
 const photo_upload = await client.PhotoUpload().create({
+  state: 'example_state',
 })
 ```
 

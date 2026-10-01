@@ -222,7 +222,7 @@
                         "a": true,
                         "k": "header",
                         "n": "authorization",
-                        "or": "authorization",
+                        "or": "Authorization",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -352,7 +352,7 @@
                         "a": true,
                         "k": "query",
                         "n": "only_active",
-                        "or": "only_active",
+                        "or": "onlyActive",
                         "r": false,
                         "t": "`$BOOLEAN`"
                       }
@@ -435,7 +435,13 @@
               "fo": "int64",
               "h": "Id",
               "n": "id",
-              "r": true,
+              "op": {
+                "list": {
+                  "req": true,
+                  "type": "`$INTEGER`"
+                }
+              },
+              "r": false,
               "t": "`$INTEGER`"
             },
             "inboxUrl": {
@@ -461,6 +467,13 @@
               "n": "lon",
               "r": false,
               "t": "`$NUMBER`"
+            },
+            "message": {
+              "a": true,
+              "h": "Message",
+              "n": "message",
+              "r": false,
+              "t": "`$STRING`"
             },
             "newLat": {
               "a": true,
@@ -545,7 +558,7 @@
                         "a": true,
                         "k": "header",
                         "n": "authorization",
-                        "or": "authorization",
+                        "or": "Authorization",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -583,7 +596,7 @@
                         "a": true,
                         "k": "header",
                         "n": "authorization",
-                        "or": "authorization",
+                        "or": "Authorization",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -627,7 +640,7 @@
                         "a": true,
                         "k": "header",
                         "n": "authorization",
-                        "or": "authorization",
+                        "or": "Authorization",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -637,7 +650,7 @@
                         "a": true,
                         "k": "query",
                         "n": "show_completed_entry",
-                        "or": "show_completed_entry",
+                        "or": "showCompletedEntries",
                         "r": false,
                         "t": "`$BOOLEAN`"
                       }
@@ -969,7 +982,7 @@
                         "a": true,
                         "k": "header",
                         "n": "authorization",
-                        "or": "authorization",
+                        "or": "Authorization",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -1063,7 +1076,7 @@
                         "a": true,
                         "k": "header",
                         "n": "authorization",
-                        "or": "authorization",
+                        "or": "Authorization",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -1123,7 +1136,7 @@
                         "a": true,
                         "k": "header",
                         "n": "authorization",
-                        "or": "authorization",
+                        "or": "Authorization",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -1799,7 +1812,7 @@
                         "a": true,
                         "k": "query",
                         "n": "has_photo",
-                        "or": "has_photo",
+                        "or": "hasPhoto",
                         "r": false,
                         "t": "`$BOOLEAN`"
                       },
@@ -1807,7 +1820,7 @@
                         "a": true,
                         "k": "query",
                         "n": "is_active",
-                        "or": "is_active",
+                        "or": "isActive",
                         "r": false,
                         "t": "`$BOOLEAN`"
                       }
@@ -2026,7 +2039,7 @@
                         "ex": 10,
                         "k": "query",
                         "n": "since_hour",
-                        "or": "since_hour",
+                        "or": "sinceHours",
                         "r": false,
                         "t": "`$INTEGER`"
                       }
@@ -2063,7 +2076,59 @@
           "alias": {
             "field": {}
           },
-          "fields": {},
+          "fields": {
+            "crc32": {
+              "a": true,
+              "fo": "int64",
+              "h": "Crc32",
+              "n": "crc32",
+              "r": false,
+              "sh": "CRC32 checksum of the uploaded photo",
+              "t": "`$INTEGER`"
+            },
+            "filename": {
+              "a": true,
+              "h": "Filename",
+              "n": "filename",
+              "r": false,
+              "sh": "filename in inbox",
+              "t": "`$STRING`"
+            },
+            "id": {
+              "a": true,
+              "fo": "int64",
+              "h": "Id",
+              "n": "id",
+              "r": false,
+              "t": "`$INTEGER`"
+            },
+            "inboxUrl": {
+              "a": true,
+              "h": "Inbox Url",
+              "n": "inboxUrl",
+              "r": false,
+              "sh": "url of the photo in the inbox",
+              "t": "`$STRING`"
+            },
+            "message": {
+              "a": true,
+              "h": "Message",
+              "n": "message",
+              "r": false,
+              "t": "`$STRING`"
+            },
+            "state": {
+              "a": true,
+              "h": "State",
+              "n": "state",
+              "r": true,
+              "t": "`$STRING`"
+            }
+          },
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
           "name": "photo_upload",
           "op": {
             "create": {
@@ -2083,7 +2148,7 @@
                         "a": true,
                         "k": "header",
                         "n": "active",
-                        "or": "active",
+                        "or": "Active",
                         "r": false,
                         "t": "`$BOOLEAN`"
                       },
@@ -2091,7 +2156,7 @@
                         "a": true,
                         "k": "header",
                         "n": "authorization",
-                        "or": "authorization",
+                        "or": "Authorization",
                         "r": true,
                         "t": "`$STRING`"
                       },
@@ -2099,7 +2164,7 @@
                         "a": true,
                         "k": "header",
                         "n": "comment",
-                        "or": "comment",
+                        "or": "Comment",
                         "r": false,
                         "t": "`$STRING`"
                       },
@@ -2107,7 +2172,7 @@
                         "a": true,
                         "k": "header",
                         "n": "content_type",
-                        "or": "content_type",
+                        "or": "Content-Type",
                         "r": true,
                         "t": "`$STRING`"
                       },
@@ -2115,7 +2180,7 @@
                         "a": true,
                         "k": "header",
                         "n": "country",
-                        "or": "country",
+                        "or": "Country",
                         "r": false,
                         "t": "`$STRING`"
                       },
@@ -2123,7 +2188,7 @@
                         "a": true,
                         "k": "header",
                         "n": "latitude",
-                        "or": "latitude",
+                        "or": "Latitude",
                         "r": false,
                         "t": "`$NUMBER`"
                       },
@@ -2131,7 +2196,7 @@
                         "a": true,
                         "k": "header",
                         "n": "longitude",
-                        "or": "longitude",
+                        "or": "Longitude",
                         "r": false,
                         "t": "`$NUMBER`"
                       },
@@ -2139,7 +2204,7 @@
                         "a": true,
                         "k": "header",
                         "n": "station_id",
-                        "or": "station_id",
+                        "or": "Station-Id",
                         "r": false,
                         "t": "`$STRING`"
                       },
@@ -2147,7 +2212,7 @@
                         "a": true,
                         "k": "header",
                         "n": "station_title",
-                        "or": "station_title",
+                        "or": "Station-Title",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -2361,7 +2426,7 @@
                         "a": true,
                         "k": "header",
                         "n": "authorization",
-                        "or": "authorization",
+                        "or": "Authorization",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -2399,7 +2464,7 @@
                         "a": true,
                         "k": "header",
                         "n": "authorization",
-                        "or": "authorization",
+                        "or": "Authorization",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -2437,7 +2502,7 @@
                         "a": true,
                         "k": "header",
                         "n": "authorization",
-                        "or": "authorization",
+                        "or": "Authorization",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -2481,7 +2546,7 @@
                         "a": true,
                         "k": "header",
                         "n": "authorization",
-                        "or": "authorization",
+                        "or": "Authorization",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -2566,7 +2631,7 @@
                         "a": true,
                         "k": "header",
                         "n": "authorization",
-                        "or": "authorization",
+                        "or": "Authorization",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -3807,7 +3872,12 @@
         },
         "base": "http://localhost:8000",
         "clean": {
-          "keys": "key,token,id"
+          "active": true,
+          "hint": "0",
+          "keys": "key,secret,token,password,passwd,authorization,cookie,credential,signature",
+          "mask": "[redacted]",
+          "min": "4",
+          "values": ""
         },
         "entity": {
           "`$CHILD`": {

@@ -292,10 +292,11 @@ local inbox = client:Inbox(nil)
 | `crc32` | `number` | No | CRC32 checksum of the uploaded photo |
 | `createdAt` | `number` | No |  |
 | `filename` | `string` | No | filename in inbox |
-| `id` | `number` | Yes |  |
+| `id` | `number` | No |  |
 | `inboxUrl` | `string` | No | url of the photo in the inbox |
 | `lat` | `number` | No |  |
 | `lon` | `number` | No |  |
+| `message` | `string` | No |  |
 | `newLat` | `number` | No |  |
 | `newLon` | `number` | No |  |
 | `newTitle` | `string` | No |  |
@@ -305,6 +306,29 @@ local inbox = client:Inbox(nil)
 | `stationId` | `string` | No |  |
 | `title` | `string` | No |  |
 
+### Field Usage by Operation
+
+| Field | list | create | remove |
+| --- | --- | --- | --- |
+| `comment` | - | - | - |
+| `countryCode` | - | - | - |
+| `crc32` | - | - | - |
+| `createdAt` | - | - | - |
+| `filename` | - | - | - |
+| `id` | Yes | - | - |
+| `inboxUrl` | - | - | - |
+| `lat` | - | - | - |
+| `lon` | - | - | - |
+| `message` | - | - | - |
+| `newLat` | - | - | - |
+| `newLon` | - | - | - |
+| `newTitle` | - | - | - |
+| `problemReportType` | - | - | - |
+| `rejectedReason` | - | - | - |
+| `state` | - | - | - |
+| `stationId` | - | - | - |
+| `title` | - | - | - |
+
 ### Operations
 
 #### `create(reqdata, ctrl) -> any, err`
@@ -313,7 +337,6 @@ Create a new entity with the given data.
 
 ```lua
 local result, err = client:Inbox():create({
-  id = --[[ number ]],
   state = --[[ string ]],
 })
 ```
@@ -931,6 +954,17 @@ Return the entity name.
 local photo_upload = client:PhotoUpload(nil)
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `crc32` | `number` | No | CRC32 checksum of the uploaded photo |
+| `filename` | `string` | No | filename in inbox |
+| `id` | `number` | No |  |
+| `inboxUrl` | `string` | No | url of the photo in the inbox |
+| `message` | `string` | No |  |
+| `state` | `string` | Yes |  |
+
 ### Operations
 
 #### `create(reqdata, ctrl) -> any, err`
@@ -939,6 +973,7 @@ Create a new entity with the given data.
 
 ```lua
 local result, err = client:PhotoUpload():create({
+  state = --[[ string ]],
 })
 ```
 

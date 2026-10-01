@@ -450,10 +450,11 @@ const inbox = client.Inbox()
 | `crc32` | `number` | No | CRC32 checksum of the uploaded photo |
 | `createdAt` | `number` | No |  |
 | `filename` | `string` | No | filename in inbox |
-| `id` | `number` | Yes |  |
+| `id` | `number` | No |  |
 | `inboxUrl` | `string` | No | url of the photo in the inbox |
 | `lat` | `number` | No |  |
 | `lon` | `number` | No |  |
+| `message` | `string` | No |  |
 | `newLat` | `number` | No |  |
 | `newLon` | `number` | No |  |
 | `newTitle` | `string` | No |  |
@@ -463,6 +464,29 @@ const inbox = client.Inbox()
 | `stationId` | `string` | No |  |
 | `title` | `string` | No |  |
 
+### Field Usage by Operation
+
+| Field | list | create | remove |
+| --- | --- | --- | --- |
+| `comment` | - | - | - |
+| `countryCode` | - | - | - |
+| `crc32` | - | - | - |
+| `createdAt` | - | - | - |
+| `filename` | - | - | - |
+| `id` | Yes | - | - |
+| `inboxUrl` | - | - | - |
+| `lat` | - | - | - |
+| `lon` | - | - | - |
+| `message` | - | - | - |
+| `newLat` | - | - | - |
+| `newLon` | - | - | - |
+| `newTitle` | - | - | - |
+| `problemReportType` | - | - | - |
+| `rejectedReason` | - | - | - |
+| `state` | - | - | - |
+| `stationId` | - | - | - |
+| `title` | - | - | - |
+
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
@@ -471,7 +495,6 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.Inbox().create({
-  id: 1,
   state: 'example_state',
 })
 ```
@@ -1067,6 +1090,17 @@ Return a copy of the entity options.
 const photo_upload = client.PhotoUpload()
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `crc32` | `number` | No | CRC32 checksum of the uploaded photo |
+| `filename` | `string` | No | filename in inbox |
+| `id` | `number` | No |  |
+| `inboxUrl` | `string` | No | url of the photo in the inbox |
+| `message` | `string` | No |  |
+| `state` | `string` | Yes |  |
+
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
@@ -1075,6 +1109,7 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.PhotoUpload().create({
+  state: 'example_state',
 })
 ```
 

@@ -159,6 +159,12 @@ Results: upload successful.
 
 SDK operations: `create`.
 
+Key fields to recognise:
+
+- `crc32`: CRC32 checksum of the uploaded photo
+- `filename`: filename in inbox
+- `inboxUrl`: url of the photo in the inbox
+
 ### Photographer
 
 Results: successful operation.

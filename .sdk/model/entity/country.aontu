@@ -86,7 +86,7 @@ main: kit: entity: country: {
               {
                 k: "query"
                 n: "only_active"
-                or: "only_active"
+                or: "onlyActive"
                 r: false
                 t: "`$BOOLEAN`"
               }

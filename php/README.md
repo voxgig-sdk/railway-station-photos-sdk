@@ -12,9 +12,14 @@ The SDK exposes the API as capitalised, semantic **Entities** — for example `$
 
 ## Install
 This package is not yet published to Packagist. Install it from the
-GitHub release tag (`php/vX.Y.Z`):
+GitHub release tag (`php/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/railway-station-photos-sdk/releases)), or
+from a clone as a Composer path repository:
 
-- Releases: [https://github.com/voxgig-sdk/railway-station-photos-sdk/releases](https://github.com/voxgig-sdk/railway-station-photos-sdk/releases)
+```bash
+git clone https://github.com/voxgig-sdk/railway-station-photos-sdk
+composer config repositories.railway-station-photos-sdk path ./railway-station-photos-sdk/php
+composer require voxgig-sdk/railway-station-photos-sdk:@dev
+```
 
 
 ## Tutorial: your first API call
@@ -327,6 +332,7 @@ API path: `/countries`
 | `inboxUrl` | url of the photo in the inbox |
 | `lat` |  |
 | `lon` |  |
+| `message` |  |
 | `newLat` |  |
 | `newLon` |  |
 | `newTitle` |  |
@@ -482,6 +488,12 @@ API path: `/photoStationsByRecentPhotoImports`
 
 | Field | Description |
 | --- | --- |
+| `crc32` | CRC32 checksum of the uploaded photo |
+| `filename` | filename in inbox |
+| `id` |  |
+| `inboxUrl` | url of the photo in the inbox |
+| `message` |  |
+| `state` |  |
 
 Operations: Create.
 
@@ -645,6 +657,7 @@ Create an instance: `$inbox = $client->Inbox();`
 | `inboxUrl` | `string` | url of the photo in the inbox |
 | `lat` | `float` |  |
 | `lon` | `float` |  |
+| `message` | `string` |  |
 | `newLat` | `float` |  |
 | `newLon` | `float` |  |
 | `newTitle` | `string` |  |
@@ -665,7 +678,6 @@ $inboxs = $client->Inbox()->list();
 
 ```php
 $inbox = $client->Inbox()->create([
-    "id" => null, // int
     "state" => null, // string
 ]);
 ```
@@ -960,10 +972,22 @@ Create an instance: `$photo_upload = $client->PhotoUpload();`
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `crc32` | `int` | CRC32 checksum of the uploaded photo |
+| `filename` | `string` | filename in inbox |
+| `id` | `int` |  |
+| `inboxUrl` | `string` | url of the photo in the inbox |
+| `message` | `string` |  |
+| `state` | `string` |  |
+
 #### Example: Create
 
 ```php
 $photo_upload = $client->PhotoUpload()->create([
+    "state" => null, // string
 ]);
 ```
 

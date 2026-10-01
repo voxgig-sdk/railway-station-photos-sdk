@@ -298,10 +298,11 @@ fmt.Println(inbox.GetName()) // "inbox"
 | `crc32` | `int` | No | CRC32 checksum of the uploaded photo |
 | `createdAt` | `int` | No |  |
 | `filename` | `string` | No | filename in inbox |
-| `id` | `int` | Yes |  |
+| `id` | `int` | No |  |
 | `inboxUrl` | `string` | No | url of the photo in the inbox |
 | `lat` | `float64` | No |  |
 | `lon` | `float64` | No |  |
+| `message` | `string` | No |  |
 | `newLat` | `float64` | No |  |
 | `newLon` | `float64` | No |  |
 | `newTitle` | `string` | No |  |
@@ -310,6 +311,29 @@ fmt.Println(inbox.GetName()) // "inbox"
 | `state` | `string` | Yes |  |
 | `stationId` | `string` | No |  |
 | `title` | `string` | No |  |
+
+### Field Usage by Operation
+
+| Field | list | create | remove |
+| --- | --- | --- | --- |
+| `comment` | - | - | - |
+| `countryCode` | - | - | - |
+| `crc32` | - | - | - |
+| `createdAt` | - | - | - |
+| `filename` | - | - | - |
+| `id` | Yes | - | - |
+| `inboxUrl` | - | - | - |
+| `lat` | - | - | - |
+| `lon` | - | - | - |
+| `message` | - | - | - |
+| `newLat` | - | - | - |
+| `newLon` | - | - | - |
+| `newTitle` | - | - | - |
+| `problemReportType` | - | - | - |
+| `rejectedReason` | - | - | - |
+| `state` | - | - | - |
+| `stationId` | - | - | - |
+| `title` | - | - | - |
 
 ### Operations
 
@@ -331,7 +355,6 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.Inbox(nil).Create(map[string]any{
-    "id": 1,
     "state": "example_state",
 }, nil)
 if err != nil {
@@ -938,6 +961,17 @@ photoUpload := client.PhotoUpload(nil)
 fmt.Println(photoUpload.GetName()) // "photo_upload"
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `crc32` | `int` | No | CRC32 checksum of the uploaded photo |
+| `filename` | `string` | No | filename in inbox |
+| `id` | `int` | No |  |
+| `inboxUrl` | `string` | No | url of the photo in the inbox |
+| `message` | `string` | No |  |
+| `state` | `string` | Yes |  |
+
 ### Operations
 
 #### `Create(reqdata, ctrl map[string]any) (any, error)`
@@ -946,6 +980,7 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.PhotoUpload(nil).Create(map[string]any{
+    "state": "example_state",
 }, nil)
 if err != nil {
     panic(err)

@@ -54,7 +54,7 @@ main: kit: entity: o_auth_token: {
               {
                 k: "header"
                 n: "authorization"
-                or: "authorization"
+                or: "Authorization"
                 r: true
                 t: "`$STRING`"
               }

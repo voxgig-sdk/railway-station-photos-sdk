@@ -44,7 +44,13 @@ main: kit: entity: inbox: {
       fo: "int64"
       h: "Id"
       n: "id"
-      r: true
+      op: {
+        list: {
+          req: true
+          type: "`$INTEGER`"
+        }
+      }
+      r: false
       t: "`$INTEGER`"
     }
     inboxUrl: {
@@ -67,6 +73,12 @@ main: kit: entity: inbox: {
       n: "lon"
       r: false
       t: "`$NUMBER`"
+    }
+    message: {
+      h: "Message"
+      n: "message"
+      r: false
+      t: "`$STRING`"
     }
     newLat: {
       fo: "double"
@@ -142,7 +154,7 @@ main: kit: entity: inbox: {
               {
                 k: "header"
                 n: "authorization"
-                or: "authorization"
+                or: "Authorization"
                 r: true
                 t: "`$STRING`"
               }
@@ -176,7 +188,7 @@ main: kit: entity: inbox: {
               {
                 k: "header"
                 n: "authorization"
-                or: "authorization"
+                or: "Authorization"
                 r: true
                 t: "`$STRING`"
               }
@@ -215,7 +227,7 @@ main: kit: entity: inbox: {
               {
                 k: "header"
                 n: "authorization"
-                or: "authorization"
+                or: "Authorization"
                 r: true
                 t: "`$STRING`"
               }
@@ -224,7 +236,7 @@ main: kit: entity: inbox: {
               {
                 k: "query"
                 n: "show_completed_entry"
-                or: "show_completed_entry"
+                or: "showCompletedEntries"
                 r: false
                 t: "`$BOOLEAN`"
               }

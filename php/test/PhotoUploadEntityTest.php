@@ -46,6 +46,7 @@ class PhotoUploadEntityTest extends TestCase
         $photo_upload_ref01_data_result = $photo_upload_ref01_ent->create($photo_upload_ref01_data, null);
         $photo_upload_ref01_data = Helpers::to_map(is_object($photo_upload_ref01_data_result) && method_exists($photo_upload_ref01_data_result, 'data_get') ? $photo_upload_ref01_data_result->data_get() : $photo_upload_ref01_data_result);
         $this->assertNotNull($photo_upload_ref01_data);
+        $this->assertNotNull($photo_upload_ref01_data["id"]);
 
     }
 }

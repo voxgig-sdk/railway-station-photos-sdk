@@ -306,6 +306,7 @@ API path: `/countries`
 | `inboxUrl` | url of the photo in the inbox |
 | `lat` |  |
 | `lon` |  |
+| `message` |  |
 | `newLat` |  |
 | `newLon` |  |
 | `newTitle` |  |
@@ -461,6 +462,12 @@ API path: `/photoStationsByRecentPhotoImports`
 
 | Field | Description |
 | --- | --- |
+| `crc32` | CRC32 checksum of the uploaded photo |
+| `filename` | filename in inbox |
+| `id` |  |
+| `inboxUrl` | url of the photo in the inbox |
+| `message` |  |
+| `state` |  |
 
 Operations: Create.
 
@@ -623,6 +630,7 @@ Create an instance: `local inbox = client:Inbox(nil)`
 | `inboxUrl` | `string` | url of the photo in the inbox |
 | `lat` | `number` |  |
 | `lon` | `number` |  |
+| `message` | `string` |  |
 | `newLat` | `number` |  |
 | `newLon` | `number` |  |
 | `newTitle` | `string` |  |
@@ -642,7 +650,6 @@ local inboxs, err = client:Inbox():list()
 
 ```lua
 local inbox, err = client:Inbox():create({
-  id = 1, -- number
   state = "example_state", -- string
 })
 ```
@@ -928,10 +935,22 @@ Create an instance: `local photo_upload = client:PhotoUpload(nil)`
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `crc32` | `number` | CRC32 checksum of the uploaded photo |
+| `filename` | `string` | filename in inbox |
+| `id` | `number` |  |
+| `inboxUrl` | `string` | url of the photo in the inbox |
+| `message` | `string` |  |
+| `state` | `string` |  |
+
 #### Example: Create
 
 ```lua
 local photo_upload, err = client:PhotoUpload():create({
+  state = "example_state", -- string
 })
 ```
 

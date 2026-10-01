@@ -225,6 +225,7 @@ declare class Config {
                 type: string;
                 short?: undefined;
                 format?: undefined;
+                op?: undefined;
                 req?: undefined;
             } | {
                 name: string;
@@ -232,6 +233,7 @@ declare class Config {
                 type: string;
                 short: string;
                 format?: undefined;
+                op?: undefined;
                 req?: undefined;
             } | {
                 name: string;
@@ -239,11 +241,26 @@ declare class Config {
                 type: string;
                 short: string;
                 format: string;
+                op?: undefined;
                 req?: undefined;
             } | {
                 name: string;
                 title: string;
                 type: string;
+                format: string;
+                short?: undefined;
+                op?: undefined;
+                req?: undefined;
+            } | {
+                name: string;
+                title: string;
+                type: string;
+                op: {
+                    list: {
+                        req: boolean;
+                        type: string;
+                    };
+                };
                 format: string;
                 short?: undefined;
                 req?: undefined;
@@ -252,15 +269,9 @@ declare class Config {
                 title: string;
                 type: string;
                 req: boolean;
-                format: string;
-                short?: undefined;
-            } | {
-                name: string;
-                title: string;
-                type: string;
-                req: boolean;
                 short?: undefined;
                 format?: undefined;
+                op?: undefined;
             })[];
             id: {
                 field: string;
@@ -985,7 +996,46 @@ declare class Config {
             };
         };
         photo_upload: {
-            fields: never[];
+            fields: ({
+                name: string;
+                title: string;
+                type: string;
+                short: string;
+                format: string;
+                req?: undefined;
+            } | {
+                name: string;
+                title: string;
+                type: string;
+                short: string;
+                format?: undefined;
+                req?: undefined;
+            } | {
+                name: string;
+                title: string;
+                type: string;
+                format: string;
+                short?: undefined;
+                req?: undefined;
+            } | {
+                name: string;
+                title: string;
+                type: string;
+                short?: undefined;
+                format?: undefined;
+                req?: undefined;
+            } | {
+                name: string;
+                title: string;
+                type: string;
+                req: boolean;
+                short?: undefined;
+                format?: undefined;
+            })[];
+            id: {
+                field: string;
+                name: string;
+            };
             name: string;
             op: {
                 create: {

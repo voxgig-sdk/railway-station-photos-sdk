@@ -289,10 +289,11 @@ inbox = client.Inbox()
 | `crc32` | `int` | No | CRC32 checksum of the uploaded photo |
 | `createdAt` | `int` | No |  |
 | `filename` | `str` | No | filename in inbox |
-| `id` | `int` | Yes |  |
+| `id` | `int` | No |  |
 | `inboxUrl` | `str` | No | url of the photo in the inbox |
 | `lat` | `float` | No |  |
 | `lon` | `float` | No |  |
+| `message` | `str` | No |  |
 | `newLat` | `float` | No |  |
 | `newLon` | `float` | No |  |
 | `newTitle` | `str` | No |  |
@@ -302,6 +303,29 @@ inbox = client.Inbox()
 | `stationId` | `str` | No |  |
 | `title` | `str` | No |  |
 
+### Field Usage by Operation
+
+| Field | list | create | remove |
+| --- | --- | --- | --- |
+| `comment` | - | - | - |
+| `countryCode` | - | - | - |
+| `crc32` | - | - | - |
+| `createdAt` | - | - | - |
+| `filename` | - | - | - |
+| `id` | Yes | - | - |
+| `inboxUrl` | - | - | - |
+| `lat` | - | - | - |
+| `lon` | - | - | - |
+| `message` | - | - | - |
+| `newLat` | - | - | - |
+| `newLon` | - | - | - |
+| `newTitle` | - | - | - |
+| `problemReportType` | - | - | - |
+| `rejectedReason` | - | - | - |
+| `state` | - | - | - |
+| `stationId` | - | - | - |
+| `title` | - | - | - |
+
 ### Operations
 
 #### `create(reqdata, ctrl=None) -> dict`
@@ -310,7 +334,6 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.Inbox().create({
-    "id": 1,  # int
     "state": "example_state",  # str
 })
 ```
@@ -923,6 +946,17 @@ Return the entity name.
 photo_upload = client.PhotoUpload()
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `crc32` | `int` | No | CRC32 checksum of the uploaded photo |
+| `filename` | `str` | No | filename in inbox |
+| `id` | `int` | No |  |
+| `inboxUrl` | `str` | No | url of the photo in the inbox |
+| `message` | `str` | No |  |
+| `state` | `str` | Yes |  |
+
 ### Operations
 
 #### `create(reqdata, ctrl=None) -> dict`
@@ -931,6 +965,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.PhotoUpload().create({
+    "state": "example_state",  # str
 })
 ```
 
