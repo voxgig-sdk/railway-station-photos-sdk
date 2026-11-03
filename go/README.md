@@ -16,7 +16,7 @@ go get github.com/voxgig-sdk/railway-station-photos-sdk/go@latest
 ```
 
 The Go module proxy resolves the version from the `go/vX.Y.Z` GitHub
-release tag — see [Releases](https://github.com/voxgig-sdk/railway-station-photos-sdk/releases) for the available versions.
+release tag — see [Tags](https://github.com/voxgig-sdk/railway-station-photos-sdk/tags) for the available versions.
 
 To vendor from a local checkout instead, clone this repo alongside your
 project and add a `replace` directive pointing at the checked-out
@@ -35,9 +35,10 @@ loading a specific record.
 ### Quickstart
 
 A complete program: create a client, then call the entity operations.
-Each operation returns `(value, error)` — the value is the data itself
-(there is no `{ok, data}` wrapper), so check `err` and use the value
-directly.
+Each operation returns `(value, error)` — the value is the entity, and for
+`List` a `[]any` of entities, one per record (there is no `{ok, data}`
+wrapper), so check `err` and read a record through the entity's
+`Data()`.
 
 ```go
 package main
@@ -51,11 +52,11 @@ func main() {
     client := sdk.New()
 
     // Create a adminInbox.
-    created, err := client.AdminInbox(nil).Create(map[string]any{"command": "example_command", "id": 1, "message": "example_message", "status": 1}, nil)
+    created, err := client.AdminInbox(nil).Create(map[string]any{"command": "example_command", "id": 1}, nil)
     if err != nil {
         panic(err)
     }
-    fmt.Println(created)
+    fmt.Println(created.(sdk.Entity).Data())
 }
 ```
 
@@ -135,13 +136,16 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-publicInbox, err := client.PublicInbox(nil).List(
+publicInboxs, err := client.PublicInbox(nil).List(
     nil, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(publicInbox) // the returned mock data
+// A []any of entities, one per mock record.
+for _, item := range publicInboxs.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 ### Use a custom fetch function
@@ -218,35 +222,38 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `GetUtility` | `() *Utility` | Copy of the SDK utility object. |
 | `Prepare` | `(fetchargs map[string]any) (map[string]any, error)` | Build an HTTP request definition without sending. |
 | `Direct` | `(fetchargs map[string]any) (map[string]any, error)` | Build and send an HTTP request. |
-| `AdminInbox` | `(data map[string]any) RailwayStationPhotosEntity` | Create an AdminInbox entity instance. |
-| `Country` | `(data map[string]any) RailwayStationPhotosEntity` | Create a Country entity instance. |
-| `Inbox` | `(data map[string]any) RailwayStationPhotosEntity` | Create an Inbox entity instance. |
-| `InboxCount` | `(data map[string]any) RailwayStationPhotosEntity` | Create an InboxCount entity instance. |
-| `InboxEntry` | `(data map[string]any) RailwayStationPhotosEntity` | Create an InboxEntry entity instance. |
-| `OAuthToken` | `(data map[string]any) RailwayStationPhotosEntity` | Create an OAuthToken entity instance. |
-| `Oauth` | `(data map[string]any) RailwayStationPhotosEntity` | Create an Oauth entity instance. |
-| `Photo` | `(data map[string]any) RailwayStationPhotosEntity` | Create a Photo entity instance. |
-| `PhotoDownload` | `(data map[string]any) RailwayStationPhotosEntity` | Create a PhotoDownload entity instance. |
-| `PhotoStationById` | `(data map[string]any) RailwayStationPhotosEntity` | Create a PhotoStationById entity instance. |
-| `PhotoStationsByCountry` | `(data map[string]any) RailwayStationPhotosEntity` | Create a PhotoStationsByCountry entity instance. |
-| `PhotoStationsByPhotographer` | `(data map[string]any) RailwayStationPhotosEntity` | Create a PhotoStationsByPhotographer entity instance. |
-| `PhotoStationsByRecentPhotoImport` | `(data map[string]any) RailwayStationPhotosEntity` | Create a PhotoStationsByRecentPhotoImport entity instance. |
-| `PhotoUpload` | `(data map[string]any) RailwayStationPhotosEntity` | Create a PhotoUpload entity instance. |
-| `Photographer` | `(data map[string]any) RailwayStationPhotosEntity` | Create a Photographer entity instance. |
-| `Profile` | `(data map[string]any) RailwayStationPhotosEntity` | Create a Profile entity instance. |
-| `PublicInbox` | `(data map[string]any) RailwayStationPhotosEntity` | Create a PublicInbox entity instance. |
-| `Stat` | `(data map[string]any) RailwayStationPhotosEntity` | Create a Stat entity instance. |
+| `AdminInbox` | `(data map[string]any) RailwayStationPhotosEntityBase` | Create an AdminInbox entity instance. |
+| `Country` | `(data map[string]any) RailwayStationPhotosEntityBase` | Create a Country entity instance. |
+| `Done` | `(data map[string]any) RailwayStationPhotosEntityBase` | Create a Done entity instance. |
+| `Inbox` | `(data map[string]any) RailwayStationPhotosEntityBase` | Create an Inbox entity instance. |
+| `InboxCount` | `(data map[string]any) RailwayStationPhotosEntityBase` | Create an InboxCount entity instance. |
+| `InboxEntry` | `(data map[string]any) RailwayStationPhotosEntityBase` | Create an InboxEntry entity instance. |
+| `OAuthToken` | `(data map[string]any) RailwayStationPhotosEntityBase` | Create an OAuthToken entity instance. |
+| `Oauth` | `(data map[string]any) RailwayStationPhotosEntityBase` | Create an Oauth entity instance. |
+| `Photo` | `(data map[string]any) RailwayStationPhotosEntityBase` | Create a Photo entity instance. |
+| `PhotoDownloadInbox` | `(data map[string]any) RailwayStationPhotosEntityBase` | Create a PhotoDownloadInbox entity instance. |
+| `PhotoStationById` | `(data map[string]any) RailwayStationPhotosEntityBase` | Create a PhotoStationById entity instance. |
+| `PhotoStationsByCountry` | `(data map[string]any) RailwayStationPhotosEntityBase` | Create a PhotoStationsByCountry entity instance. |
+| `PhotoStationsByPhotographer` | `(data map[string]any) RailwayStationPhotosEntityBase` | Create a PhotoStationsByPhotographer entity instance. |
+| `PhotoStationsByRecentPhotoImport` | `(data map[string]any) RailwayStationPhotosEntityBase` | Create a PhotoStationsByRecentPhotoImport entity instance. |
+| `PhotoUpload` | `(data map[string]any) RailwayStationPhotosEntityBase` | Create a PhotoUpload entity instance. |
+| `Photographer` | `(data map[string]any) RailwayStationPhotosEntityBase` | Create a Photographer entity instance. |
+| `Processed` | `(data map[string]any) RailwayStationPhotosEntityBase` | Create a Processed entity instance. |
+| `Profile` | `(data map[string]any) RailwayStationPhotosEntityBase` | Create a Profile entity instance. |
+| `PublicInbox` | `(data map[string]any) RailwayStationPhotosEntityBase` | Create a PublicInbox entity instance. |
+| `Rejected` | `(data map[string]any) RailwayStationPhotosEntityBase` | Create a Rejected entity instance. |
+| `Stat` | `(data map[string]any) RailwayStationPhotosEntityBase` | Create a Stat entity instance. |
 
-### Entity interface (RailwayStationPhotosEntity)
+### Entity interface (RailwayStationPhotosEntityBase)
 
-All entities implement the `RailwayStationPhotosEntity` interface.
+All entities implement the `RailwayStationPhotosEntityBase` interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `Load` | `(reqmatch, ctrl map[string]any) (any, error)` | Load a single entity by match criteria. |
-| `List` | `(reqmatch, ctrl map[string]any) (any, error)` | List entities matching the criteria. |
-| `Create` | `(reqdata, ctrl map[string]any) (any, error)` | Create a new entity. |
-| `Remove` | `(reqmatch, ctrl map[string]any) (any, error)` | Remove an entity. |
+| `Load` | `(reqmatch, ctrl map[string]any) (any, error)` | Load a single entity by match criteria, and return it. |
+| `List` | `(reqmatch, ctrl map[string]any) (any, error)` | List entities matching the criteria, one per record. |
+| `Create` | `(reqdata, ctrl map[string]any) (any, error)` | Create a new entity, and return it. |
+| `Remove` | `(reqmatch, ctrl map[string]any) (any, error)` | Remove an entity, and return it marked as deleted. |
 | `Data` | `(args ...any) any` | Get or set entity data. |
 | `Match` | `(args ...any) any` | Get or set entity match criteria. |
 | `Make` | `() Entity` | Create a new instance with the same options. |
@@ -254,13 +261,13 @@ All entities implement the `RailwayStationPhotosEntity` interface.
 
 ### Result shape
 
-Entity operations return `(value, error)`. The `value` is the
-operation's data **directly** — there is no wrapper:
+Entity operations return `(value, error)`. The `value` is the entity
+itself — there is no wrapper:
 
 | Operation | `value` |
 | --- | --- |
-| `Load` / `Create` / `Remove` | the entity record (`map[string]any`) |
-| `List` | a `[]any` of entity records |
+| `Load` / `Create` / `Remove` | the entity, whose `Data()` reads its record (`map[string]any`) |
+| `List` | a `[]any` of entities, one per record |
 
 Check `err` first, then use the value directly (or the typed
 `...Typed` variants, which return the entity's model struct and a typed
@@ -268,7 +275,7 @@ slice):
 
     adminInbox, err := client.AdminInbox(nil).Create(map[string]any{/* fields */}, nil)
     if err != nil { /* handle */ }
-    // adminInbox is the returned record
+    // adminInbox is the entity; adminInbox.(sdk.Entity).Data() reads its record
 
 Only `Direct()` returns a response envelope — a `map[string]any` with
 `"ok"`, `"status"`, `"headers"`, and `"data"` keys.
@@ -315,6 +322,16 @@ Operations: List.
 
 API path: `/countries`
 
+#### Done
+
+| Field | Description |
+| --- | --- |
+| `"id"` |  |
+
+Operations: Load.
+
+API path: `/inbox/done/{filename}`
+
 #### Inbox
 
 | Field | Description |
@@ -326,21 +343,24 @@ API path: `/countries`
 | `"filename"` | filename in inbox |
 | `"id"` |  |
 | `"inboxUrl"` | url of the photo in the inbox |
-| `"lat"` |  |
-| `"lon"` |  |
+| `"inbox_state_queries"` | Inbox state query request |
+| `"lat"` | new latitude value for the station |
+| `"lon"` | new longitude value for the station |
 | `"message"` |  |
 | `"newLat"` |  |
 | `"newLon"` |  |
 | `"newTitle"` |  |
+| `"photoId"` | Unique id of a photo, can be used for WRONG_PHOTO and PHOTO_OUTDATED type. |
 | `"problemReportType"` | types of problem reports |
 | `"rejectedReason"` |  |
 | `"state"` |  |
 | `"stationId"` |  |
-| `"title"` |  |
+| `"title"` | a new title for the station |
+| `"type"` | types of problem reports |
 
 Operations: Create, List, Remove.
 
-API path: `/reportProblem`
+API path: `/userInbox`
 
 #### InboxCount
 
@@ -388,7 +408,12 @@ API path: `/adminInbox`
 | Field | Description |
 | --- | --- |
 | `"access_token"` |  |
+| `"client_id"` |  |
+| `"code"` |  |
+| `"code_verifier"` |  |
 | `"expires_in"` |  |
+| `"grant_type"` |  |
+| `"redirect_uri"` |  |
 | `"refresh_token"` |  |
 | `"scope"` |  |
 | `"token_type"` |  |
@@ -401,6 +426,8 @@ API path: `/oauth2/token`
 
 | Field | Description |
 | --- | --- |
+| `"token"` |  |
+| `"token_type_hint"` |  |
 
 Operations: Create, Load.
 
@@ -416,14 +443,15 @@ Operations: Load.
 
 API path: `/photos/{country}/{filename}`
 
-#### PhotoDownload
+#### PhotoDownloadInbox
 
 | Field | Description |
 | --- | --- |
+| `"id"` |  |
 
 Operations: Load.
 
-API path: `/inbox/done/{filename}`
+API path: `/inbox/{filename}`
 
 #### PhotoStationById
 
@@ -504,6 +532,16 @@ Operations: Load.
 
 API path: `/photographers`
 
+#### Processed
+
+| Field | Description |
+| --- | --- |
+| `"id"` |  |
+
+Operations: Load.
+
+API path: `/inbox/processed/{filename}`
+
 #### Profile
 
 | Field | Description |
@@ -536,6 +574,16 @@ API path: `/changePassword`
 Operations: List.
 
 API path: `/publicInbox`
+
+#### Rejected
+
+| Field | Description |
+| --- | --- |
+| `"id"` |  |
+
+Operations: Load.
+
+API path: `/inbox/rejected/{filename}`
 
 #### Stat
 
@@ -590,13 +638,11 @@ Create an instance: `adminInbox := client.AdminInbox(nil)`
 result, err := client.AdminInbox(nil).Create(map[string]any{
     "command": "example_command",
     "id": 1,
-    "message": "example_message",
-    "status": 1,
 }, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -631,7 +677,37 @@ countrys, err := client.Country(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(countrys) // the array of records
+// A []any of entities, one per record.
+for _, item := range countrys.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
+```
+
+
+### Done
+
+Create an instance: `done := client.Done(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `Load(match, ctrl)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+
+#### Example: Load
+
+```go
+done, err := client.Done(nil).Load(map[string]any{"id": "done_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(done.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
@@ -658,17 +734,20 @@ Create an instance: `inbox := client.Inbox(nil)`
 | `filename` | `string` | filename in inbox |
 | `id` | `int` |  |
 | `inboxUrl` | `string` | url of the photo in the inbox |
-| `lat` | `float64` |  |
-| `lon` | `float64` |  |
+| `inbox_state_queries` | `[]any` | Inbox state query request |
+| `lat` | `float64` | new latitude value for the station |
+| `lon` | `float64` | new longitude value for the station |
 | `message` | `string` |  |
 | `newLat` | `float64` |  |
 | `newLon` | `float64` |  |
 | `newTitle` | `string` |  |
+| `photoId` | `int` | Unique id of a photo, can be used for WRONG_PHOTO and PHOTO_OUTDATED type. |
 | `problemReportType` | `string` | types of problem reports |
 | `rejectedReason` | `string` |  |
 | `state` | `string` |  |
 | `stationId` | `string` |  |
-| `title` | `string` |  |
+| `title` | `string` | a new title for the station |
+| `type` | `string` | types of problem reports |
 
 #### Example: List
 
@@ -677,19 +756,25 @@ inboxs, err := client.Inbox(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(inboxs) // the array of records
+// A []any of entities, one per record.
+for _, item := range inboxs.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 #### Example: Create
 
 ```go
 result, err := client.Inbox(nil).Create(map[string]any{
-    "state": "example_state",
+    "comment": "example_comment",
+    "countryCode": "example_countryCode",
+    "stationId": "example_stationId",
+    "type": "example_type",
 }, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -716,7 +801,7 @@ inboxCount, err := client.InboxCount(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(inboxCount) // the loaded record
+fmt.Println(inboxCount.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
@@ -764,7 +849,10 @@ inboxEntrys, err := client.InboxEntry(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(inboxEntrys) // the array of records
+// A []any of entities, one per record.
+for _, item := range inboxEntrys.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -783,7 +871,12 @@ Create an instance: `oAuthToken := client.OAuthToken(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `access_token` | `string` |  |
+| `client_id` | `string` |  |
+| `code` | `string` |  |
+| `code_verifier` | `string` |  |
 | `expires_in` | `int` |  |
+| `grant_type` | `string` |  |
+| `redirect_uri` | `string` |  |
 | `refresh_token` | `string` |  |
 | `scope` | `string` |  |
 | `token_type` | `string` |  |
@@ -793,13 +886,16 @@ Create an instance: `oAuthToken := client.OAuthToken(nil)`
 ```go
 result, err := client.OAuthToken(nil).Create(map[string]any{
     "access_token": "example_access_token",
+    "client_id": "example_client_id",
+    "grant_type": "example_grant_type",
+    "redirect_uri": "example_redirect_uri",
     "scope": "example_scope",
     "token_type": "example_token_type",
 }, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -814,6 +910,13 @@ Create an instance: `oauth := client.Oauth(nil)`
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
 | `Create(data, ctrl)` | Create a new entity with the given data. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `token` | `string` |  |
+| `token_type_hint` | `string` |  |
+
 #### Example: Load
 
 ```go
@@ -821,18 +924,19 @@ oauth, err := client.Oauth(nil).Load(map[string]any{"client_id": "client_id", "r
 if err != nil {
     panic(err)
 }
-fmt.Println(oauth) // the loaded record
+fmt.Println(oauth.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: Create
 
 ```go
 result, err := client.Oauth(nil).Create(map[string]any{
+    "token": "example_token",
 }, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -859,13 +963,13 @@ photo, err := client.Photo(nil).Load(map[string]any{"country": "country", "filen
 if err != nil {
     panic(err)
 }
-fmt.Println(photo) // the loaded record
+fmt.Println(photo.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
-### PhotoDownload
+### PhotoDownloadInbox
 
-Create an instance: `photoDownload := client.PhotoDownload(nil)`
+Create an instance: `photoDownloadInbox := client.PhotoDownloadInbox(nil)`
 
 #### Operations
 
@@ -873,14 +977,20 @@ Create an instance: `photoDownload := client.PhotoDownload(nil)`
 | --- | --- |
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+
 #### Example: Load
 
 ```go
-photoDownload, err := client.PhotoDownload(nil).Load(map[string]any{"filename": "filename"}, nil)
+photoDownloadInbox, err := client.PhotoDownloadInbox(nil).Load(map[string]any{"id": "photo_download_inbox_id"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(photoDownload) // the loaded record
+fmt.Println(photoDownloadInbox.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
@@ -911,7 +1021,7 @@ photoStationById, err := client.PhotoStationById(nil).Load(map[string]any{"id": 
 if err != nil {
     panic(err)
 }
-fmt.Println(photoStationById) // the loaded record
+fmt.Println(photoStationById.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
@@ -942,7 +1052,7 @@ photoStationsByCountry, err := client.PhotoStationsByCountry(nil).Load(map[strin
 if err != nil {
     panic(err)
 }
-fmt.Println(photoStationsByCountry) // the loaded record
+fmt.Println(photoStationsByCountry.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
@@ -973,7 +1083,7 @@ photoStationsByPhotographer, err := client.PhotoStationsByPhotographer(nil).Load
 if err != nil {
     panic(err)
 }
-fmt.Println(photoStationsByPhotographer) // the loaded record
+fmt.Println(photoStationsByPhotographer.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
@@ -1003,7 +1113,10 @@ photoStationsByRecentPhotoImports, err := client.PhotoStationsByRecentPhotoImpor
 if err != nil {
     panic(err)
 }
-fmt.Println(photoStationsByRecentPhotoImports) // the array of records
+// A []any of entities, one per record.
+for _, item := range photoStationsByRecentPhotoImports.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -1037,7 +1150,7 @@ result, err := client.PhotoUpload(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -1058,7 +1171,34 @@ photographer, err := client.Photographer(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(photographer) // the loaded record
+fmt.Println(photographer.(sdk.Entity).Data()) // the loaded entity's record
+```
+
+
+### Processed
+
+Create an instance: `processed := client.Processed(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `Load(match, ctrl)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+
+#### Example: Load
+
+```go
+processed, err := client.Processed(nil).Load(map[string]any{"id": "processed_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(processed.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
@@ -1096,22 +1236,21 @@ profile, err := client.Profile(nil).Load(map[string]any{"token": "token"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(profile) // the loaded record
+fmt.Println(profile.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: Create
 
 ```go
 result, err := client.Profile(nil).Create(map[string]any{
-    "license": "example_license",
+    "email": "example_email",
     "newPassword": "example_newPassword",
     "nickname": "example_nickname",
-    "photoOwner": true,
 }, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -1142,7 +1281,37 @@ publicInboxs, err := client.PublicInbox(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(publicInboxs) // the array of records
+// A []any of entities, one per record.
+for _, item := range publicInboxs.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
+```
+
+
+### Rejected
+
+Create an instance: `rejected := client.Rejected(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `Load(match, ctrl)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+
+#### Example: Load
+
+```go
+rejected, err := client.Rejected(nil).Load(map[string]any{"id": "rejected_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(rejected.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
@@ -1173,7 +1342,7 @@ stat, err := client.Stat(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(stat) // the loaded record
+fmt.Println(stat.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 ## Features
@@ -1310,7 +1479,9 @@ The Go SDK uses `map[string]any` throughout rather than typed structs.
 This mirrors the dynamic nature of the API and keeps the SDK
 flexible — no code generation is needed when the API schema changes.
 
-Use `core.ToMapAny()` to safely cast results and nested data.
+An operation returns the entity, and its `Data()` returns the record. Use
+`core.ToMapAny()` to safely cast that record, or data nested in it, to
+`map[string]any`: it returns `nil` for anything else, an entity included.
 
 ### Package structure
 

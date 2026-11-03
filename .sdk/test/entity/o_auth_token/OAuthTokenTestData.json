@@ -2,27 +2,42 @@
   "existing": {
     "o_auth_token": {
       "O_AUTH_TOKEN00": {
-        "access_token": "s32",
-        "expires_in": 51,
-        "refresh_token": "s34",
-        "scope": "s35",
-        "token_type": "s36",
+        "access_token": "s64",
+        "client_id": "CLIENT01",
+        "code": "s66",
+        "code_verifier": "s67",
+        "expires_in": 104,
+        "grant_type": "s69",
+        "redirect_uri": "s6a",
+        "refresh_token": "s6b",
+        "scope": "s6c",
+        "token_type": "s6d",
         "id": "O_AUTH_TOKEN00"
       },
       "O_AUTH_TOKEN01": {
-        "access_token": "s64",
-        "expires_in": 101,
-        "refresh_token": "s66",
-        "scope": "s67",
-        "token_type": "s68",
+        "access_token": "sc8",
+        "client_id": "CLIENT01",
+        "code": "sca",
+        "code_verifier": "scb",
+        "expires_in": 204,
+        "grant_type": "scd",
+        "redirect_uri": "sce",
+        "refresh_token": "scf",
+        "scope": "sd0",
+        "token_type": "sd1",
         "id": "O_AUTH_TOKEN01"
       },
       "O_AUTH_TOKEN02": {
-        "access_token": "s96",
-        "expires_in": 151,
-        "refresh_token": "s98",
-        "scope": "s99",
-        "token_type": "s9a",
+        "access_token": "s12c",
+        "client_id": "CLIENT01",
+        "code": "s12e",
+        "code_verifier": "s12f",
+        "expires_in": 304,
+        "grant_type": "s131",
+        "redirect_uri": "s132",
+        "refresh_token": "s133",
+        "scope": "s134",
+        "token_type": "s135",
         "id": "O_AUTH_TOKEN02"
       }
     }
@@ -30,11 +45,16 @@
   "new": {
     "o_auth_token": {
       "o_auth_token_ref01": {
-        "access_token": "sc8",
-        "expires_in": 201,
-        "refresh_token": "sca",
-        "scope": "scb",
-        "token_type": "scc"
+        "access_token": "s190",
+        "client_id": "CLIENT01",
+        "code": "s192",
+        "code_verifier": "s193",
+        "expires_in": 404,
+        "grant_type": "s195",
+        "redirect_uri": "s196",
+        "refresh_token": "s197",
+        "scope": "s198",
+        "token_type": "s199"
       }
     }
   },

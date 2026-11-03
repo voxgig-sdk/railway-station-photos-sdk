@@ -49,6 +49,10 @@ Create a new `AdminInbox` entity instance. Pass `nil` for no initial data.
 
 Create a new `Country` entity instance. Pass `nil` for no initial data.
 
+#### `Done(data = nil)`
+
+Create a new `Done` entity instance. Pass `nil` for no initial data.
+
 #### `Inbox(data = nil)`
 
 Create a new `Inbox` entity instance. Pass `nil` for no initial data.
@@ -73,9 +77,9 @@ Create a new `Oauth` entity instance. Pass `nil` for no initial data.
 
 Create a new `Photo` entity instance. Pass `nil` for no initial data.
 
-#### `PhotoDownload(data = nil)`
+#### `PhotoDownloadInbox(data = nil)`
 
-Create a new `PhotoDownload` entity instance. Pass `nil` for no initial data.
+Create a new `PhotoDownloadInbox` entity instance. Pass `nil` for no initial data.
 
 #### `PhotoStationById(data = nil)`
 
@@ -101,6 +105,10 @@ Create a new `PhotoUpload` entity instance. Pass `nil` for no initial data.
 
 Create a new `Photographer` entity instance. Pass `nil` for no initial data.
 
+#### `Processed(data = nil)`
+
+Create a new `Processed` entity instance. Pass `nil` for no initial data.
+
 #### `Profile(data = nil)`
 
 Create a new `Profile` entity instance. Pass `nil` for no initial data.
@@ -108,6 +116,10 @@ Create a new `Profile` entity instance. Pass `nil` for no initial data.
 #### `PublicInbox(data = nil)`
 
 Create a new `PublicInbox` entity instance. Pass `nil` for no initial data.
+
+#### `Rejected(data = nil)`
+
+Create a new `Rejected` entity instance. Pass `nil` for no initial data.
 
 #### `Stat(data = nil)`
 
@@ -179,14 +191,12 @@ admin_inbox = client.AdminInbox
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.AdminInbox.create({
   "command" => "example_command", # String
   "id" => 1, # Integer
-  "message" => "example_message", # String
-  "status" => 1, # Integer
 })
 ```
 
@@ -244,10 +254,11 @@ country = client.Country
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
 results = client.Country.list
+results.each { |item| puts item.data_get }
 ```
 
 ### Common Methods
@@ -280,6 +291,58 @@ Return the entity name.
 
 ---
 
+## DoneEntity
+
+```ruby
+done = client.Done
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `String` | No |  |
+
+### Operations
+
+#### `load(reqmatch, ctrl = nil) -> result`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
+
+```ruby
+result = client.Done.load({ "id" => "done_id" })
+```
+
+### Common Methods
+
+#### `data_get -> Hash`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get -> Hash`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make -> Entity`
+
+Create a new `DoneEntity` instance with the same client and
+options.
+
+#### `get_name -> String`
+
+Return the entity name.
+
+
+---
+
 ## InboxEntity
 
 ```ruby
@@ -290,71 +353,81 @@ inbox = client.Inbox
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `comment` | `String` | No |  |
-| `countryCode` | `String` | No | a two character country code |
+| `comment` | `String` | Yes |  |
+| `countryCode` | `String` | Yes | a two character country code |
 | `crc32` | `Integer` | No | CRC32 checksum of the uploaded photo |
 | `createdAt` | `Integer` | No |  |
 | `filename` | `String` | No | filename in inbox |
 | `id` | `Integer` | No |  |
 | `inboxUrl` | `String` | No | url of the photo in the inbox |
-| `lat` | `Float` | No |  |
-| `lon` | `Float` | No |  |
+| `inbox_state_queries` | `Array` | No | Inbox state query request |
+| `lat` | `Float` | No | new latitude value for the station |
+| `lon` | `Float` | No | new longitude value for the station |
 | `message` | `String` | No |  |
 | `newLat` | `Float` | No |  |
 | `newLon` | `Float` | No |  |
 | `newTitle` | `String` | No |  |
+| `photoId` | `Integer` | No | Unique id of a photo, can be used for WRONG_PHOTO and PHOTO_OUTDATED type. |
 | `problemReportType` | `String` | No | types of problem reports |
 | `rejectedReason` | `String` | No |  |
 | `state` | `String` | Yes |  |
-| `stationId` | `String` | No |  |
-| `title` | `String` | No |  |
+| `stationId` | `String` | Yes |  |
+| `title` | `String` | No | a new title for the station |
+| `type` | `String` | Yes | types of problem reports |
 
 ### Field Usage by Operation
 
 | Field | list | create | remove |
 | --- | --- | --- | --- |
-| `comment` | - | - | - |
-| `countryCode` | - | - | - |
+| `comment` | Yes | - | - |
+| `countryCode` | Yes | - | - |
 | `crc32` | - | - | - |
 | `createdAt` | - | - | - |
 | `filename` | - | - | - |
 | `id` | Yes | - | - |
 | `inboxUrl` | - | - | - |
+| `inbox_state_queries` | - | - | - |
 | `lat` | - | - | - |
 | `lon` | - | - | - |
 | `message` | - | - | - |
 | `newLat` | - | - | - |
 | `newLon` | - | - | - |
 | `newTitle` | - | - | - |
+| `photoId` | - | - | - |
 | `problemReportType` | - | - | - |
 | `rejectedReason` | - | - | - |
 | `state` | - | - | - |
-| `stationId` | - | - | - |
+| `stationId` | Yes | - | - |
 | `title` | - | - | - |
+| `type` | - | - | - |
 
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.Inbox.create({
-  "state" => "example_state", # String
+  "comment" => "example_comment", # String
+  "countryCode" => "example_countryCode", # String
+  "stationId" => "example_stationId", # String
+  "type" => "example_type", # String
 })
 ```
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
 results = client.Inbox.list
+results.each { |item| puts item.data_get }
 ```
 
 #### `remove(reqmatch, ctrl = nil) -> result`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```ruby
 result = client.Inbox.remove({ "id" => 1 })
@@ -406,7 +479,7 @@ inbox_count = client.InboxCount
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.InboxCount.load()
@@ -479,10 +552,11 @@ inbox_entry = client.InboxEntry
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
 results = client.InboxEntry.list
+results.each { |item| puts item.data_get }
 ```
 
 ### Common Methods
@@ -526,7 +600,12 @@ o_auth_token = client.OAuthToken
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `access_token` | `String` | Yes |  |
+| `client_id` | `String` | Yes |  |
+| `code` | `String` | No |  |
+| `code_verifier` | `String` | No |  |
 | `expires_in` | `Integer` | No |  |
+| `grant_type` | `String` | Yes |  |
+| `redirect_uri` | `String` | Yes |  |
 | `refresh_token` | `String` | No |  |
 | `scope` | `String` | Yes |  |
 | `token_type` | `String` | Yes |  |
@@ -535,15 +614,20 @@ o_auth_token = client.OAuthToken
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.OAuthToken.create({
   "access_token" => "example_access_token", # String
+  "client_id" => "example_client_id", # String
+  "grant_type" => "example_grant_type", # String
+  "redirect_uri" => "example_redirect_uri", # String
   "scope" => "example_scope", # String
   "token_type" => "example_token_type", # String
 })
 ```
+
+Declares a `application/x-www-form-urlencoded` body, which this SDK does not encode yet: it sends the data as JSON.
 
 ### Common Methods
 
@@ -581,20 +665,30 @@ Return the entity name.
 oauth = client.Oauth
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `token` | `String` | Yes |  |
+| `token_type_hint` | `String` | No |  |
+
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.Oauth.create({
+  "token" => "example_token", # String
 })
 ```
 
+Declares a `application/x-www-form-urlencoded` body, which this SDK does not encode yet: it sends the data as JSON.
+
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.Oauth.load({ "client_id" => "client_id", "redirect_uri" => "redirect_uri", "response_type" => "response_type", "scope" => "scope" })
@@ -646,7 +740,7 @@ photo = client.Photo
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.Photo.load({ "country" => "country", "filename" => "filename" })
@@ -682,20 +776,26 @@ Return the entity name.
 
 ---
 
-## PhotoDownloadEntity
+## PhotoDownloadInboxEntity
 
 ```ruby
-photo_download = client.PhotoDownload
+photo_download_inbox = client.PhotoDownloadInbox
 ```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `String` | No |  |
 
 ### Operations
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
-result = client.PhotoDownload.load({ "filename" => "filename" })
+result = client.PhotoDownloadInbox.load({ "id" => "photo_download_inbox_id" })
 ```
 
 ### Common Methods
@@ -718,7 +818,7 @@ Set the entity match criteria.
 
 #### `make -> Entity`
 
-Create a new `PhotoDownloadEntity` instance with the same client and
+Create a new `PhotoDownloadInboxEntity` instance with the same client and
 options.
 
 #### `get_name -> String`
@@ -748,7 +848,7 @@ photo_station_by_id = client.PhotoStationById
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.PhotoStationById.load({ "id" => "photo_station_by_id_id", "country" => "country" })
@@ -804,7 +904,7 @@ photo_stations_by_country = client.PhotoStationsByCountry
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.PhotoStationsByCountry.load({ "id" => "photo_stations_by_country_id" })
@@ -860,7 +960,7 @@ photo_stations_by_photographer = client.PhotoStationsByPhotographer
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.PhotoStationsByPhotographer.load({ "id" => "photo_stations_by_photographer_id" })
@@ -915,10 +1015,11 @@ photo_stations_by_recent_photo_import = client.PhotoStationsByRecentPhotoImport
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
 results = client.PhotoStationsByRecentPhotoImport.list
+results.each { |item| puts item.data_get }
 ```
 
 ### Common Methods
@@ -972,13 +1073,15 @@ photo_upload = client.PhotoUpload
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.PhotoUpload.create({
   "state" => "example_state", # String
 })
 ```
+
+Sends its body unencoded, as `application/octet-stream`: pass it as `$body`, a `String`, or an IO that responds to `read`. An IO is read in full before the request is sent, so that a retry sends the same bytes. The operation also accepts `image/jpeg`, `image/png`: a `content-type` header option that is not JSON replaces the declared one.
 
 ### Common Methods
 
@@ -1020,7 +1123,7 @@ photographer = client.Photographer
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.Photographer.load()
@@ -1047,6 +1150,58 @@ Set the entity match criteria.
 #### `make -> Entity`
 
 Create a new `PhotographerEntity` instance with the same client and
+options.
+
+#### `get_name -> String`
+
+Return the entity name.
+
+
+---
+
+## ProcessedEntity
+
+```ruby
+processed = client.Processed
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `String` | No |  |
+
+### Operations
+
+#### `load(reqmatch, ctrl = nil) -> result`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
+
+```ruby
+result = client.Processed.load({ "id" => "processed_id" })
+```
+
+### Common Methods
+
+#### `data_get -> Hash`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get -> Hash`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make -> Entity`
+
+Create a new `ProcessedEntity` instance with the same client and
 options.
 
 #### `get_name -> String`
@@ -1096,20 +1251,19 @@ profile = client.Profile
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.Profile.create({
-  "license" => "example_license", # String
+  "email" => "example_email", # String
   "newPassword" => "example_newPassword", # String
   "nickname" => "example_nickname", # String
-  "photoOwner" => true, # Boolean
 })
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.Profile.load({ "token" => "token" })
@@ -1117,7 +1271,7 @@ result = client.Profile.load({ "token" => "token" })
 
 #### `remove(reqmatch, ctrl = nil) -> result`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```ruby
 result = client.Profile.remove()
@@ -1173,10 +1327,11 @@ public_inbox = client.PublicInbox
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
 results = client.PublicInbox.list
+results.each { |item| puts item.data_get }
 ```
 
 ### Common Methods
@@ -1209,6 +1364,58 @@ Return the entity name.
 
 ---
 
+## RejectedEntity
+
+```ruby
+rejected = client.Rejected
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `String` | No |  |
+
+### Operations
+
+#### `load(reqmatch, ctrl = nil) -> result`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
+
+```ruby
+result = client.Rejected.load({ "id" => "rejected_id" })
+```
+
+### Common Methods
+
+#### `data_get -> Hash`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get -> Hash`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make -> Entity`
+
+Create a new `RejectedEntity` instance with the same client and
+options.
+
+#### `get_name -> String`
+
+Return the entity name.
+
+
+---
+
 ## StatEntity
 
 ```ruby
@@ -1229,7 +1436,7 @@ stat = client.Stat
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.Stat.load()
@@ -1422,6 +1629,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

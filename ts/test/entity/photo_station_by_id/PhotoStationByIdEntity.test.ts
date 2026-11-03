@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { RailwayStationPhotosSDK, BaseFeature, stdutil } from '../../..'
+import { RailwayStationPhotosSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,6 +41,18 @@ describe('PhotoStationByIdEntity', async () => {
   })
 
 
+  test('validate', async (t) => {
+    if (null == (config as any).feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = RailwayStationPhotosSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.PhotoStationById().load({"country":1,"id":"x"} as any),
+      (err: any) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.RAILWAY_STATION_PHOTOS_TEST_LIVE
@@ -51,7 +63,7 @@ describe('PhotoStationByIdEntity', async () => {
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"id":{"a":true,"h":"Id","n":"id","r":false,"t":"`$STRING`","key$":"id","index$":0},"licenses":{"a":true,"h":"Licenses","n":"licenses","r":true,"sh":"List of used licenses, might be empty if no photos available","t":"`$ARRAY`","key$":"licenses","index$":1},"photoBaseUrl":{"a":true,"h":"Photo Base Url","n":"photoBaseUrl","r":true,"sh":"Base URL of all photos","t":"`$STRING`","key$":"photoBaseUrl","index$":2},"photographers":{"a":true,"h":"Photographers","n":"photographers","r":true,"sh":"List of all photographers, might be empty if no photos available","t":"`$ARRAY`","key$":"photographers","index$":3},"stations":{"a":true,"h":"Stations","n":"stations","r":true,"sh":"List of the stations","t":"`$ARRAY`","key$":"stations","index$":4}},"id":{"field":"id","name":"id","parts":["country","id"],"sep":"/"},"name":"photo_station_by_id","op":{"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /photoStationById/{country}/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"country","or":"country","r":true,"t":"`$STRING`","index$":0},{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$STRING`","index$":1}]},"k":"http","m":"GET","o":"/photoStationById/{country}/{id}","q":{"exist":["country","id"]},"r":{},"s":[{"lit":"photoStationById"},{"var":"country"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"photo_station_by_id","name__orig":"photo_station_by_id","Name":"PhotoStationById","name_":"photo_station_by_id","name-":"photo-station-by-id","NAME":"PHOTO_STATION_BY_ID","index$":9}, {"active":true,"entity":"photo_station_by_id","key$":"BasicPhotoStationByIdFlow","kind":"basic","name":"BasicPhotoStationByIdFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"photo_station_by_id_ref01","srcdatavar":"photo_station_by_id_ref01_data","suffix":"_dt0"},"m":{"country":"country01","id":"photo_station_by_id01"},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-photo_station_by_id_ref01"}}],"index$":0}]}, 'PhotoStationById', {"GET /photoStationById/{country}/{id}":{"protocol":"http","parameters":[{"name":"country","in":"path","description":"country code","required":true,"schema":{"description":"a two character country code","type":"string","maxLength":2,"minLength":2,"x-ref":"#/components/schemas/CountryCode"},"index$":0},{"name":"id","in":"path","description":"id of the station","required":true,"schema":{"type":"string"},"index$":1}]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"id":{"a":true,"h":"Id","n":"id","r":false,"t":"`$STRING`","key$":"id","index$":0},"licenses":{"a":true,"h":"Licenses","n":"licenses","r":true,"sh":"List of used licenses, might be empty if no photos available","t":"`$ARRAY`","key$":"licenses","index$":1},"photoBaseUrl":{"a":true,"h":"Photo Base Url","n":"photoBaseUrl","r":true,"sh":"Base URL of all photos","t":"`$STRING`","key$":"photoBaseUrl","index$":2},"photographers":{"a":true,"h":"Photographers","n":"photographers","r":true,"sh":"List of all photographers, might be empty if no photos available","t":"`$ARRAY`","key$":"photographers","index$":3},"stations":{"a":true,"h":"Stations","n":"stations","r":true,"sh":"List of the stations","t":"`$ARRAY`","key$":"stations","index$":4}},"id":{"field":"id","name":"id","parts":["country","id"],"sep":"/"},"name":"photo_station_by_id","op":{"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /photoStationById/{country}/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"country","or":"country","r":true,"t":"`$STRING`","index$":0},{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$STRING`","index$":1}]},"k":"http","m":"GET","o":"/photoStationById/{country}/{id}","q":{"exist":["country","id"]},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"photoStationById"},{"var":"country"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"photo_station_by_id","name__orig":"photo_station_by_id","Name":"PhotoStationById","name_":"photo_station_by_id","name-":"photo-station-by-id","NAME":"PHOTO_STATION_BY_ID","index$":10}, {"active":true,"entity":"photo_station_by_id","key$":"BasicPhotoStationByIdFlow","kind":"basic","name":"BasicPhotoStationByIdFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"photo_station_by_id_ref01","srcdatavar":"photo_station_by_id_ref01_data","suffix":"_dt0"},"m":{"country":"country01","id":"photo_station_by_id01"},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-photo_station_by_id_ref01"}}],"index$":0,"route":"GET /photoStationById/{country}/{id}","record":{}}]}, 'PhotoStationById', {"GET /photoStationById/{country}/{id}":{"protocol":"http","parameters":[{"name":"country","in":"path","description":"country code","required":true,"schema":{"description":"a two character country code","type":"string","maxLength":2,"minLength":2,"x-ref":"#/components/schemas/CountryCode"},"index$":0},{"name":"id","in":"path","description":"id of the station","required":true,"schema":{"type":"string"},"index$":1}]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -65,6 +77,7 @@ describe('PhotoStationByIdEntity', async () => {
     const photo_station_by_id_ref01_ent = client.PhotoStationById()
     const photo_station_by_id_ref01_match_dt0: any = {}
     photo_station_by_id_ref01_match_dt0.id = photo_station_by_id_ref01_data.id
+    photo_station_by_id_ref01_match_dt0['country'] = setup.idmap['country'] ?? setup.idmap['country01']
     const photo_station_by_id_ref01_data_dt0 = (await photo_station_by_id_ref01_ent.load(photo_station_by_id_ref01_match_dt0)).data()
     assert(photo_station_by_id_ref01_data_dt0.id === photo_station_by_id_ref01_data.id)
 
@@ -73,6 +86,12 @@ describe('PhotoStationByIdEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options

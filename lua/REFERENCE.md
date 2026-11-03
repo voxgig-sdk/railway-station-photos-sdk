@@ -48,6 +48,10 @@ Create a new `AdminInbox` entity instance. Pass `nil` for no initial data.
 
 Create a new `Country` entity instance. Pass `nil` for no initial data.
 
+#### `Done(data)`
+
+Create a new `Done` entity instance. Pass `nil` for no initial data.
+
 #### `Inbox(data)`
 
 Create a new `Inbox` entity instance. Pass `nil` for no initial data.
@@ -72,9 +76,9 @@ Create a new `Oauth` entity instance. Pass `nil` for no initial data.
 
 Create a new `Photo` entity instance. Pass `nil` for no initial data.
 
-#### `PhotoDownload(data)`
+#### `PhotoDownloadInbox(data)`
 
-Create a new `PhotoDownload` entity instance. Pass `nil` for no initial data.
+Create a new `PhotoDownloadInbox` entity instance. Pass `nil` for no initial data.
 
 #### `PhotoStationById(data)`
 
@@ -100,6 +104,10 @@ Create a new `PhotoUpload` entity instance. Pass `nil` for no initial data.
 
 Create a new `Photographer` entity instance. Pass `nil` for no initial data.
 
+#### `Processed(data)`
+
+Create a new `Processed` entity instance. Pass `nil` for no initial data.
+
 #### `Profile(data)`
 
 Create a new `Profile` entity instance. Pass `nil` for no initial data.
@@ -107,6 +115,10 @@ Create a new `Profile` entity instance. Pass `nil` for no initial data.
 #### `PublicInbox(data)`
 
 Create a new `PublicInbox` entity instance. Pass `nil` for no initial data.
+
+#### `Rejected(data)`
+
+Create a new `Rejected` entity instance. Pass `nil` for no initial data.
 
 #### `Stat(data)`
 
@@ -176,14 +188,12 @@ local admin_inbox = client:AdminInbox(nil)
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:AdminInbox():create({
   command = --[[ string ]],
   id = --[[ number ]],
-  message = --[[ string ]],
-  status = --[[ number ]],
 })
 ```
 
@@ -241,7 +251,7 @@ local country = client:Country(nil)
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:Country():list()
@@ -277,6 +287,58 @@ Return the entity name.
 
 ---
 
+## DoneEntity
+
+```lua
+local done = client:Done(nil)
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
+### Operations
+
+#### `load(reqmatch, ctrl) -> any, err`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
+
+```lua
+local result, err = client:Done():load({ id = "done_id" })
+```
+
+### Common Methods
+
+#### `data_get() -> table`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> table`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `DoneEntity` instance with the same client and
+options.
+
+#### `get_name() -> string`
+
+Return the entity name.
+
+
+---
+
 ## InboxEntity
 
 ```lua
@@ -287,63 +349,72 @@ local inbox = client:Inbox(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `comment` | `string` | No |  |
-| `countryCode` | `string` | No | a two character country code |
+| `comment` | `string` | Yes |  |
+| `countryCode` | `string` | Yes | a two character country code |
 | `crc32` | `number` | No | CRC32 checksum of the uploaded photo |
 | `createdAt` | `number` | No |  |
 | `filename` | `string` | No | filename in inbox |
 | `id` | `number` | No |  |
 | `inboxUrl` | `string` | No | url of the photo in the inbox |
-| `lat` | `number` | No |  |
-| `lon` | `number` | No |  |
+| `inbox_state_queries` | `table` | No | Inbox state query request |
+| `lat` | `number` | No | new latitude value for the station |
+| `lon` | `number` | No | new longitude value for the station |
 | `message` | `string` | No |  |
 | `newLat` | `number` | No |  |
 | `newLon` | `number` | No |  |
 | `newTitle` | `string` | No |  |
+| `photoId` | `number` | No | Unique id of a photo, can be used for WRONG_PHOTO and PHOTO_OUTDATED type. |
 | `problemReportType` | `string` | No | types of problem reports |
 | `rejectedReason` | `string` | No |  |
 | `state` | `string` | Yes |  |
-| `stationId` | `string` | No |  |
-| `title` | `string` | No |  |
+| `stationId` | `string` | Yes |  |
+| `title` | `string` | No | a new title for the station |
+| `type` | `string` | Yes | types of problem reports |
 
 ### Field Usage by Operation
 
 | Field | list | create | remove |
 | --- | --- | --- | --- |
-| `comment` | - | - | - |
-| `countryCode` | - | - | - |
+| `comment` | Yes | - | - |
+| `countryCode` | Yes | - | - |
 | `crc32` | - | - | - |
 | `createdAt` | - | - | - |
 | `filename` | - | - | - |
 | `id` | Yes | - | - |
 | `inboxUrl` | - | - | - |
+| `inbox_state_queries` | - | - | - |
 | `lat` | - | - | - |
 | `lon` | - | - | - |
 | `message` | - | - | - |
 | `newLat` | - | - | - |
 | `newLon` | - | - | - |
 | `newTitle` | - | - | - |
+| `photoId` | - | - | - |
 | `problemReportType` | - | - | - |
 | `rejectedReason` | - | - | - |
 | `state` | - | - | - |
-| `stationId` | - | - | - |
+| `stationId` | Yes | - | - |
 | `title` | - | - | - |
+| `type` | - | - | - |
 
 ### Operations
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Inbox():create({
-  state = --[[ string ]],
+  comment = --[[ string ]],
+  countryCode = --[[ string ]],
+  stationId = --[[ string ]],
+  type = --[[ string ]],
 })
 ```
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:Inbox():list()
@@ -351,7 +422,7 @@ local results, err = client:Inbox():list()
 
 #### `remove(reqmatch, ctrl) -> any, err`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Inbox():remove({ id = 1 })
@@ -403,7 +474,7 @@ local inbox_count = client:InboxCount(nil)
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:InboxCount():load()
@@ -476,7 +547,7 @@ local inbox_entry = client:InboxEntry(nil)
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:InboxEntry():list()
@@ -523,7 +594,12 @@ local o_auth_token = client:OAuthToken(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `access_token` | `string` | Yes |  |
+| `client_id` | `string` | Yes |  |
+| `code` | `string` | No |  |
+| `code_verifier` | `string` | No |  |
 | `expires_in` | `number` | No |  |
+| `grant_type` | `string` | Yes |  |
+| `redirect_uri` | `string` | Yes |  |
 | `refresh_token` | `string` | No |  |
 | `scope` | `string` | Yes |  |
 | `token_type` | `string` | Yes |  |
@@ -532,15 +608,20 @@ local o_auth_token = client:OAuthToken(nil)
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:OAuthToken():create({
   access_token = --[[ string ]],
+  client_id = --[[ string ]],
+  grant_type = --[[ string ]],
+  redirect_uri = --[[ string ]],
   scope = --[[ string ]],
   token_type = --[[ string ]],
 })
 ```
+
+Declares a `application/x-www-form-urlencoded` body, which this SDK does not encode yet: it sends the data as JSON.
 
 ### Common Methods
 
@@ -578,20 +659,30 @@ Return the entity name.
 local oauth = client:Oauth(nil)
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `token` | `string` | Yes |  |
+| `token_type_hint` | `string` | No |  |
+
 ### Operations
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Oauth():create({
+  token = --[[ string ]],
 })
 ```
 
+Declares a `application/x-www-form-urlencoded` body, which this SDK does not encode yet: it sends the data as JSON.
+
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Oauth():load({ client_id = "client_id", redirect_uri = "redirect_uri", response_type = "response_type", scope = "scope" })
@@ -643,7 +734,7 @@ local photo = client:Photo(nil)
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Photo():load({ country = "country", filename = "filename" })
@@ -679,20 +770,26 @@ Return the entity name.
 
 ---
 
-## PhotoDownloadEntity
+## PhotoDownloadInboxEntity
 
 ```lua
-local photo_download = client:PhotoDownload(nil)
+local photo_download_inbox = client:PhotoDownloadInbox(nil)
 ```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
 
 ### Operations
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
-local result, err = client:PhotoDownload():load({ filename = "filename" })
+local result, err = client:PhotoDownloadInbox():load({ id = "photo_download_inbox_id" })
 ```
 
 ### Common Methods
@@ -715,7 +812,7 @@ Set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `PhotoDownloadEntity` instance with the same client and
+Create a new `PhotoDownloadInboxEntity` instance with the same client and
 options.
 
 #### `get_name() -> string`
@@ -745,7 +842,7 @@ local photo_station_by_id = client:PhotoStationById(nil)
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:PhotoStationById():load({ id = "photo_station_by_id_id", country = "country" })
@@ -801,7 +898,7 @@ local photo_stations_by_country = client:PhotoStationsByCountry(nil)
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:PhotoStationsByCountry():load({ id = "photo_stations_by_country_id" })
@@ -857,7 +954,7 @@ local photo_stations_by_photographer = client:PhotoStationsByPhotographer(nil)
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:PhotoStationsByPhotographer():load({ id = "photo_stations_by_photographer_id" })
@@ -912,7 +1009,7 @@ local photo_stations_by_recent_photo_import = client:PhotoStationsByRecentPhotoI
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:PhotoStationsByRecentPhotoImport():list()
@@ -969,13 +1066,15 @@ local photo_upload = client:PhotoUpload(nil)
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:PhotoUpload():create({
   state = --[[ string ]],
 })
 ```
+
+Sends its body unencoded, as `application/octet-stream`: pass it as `$body`, a string. The operation also accepts `image/jpeg`, `image/png`: a `content-type` header option that is not JSON replaces the declared one.
 
 ### Common Methods
 
@@ -1017,7 +1116,7 @@ local photographer = client:Photographer(nil)
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Photographer():load()
@@ -1044,6 +1143,58 @@ Set the entity match criteria.
 #### `make() -> Entity`
 
 Create a new `PhotographerEntity` instance with the same client and
+options.
+
+#### `get_name() -> string`
+
+Return the entity name.
+
+
+---
+
+## ProcessedEntity
+
+```lua
+local processed = client:Processed(nil)
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
+### Operations
+
+#### `load(reqmatch, ctrl) -> any, err`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
+
+```lua
+local result, err = client:Processed():load({ id = "processed_id" })
+```
+
+### Common Methods
+
+#### `data_get() -> table`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> table`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `ProcessedEntity` instance with the same client and
 options.
 
 #### `get_name() -> string`
@@ -1093,20 +1244,19 @@ local profile = client:Profile(nil)
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Profile():create({
-  license = --[[ string ]],
+  email = --[[ string ]],
   newPassword = --[[ string ]],
   nickname = --[[ string ]],
-  photoOwner = --[[ boolean ]],
 })
 ```
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Profile():load({ token = "token" })
@@ -1114,7 +1264,7 @@ local result, err = client:Profile():load({ token = "token" })
 
 #### `remove(reqmatch, ctrl) -> any, err`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Profile():remove()
@@ -1170,7 +1320,7 @@ local public_inbox = client:PublicInbox(nil)
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:PublicInbox():list()
@@ -1206,6 +1356,58 @@ Return the entity name.
 
 ---
 
+## RejectedEntity
+
+```lua
+local rejected = client:Rejected(nil)
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
+### Operations
+
+#### `load(reqmatch, ctrl) -> any, err`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
+
+```lua
+local result, err = client:Rejected():load({ id = "rejected_id" })
+```
+
+### Common Methods
+
+#### `data_get() -> table`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> table`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `RejectedEntity` instance with the same client and
+options.
+
+#### `get_name() -> string`
+
+Return the entity name.
+
+
+---
+
 ## StatEntity
 
 ```lua
@@ -1226,7 +1428,7 @@ local stat = client:Stat(nil)
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Stat():load()
@@ -1419,6 +1621,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

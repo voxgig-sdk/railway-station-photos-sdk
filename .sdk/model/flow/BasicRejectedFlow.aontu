@@ -1,0 +1,32 @@
+# BasicRejectedFlow
+
+main: kit: flow: BasicRejectedFlow:
+{
+  entity: "rejected",
+  kind: "basic",
+  name: "BasicRejectedFlow",
+  step: [
+    {
+      i: {
+        ref: "rejected_ref01",
+        srcdatavar: "rejected_ref01_data",
+        suffix: "_dt0"
+      }
+
+      m: {
+        id: "rejected01"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-rejected_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicRejectedFlow"
+}

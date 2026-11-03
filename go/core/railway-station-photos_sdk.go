@@ -146,6 +146,14 @@ func (sdk *RailwayStationPhotosSDK) Prepare(fetchargs map[string]any) (map[strin
 	if method == "" {
 		method = "GET"
 	}
+	method = strings.ToUpper(method)
+
+	allowMethodVal := vs.GetPath(options, []any{"allow", "method"})
+	if !Allowed(allowMethodVal, method) {
+		allowMethod, _ := allowMethodVal.(string)
+		return nil, ctx.MakeError("spec_method_allow",
+			"Method \""+method+"\" not allowed by SDK option allow.method value: \""+allowMethod+"\"")
+	}
 
 	params := ToMapAny(vs.GetProp(fetchargs, "params"))
 	if params == nil {
@@ -205,8 +213,7 @@ func (sdk *RailwayStationPhotosSDK) Direct(fetchargs map[string]any) (map[string
 
 // Is this raw-access op permitted by the SDK's allow.op option?
 func (sdk *RailwayStationPhotosSDK) opAllowed(op string) bool {
-	allowOp, _ := vs.GetPath(sdk.options, []any{"allow", "op"}).(string)
-	return strings.Contains(allowOp, op)
+	return Allowed(vs.GetPath(sdk.options, []any{"allow", "op"}), op)
 }
 
 func (sdk *RailwayStationPhotosSDK) opDenied(op string) map[string]any {
@@ -278,20 +285,34 @@ func (sdk *RailwayStationPhotosSDK) rawRequest(fetchargs map[string]any) (map[st
 		noBody := status == 204 || status == 304 || contentLength == "0"
 
 		var jsonData any
+		var bodyErr error
 		if !noBody {
 			if jf := vs.GetProp(fm, "json"); jf != nil {
 				if f, ok := jf.(func() any); ok {
 					jsonData = f()
 				}
 			}
+			if unreadable, _ := vs.GetProp(fm, "unreadable").(bool); unreadable {
+				var failed error
+				if status < 200 || status >= 300 {
+					failed = ctx.MakeError("request_status",
+						fmt.Sprintf("request: %d: %v", status, vs.GetProp(fm, "statusText")))
+				}
+				bodyErr = UnreadableBody(ctx, status, headers, vs.GetProp(fm, "body"),
+					fetchdef["headers"], failed)
+			}
 		}
 
-		return map[string]any{
-			"ok":      status >= 200 && status < 300,
+		out := map[string]any{
+			"ok":      bodyErr == nil && status >= 200 && status < 300,
 			"status":  status,
 			"headers": headers,
 			"data":    jsonData,
-		}, nil
+		}
+		if bodyErr != nil {
+			out["err"] = sdk.cleanErr(ctx, bodyErr)
+		}
+		return out, nil
 	}
 
 	return map[string]any{"ok": false, "err": ctx.MakeError("direct_invalid", "invalid response type")}, nil
@@ -354,7 +375,7 @@ func (sdk *RailwayStationPhotosSDK) Graphql(
 // AdminInbox returns a AdminInbox entity bound to this client.
 // Idiomatic usage: client.AdminInbox(nil).List(nil, nil) or
 // client.AdminInbox(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RailwayStationPhotosSDK) AdminInbox(data map[string]any) RailwayStationPhotosEntity {
+func (sdk *RailwayStationPhotosSDK) AdminInbox(data map[string]any) RailwayStationPhotosEntityBase {
 	return NewAdminInboxEntityFunc(sdk, data)
 }
 
@@ -362,15 +383,23 @@ func (sdk *RailwayStationPhotosSDK) AdminInbox(data map[string]any) RailwayStati
 // Country returns a Country entity bound to this client.
 // Idiomatic usage: client.Country(nil).List(nil, nil) or
 // client.Country(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RailwayStationPhotosSDK) Country(data map[string]any) RailwayStationPhotosEntity {
+func (sdk *RailwayStationPhotosSDK) Country(data map[string]any) RailwayStationPhotosEntityBase {
 	return NewCountryEntityFunc(sdk, data)
+}
+
+
+// Done returns a Done entity bound to this client.
+// Idiomatic usage: client.Done(nil).List(nil, nil) or
+// client.Done(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *RailwayStationPhotosSDK) Done(data map[string]any) RailwayStationPhotosEntityBase {
+	return NewDoneEntityFunc(sdk, data)
 }
 
 
 // Inbox returns a Inbox entity bound to this client.
 // Idiomatic usage: client.Inbox(nil).List(nil, nil) or
 // client.Inbox(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RailwayStationPhotosSDK) Inbox(data map[string]any) RailwayStationPhotosEntity {
+func (sdk *RailwayStationPhotosSDK) Inbox(data map[string]any) RailwayStationPhotosEntityBase {
 	return NewInboxEntityFunc(sdk, data)
 }
 
@@ -378,7 +407,7 @@ func (sdk *RailwayStationPhotosSDK) Inbox(data map[string]any) RailwayStationPho
 // InboxCount returns a InboxCount entity bound to this client.
 // Idiomatic usage: client.InboxCount(nil).List(nil, nil) or
 // client.InboxCount(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RailwayStationPhotosSDK) InboxCount(data map[string]any) RailwayStationPhotosEntity {
+func (sdk *RailwayStationPhotosSDK) InboxCount(data map[string]any) RailwayStationPhotosEntityBase {
 	return NewInboxCountEntityFunc(sdk, data)
 }
 
@@ -386,7 +415,7 @@ func (sdk *RailwayStationPhotosSDK) InboxCount(data map[string]any) RailwayStati
 // InboxEntry returns a InboxEntry entity bound to this client.
 // Idiomatic usage: client.InboxEntry(nil).List(nil, nil) or
 // client.InboxEntry(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RailwayStationPhotosSDK) InboxEntry(data map[string]any) RailwayStationPhotosEntity {
+func (sdk *RailwayStationPhotosSDK) InboxEntry(data map[string]any) RailwayStationPhotosEntityBase {
 	return NewInboxEntryEntityFunc(sdk, data)
 }
 
@@ -394,7 +423,7 @@ func (sdk *RailwayStationPhotosSDK) InboxEntry(data map[string]any) RailwayStati
 // OAuthToken returns a OAuthToken entity bound to this client.
 // Idiomatic usage: client.OAuthToken(nil).List(nil, nil) or
 // client.OAuthToken(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RailwayStationPhotosSDK) OAuthToken(data map[string]any) RailwayStationPhotosEntity {
+func (sdk *RailwayStationPhotosSDK) OAuthToken(data map[string]any) RailwayStationPhotosEntityBase {
 	return NewOAuthTokenEntityFunc(sdk, data)
 }
 
@@ -402,7 +431,7 @@ func (sdk *RailwayStationPhotosSDK) OAuthToken(data map[string]any) RailwayStati
 // Oauth returns a Oauth entity bound to this client.
 // Idiomatic usage: client.Oauth(nil).List(nil, nil) or
 // client.Oauth(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RailwayStationPhotosSDK) Oauth(data map[string]any) RailwayStationPhotosEntity {
+func (sdk *RailwayStationPhotosSDK) Oauth(data map[string]any) RailwayStationPhotosEntityBase {
 	return NewOauthEntityFunc(sdk, data)
 }
 
@@ -410,23 +439,23 @@ func (sdk *RailwayStationPhotosSDK) Oauth(data map[string]any) RailwayStationPho
 // Photo returns a Photo entity bound to this client.
 // Idiomatic usage: client.Photo(nil).List(nil, nil) or
 // client.Photo(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RailwayStationPhotosSDK) Photo(data map[string]any) RailwayStationPhotosEntity {
+func (sdk *RailwayStationPhotosSDK) Photo(data map[string]any) RailwayStationPhotosEntityBase {
 	return NewPhotoEntityFunc(sdk, data)
 }
 
 
-// PhotoDownload returns a PhotoDownload entity bound to this client.
-// Idiomatic usage: client.PhotoDownload(nil).List(nil, nil) or
-// client.PhotoDownload(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RailwayStationPhotosSDK) PhotoDownload(data map[string]any) RailwayStationPhotosEntity {
-	return NewPhotoDownloadEntityFunc(sdk, data)
+// PhotoDownloadInbox returns a PhotoDownloadInbox entity bound to this client.
+// Idiomatic usage: client.PhotoDownloadInbox(nil).List(nil, nil) or
+// client.PhotoDownloadInbox(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *RailwayStationPhotosSDK) PhotoDownloadInbox(data map[string]any) RailwayStationPhotosEntityBase {
+	return NewPhotoDownloadInboxEntityFunc(sdk, data)
 }
 
 
 // PhotoStationById returns a PhotoStationById entity bound to this client.
 // Idiomatic usage: client.PhotoStationById(nil).List(nil, nil) or
 // client.PhotoStationById(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RailwayStationPhotosSDK) PhotoStationById(data map[string]any) RailwayStationPhotosEntity {
+func (sdk *RailwayStationPhotosSDK) PhotoStationById(data map[string]any) RailwayStationPhotosEntityBase {
 	return NewPhotoStationByIdEntityFunc(sdk, data)
 }
 
@@ -434,7 +463,7 @@ func (sdk *RailwayStationPhotosSDK) PhotoStationById(data map[string]any) Railwa
 // PhotoStationsByCountry returns a PhotoStationsByCountry entity bound to this client.
 // Idiomatic usage: client.PhotoStationsByCountry(nil).List(nil, nil) or
 // client.PhotoStationsByCountry(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RailwayStationPhotosSDK) PhotoStationsByCountry(data map[string]any) RailwayStationPhotosEntity {
+func (sdk *RailwayStationPhotosSDK) PhotoStationsByCountry(data map[string]any) RailwayStationPhotosEntityBase {
 	return NewPhotoStationsByCountryEntityFunc(sdk, data)
 }
 
@@ -442,7 +471,7 @@ func (sdk *RailwayStationPhotosSDK) PhotoStationsByCountry(data map[string]any) 
 // PhotoStationsByPhotographer returns a PhotoStationsByPhotographer entity bound to this client.
 // Idiomatic usage: client.PhotoStationsByPhotographer(nil).List(nil, nil) or
 // client.PhotoStationsByPhotographer(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RailwayStationPhotosSDK) PhotoStationsByPhotographer(data map[string]any) RailwayStationPhotosEntity {
+func (sdk *RailwayStationPhotosSDK) PhotoStationsByPhotographer(data map[string]any) RailwayStationPhotosEntityBase {
 	return NewPhotoStationsByPhotographerEntityFunc(sdk, data)
 }
 
@@ -450,7 +479,7 @@ func (sdk *RailwayStationPhotosSDK) PhotoStationsByPhotographer(data map[string]
 // PhotoStationsByRecentPhotoImport returns a PhotoStationsByRecentPhotoImport entity bound to this client.
 // Idiomatic usage: client.PhotoStationsByRecentPhotoImport(nil).List(nil, nil) or
 // client.PhotoStationsByRecentPhotoImport(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RailwayStationPhotosSDK) PhotoStationsByRecentPhotoImport(data map[string]any) RailwayStationPhotosEntity {
+func (sdk *RailwayStationPhotosSDK) PhotoStationsByRecentPhotoImport(data map[string]any) RailwayStationPhotosEntityBase {
 	return NewPhotoStationsByRecentPhotoImportEntityFunc(sdk, data)
 }
 
@@ -458,7 +487,7 @@ func (sdk *RailwayStationPhotosSDK) PhotoStationsByRecentPhotoImport(data map[st
 // PhotoUpload returns a PhotoUpload entity bound to this client.
 // Idiomatic usage: client.PhotoUpload(nil).List(nil, nil) or
 // client.PhotoUpload(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RailwayStationPhotosSDK) PhotoUpload(data map[string]any) RailwayStationPhotosEntity {
+func (sdk *RailwayStationPhotosSDK) PhotoUpload(data map[string]any) RailwayStationPhotosEntityBase {
 	return NewPhotoUploadEntityFunc(sdk, data)
 }
 
@@ -466,15 +495,23 @@ func (sdk *RailwayStationPhotosSDK) PhotoUpload(data map[string]any) RailwayStat
 // Photographer returns a Photographer entity bound to this client.
 // Idiomatic usage: client.Photographer(nil).List(nil, nil) or
 // client.Photographer(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RailwayStationPhotosSDK) Photographer(data map[string]any) RailwayStationPhotosEntity {
+func (sdk *RailwayStationPhotosSDK) Photographer(data map[string]any) RailwayStationPhotosEntityBase {
 	return NewPhotographerEntityFunc(sdk, data)
+}
+
+
+// Processed returns a Processed entity bound to this client.
+// Idiomatic usage: client.Processed(nil).List(nil, nil) or
+// client.Processed(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *RailwayStationPhotosSDK) Processed(data map[string]any) RailwayStationPhotosEntityBase {
+	return NewProcessedEntityFunc(sdk, data)
 }
 
 
 // Profile returns a Profile entity bound to this client.
 // Idiomatic usage: client.Profile(nil).List(nil, nil) or
 // client.Profile(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RailwayStationPhotosSDK) Profile(data map[string]any) RailwayStationPhotosEntity {
+func (sdk *RailwayStationPhotosSDK) Profile(data map[string]any) RailwayStationPhotosEntityBase {
 	return NewProfileEntityFunc(sdk, data)
 }
 
@@ -482,15 +519,23 @@ func (sdk *RailwayStationPhotosSDK) Profile(data map[string]any) RailwayStationP
 // PublicInbox returns a PublicInbox entity bound to this client.
 // Idiomatic usage: client.PublicInbox(nil).List(nil, nil) or
 // client.PublicInbox(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RailwayStationPhotosSDK) PublicInbox(data map[string]any) RailwayStationPhotosEntity {
+func (sdk *RailwayStationPhotosSDK) PublicInbox(data map[string]any) RailwayStationPhotosEntityBase {
 	return NewPublicInboxEntityFunc(sdk, data)
+}
+
+
+// Rejected returns a Rejected entity bound to this client.
+// Idiomatic usage: client.Rejected(nil).List(nil, nil) or
+// client.Rejected(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *RailwayStationPhotosSDK) Rejected(data map[string]any) RailwayStationPhotosEntityBase {
+	return NewRejectedEntityFunc(sdk, data)
 }
 
 
 // Stat returns a Stat entity bound to this client.
 // Idiomatic usage: client.Stat(nil).List(nil, nil) or
 // client.Stat(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RailwayStationPhotosSDK) Stat(data map[string]any) RailwayStationPhotosEntity {
+func (sdk *RailwayStationPhotosSDK) Stat(data map[string]any) RailwayStationPhotosEntityBase {
 	return NewStatEntityFunc(sdk, data)
 }
 

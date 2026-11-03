@@ -53,6 +53,10 @@ main: kit: entity: public_inbox: {
           }
           m: "GET"
           o: "/publicInbox"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "publicInbox"

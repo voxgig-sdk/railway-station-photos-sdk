@@ -38,8 +38,6 @@ class AdminInbox(AdminInboxRequired, total=False):
 class AdminInboxCreateDataRequired(TypedDict):
     command: str
     id: int
-    message: str
-    status: int
 
 
 class AdminInboxCreateData(AdminInboxCreateDataRequired, total=False):
@@ -73,27 +71,42 @@ class CountryListMatch(TypedDict, total=False):
     only_active: bool
 
 
+class Done(TypedDict, total=False):
+    id: str
+
+
+class DoneLoadMatchRequired(TypedDict):
+    id: str
+
+
+class DoneLoadMatch(DoneLoadMatchRequired, total=False):
+    width: int
+
+
 class InboxRequired(TypedDict):
+    comment: str
+    countryCode: str
     state: str
+    stationId: str
+    type: str
 
 
 class Inbox(InboxRequired, total=False):
-    comment: str
-    countryCode: str
     crc32: int
     createdAt: int
     filename: str
     id: int
     inboxUrl: str
+    inbox_state_queries: list
     lat: float
     lon: float
     message: str
     newLat: float
     newLon: float
     newTitle: str
+    photoId: int
     problemReportType: str
     rejectedReason: str
-    stationId: str
     title: str
 
 
@@ -102,26 +115,17 @@ class InboxListMatch(TypedDict, total=False):
 
 
 class InboxCreateDataRequired(TypedDict):
-    state: str
+    comment: str
+    countryCode: str
+    stationId: str
+    type: str
 
 
 class InboxCreateData(InboxCreateDataRequired, total=False):
-    comment: str
-    countryCode: str
-    crc32: int
-    createdAt: int
-    filename: str
-    id: int
-    inboxUrl: str
+    inbox_state_queries: list
     lat: float
     lon: float
-    message: str
-    newLat: float
-    newLon: float
-    newTitle: str
-    problemReportType: str
-    rejectedReason: str
-    stationId: str
+    photoId: int
     title: str
 
 
@@ -192,28 +196,42 @@ class InboxEntryListMatch(TypedDict, total=False):
 
 class OAuthTokenRequired(TypedDict):
     access_token: str
+    client_id: str
+    grant_type: str
+    redirect_uri: str
     scope: str
     token_type: str
 
 
 class OAuthToken(OAuthTokenRequired, total=False):
+    code: str
+    code_verifier: str
     expires_in: int
     refresh_token: str
 
 
 class OAuthTokenCreateDataRequired(TypedDict):
     access_token: str
+    client_id: str
+    grant_type: str
+    redirect_uri: str
     scope: str
     token_type: str
 
 
 class OAuthTokenCreateData(OAuthTokenCreateDataRequired, total=False):
+    code: str
+    code_verifier: str
     expires_in: int
     refresh_token: str
 
 
-class Oauth(TypedDict):
-    pass
+class OauthRequired(TypedDict):
+    token: str
+
+
+class Oauth(OauthRequired, total=False):
+    token_type_hint: str
 
 
 class OauthLoadMatchRequired(TypedDict):
@@ -229,8 +247,12 @@ class OauthLoadMatch(OauthLoadMatchRequired, total=False):
     state: str
 
 
-class OauthCreateData(TypedDict):
-    pass
+class OauthCreateDataRequired(TypedDict):
+    token: str
+
+
+class OauthCreateData(OauthCreateDataRequired, total=False):
+    token_type_hint: str
 
 
 class Photo(TypedDict, total=False):
@@ -246,15 +268,15 @@ class PhotoLoadMatch(PhotoLoadMatchRequired, total=False):
     width: int
 
 
-class PhotoDownload(TypedDict):
-    pass
+class PhotoDownloadInbox(TypedDict, total=False):
+    id: str
 
 
-class PhotoDownloadLoadMatchRequired(TypedDict):
-    filename: str
+class PhotoDownloadInboxLoadMatchRequired(TypedDict):
+    id: str
 
 
-class PhotoDownloadLoadMatch(PhotoDownloadLoadMatchRequired, total=False):
+class PhotoDownloadInboxLoadMatch(PhotoDownloadInboxLoadMatchRequired, total=False):
     width: int
 
 
@@ -356,6 +378,18 @@ class PhotographerLoadMatch(TypedDict, total=False):
     country: str
 
 
+class Processed(TypedDict, total=False):
+    id: str
+
+
+class ProcessedLoadMatchRequired(TypedDict):
+    id: str
+
+
+class ProcessedLoadMatch(ProcessedLoadMatchRequired, total=False):
+    width: int
+
+
 class ProfileRequired(TypedDict):
     license: str
     newPassword: str
@@ -377,18 +411,18 @@ class ProfileLoadMatch(TypedDict):
 
 
 class ProfileCreateDataRequired(TypedDict):
-    license: str
+    email: str
     newPassword: str
     nickname: str
-    photoOwner: bool
 
 
 class ProfileCreateData(ProfileCreateDataRequired, total=False):
     admin: bool
     anonymous: bool
-    email: str
     emailVerified: bool
+    license: str
     link: str
+    photoOwner: bool
     sendNotifications: bool
 
 
@@ -422,6 +456,18 @@ class PublicInboxListMatch(TypedDict, total=False):
     lon: float
     stationId: str
     title: str
+
+
+class Rejected(TypedDict, total=False):
+    id: str
+
+
+class RejectedLoadMatchRequired(TypedDict):
+    id: str
+
+
+class RejectedLoadMatch(RejectedLoadMatchRequired, total=False):
+    width: int
 
 
 class StatRequired(TypedDict):

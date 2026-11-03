@@ -4,7 +4,7 @@
 #   guide.aontu
 
 guide: {
-  metrics: count: entity: 18
+  metrics: count: entity: 21
   metrics: count: path: 26
   metrics: count: method: 30
 
@@ -17,6 +17,13 @@ guide: {
   entity: country: {
     path: "/countries": {
       op: list: method: *GET
+    }
+  }
+
+  entity: done: {
+    path: "/inbox/done/{filename}": {
+      rename: param: "filename": *"id"
+      op: load: method: *GET
     }
   }
 
@@ -66,17 +73,9 @@ guide: {
     }
   }
 
-  entity: photo_download: {
-    path: "/inbox/done/{filename}": {
-      op: load: method: *GET
-    }
-    path: "/inbox/processed/{filename}": {
-      op: load: method: *GET
-    }
-    path: "/inbox/rejected/{filename}": {
-      op: load: method: *GET
-    }
+  entity: photo_download_inbox: {
     path: "/inbox/{filename}": {
+      rename: param: "filename": *"id"
       op: load: method: *GET
     }
   }
@@ -119,6 +118,13 @@ guide: {
     }
   }
 
+  entity: processed: {
+    path: "/inbox/processed/{filename}": {
+      rename: param: "filename": *"id"
+      op: load: method: *GET
+    }
+  }
+
   entity: profile: {
     path: "/changePassword": {
       op: create: method: *POST
@@ -139,6 +145,13 @@ guide: {
   entity: public_inbox: {
     path: "/publicInbox": {
       op: list: method: *GET
+    }
+  }
+
+  entity: rejected: {
+    path: "/inbox/rejected/{filename}": {
+      rename: param: "filename": *"id"
+      op: load: method: *GET
     }
   }
 

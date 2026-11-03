@@ -19,6 +19,7 @@ make build
 export RAILWAY_STATION_PHOTOS_APIKEY=sk_live_xxx
 
 # 4. Each command line is ONE boru expression, run against the API:
+./railway-station-photos-cli list country
 
 # 5. Override the API base URL for a single call
 RAILWAY_STATION_PHOTOS_BASE=https://api.example.com ./railway-station-photos-cli --help
@@ -94,7 +95,7 @@ make build-all   # linux/darwin/windows x amd64/arm64, under dist/<os>-<arch>/
 ### Discover the available entities
 
 `/help` in the REPL prints the full entity list, or see [Entities](#entities)
-below — this SDK exposes 18 entities.
+below — this SDK exposes 21 entities.
 
 ## Reference
 
@@ -148,9 +149,9 @@ Meta-commands use the `/` prefix (everything else on a line is evaluated as boru
 
 ### Entities
 
-The 18 entities this SDK exposes (any is valid as `<entity>`):
+The 21 entities this SDK exposes (any is valid as `<entity>`):
 
-admin_inbox country inbox inbox_count inbox_entry o_auth_token oauth photo photo_download photo_station_by_id photo_stations_by_country photo_stations_by_photographer photo_stations_by_recent_photo_import photo_upload photographer profile public_inbox stat
+admin_inbox country done inbox inbox_count inbox_entry o_auth_token oauth photo photo_download_inbox photo_station_by_id photo_stations_by_country photo_stations_by_photographer photo_stations_by_recent_photo_import photo_upload photographer processed profile public_inbox rejected stat
 
 ## Explanation
 

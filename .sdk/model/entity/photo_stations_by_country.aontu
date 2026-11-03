@@ -88,15 +88,17 @@ main: kit: entity: photo_stations_by_country: {
           o: "/photoStationsByCountry/{country}"
           q: {
             exist: [
-              "has_photo"
               "id"
-              "is_active"
             ]
           }
           r: {
             param: {
               country: "id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

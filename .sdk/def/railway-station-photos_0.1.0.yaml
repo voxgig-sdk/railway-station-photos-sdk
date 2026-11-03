@@ -400,12 +400,6 @@ paths:
           description: id of the railwaystation
           schema:
             type: string
-        - name: Content-Type
-          in: header
-          description: mime type of the image, "image/png" or "image/jpeg"
-          required: true
-          schema:
-            type: string
         - name: Station-Title
           in: header
           description: name of the station, for upload of missing stations (needs to

@@ -1,0 +1,32 @@
+# BasicPhotoDownloadInboxFlow
+
+main: kit: flow: BasicPhotoDownloadInboxFlow:
+{
+  entity: "photo_download_inbox",
+  kind: "basic",
+  name: "BasicPhotoDownloadInboxFlow",
+  step: [
+    {
+      i: {
+        ref: "photo_download_inbox_ref01",
+        srcdatavar: "photo_download_inbox_ref01_data",
+        suffix: "_dt0"
+      }
+
+      m: {
+        id: "photo_download_inbox01"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-photo_download_inbox_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicPhotoDownloadInboxFlow"
+}

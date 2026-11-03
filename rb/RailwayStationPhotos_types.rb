@@ -91,17 +91,11 @@ AdminInbox = Struct.new(
 # @!attribute [rw] lon
 #   @return [Float, nil]
 #
-# @!attribute [rw] message
-#   @return [String]
-#
 # @!attribute [rw] rejectReason
 #   @return [String, nil]
 #
 # @!attribute [rw] stationId
 #   @return [String, nil]
-#
-# @!attribute [rw] status
-#   @return [Integer]
 #
 # @!attribute [rw] title
 #   @return [String, nil]
@@ -114,10 +108,8 @@ AdminInboxCreateData = Struct.new(
   :id,
   :lat,
   :lon,
-  :message,
   :rejectReason,
   :stationId,
-  :status,
   :title,
   keyword_init: true
 )
@@ -172,13 +164,35 @@ CountryListMatch = Struct.new(
   keyword_init: true
 )
 
+# Done entity data model.
+#
+# @!attribute [rw] id
+#   @return [String, nil]
+Done = Struct.new(
+  :id,
+  keyword_init: true
+)
+
+# Request payload for Done#load.
+#
+# @!attribute [rw] id
+#   @return [String]
+#
+# @!attribute [rw] width
+#   @return [Integer, nil]
+DoneLoadMatch = Struct.new(
+  :id,
+  :width,
+  keyword_init: true
+)
+
 # Inbox entity data model.
 #
 # @!attribute [rw] comment
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] countryCode
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] crc32
 #   @return [Integer, nil]
@@ -194,6 +208,9 @@ CountryListMatch = Struct.new(
 #
 # @!attribute [rw] inboxUrl
 #   @return [String, nil]
+#
+# @!attribute [rw] inbox_state_queries
+#   @return [Array, nil]
 #
 # @!attribute [rw] lat
 #   @return [Float, nil]
@@ -213,6 +230,9 @@ CountryListMatch = Struct.new(
 # @!attribute [rw] newTitle
 #   @return [String, nil]
 #
+# @!attribute [rw] photoId
+#   @return [Integer, nil]
+#
 # @!attribute [rw] problemReportType
 #   @return [String, nil]
 #
@@ -223,10 +243,13 @@ CountryListMatch = Struct.new(
 #   @return [String]
 #
 # @!attribute [rw] stationId
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] title
 #   @return [String, nil]
+#
+# @!attribute [rw] type
+#   @return [String]
 Inbox = Struct.new(
   :comment,
   :countryCode,
@@ -235,17 +258,20 @@ Inbox = Struct.new(
   :filename,
   :id,
   :inboxUrl,
+  :inbox_state_queries,
   :lat,
   :lon,
   :message,
   :newLat,
   :newLon,
   :newTitle,
+  :photoId,
   :problemReportType,
   :rejectedReason,
   :state,
   :stationId,
   :title,
+  :type,
   keyword_init: true
 )
 
@@ -261,25 +287,13 @@ InboxListMatch = Struct.new(
 # Request payload for Inbox#create.
 #
 # @!attribute [rw] comment
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] countryCode
-#   @return [String, nil]
+#   @return [String]
 #
-# @!attribute [rw] crc32
-#   @return [Integer, nil]
-#
-# @!attribute [rw] createdAt
-#   @return [Integer, nil]
-#
-# @!attribute [rw] filename
-#   @return [String, nil]
-#
-# @!attribute [rw] id
-#   @return [Integer, nil]
-#
-# @!attribute [rw] inboxUrl
-#   @return [String, nil]
+# @!attribute [rw] inbox_state_queries
+#   @return [Array, nil]
 #
 # @!attribute [rw] lat
 #   @return [Float, nil]
@@ -287,51 +301,27 @@ InboxListMatch = Struct.new(
 # @!attribute [rw] lon
 #   @return [Float, nil]
 #
-# @!attribute [rw] message
-#   @return [String, nil]
-#
-# @!attribute [rw] newLat
-#   @return [Float, nil]
-#
-# @!attribute [rw] newLon
-#   @return [Float, nil]
-#
-# @!attribute [rw] newTitle
-#   @return [String, nil]
-#
-# @!attribute [rw] problemReportType
-#   @return [String, nil]
-#
-# @!attribute [rw] rejectedReason
-#   @return [String, nil]
-#
-# @!attribute [rw] state
-#   @return [String]
+# @!attribute [rw] photoId
+#   @return [Integer, nil]
 #
 # @!attribute [rw] stationId
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] title
 #   @return [String, nil]
+#
+# @!attribute [rw] type
+#   @return [String]
 InboxCreateData = Struct.new(
   :comment,
   :countryCode,
-  :crc32,
-  :createdAt,
-  :filename,
-  :id,
-  :inboxUrl,
+  :inbox_state_queries,
   :lat,
   :lon,
-  :message,
-  :newLat,
-  :newLon,
-  :newTitle,
-  :problemReportType,
-  :rejectedReason,
-  :state,
+  :photoId,
   :stationId,
   :title,
+  :type,
   keyword_init: true
 )
 
@@ -553,8 +543,23 @@ InboxEntryListMatch = Struct.new(
 # @!attribute [rw] access_token
 #   @return [String]
 #
+# @!attribute [rw] client_id
+#   @return [String]
+#
+# @!attribute [rw] code
+#   @return [String, nil]
+#
+# @!attribute [rw] code_verifier
+#   @return [String, nil]
+#
 # @!attribute [rw] expires_in
 #   @return [Integer, nil]
+#
+# @!attribute [rw] grant_type
+#   @return [String]
+#
+# @!attribute [rw] redirect_uri
+#   @return [String]
 #
 # @!attribute [rw] refresh_token
 #   @return [String, nil]
@@ -566,7 +571,12 @@ InboxEntryListMatch = Struct.new(
 #   @return [String]
 OAuthToken = Struct.new(
   :access_token,
+  :client_id,
+  :code,
+  :code_verifier,
   :expires_in,
+  :grant_type,
+  :redirect_uri,
   :refresh_token,
   :scope,
   :token_type,
@@ -578,8 +588,23 @@ OAuthToken = Struct.new(
 # @!attribute [rw] access_token
 #   @return [String]
 #
+# @!attribute [rw] client_id
+#   @return [String]
+#
+# @!attribute [rw] code
+#   @return [String, nil]
+#
+# @!attribute [rw] code_verifier
+#   @return [String, nil]
+#
 # @!attribute [rw] expires_in
 #   @return [Integer, nil]
+#
+# @!attribute [rw] grant_type
+#   @return [String]
+#
+# @!attribute [rw] redirect_uri
+#   @return [String]
 #
 # @!attribute [rw] refresh_token
 #   @return [String, nil]
@@ -591,7 +616,12 @@ OAuthToken = Struct.new(
 #   @return [String]
 OAuthTokenCreateData = Struct.new(
   :access_token,
+  :client_id,
+  :code,
+  :code_verifier,
   :expires_in,
+  :grant_type,
+  :redirect_uri,
   :refresh_token,
   :scope,
   :token_type,
@@ -599,8 +629,17 @@ OAuthTokenCreateData = Struct.new(
 )
 
 # Oauth entity data model.
-class Oauth
-end
+#
+# @!attribute [rw] token
+#   @return [String]
+#
+# @!attribute [rw] token_type_hint
+#   @return [String, nil]
+Oauth = Struct.new(
+  :token,
+  :token_type_hint,
+  keyword_init: true
+)
 
 # Request payload for Oauth#load.
 #
@@ -636,8 +675,17 @@ OauthLoadMatch = Struct.new(
 )
 
 # Request payload for Oauth#create.
-class OauthCreateData
-end
+#
+# @!attribute [rw] token
+#   @return [String]
+#
+# @!attribute [rw] token_type_hint
+#   @return [String, nil]
+OauthCreateData = Struct.new(
+  :token,
+  :token_type_hint,
+  keyword_init: true
+)
 
 # Photo entity data model.
 #
@@ -665,19 +713,24 @@ PhotoLoadMatch = Struct.new(
   keyword_init: true
 )
 
-# PhotoDownload entity data model.
-class PhotoDownload
-end
-
-# Request payload for PhotoDownload#load.
+# PhotoDownloadInbox entity data model.
 #
-# @!attribute [rw] filename
+# @!attribute [rw] id
+#   @return [String, nil]
+PhotoDownloadInbox = Struct.new(
+  :id,
+  keyword_init: true
+)
+
+# Request payload for PhotoDownloadInbox#load.
+#
+# @!attribute [rw] id
 #   @return [String]
 #
 # @!attribute [rw] width
 #   @return [Integer, nil]
-PhotoDownloadLoadMatch = Struct.new(
-  :filename,
+PhotoDownloadInboxLoadMatch = Struct.new(
+  :id,
   :width,
   keyword_init: true
 )
@@ -901,6 +954,28 @@ PhotographerLoadMatch = Struct.new(
   keyword_init: true
 )
 
+# Processed entity data model.
+#
+# @!attribute [rw] id
+#   @return [String, nil]
+Processed = Struct.new(
+  :id,
+  keyword_init: true
+)
+
+# Request payload for Processed#load.
+#
+# @!attribute [rw] id
+#   @return [String]
+#
+# @!attribute [rw] width
+#   @return [Integer, nil]
+ProcessedLoadMatch = Struct.new(
+  :id,
+  :width,
+  keyword_init: true
+)
+
 # Profile entity data model.
 #
 # @!attribute [rw] admin
@@ -964,13 +1039,13 @@ ProfileLoadMatch = Struct.new(
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] email
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] emailVerified
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] license
-#   @return [String]
+#   @return [String, nil]
 #
 # @!attribute [rw] link
 #   @return [String, nil]
@@ -982,7 +1057,7 @@ ProfileLoadMatch = Struct.new(
 #   @return [String]
 #
 # @!attribute [rw] photoOwner
-#   @return [Boolean]
+#   @return [Boolean, nil]
 #
 # @!attribute [rw] sendNotifications
 #   @return [Boolean, nil]
@@ -1092,6 +1167,28 @@ PublicInboxListMatch = Struct.new(
   :lon,
   :stationId,
   :title,
+  keyword_init: true
+)
+
+# Rejected entity data model.
+#
+# @!attribute [rw] id
+#   @return [String, nil]
+Rejected = Struct.new(
+  :id,
+  keyword_init: true
+)
+
+# Request payload for Rejected#load.
+#
+# @!attribute [rw] id
+#   @return [String]
+#
+# @!attribute [rw] width
+#   @return [Integer, nil]
+RejectedLoadMatch = Struct.new(
+  :id,
+  :width,
   keyword_init: true
 )
 

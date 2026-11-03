@@ -156,7 +156,13 @@ class RailwayStationPhotosSDK implements \JsonSerializable
         $path = Struct::getprop($fetchargs, "path") ?? "";
         $path = is_string($path) ? $path : "";
         $method_val = Struct::getprop($fetchargs, "method") ?? "GET";
-        $method_val = is_string($method_val) ? $method_val : "GET";
+        $method_val = strtoupper(is_string($method_val) && '' !== $method_val ? $method_val : "GET");
+        $allow_method = Struct::getpath($opts, "allow.method");
+        if (!RailwayStationPhotosPrepareMethod::allowed($allow_method, $method_val)) {
+            return ($utility->make_error)($ctx, $ctx->make_error("spec_method_allow",
+                "Method \"" . $method_val . "\" not allowed by SDK option allow.method value: \"" .
+                (is_string($allow_method) ? $allow_method : "") . "\""));
+        }
         $params = RailwayStationPhotosHelpers::to_map(Struct::getprop($fetchargs, "params")) ?? [];
         $query = RailwayStationPhotosHelpers::to_map(Struct::getprop($fetchargs, "query")) ?? [];
         $headers = ($utility->prepare_headers)($ctx);
@@ -211,8 +217,7 @@ class RailwayStationPhotosSDK implements \JsonSerializable
     // Is this raw-access op permitted by the SDK's allow.op option?
     private function op_allowed(string $op): bool
     {
-        $allow_op = Struct::getpath($this->options, "allow.op");
-        return is_string($allow_op) && str_contains($allow_op, $op);
+        return RailwayStationPhotosPrepareMethod::allowed(Struct::getpath($this->options, "allow.op"), $op);
     }
 
     private function op_denied(string $op): array
@@ -275,6 +280,7 @@ class RailwayStationPhotosSDK implements \JsonSerializable
             $no_body = $status === 204 || $status === 304 || (string)$content_length === "0";
 
             $json_data = null;
+            $body_err = null;
             if (!$no_body) {
                 $jf = Struct::getprop($fetched, "json");
                 if (is_callable($jf)) {
@@ -285,14 +291,29 @@ class RailwayStationPhotosSDK implements \JsonSerializable
                         $json_data = null;
                     }
                 }
+                if (true === Struct::getprop($fetched, "unreadable")) {
+                    $failed = ($status >= 200 && $status < 300) ? null : $ctx->make_error(
+                        "request_status",
+                        "request: {$status}: " . (string)Struct::getprop($fetched, "statusText"));
+                    $sent = $fetchdef["headers"] ?? [];
+                    if (RailwayStationPhotosFetcher::usesDefault($ctx)) {
+                        $sent = RailwayStationPhotosFetcher::sentHeaders($sent);
+                    }
+                    $body_err = RailwayStationPhotosResultBody::unreadable($ctx, $status, $headers,
+                        Struct::getprop($fetched, "body"), $sent, $failed);
+                }
             }
 
-            return [
-                "ok" => $status >= 200 && $status < 300,
+            $out = [
+                "ok" => null === $body_err && $status >= 200 && $status < 300,
                 "status" => $status,
                 "headers" => Struct::getprop($fetched, "headers"),
                 "data" => $json_data,
             ];
+            if (null !== $body_err) {
+                $out["err"] = ($utility->clean)($ctx, $body_err);
+            }
+            return $out;
         }
 
         return [
@@ -387,6 +408,24 @@ class RailwayStationPhotosSDK implements \JsonSerializable
             return $this->_country;
         }
         return new CountryEntity($this, $data);
+    }
+
+
+    private $_done = null;
+
+    // Canonical facade: $client->Done()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->done()
+    // resolves here too.
+    public function Done($data = null)
+    {
+        require_once __DIR__ . '/entity/done_entity.php';
+        if ($data === null) {
+            if ($this->_done === null) {
+                $this->_done = new DoneEntity($this, null);
+            }
+            return $this->_done;
+        }
+        return new DoneEntity($this, $data);
     }
 
 
@@ -498,21 +537,21 @@ class RailwayStationPhotosSDK implements \JsonSerializable
     }
 
 
-    private $_photo_download = null;
+    private $_photo_download_inbox = null;
 
-    // Canonical facade: $client->PhotoDownload()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->photo_download()
+    // Canonical facade: $client->PhotoDownloadInbox()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->photo_download_inbox()
     // resolves here too.
-    public function PhotoDownload($data = null)
+    public function PhotoDownloadInbox($data = null)
     {
-        require_once __DIR__ . '/entity/photo_download_entity.php';
+        require_once __DIR__ . '/entity/photo_download_inbox_entity.php';
         if ($data === null) {
-            if ($this->_photo_download === null) {
-                $this->_photo_download = new PhotoDownloadEntity($this, null);
+            if ($this->_photo_download_inbox === null) {
+                $this->_photo_download_inbox = new PhotoDownloadInboxEntity($this, null);
             }
-            return $this->_photo_download;
+            return $this->_photo_download_inbox;
         }
-        return new PhotoDownloadEntity($this, $data);
+        return new PhotoDownloadInboxEntity($this, $data);
     }
 
 
@@ -624,6 +663,24 @@ class RailwayStationPhotosSDK implements \JsonSerializable
     }
 
 
+    private $_processed = null;
+
+    // Canonical facade: $client->Processed()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->processed()
+    // resolves here too.
+    public function Processed($data = null)
+    {
+        require_once __DIR__ . '/entity/processed_entity.php';
+        if ($data === null) {
+            if ($this->_processed === null) {
+                $this->_processed = new ProcessedEntity($this, null);
+            }
+            return $this->_processed;
+        }
+        return new ProcessedEntity($this, $data);
+    }
+
+
     private $_profile = null;
 
     // Canonical facade: $client->Profile()->list() / ->load(["id" => ...]).
@@ -657,6 +714,24 @@ class RailwayStationPhotosSDK implements \JsonSerializable
             return $this->_public_inbox;
         }
         return new PublicInboxEntity($this, $data);
+    }
+
+
+    private $_rejected = null;
+
+    // Canonical facade: $client->Rejected()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->rejected()
+    // resolves here too.
+    public function Rejected($data = null)
+    {
+        require_once __DIR__ . '/entity/rejected_entity.php';
+        if ($data === null) {
+            if ($this->_rejected === null) {
+                $this->_rejected = new RejectedEntity($this, null);
+            }
+            return $this->_rejected;
+        }
+        return new RejectedEntity($this, $data);
     }
 
 

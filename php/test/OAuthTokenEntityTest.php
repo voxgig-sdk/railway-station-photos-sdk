@@ -11,11 +11,33 @@ use Voxgig\Struct\Struct as Vs;
 
 class OAuthTokenEntityTest extends TestCase
 {
+    // main.kit.test.live.strict is true (the default is true): a live
+    // request that fails, or a live test missing an input it needs,
+    // fails the test.
+    // An account with no record for a test to read skips it either way.
+    private const LIVE_STRICT = true;
+
     public function test_create_instance(): void
     {
         $testsdk = RailwayStationPhotosSDK::test(null, null);
         $ent = $testsdk->OAuthToken(null);
         $this->assertNotNull($ent);
+    }
+
+    public function test_validate(): void
+    {
+        $cfg = RailwayStationPhotosConfig::shared_config();
+        if (!isset($cfg["feature"]["validate"])) {
+            $this->markTestSkipped('feature not present in this SDK: validate');
+        }
+        $client = RailwayStationPhotosSDK::test(null, ["feature" => ["validate" => ["active" => true]]]);
+        $err = null;
+        try {
+            $client->OAuthToken(null)->create(["access_token" => 1, "client_id" => 'x', "grant_type" => 'x', "redirect_uri" => 'x', "scope" => 'x', "token_type" => 'x'], null);
+        } catch (\Throwable $e) {
+            $err = $e;
+        }
+        $this->assertSame('validate_failed', $err->sdk_code ?? null);
     }
 
     public function test_basic_flow(): void
@@ -30,12 +52,11 @@ class OAuthTokenEntityTest extends TestCase
                 return;
             }
         }
-        // The basic flow consumes synthetic IDs from the fixture. In live mode
-        // without an *_ENTID env override, those IDs hit the live API and 4xx.
-        if (!empty($setup["synthetic_only"])) {
-            $this->markTestSkipped("live entity test uses synthetic IDs from fixture — set RAILWAY_STATION_PHOTOS_TEST_O_AUTH_TOKEN_ENTID JSON to run live");
-            return;
+        if (!empty($setup["live"]) && getenv('VOXGIG_GETONLY_GUARD') === "TRUE") {
+            fwrite(STDOUT, 'LIVE STEP {"id":"o_auth_token.create.0","state":"excluded","attempted":false,"reason":"GET-only live run: needs POST /oauth2/token"}' . "\n");
+            $this->markTestSkipped('Live coverage incomplete: o_auth_token.create.0 excluded (GET-only live run: needs POST /oauth2/token)');
         }
+
         $client = $setup["client"];
 
         // CREATE
@@ -69,9 +90,8 @@ function o_auth_token_basic_setup($extra)
         $idmap[$k] = strtoupper($k);
     }
 
-    // Detect ENTID env override before envOverride consumes it. When live
-    // mode is on without a real override, the basic test runs against synthetic
-    // IDs from the fixture and 4xx's. Surface this so the test can skip.
+    // Whether *_ENTID supplied the idmap, read before env_override consumes
+    // it: without it, the ids a live flow binds are the fixture's synthetic ones.
     $entid_env_raw = getenv("RAILWAY_STATION_PHOTOS_TEST_O_AUTH_TOKEN_ENTID");
     $idmap_overridden = $entid_env_raw !== false && str_starts_with(trim($entid_env_raw), "{");
 

@@ -89,13 +89,6 @@ main: kit: entity: photo_upload: {
               }
               {
                 k: "header"
-                n: "content_type"
-                or: "Content-Type"
-                r: true
-                t: "`$STRING`"
-              }
-              {
-                k: "header"
                 n: "country"
                 or: "Country"
                 r: false
@@ -135,16 +128,26 @@ main: kit: entity: photo_upload: {
           o: "/photoUpload"
           q: {
             exist: [
-              "active"
               "authorization"
-              "comment"
-              "content_type"
-              "country"
-              "latitude"
-              "longitude"
-              "station_id"
-              "station_title"
             ]
+          }
+          rb: {
+            alternatives: [
+              {
+                kind: "raw"
+                media: "image/jpeg"
+              }
+              {
+                kind: "raw"
+                media: "image/png"
+              }
+            ]
+            kind: "raw"
+            media: "application/octet-stream"
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

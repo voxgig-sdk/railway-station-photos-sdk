@@ -94,6 +94,9 @@ main: kit: entity: profile: {
       name: "create"
       points: [
         {
+          bf: [
+            "newPassword"
+          ]
           co: {
             id: "POST /changePassword"
             source: "openapi3"
@@ -128,6 +131,15 @@ main: kit: entity: profile: {
           }
         }
         {
+          bf: [
+            "anonymous"
+            "email"
+            "license"
+            "link"
+            "nickname"
+            "photoOwner"
+            "sendNotifications"
+          ]
           co: {
             id: "POST /myProfile"
             source: "openapi3"
@@ -224,6 +236,10 @@ main: kit: entity: profile: {
               "authorization"
             ]
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "myProfile"
@@ -257,6 +273,10 @@ main: kit: entity: profile: {
             exist: [
               "token"
             ]
+          }
+          rs: {
+            kind: "raw"
+            media: "text/plain"
           }
           s: [
             {

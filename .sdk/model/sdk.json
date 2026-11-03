@@ -211,6 +211,19 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "DS100",
+                    "active",
+                    "command",
+                    "conflictResolution",
+                    "countryCode",
+                    "id",
+                    "lat",
+                    "lon",
+                    "rejectReason",
+                    "stationId",
+                    "title"
+                  ],
                   "co": {
                     "id": "POST /adminInbox",
                     "source": "openapi3",
@@ -237,6 +250,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "adminInbox"
@@ -361,15 +378,116 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/countries",
-                  "q": {
-                    "exist": [
-                      "only_active"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "countries"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "done": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": {
+            "id": {
+              "a": true,
+              "h": "Id",
+              "n": "id",
+              "r": false,
+              "t": "`$STRING`"
+            }
+          },
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "done",
+          "op": {
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /inbox/done/{filename}",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "params": [
+                      {
+                        "a": true,
+                        "k": "param",
+                        "n": "id",
+                        "or": "filename",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ],
+                    "query": [
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "width",
+                        "or": "width",
+                        "r": false,
+                        "t": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/inbox/done/{filename}",
+                  "q": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "r": {
+                    "param": {
+                      "filename": "id"
+                    }
+                  },
+                  "rs": {
+                    "alternatives": [
+                      {
+                        "binary": true,
+                        "kind": "raw",
+                        "media": "image/png"
+                      }
+                    ],
+                    "binary": true,
+                    "kind": "raw",
+                    "media": "image/jpeg"
+                  },
+                  "s": [
+                    {
+                      "lit": "inbox"
+                    },
+                    {
+                      "lit": "done"
+                    },
+                    {
+                      "var": "id"
                     }
                   ],
                   "t": {
@@ -394,14 +512,26 @@
               "a": true,
               "h": "Comment",
               "n": "comment",
-              "r": false,
+              "op": {
+                "list": {
+                  "req": false,
+                  "type": "`$STRING`"
+                }
+              },
+              "r": true,
               "t": "`$STRING`"
             },
             "countryCode": {
               "a": true,
               "h": "Country Code",
               "n": "countryCode",
-              "r": false,
+              "op": {
+                "list": {
+                  "req": false,
+                  "type": "`$STRING`"
+                }
+              },
+              "r": true,
               "sh": "a two character country code",
               "t": "`$STRING`"
             },
@@ -452,12 +582,21 @@
               "sh": "url of the photo in the inbox",
               "t": "`$STRING`"
             },
+            "inbox_state_queries": {
+              "a": true,
+              "h": "Inbox State Queries",
+              "n": "inbox_state_queries",
+              "r": false,
+              "sh": "Inbox state query request",
+              "t": "`$ARRAY`"
+            },
             "lat": {
               "a": true,
               "fo": "double",
               "h": "Lat",
               "n": "lat",
               "r": false,
+              "sh": "new latitude value for the station",
               "t": "`$NUMBER`"
             },
             "lon": {
@@ -466,6 +605,7 @@
               "h": "Lon",
               "n": "lon",
               "r": false,
+              "sh": "new longitude value for the station",
               "t": "`$NUMBER`"
             },
             "message": {
@@ -498,6 +638,15 @@
               "r": false,
               "t": "`$STRING`"
             },
+            "photoId": {
+              "a": true,
+              "fo": "int64",
+              "h": "Photo Id",
+              "n": "photoId",
+              "r": false,
+              "sh": "Unique id of a photo, can be used for WRONG_PHOTO and PHOTO_OUTDATED type.",
+              "t": "`$INTEGER`"
+            },
             "problemReportType": {
               "a": true,
               "h": "Problem Report Type",
@@ -524,7 +673,13 @@
               "a": true,
               "h": "Station Id",
               "n": "stationId",
-              "r": false,
+              "op": {
+                "list": {
+                  "req": false,
+                  "type": "`$STRING`"
+                }
+              },
+              "r": true,
               "t": "`$STRING`"
             },
             "title": {
@@ -532,6 +687,15 @@
               "h": "Title",
               "n": "title",
               "r": false,
+              "sh": "a new title for the station",
+              "t": "`$STRING`"
+            },
+            "type": {
+              "a": true,
+              "h": "Type",
+              "n": "type",
+              "r": true,
+              "sh": "types of problem reports",
               "t": "`$STRING`"
             }
           },
@@ -547,6 +711,62 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "inbox_state_queries"
+                  ],
+                  "co": {
+                    "id": "POST /userInbox",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "header": [
+                      {
+                        "a": true,
+                        "k": "header",
+                        "n": "authorization",
+                        "or": "Authorization",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "POST",
+                  "o": "/userInbox",
+                  "q": {
+                    "exist": [
+                      "authorization",
+                      "inbox_state_queries"
+                    ]
+                  },
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "userInbox"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata.inbox_state_queries`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "a": true,
+                  "bf": [
+                    "comment",
+                    "countryCode",
+                    "lat",
+                    "lon",
+                    "photoId",
+                    "stationId",
+                    "title",
+                    "type"
+                  ],
                   "co": {
                     "id": "POST /reportProblem",
                     "source": "openapi3",
@@ -573,47 +793,13 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "reportProblem"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "POST /userInbox",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "header": [
-                      {
-                        "a": true,
-                        "k": "header",
-                        "n": "authorization",
-                        "or": "Authorization",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "POST",
-                  "o": "/userInbox",
-                  "q": {
-                    "exist": [
-                      "authorization"
-                    ]
-                  },
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "userInbox"
                     }
                   ],
                   "t": {
@@ -661,11 +847,14 @@
                   "o": "/userInbox",
                   "q": {
                     "exist": [
-                      "authorization",
-                      "show_completed_entry"
+                      "authorization"
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "userInbox"
@@ -764,6 +953,10 @@
                   "o": "/adminInboxCount",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "adminInboxCount"
@@ -997,6 +1190,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "adminInbox"
@@ -1027,6 +1224,27 @@
               "r": true,
               "t": "`$STRING`"
             },
+            "client_id": {
+              "a": true,
+              "h": "Client Id",
+              "n": "client_id",
+              "r": true,
+              "t": "`$STRING`"
+            },
+            "code": {
+              "a": true,
+              "h": "Code",
+              "n": "code",
+              "r": false,
+              "t": "`$STRING`"
+            },
+            "code_verifier": {
+              "a": true,
+              "h": "Code Verifier",
+              "n": "code_verifier",
+              "r": false,
+              "t": "`$STRING`"
+            },
             "expires_in": {
               "a": true,
               "fo": "int64",
@@ -1034,6 +1252,21 @@
               "n": "expires_in",
               "r": false,
               "t": "`$INTEGER`"
+            },
+            "grant_type": {
+              "a": true,
+              "h": "Grant Type",
+              "n": "grant_type",
+              "r": true,
+              "t": "`$STRING`"
+            },
+            "redirect_uri": {
+              "a": true,
+              "fo": "uri",
+              "h": "Redirect Uri",
+              "n": "redirect_uri",
+              "r": true,
+              "t": "`$STRING`"
             },
             "refresh_token": {
               "a": true,
@@ -1091,6 +1324,34 @@
                     ]
                   },
                   "r": {},
+                  "rb": {
+                    "fields": [
+                      {
+                        "name": "client_id"
+                      },
+                      {
+                        "name": "code"
+                      },
+                      {
+                        "name": "code_verifier"
+                      },
+                      {
+                        "name": "grant_type"
+                      },
+                      {
+                        "name": "redirect_uri"
+                      },
+                      {
+                        "name": "refresh_token"
+                      }
+                    ],
+                    "kind": "form",
+                    "media": "application/x-www-form-urlencoded"
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "oauth2"
@@ -1116,7 +1377,22 @@
           "alias": {
             "field": {}
           },
-          "fields": {},
+          "fields": {
+            "token": {
+              "a": true,
+              "h": "Token",
+              "n": "token",
+              "r": true,
+              "t": "`$STRING`"
+            },
+            "token_type_hint": {
+              "a": true,
+              "h": "Token Type Hint",
+              "n": "token_type_hint",
+              "r": false,
+              "t": "`$STRING`"
+            }
+          },
           "name": "oauth",
           "op": {
             "create": {
@@ -1151,6 +1427,18 @@
                     ]
                   },
                   "r": {},
+                  "rb": {
+                    "fields": [
+                      {
+                        "name": "token"
+                      },
+                      {
+                        "name": "token_type_hint"
+                      }
+                    ],
+                    "kind": "form",
+                    "media": "application/x-www-form-urlencoded"
+                  },
                   "s": [
                     {
                       "lit": "oauth2"
@@ -1243,12 +1531,9 @@
                   "q": {
                     "exist": [
                       "client_id",
-                      "code_challenge",
-                      "code_challenge_method",
                       "redirect_uri",
                       "response_type",
-                      "scope",
-                      "state"
+                      "scope"
                     ]
                   },
                   "r": {},
@@ -1344,11 +1629,22 @@
                   "q": {
                     "exist": [
                       "country",
-                      "filename",
-                      "width"
+                      "filename"
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "alternatives": [
+                      {
+                        "binary": true,
+                        "kind": "raw",
+                        "media": "image/png"
+                      }
+                    ],
+                    "binary": true,
+                    "kind": "raw",
+                    "media": "image/jpeg"
+                  },
                   "s": [
                     {
                       "lit": "photos"
@@ -1372,183 +1668,30 @@
             "ancestors": []
           }
         },
-        "photo_download": {
+        "photo_download_inbox": {
           "active": true,
           "alias": {
             "field": {}
           },
-          "fields": {},
-          "name": "photo_download",
+          "fields": {
+            "id": {
+              "a": true,
+              "h": "Id",
+              "n": "id",
+              "r": false,
+              "t": "`$STRING`"
+            }
+          },
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "photo_download_inbox",
           "op": {
             "load": {
               "input": "data",
               "name": "load",
               "points": [
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /inbox/done/{filename}",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "params": [
-                      {
-                        "a": true,
-                        "k": "param",
-                        "n": "filename",
-                        "or": "filename",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ],
-                    "query": [
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "width",
-                        "or": "width",
-                        "r": false,
-                        "t": "`$INTEGER`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/inbox/done/{filename}",
-                  "q": {
-                    "exist": [
-                      "filename",
-                      "width"
-                    ]
-                  },
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "inbox"
-                    },
-                    {
-                      "lit": "done"
-                    },
-                    {
-                      "var": "filename"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /inbox/processed/{filename}",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "params": [
-                      {
-                        "a": true,
-                        "k": "param",
-                        "n": "filename",
-                        "or": "filename",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ],
-                    "query": [
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "width",
-                        "or": "width",
-                        "r": false,
-                        "t": "`$INTEGER`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/inbox/processed/{filename}",
-                  "q": {
-                    "exist": [
-                      "filename",
-                      "width"
-                    ]
-                  },
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "inbox"
-                    },
-                    {
-                      "lit": "processed"
-                    },
-                    {
-                      "var": "filename"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /inbox/rejected/{filename}",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "params": [
-                      {
-                        "a": true,
-                        "k": "param",
-                        "n": "filename",
-                        "or": "filename",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ],
-                    "query": [
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "width",
-                        "or": "width",
-                        "r": false,
-                        "t": "`$INTEGER`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/inbox/rejected/{filename}",
-                  "q": {
-                    "exist": [
-                      "filename",
-                      "width"
-                    ]
-                  },
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "inbox"
-                    },
-                    {
-                      "lit": "rejected"
-                    },
-                    {
-                      "var": "filename"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
                 {
                   "a": true,
                   "co": {
@@ -1561,7 +1704,7 @@
                       {
                         "a": true,
                         "k": "param",
-                        "n": "filename",
+                        "n": "id",
                         "or": "filename",
                         "r": true,
                         "t": "`$STRING`"
@@ -1583,17 +1726,32 @@
                   "o": "/inbox/{filename}",
                   "q": {
                     "exist": [
-                      "filename",
-                      "width"
+                      "id"
                     ]
                   },
-                  "r": {},
+                  "r": {
+                    "param": {
+                      "filename": "id"
+                    }
+                  },
+                  "rs": {
+                    "alternatives": [
+                      {
+                        "binary": true,
+                        "kind": "raw",
+                        "media": "image/png"
+                      }
+                    ],
+                    "binary": true,
+                    "kind": "raw",
+                    "media": "image/jpeg"
+                  },
                   "s": [
                     {
                       "lit": "inbox"
                     },
                     {
-                      "var": "filename"
+                      "var": "id"
                     }
                   ],
                   "t": {
@@ -1605,11 +1763,7 @@
             }
           },
           "relations": {
-            "ancestors": [
-              [
-                "$.main.kit.entity.inbox"
-              ]
-            ]
+            "ancestors": []
           }
         },
         "photo_station_by_id": {
@@ -1710,6 +1864,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "photoStationById"
@@ -1831,15 +1989,17 @@
                   "o": "/photoStationsByCountry/{country}",
                   "q": {
                     "exist": [
-                      "has_photo",
-                      "id",
-                      "is_active"
+                      "id"
                     ]
                   },
                   "r": {
                     "param": {
                       "country": "id"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -1951,7 +2111,6 @@
                   "o": "/photoStationsByPhotographer/{photographer}",
                   "q": {
                     "exist": [
-                      "country",
                       "id"
                     ]
                   },
@@ -1959,6 +2118,10 @@
                     "param": {
                       "photographer": "id"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -2048,12 +2211,12 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/photoStationsByRecentPhotoImports",
-                  "q": {
-                    "exist": [
-                      "since_hour"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "photoStationsByRecentPhotoImports"
@@ -2171,14 +2334,6 @@
                       {
                         "a": true,
                         "k": "header",
-                        "n": "content_type",
-                        "or": "Content-Type",
-                        "r": true,
-                        "t": "`$STRING`"
-                      },
-                      {
-                        "a": true,
-                        "k": "header",
                         "n": "country",
                         "or": "Country",
                         "r": false,
@@ -2223,18 +2378,28 @@
                   "o": "/photoUpload",
                   "q": {
                     "exist": [
-                      "active",
-                      "authorization",
-                      "comment",
-                      "content_type",
-                      "country",
-                      "latitude",
-                      "longitude",
-                      "station_id",
-                      "station_title"
+                      "authorization"
                     ]
                   },
                   "r": {},
+                  "rb": {
+                    "alternatives": [
+                      {
+                        "kind": "raw",
+                        "media": "image/jpeg"
+                      },
+                      {
+                        "kind": "raw",
+                        "media": "image/png"
+                      }
+                    ],
+                    "kind": "raw",
+                    "media": "application/octet-stream"
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "photoUpload"
@@ -2286,15 +2451,116 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/photographers",
-                  "q": {
-                    "exist": [
-                      "country"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "photographers"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "processed": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": {
+            "id": {
+              "a": true,
+              "h": "Id",
+              "n": "id",
+              "r": false,
+              "t": "`$STRING`"
+            }
+          },
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "processed",
+          "op": {
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /inbox/processed/{filename}",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "params": [
+                      {
+                        "a": true,
+                        "k": "param",
+                        "n": "id",
+                        "or": "filename",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ],
+                    "query": [
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "width",
+                        "or": "width",
+                        "r": false,
+                        "t": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/inbox/processed/{filename}",
+                  "q": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "r": {
+                    "param": {
+                      "filename": "id"
+                    }
+                  },
+                  "rs": {
+                    "alternatives": [
+                      {
+                        "binary": true,
+                        "kind": "raw",
+                        "media": "image/png"
+                      }
+                    ],
+                    "binary": true,
+                    "kind": "raw",
+                    "media": "image/jpeg"
+                  },
+                  "s": [
+                    {
+                      "lit": "inbox"
+                    },
+                    {
+                      "lit": "processed"
+                    },
+                    {
+                      "var": "id"
                     }
                   ],
                   "t": {
@@ -2415,6 +2681,9 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "newPassword"
+                  ],
                   "co": {
                     "id": "POST /changePassword",
                     "source": "openapi3",
@@ -2453,6 +2722,15 @@
                 },
                 {
                   "a": true,
+                  "bf": [
+                    "anonymous",
+                    "email",
+                    "license",
+                    "link",
+                    "nickname",
+                    "photoOwner",
+                    "sendNotifications"
+                  ],
                   "co": {
                     "id": "POST /myProfile",
                     "source": "openapi3",
@@ -2561,6 +2839,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "myProfile"
@@ -2599,6 +2881,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "raw",
+                    "media": "text/plain"
+                  },
                   "s": [
                     {
                       "lit": "emailVerification"
@@ -2727,9 +3013,114 @@
                   "o": "/publicInbox",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "publicInbox"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "rejected": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": {
+            "id": {
+              "a": true,
+              "h": "Id",
+              "n": "id",
+              "r": false,
+              "t": "`$STRING`"
+            }
+          },
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "rejected",
+          "op": {
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /inbox/rejected/{filename}",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "params": [
+                      {
+                        "a": true,
+                        "k": "param",
+                        "n": "id",
+                        "or": "filename",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ],
+                    "query": [
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "width",
+                        "or": "width",
+                        "r": false,
+                        "t": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/inbox/rejected/{filename}",
+                  "q": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "r": {
+                    "param": {
+                      "filename": "id"
+                    }
+                  },
+                  "rs": {
+                    "alternatives": [
+                      {
+                        "binary": true,
+                        "kind": "raw",
+                        "media": "image/png"
+                      }
+                    ],
+                    "binary": true,
+                    "kind": "raw",
+                    "media": "image/jpeg"
+                  },
+                  "s": [
+                    {
+                      "lit": "inbox"
+                    },
+                    {
+                      "lit": "rejected"
+                    },
+                    {
+                      "var": "id"
                     }
                   ],
                   "t": {
@@ -2819,12 +3210,12 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/stats",
-                  "q": {
-                    "exist": [
-                      "country"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "stats"
@@ -3165,6 +3556,7 @@
             },
             "optspec": {
               "clearTimer": "`$FUNCTION`",
+              "now": "`$FUNCTION`",
               "setTimer": "`$FUNCTION`"
             },
             "strict": false
@@ -3295,6 +3687,38 @@
                   "apply": "ItemExists",
                   "def": {
                     "ref": "country_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicDoneFlow": {
+          "active": true,
+          "entity": "done",
+          "key$": "BasicDoneFlow",
+          "kind": "basic",
+          "name": "BasicDoneFlow",
+          "param": {},
+          "step": [
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "ref": "done_ref01",
+                "srcdatavar": "done_ref01_data",
+                "suffix": "_dt0"
+              },
+              "m": {
+                "id": "done01"
+              },
+              "o": "load",
+              "s": [],
+              "v": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-done_ref01"
                   }
                 }
               ]
@@ -3488,24 +3912,24 @@
             }
           ]
         },
-        "BasicPhotoDownloadFlow": {
+        "BasicPhotoDownloadInboxFlow": {
           "active": true,
-          "entity": "photo_download",
-          "key$": "BasicPhotoDownloadFlow",
+          "entity": "photo_download_inbox",
+          "key$": "BasicPhotoDownloadInboxFlow",
           "kind": "basic",
-          "name": "BasicPhotoDownloadFlow",
+          "name": "BasicPhotoDownloadInboxFlow",
           "param": {},
           "step": [
             {
               "a": true,
               "d": {},
               "i": {
-                "ref": "photo_download_ref01",
-                "srcdatavar": "photo_download_ref01_data",
+                "ref": "photo_download_inbox_ref01",
+                "srcdatavar": "photo_download_inbox_ref01_data",
                 "suffix": "_dt0"
               },
               "m": {
-                "id": "photo_download01"
+                "id": "photo_download_inbox01"
               },
               "o": "load",
               "s": [],
@@ -3513,7 +3937,7 @@
                 {
                   "apply": "TextFieldMark",
                   "def": {
-                    "mark": "Mark01-photo_download_ref01"
+                    "mark": "Mark01-photo_download_inbox_ref01"
                   }
                 }
               ]
@@ -3727,6 +4151,38 @@
             }
           ]
         },
+        "BasicProcessedFlow": {
+          "active": true,
+          "entity": "processed",
+          "key$": "BasicProcessedFlow",
+          "kind": "basic",
+          "name": "BasicProcessedFlow",
+          "param": {},
+          "step": [
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "ref": "processed_ref01",
+                "srcdatavar": "processed_ref01_data",
+                "suffix": "_dt0"
+              },
+              "m": {
+                "id": "processed01"
+              },
+              "o": "load",
+              "s": [],
+              "v": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-processed_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
         "BasicProfileFlow": {
           "active": true,
           "entity": "profile",
@@ -3808,6 +4264,38 @@
             }
           ]
         },
+        "BasicRejectedFlow": {
+          "active": true,
+          "entity": "rejected",
+          "key$": "BasicRejectedFlow",
+          "kind": "basic",
+          "name": "BasicRejectedFlow",
+          "param": {},
+          "step": [
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "ref": "rejected_ref01",
+                "srcdatavar": "rejected_ref01_data",
+                "suffix": "_dt0"
+              },
+              "m": {
+                "id": "rejected01"
+              },
+              "o": "load",
+              "s": [],
+              "v": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-rejected_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
         "BasicStatFlow": {
           "active": true,
           "entity": "stat",
@@ -3861,7 +4349,7 @@
       "optspec": {
         "allow": {
           "method": "GET,PUT,POST,PATCH,DELETE,OPTIONS",
-          "op": "create,update,load,list,remove,command,direct,graphql"
+          "op": "create,update,patch,load,list,remove,command,direct,graphql"
         },
         "apikey": "",
         "auth": {
@@ -3914,6 +4402,11 @@
         "top": {
           "active": true
         }
+      },
+      "publisher": {
+        "name": "",
+        "security": "",
+        "url": ""
       },
       "repo": {
         "host": "github.com",
@@ -4144,7 +4637,10 @@
             "version": "0.0.1"
           },
           "superseded": [],
-          "title": "Go MCP server"
+          "title": "Go MCP server",
+          "tool": {
+            "write": false
+          }
         },
         "lua": {
           "active": true,
@@ -4521,6 +5017,17 @@
           "base": "",
           "strict": true
         }
+      },
+      "text": {
+        "about_md": "",
+        "docs_url": "",
+        "entity_desc": {},
+        "homepage": "",
+        "meta_source": "",
+        "summary": "",
+        "tagline": "",
+        "title": "",
+        "website": ""
       }
     }
   },

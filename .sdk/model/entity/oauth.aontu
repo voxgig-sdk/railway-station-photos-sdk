@@ -4,6 +4,21 @@ main: kit: entity: oauth: {
 
   alias: field: {}
 
+  fields: {
+    token: {
+      h: "Token"
+      n: "token"
+      r: true
+      t: "`$STRING`"
+    }
+    token_type_hint: {
+      h: "Token Type Hint"
+      n: "token_type_hint"
+      r: false
+      t: "`$STRING`"
+    }
+  }
+
   name: "oauth"
   op: {
     create: {
@@ -32,6 +47,18 @@ main: kit: entity: oauth: {
             exist: [
               "authorization"
             ]
+          }
+          rb: {
+            fields: [
+              {
+                name: "token"
+              }
+              {
+                name: "token_type_hint"
+              }
+            ]
+            kind: "form"
+            media: "application/x-www-form-urlencoded"
           }
           s: [
             {
@@ -115,12 +142,9 @@ main: kit: entity: oauth: {
           q: {
             exist: [
               "client_id"
-              "code_challenge"
-              "code_challenge_method"
               "redirect_uri"
               "response_type"
               "scope"
-              "state"
             ]
           }
           s: [
@@ -138,9 +162,6 @@ main: kit: entity: oauth: {
         }
       ]
     }
-  }
-
-  fields: {
   }
 
 

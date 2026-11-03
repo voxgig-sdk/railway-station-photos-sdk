@@ -1,0 +1,32 @@
+# BasicProcessedFlow
+
+main: kit: flow: BasicProcessedFlow:
+{
+  entity: "processed",
+  kind: "basic",
+  name: "BasicProcessedFlow",
+  step: [
+    {
+      i: {
+        ref: "processed_ref01",
+        srcdatavar: "processed_ref01_data",
+        suffix: "_dt0"
+      }
+
+      m: {
+        id: "processed01"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-processed_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicProcessedFlow"
+}

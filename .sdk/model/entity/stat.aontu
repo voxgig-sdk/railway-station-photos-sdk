@@ -66,10 +66,9 @@ main: kit: entity: stat: {
           }
           m: "GET"
           o: "/stats"
-          q: {
-            exist: [
-              "country"
-            ]
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

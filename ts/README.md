@@ -15,7 +15,7 @@ predictable and low-friction for both humans and AI agents.
 
 ## Install
 This package is not yet published to npm. Install it from the GitHub
-release tag (`ts/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/railway-station-photos-sdk/releases)), or from a
+release tag (`ts/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/railway-station-photos-sdk/tags)), or from a
 clone, which carries the compiled `dist/`:
 
 ```bash
@@ -37,22 +37,6 @@ import { RailwayStationPhotosSDK } from '@voxgig-sdk/railway-station-photos-sdk'
 const client = new RailwayStationPhotosSDK()
 ```
 
-### 3. Load a photodownload
-
-PhotoDownload is nested under filename, so provide the `filename`.
-`load()` returns the entity directly and throws on failure:
-
-```ts
-try {
-  const photodownload = await client.PhotoDownload().load({
-    filename: 'example_filename',
-  })
-  console.log(photodownload)
-} catch (err) {
-  console.error('load failed:', err)
-}
-```
-
 ### 4. Create, update, and remove
 
 ```ts
@@ -60,8 +44,6 @@ try {
 const created = await client.AdminInbox().create({
   command: 'example_command',
   id: 1,
-  message: 'example_message',
-  status: 1,
 })
 
 ```
@@ -74,14 +56,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const publicinboxs = await client.PublicInbox().list()
-  console.log(publicinboxs)
+  console.log(publicinboxs.map((item) => item.data()))
 } catch (err) {
   console.error('list failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -90,8 +73,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -109,9 +92,6 @@ const result = await client.direct({
   params: { id: 'example' },
 })
 
-if (result instanceof Error) {
-  throw result
-}
 if (result.ok) {
   console.log(result.status)  // 200
   console.log(result.data)    // response body
@@ -140,10 +120,9 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = RailwayStationPhotosSDK.test()
 
-const publicinbox = await client.PublicInbox().list()
-// publicinbox is the entity, populated with mock response data
-// — call publicinbox.data() for the record itself
-console.log(publicinbox)
+const publicinboxs = await client.PublicInbox().list()
+// publicinboxs is an array of PublicInbox entities, one per mock record
+console.log(publicinboxs.map((publicinbox) => publicinbox.data()))
 ```
 
 You can also use the instance method:
@@ -243,21 +222,24 @@ new RailwayStationPhotosSDK(options?: {
 | `direct(fetchargs?)` | `Promise<DirectResult>` | Build and send an HTTP request. |
 | `AdminInbox(data?)` | `AdminInboxEntity` | Create an AdminInbox entity instance. |
 | `Country(data?)` | `CountryEntity` | Create a Country entity instance. |
+| `Done(data?)` | `DoneEntity` | Create a Done entity instance. |
 | `Inbox(data?)` | `InboxEntity` | Create an Inbox entity instance. |
 | `InboxCount(data?)` | `InboxCountEntity` | Create an InboxCount entity instance. |
 | `InboxEntry(data?)` | `InboxEntryEntity` | Create an InboxEntry entity instance. |
 | `OAuthToken(data?)` | `OAuthTokenEntity` | Create an OAuthToken entity instance. |
 | `Oauth(data?)` | `OauthEntity` | Create an Oauth entity instance. |
 | `Photo(data?)` | `PhotoEntity` | Create a Photo entity instance. |
-| `PhotoDownload(data?)` | `PhotoDownloadEntity` | Create a PhotoDownload entity instance. |
+| `PhotoDownloadInbox(data?)` | `PhotoDownloadInboxEntity` | Create a PhotoDownloadInbox entity instance. |
 | `PhotoStationById(data?)` | `PhotoStationByIdEntity` | Create a PhotoStationById entity instance. |
 | `PhotoStationsByCountry(data?)` | `PhotoStationsByCountryEntity` | Create a PhotoStationsByCountry entity instance. |
 | `PhotoStationsByPhotographer(data?)` | `PhotoStationsByPhotographerEntity` | Create a PhotoStationsByPhotographer entity instance. |
 | `PhotoStationsByRecentPhotoImport(data?)` | `PhotoStationsByRecentPhotoImportEntity` | Create a PhotoStationsByRecentPhotoImport entity instance. |
 | `PhotoUpload(data?)` | `PhotoUploadEntity` | Create a PhotoUpload entity instance. |
 | `Photographer(data?)` | `PhotographerEntity` | Create a Photographer entity instance. |
+| `Processed(data?)` | `ProcessedEntity` | Create a Processed entity instance. |
 | `Profile(data?)` | `ProfileEntity` | Create a Profile entity instance. |
 | `PublicInbox(data?)` | `PublicInboxEntity` | Create a PublicInbox entity instance. |
+| `Rejected(data?)` | `RejectedEntity` | Create a Rejected entity instance. |
 | `Stat(data?)` | `StatEntity` | Create a Stat entity instance. |
 | `tester(testopts?, sdkopts?)` | `RailwayStationPhotosSDK` | Create a test-mode client instance. |
 
@@ -275,10 +257,10 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria. |
-| `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria. |
-| `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity. |
-| `remove` | `remove(reqmatch?, ctrl?): Promise<void>` | Remove an entity. |
+| `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria, and return it. |
+| `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria, one per record. |
+| `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity, and return it. |
+| `remove` | `remove(reqmatch?, ctrl?): Promise<Entity>` | Remove an entity, and return it marked as deleted. |
 | `data` | `data(data?: Partial<Entity>): Entity` | Get or set entity data. |
 | `match` | `match(match?: Partial<Entity>): Partial<Entity>` | Get or set entity match criteria. |
 | `make` | `make(): Entity` | Create a new instance with the same options. |
@@ -287,13 +269,13 @@ All entities share the same interface.
 
 #### Return values
 
-Entity operations resolve to the entity data directly — there is no
-result envelope:
+Entity operations resolve to the entity itself — there is no result
+envelope, and an entity's `data()` reads its record:
 
 - `load` and `create` resolve to a single entity object.
 - `list` resolves to an **array** of entity objects (iterate it directly;
   there is no `.data` and no `.ok`).
-- `remove` resolves to `void`.
+- `remove` resolves to the entity, marked as deleted.
 
 On a failed request these methods **throw**, so wrap calls in
 `try`/`catch` to handle errors. Only `direct()` returns the result
@@ -369,6 +351,16 @@ Operations: list.
 
 API path: `/countries`
 
+#### Done
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: load.
+
+API path: `/inbox/done/{filename}`
+
 #### Inbox
 
 | Field | Description |
@@ -380,21 +372,24 @@ API path: `/countries`
 | `filename` | filename in inbox |
 | `id` |  |
 | `inboxUrl` | url of the photo in the inbox |
-| `lat` |  |
-| `lon` |  |
+| `inbox_state_queries` | Inbox state query request |
+| `lat` | new latitude value for the station |
+| `lon` | new longitude value for the station |
 | `message` |  |
 | `newLat` |  |
 | `newLon` |  |
 | `newTitle` |  |
+| `photoId` | Unique id of a photo, can be used for WRONG_PHOTO and PHOTO_OUTDATED type. |
 | `problemReportType` | types of problem reports |
 | `rejectedReason` |  |
 | `state` |  |
 | `stationId` |  |
-| `title` |  |
+| `title` | a new title for the station |
+| `type` | types of problem reports |
 
 Operations: create, list, remove.
 
-API path: `/reportProblem`
+API path: `/userInbox`
 
 #### InboxCount
 
@@ -442,7 +437,12 @@ API path: `/adminInbox`
 | Field | Description |
 | --- | --- |
 | `access_token` |  |
+| `client_id` |  |
+| `code` |  |
+| `code_verifier` |  |
 | `expires_in` |  |
+| `grant_type` |  |
+| `redirect_uri` |  |
 | `refresh_token` |  |
 | `scope` |  |
 | `token_type` |  |
@@ -455,6 +455,8 @@ API path: `/oauth2/token`
 
 | Field | Description |
 | --- | --- |
+| `token` |  |
+| `token_type_hint` |  |
 
 Operations: create, load.
 
@@ -470,14 +472,15 @@ Operations: load.
 
 API path: `/photos/{country}/{filename}`
 
-#### PhotoDownload
+#### PhotoDownloadInbox
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 
 Operations: load.
 
-API path: `/inbox/done/{filename}`
+API path: `/inbox/{filename}`
 
 #### PhotoStationById
 
@@ -558,6 +561,16 @@ Operations: load.
 
 API path: `/photographers`
 
+#### Processed
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: load.
+
+API path: `/inbox/processed/{filename}`
+
 #### Profile
 
 | Field | Description |
@@ -590,6 +603,16 @@ API path: `/changePassword`
 Operations: list.
 
 API path: `/publicInbox`
+
+#### Rejected
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: load.
+
+API path: `/inbox/rejected/{filename}`
 
 #### Stat
 
@@ -644,8 +667,6 @@ Create an instance: `const admin_inbox = client.AdminInbox()`
 const admin_inbox = await client.AdminInbox().create({
   command: 'example_command',
   id: 1,
-  message: 'example_message',
-  status: 1,
 })
 ```
 
@@ -681,6 +702,29 @@ const countrys = await client.Country().list()
 ```
 
 
+### Done
+
+Create an instance: `const done = client.Done()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+
+#### Example: Load
+
+```ts
+const done = await client.Done().load({ id: 'done_id' })
+```
+
+
 ### Inbox
 
 Create an instance: `const inbox = client.Inbox()`
@@ -704,17 +748,20 @@ Create an instance: `const inbox = client.Inbox()`
 | `filename` | `string` | filename in inbox |
 | `id` | `number` |  |
 | `inboxUrl` | `string` | url of the photo in the inbox |
-| `lat` | `number` |  |
-| `lon` | `number` |  |
+| `inbox_state_queries` | `any[]` | Inbox state query request |
+| `lat` | `number` | new latitude value for the station |
+| `lon` | `number` | new longitude value for the station |
 | `message` | `string` |  |
 | `newLat` | `number` |  |
 | `newLon` | `number` |  |
 | `newTitle` | `string` |  |
+| `photoId` | `number` | Unique id of a photo, can be used for WRONG_PHOTO and PHOTO_OUTDATED type. |
 | `problemReportType` | `string` | types of problem reports |
 | `rejectedReason` | `string` |  |
 | `state` | `string` |  |
 | `stationId` | `string` |  |
-| `title` | `string` |  |
+| `title` | `string` | a new title for the station |
+| `type` | `string` | types of problem reports |
 
 #### Example: List
 
@@ -726,7 +773,10 @@ const inboxs = await client.Inbox().list()
 
 ```ts
 const inbox = await client.Inbox().create({
-  state: 'example_state',
+  comment: 'example_comment',
+  countryCode: 'example_countryCode',
+  stationId: 'example_stationId',
+  type: 'example_type',
 })
 ```
 
@@ -813,7 +863,12 @@ Create an instance: `const o_auth_token = client.OAuthToken()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `access_token` | `string` |  |
+| `client_id` | `string` |  |
+| `code` | `string` |  |
+| `code_verifier` | `string` |  |
 | `expires_in` | `number` |  |
+| `grant_type` | `string` |  |
+| `redirect_uri` | `string` |  |
 | `refresh_token` | `string` |  |
 | `scope` | `string` |  |
 | `token_type` | `string` |  |
@@ -823,6 +878,9 @@ Create an instance: `const o_auth_token = client.OAuthToken()`
 ```ts
 const o_auth_token = await client.OAuthToken().create({
   access_token: 'example_access_token',
+  client_id: 'example_client_id',
+  grant_type: 'example_grant_type',
+  redirect_uri: 'example_redirect_uri',
   scope: 'example_scope',
   token_type: 'example_token_type',
 })
@@ -840,6 +898,13 @@ Create an instance: `const oauth = client.Oauth()`
 | `create(data)` | Create a new entity with the given data. |
 | `load(match)` | Load a single entity by match criteria. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `token` | `string` |  |
+| `token_type_hint` | `string` |  |
+
 #### Example: Load
 
 ```ts
@@ -850,6 +915,7 @@ const oauth = await client.Oauth().load({ client_id: 'client_id', redirect_uri: 
 
 ```ts
 const oauth = await client.Oauth().create({
+  token: 'example_token',
 })
 ```
 
@@ -877,9 +943,9 @@ const photo = await client.Photo().load({ country: 'country', filename: 'filenam
 ```
 
 
-### PhotoDownload
+### PhotoDownloadInbox
 
-Create an instance: `const photo_download = client.PhotoDownload()`
+Create an instance: `const photo_download_inbox = client.PhotoDownloadInbox()`
 
 #### Operations
 
@@ -887,10 +953,16 @@ Create an instance: `const photo_download = client.PhotoDownload()`
 | --- | --- |
 | `load(match)` | Load a single entity by match criteria. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+
 #### Example: Load
 
 ```ts
-const photo_download = await client.PhotoDownload().load({ filename: 'filename' })
+const photo_download_inbox = await client.PhotoDownloadInbox().load({ id: 'photo_download_inbox_id' })
 ```
 
 
@@ -1048,6 +1120,29 @@ const photographer = await client.Photographer().load()
 ```
 
 
+### Processed
+
+Create an instance: `const processed = client.Processed()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+
+#### Example: Load
+
+```ts
+const processed = await client.Processed().load({ id: 'processed_id' })
+```
+
+
 ### Profile
 
 Create an instance: `const profile = client.Profile()`
@@ -1085,10 +1180,9 @@ const profile = await client.Profile().load({ token: 'token' })
 
 ```ts
 const profile = await client.Profile().create({
-  license: 'example_license',
+  email: 'example_email',
   newPassword: 'example_newPassword',
   nickname: 'example_nickname',
-  photoOwner: true,
 })
 ```
 
@@ -1117,6 +1211,29 @@ Create an instance: `const public_inbox = client.PublicInbox()`
 
 ```ts
 const public_inboxs = await client.PublicInbox().list()
+```
+
+
+### Rejected
+
+Create an instance: `const rejected = client.Rejected()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+
+#### Example: Load
+
+```ts
+const rejected = await client.Rejected().load({ id: 'rejected_id' })
 ```
 
 

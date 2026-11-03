@@ -12,7 +12,7 @@ The SDK exposes the API as capitalised, semantic **Entities** — for example `c
 
 ## Install
 This package is not yet published to RubyGems. Install it from the
-GitHub release tag (`rb/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/railway-station-photos-sdk/releases)), or
+GitHub release tag (`rb/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/railway-station-photos-sdk/tags)), or
 from a clone:
 
 ```bash
@@ -39,25 +39,11 @@ require_relative "RailwayStationPhotos_sdk"
 client = RailwayStationPhotosSDK.new
 ```
 
-### 3. Load a photodownload
-
-PhotoDownload is nested under filename, so provide the `filename`.
-
-```ruby
-begin
-  # load returns the ENTITY — call data_get for the PhotoDownload record (raises on error).
-  photodownload = client.PhotoDownload.load({ "filename" => "example_filename" })
-  puts photodownload
-rescue => err
-  warn "load failed: #{err}"
-end
-```
-
 ### 4. Create, update, and remove
 
 ```ruby
 # create returns the ENTITY — call data_get for the created AdminInbox record.
-created = client.AdminInbox.create({ "command" => "example_command", "id" => 1, "message" => "example_message", "status" => 1 })
+created = client.AdminInbox.create({ "command" => "example_command", "id" => 1 })
 
 ```
 
@@ -136,10 +122,10 @@ Create a mock client for unit testing — no server required:
 ```ruby
 client = RailwayStationPhotosSDK.test
 
-# Entity ops return the ENTITY (raises on error);
-# call data_get for the mock record.
-publicinbox = client.PublicInbox.list()
-puts publicinbox
+# list returns an Array of PublicInbox entities, one per mock record (raises on
+# error); data_get reads each record.
+publicinboxs = client.PublicInbox.list()
+publicinboxs.each { |item| puts item.data_get }
 ```
 
 ### Use a custom fetch function
@@ -217,21 +203,24 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `direct` | `(fetchargs) -> Hash` | Build and send an HTTP request. Returns a result hash (`result["ok"]`); does not raise. |
 | `AdminInbox` | `(data) -> AdminInboxEntity` | Create an AdminInbox entity instance. |
 | `Country` | `(data) -> CountryEntity` | Create a Country entity instance. |
+| `Done` | `(data) -> DoneEntity` | Create a Done entity instance. |
 | `Inbox` | `(data) -> InboxEntity` | Create an Inbox entity instance. |
 | `InboxCount` | `(data) -> InboxCountEntity` | Create an InboxCount entity instance. |
 | `InboxEntry` | `(data) -> InboxEntryEntity` | Create an InboxEntry entity instance. |
 | `OAuthToken` | `(data) -> OAuthTokenEntity` | Create an OAuthToken entity instance. |
 | `Oauth` | `(data) -> OauthEntity` | Create an Oauth entity instance. |
 | `Photo` | `(data) -> PhotoEntity` | Create a Photo entity instance. |
-| `PhotoDownload` | `(data) -> PhotoDownloadEntity` | Create a PhotoDownload entity instance. |
+| `PhotoDownloadInbox` | `(data) -> PhotoDownloadInboxEntity` | Create a PhotoDownloadInbox entity instance. |
 | `PhotoStationById` | `(data) -> PhotoStationByIdEntity` | Create a PhotoStationById entity instance. |
 | `PhotoStationsByCountry` | `(data) -> PhotoStationsByCountryEntity` | Create a PhotoStationsByCountry entity instance. |
 | `PhotoStationsByPhotographer` | `(data) -> PhotoStationsByPhotographerEntity` | Create a PhotoStationsByPhotographer entity instance. |
 | `PhotoStationsByRecentPhotoImport` | `(data) -> PhotoStationsByRecentPhotoImportEntity` | Create a PhotoStationsByRecentPhotoImport entity instance. |
 | `PhotoUpload` | `(data) -> PhotoUploadEntity` | Create a PhotoUpload entity instance. |
 | `Photographer` | `(data) -> PhotographerEntity` | Create a Photographer entity instance. |
+| `Processed` | `(data) -> ProcessedEntity` | Create a Processed entity instance. |
 | `Profile` | `(data) -> ProfileEntity` | Create a Profile entity instance. |
 | `PublicInbox` | `(data) -> PublicInboxEntity` | Create a PublicInbox entity instance. |
+| `Rejected` | `(data) -> RejectedEntity` | Create a Rejected entity instance. |
 | `Stat` | `(data) -> StatEntity` | Create a Stat entity instance. |
 
 ### Entity interface
@@ -240,10 +229,10 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria. Raises on error. |
-| `list` | `(reqmatch = nil, ctrl) -> Array` | List entities matching the criteria (call with no argument to list all). Raises on error. |
-| `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
-| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity. Raises on error. |
+| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria, and return it. Raises on error. |
+| `list` | `(reqmatch = nil, ctrl) -> Array` | List entities matching the criteria (call with no argument to list all), one per record. Raises on error. |
+| `create` | `(reqdata, ctrl) -> any` | Create a new entity, and return it. Raises on error. |
+| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity, and return it marked as deleted. Raises on error. |
 | `data_get` | `() -> Hash` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> Hash` | Get entity match criteria. |
@@ -253,9 +242,10 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the result data directly. On failure they
-raise a `RailwayStationPhotosError` (a `StandardError` subclass), so wrap
-calls in `begin`/`rescue` where you need to handle errors.
+Entity operations return the entity, and `list` an `Array` of entities, one
+per record; an entity's `data_get` reads its record. On failure they raise a
+`RailwayStationPhotosError` (a `StandardError` subclass), so wrap calls in
+`begin`/`rescue` where you need to handle errors.
 
 The `direct` escape hatch is the exception: it never raises and instead
 returns a result `Hash` with these keys:
@@ -310,6 +300,16 @@ Operations: List.
 
 API path: `/countries`
 
+#### Done
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: Load.
+
+API path: `/inbox/done/{filename}`
+
 #### Inbox
 
 | Field | Description |
@@ -321,21 +321,24 @@ API path: `/countries`
 | `filename` | filename in inbox |
 | `id` |  |
 | `inboxUrl` | url of the photo in the inbox |
-| `lat` |  |
-| `lon` |  |
+| `inbox_state_queries` | Inbox state query request |
+| `lat` | new latitude value for the station |
+| `lon` | new longitude value for the station |
 | `message` |  |
 | `newLat` |  |
 | `newLon` |  |
 | `newTitle` |  |
+| `photoId` | Unique id of a photo, can be used for WRONG_PHOTO and PHOTO_OUTDATED type. |
 | `problemReportType` | types of problem reports |
 | `rejectedReason` |  |
 | `state` |  |
 | `stationId` |  |
-| `title` |  |
+| `title` | a new title for the station |
+| `type` | types of problem reports |
 
 Operations: Create, List, Remove.
 
-API path: `/reportProblem`
+API path: `/userInbox`
 
 #### InboxCount
 
@@ -383,7 +386,12 @@ API path: `/adminInbox`
 | Field | Description |
 | --- | --- |
 | `access_token` |  |
+| `client_id` |  |
+| `code` |  |
+| `code_verifier` |  |
 | `expires_in` |  |
+| `grant_type` |  |
+| `redirect_uri` |  |
 | `refresh_token` |  |
 | `scope` |  |
 | `token_type` |  |
@@ -396,6 +404,8 @@ API path: `/oauth2/token`
 
 | Field | Description |
 | --- | --- |
+| `token` |  |
+| `token_type_hint` |  |
 
 Operations: Create, Load.
 
@@ -411,14 +421,15 @@ Operations: Load.
 
 API path: `/photos/{country}/{filename}`
 
-#### PhotoDownload
+#### PhotoDownloadInbox
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 
 Operations: Load.
 
-API path: `/inbox/done/{filename}`
+API path: `/inbox/{filename}`
 
 #### PhotoStationById
 
@@ -499,6 +510,16 @@ Operations: Load.
 
 API path: `/photographers`
 
+#### Processed
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: Load.
+
+API path: `/inbox/processed/{filename}`
+
 #### Profile
 
 | Field | Description |
@@ -531,6 +552,16 @@ API path: `/changePassword`
 Operations: List.
 
 API path: `/publicInbox`
+
+#### Rejected
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: Load.
+
+API path: `/inbox/rejected/{filename}`
 
 #### Stat
 
@@ -585,8 +616,6 @@ Create an instance: `admin_inbox = client.AdminInbox`
 admin_inbox = client.AdminInbox.create({
   "command" => "example_command", # String
   "id" => 1, # Integer
-  "message" => "example_message", # String
-  "status" => 1, # Integer
 })
 ```
 
@@ -618,8 +647,33 @@ Create an instance: `country = client.Country`
 #### Example: List
 
 ```ruby
-# list returns an Array of Country records (raises on error).
+# list returns an Array of Country entities, one per record (raises on error).
 countrys = client.Country.list
+countrys.each { |item| puts item.data_get }
+```
+
+
+### Done
+
+Create an instance: `done = client.Done`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `String` |  |
+
+#### Example: Load
+
+```ruby
+# load returns the ENTITY — call data_get for the Done record (raises on error).
+done = client.Done.load({ "id" => "done_id" })
 ```
 
 
@@ -646,30 +700,37 @@ Create an instance: `inbox = client.Inbox`
 | `filename` | `String` | filename in inbox |
 | `id` | `Integer` |  |
 | `inboxUrl` | `String` | url of the photo in the inbox |
-| `lat` | `Float` |  |
-| `lon` | `Float` |  |
+| `inbox_state_queries` | `Array` | Inbox state query request |
+| `lat` | `Float` | new latitude value for the station |
+| `lon` | `Float` | new longitude value for the station |
 | `message` | `String` |  |
 | `newLat` | `Float` |  |
 | `newLon` | `Float` |  |
 | `newTitle` | `String` |  |
+| `photoId` | `Integer` | Unique id of a photo, can be used for WRONG_PHOTO and PHOTO_OUTDATED type. |
 | `problemReportType` | `String` | types of problem reports |
 | `rejectedReason` | `String` |  |
 | `state` | `String` |  |
 | `stationId` | `String` |  |
-| `title` | `String` |  |
+| `title` | `String` | a new title for the station |
+| `type` | `String` | types of problem reports |
 
 #### Example: List
 
 ```ruby
-# list returns an Array of Inbox records (raises on error).
+# list returns an Array of Inbox entities, one per record (raises on error).
 inboxs = client.Inbox.list
+inboxs.each { |item| puts item.data_get }
 ```
 
 #### Example: Create
 
 ```ruby
 inbox = client.Inbox.create({
-  "state" => "example_state", # String
+  "comment" => "example_comment", # String
+  "countryCode" => "example_countryCode", # String
+  "stationId" => "example_stationId", # String
+  "type" => "example_type", # String
 })
 ```
 
@@ -738,8 +799,9 @@ Create an instance: `inbox_entry = client.InboxEntry`
 #### Example: List
 
 ```ruby
-# list returns an Array of InboxEntry records (raises on error).
+# list returns an Array of InboxEntry entities, one per record (raises on error).
 inbox_entrys = client.InboxEntry.list
+inbox_entrys.each { |item| puts item.data_get }
 ```
 
 
@@ -758,7 +820,12 @@ Create an instance: `o_auth_token = client.OAuthToken`
 | Field | Type | Description |
 | --- | --- | --- |
 | `access_token` | `String` |  |
+| `client_id` | `String` |  |
+| `code` | `String` |  |
+| `code_verifier` | `String` |  |
 | `expires_in` | `Integer` |  |
+| `grant_type` | `String` |  |
+| `redirect_uri` | `String` |  |
 | `refresh_token` | `String` |  |
 | `scope` | `String` |  |
 | `token_type` | `String` |  |
@@ -768,6 +835,9 @@ Create an instance: `o_auth_token = client.OAuthToken`
 ```ruby
 o_auth_token = client.OAuthToken.create({
   "access_token" => "example_access_token", # String
+  "client_id" => "example_client_id", # String
+  "grant_type" => "example_grant_type", # String
+  "redirect_uri" => "example_redirect_uri", # String
   "scope" => "example_scope", # String
   "token_type" => "example_token_type", # String
 })
@@ -785,6 +855,13 @@ Create an instance: `oauth = client.Oauth`
 | `create(data)` | Create a new entity with the given data. |
 | `load(match)` | Load a single entity by match criteria. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `token` | `String` |  |
+| `token_type_hint` | `String` |  |
+
 #### Example: Load
 
 ```ruby
@@ -796,6 +873,7 @@ oauth = client.Oauth.load({ "client_id" => "client_id", "redirect_uri" => "redir
 
 ```ruby
 oauth = client.Oauth.create({
+  "token" => "example_token", # String
 })
 ```
 
@@ -824,9 +902,9 @@ photo = client.Photo.load({ "country" => "country", "filename" => "filename" })
 ```
 
 
-### PhotoDownload
+### PhotoDownloadInbox
 
-Create an instance: `photo_download = client.PhotoDownload`
+Create an instance: `photo_download_inbox = client.PhotoDownloadInbox`
 
 #### Operations
 
@@ -834,11 +912,17 @@ Create an instance: `photo_download = client.PhotoDownload`
 | --- | --- |
 | `load(match)` | Load a single entity by match criteria. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `String` |  |
+
 #### Example: Load
 
 ```ruby
-# load returns the ENTITY — call data_get for the PhotoDownload record (raises on error).
-photo_download = client.PhotoDownload.load({ "filename" => "filename" })
+# load returns the ENTITY — call data_get for the PhotoDownloadInbox record (raises on error).
+photo_download_inbox = client.PhotoDownloadInbox.load({ "id" => "photo_download_inbox_id" })
 ```
 
 
@@ -948,8 +1032,9 @@ Create an instance: `photo_stations_by_recent_photo_import = client.PhotoStation
 #### Example: List
 
 ```ruby
-# list returns an Array of PhotoStationsByRecentPhotoImport records (raises on error).
+# list returns an Array of PhotoStationsByRecentPhotoImport entities, one per record (raises on error).
 photo_stations_by_recent_photo_imports = client.PhotoStationsByRecentPhotoImport.list
+photo_stations_by_recent_photo_imports.each { |item| puts item.data_get }
 ```
 
 
@@ -1001,6 +1086,30 @@ photographer = client.Photographer.load()
 ```
 
 
+### Processed
+
+Create an instance: `processed = client.Processed`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `String` |  |
+
+#### Example: Load
+
+```ruby
+# load returns the ENTITY — call data_get for the Processed record (raises on error).
+processed = client.Processed.load({ "id" => "processed_id" })
+```
+
+
 ### Profile
 
 Create an instance: `profile = client.Profile`
@@ -1039,10 +1148,9 @@ profile = client.Profile.load({ "token" => "token" })
 
 ```ruby
 profile = client.Profile.create({
-  "license" => "example_license", # String
+  "email" => "example_email", # String
   "newPassword" => "example_newPassword", # String
   "nickname" => "example_nickname", # String
-  "photoOwner" => true, # Boolean
 })
 ```
 
@@ -1070,8 +1178,33 @@ Create an instance: `public_inbox = client.PublicInbox`
 #### Example: List
 
 ```ruby
-# list returns an Array of PublicInbox records (raises on error).
+# list returns an Array of PublicInbox entities, one per record (raises on error).
 public_inboxs = client.PublicInbox.list
+public_inboxs.each { |item| puts item.data_get }
+```
+
+
+### Rejected
+
+Create an instance: `rejected = client.Rejected`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `String` |  |
+
+#### Example: Load
+
+```ruby
+# load returns the ENTITY — call data_get for the Rejected record (raises on error).
+rejected = client.Rejected.load({ "id" => "rejected_id" })
 ```
 
 

@@ -106,6 +106,19 @@ main: kit: entity: admin_inbox: {
       name: "create"
       points: [
         {
+          bf: [
+            "DS100"
+            "active"
+            "command"
+            "conflictResolution"
+            "countryCode"
+            "id"
+            "lat"
+            "lon"
+            "rejectReason"
+            "stationId"
+            "title"
+          ]
           co: {
             id: "POST /adminInbox"
             source: "openapi3"
@@ -128,6 +141,10 @@ main: kit: entity: admin_inbox: {
             exist: [
               "authorization"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

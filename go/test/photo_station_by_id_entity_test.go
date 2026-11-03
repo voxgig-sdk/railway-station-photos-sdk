@@ -15,6 +15,13 @@ import (
 	vs "github.com/voxgig-sdk/railway-station-photos-sdk/go/utility/struct"
 )
 
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const photo_station_by_idEntityLiveStrict = true
+
+
 func TestPhotoStationByIdEntity(t *testing.T) {
 	t.Run("instance", func(t *testing.T) {
 		testsdk := sdk.TestSDK(nil, nil)
@@ -24,7 +31,21 @@ func TestPhotoStationByIdEntity(t *testing.T) {
 		}
 	})
 
-	t.Run("basic", func(t *testing.T) {
+	t.Run("validate", func(t *testing.T) {
+		if !fhHasFeature("validate") {
+			t.Skip("feature not present in this SDK: validate")
+		}
+		client := sdk.TestSDK(nil, map[string]any{
+			"feature": map[string]any{"validate": map[string]any{"active": true}},
+		})
+		_, err := client.PhotoStationById(nil).Load(map[string]any{"country": 1, "id": "x"}, nil)
+		if sdkerr, ok := err.(*core.RailwayStationPhotosError); !ok || "validate_failed" != sdkerr.Code {
+			t.Fatalf("expected validate_failed, got %v", err)
+		}
+	})
+
+	t.Run("basic", func(tt *testing.T) {
+		var t testing.TB = tt
 		setup := photo_station_by_idBasicSetup(nil)
 		// Per-op sdk-test-control.json skip — basic test exercises a flow
 		// with multiple ops; skipping any op skips the whole flow.
@@ -41,13 +62,20 @@ func TestPhotoStationByIdEntity(t *testing.T) {
 				return
 			}
 		}
-		// The basic flow consumes synthetic IDs from the fixture. In live mode
-		// without an *_ENTID env override, those IDs hit the live API and 4xx.
-		if setup.syntheticOnly {
-			t.Skip("live entity test uses synthetic IDs from fixture — set RAILWAY_STATION_PHOTOS_TEST_PHOTO_STATION_BY_ID_ENTID JSON to run live")
-			return
+		if setup.live {
+			for _, _liveKey := range []string{"country01", "photo_station_by_id01"} {
+				if setup.syntheticOnly || setup.idmap[_liveKey] == nil {
+					liveMiss(t, photo_station_by_idEntityLiveStrict, "Live entity test blocked: needs %s via RAILWAY_STATION_PHOTOS_TEST_PHOTO_STATION_BY_ID_ENTID", _liveKey)
+				}
+			}
 		}
 		client := setup.client
+		_ = client
+		if setup.live {
+			liveExisting(t, photo_station_by_idEntityLiveStrict, setup.data, "photo_station_by_id", func() (any, error) {
+				return []any{map[string]any{"id": setup.idmap["photo_station_by_id01"]}}, nil
+			})
+		}
 
 		// Bootstrap entity data from existing test data (no create step in flow).
 		photoStationByIdRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.photo_station_by_id")))
@@ -63,6 +91,11 @@ func TestPhotoStationByIdEntity(t *testing.T) {
 		photoStationByIdRef01Ent := client.PhotoStationById(nil)
 		photoStationByIdRef01MatchDt0 := map[string]any{
 			"id": photoStationByIdRef01Data["id"],
+		}
+		if v := setup.idmap["country"]; v != nil {
+			photoStationByIdRef01MatchDt0["country"] = v
+		} else {
+			photoStationByIdRef01MatchDt0["country"] = setup.idmap["country01"]
 		}
 		photoStationByIdRef01DataDt0Loaded, err := photoStationByIdRef01Ent.Load(photoStationByIdRef01MatchDt0, nil)
 		if err != nil {
@@ -113,9 +146,8 @@ func photo_station_by_idBasicSetup(extra map[string]any) *entityTestSetup {
 		},
 	)
 
-	// Detect ENTID env override before envOverride consumes it. When live
-	// mode is on without a real override, the basic test runs against synthetic
-	// IDs from the fixture and 4xx's. Surface this so the test can skip.
+	// Whether *_ENTID supplied the idmap, read before envOverride consumes it:
+	// without it, the ids a live flow binds are the fixture's synthetic ones.
 	entidEnvRaw := os.Getenv("RAILWAY_STATION_PHOTOS_TEST_PHOTO_STATION_BY_ID_ENTID")
 	idmapOverridden := entidEnvRaw != "" && strings.HasPrefix(strings.TrimSpace(entidEnvRaw), "{")
 

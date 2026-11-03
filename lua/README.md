@@ -12,7 +12,7 @@ It exposes the API as capitalised, semantic **Entities** — e.g. `client:AdminI
 
 ## Install
 This package is not yet published to LuaRocks. Install it from the
-GitHub release tag (`lua/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/railway-station-photos-sdk/releases)),
+GitHub release tag (`lua/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/railway-station-photos-sdk/tags)),
 or add the source directory to your `LUA_PATH`:
 
 ```bash
@@ -33,21 +33,11 @@ local sdk = require("railway-station-photos_sdk")
 local client = sdk.new()
 ```
 
-### 3. Load a photodownload
-
-PhotoDownload is nested under filename, so provide the `filename`.
-
-```lua
-local photodownload, err = client:PhotoDownload():load({ filename = "example_filename" })
-if err then error(err) end
-print(photodownload)
-```
-
 ### 4. Create, update, and remove
 
 ```lua
 -- Create
-local created, err = client:AdminInbox():create({ command = "example_command", id = 1, message = "example_message", status = 1 })
+local created, err = client:AdminInbox():create({ command = "example_command", id = 1 })
 if err then error(err) end
 
 ```
@@ -118,7 +108,7 @@ Create a mock client for unit testing — no server required:
 local client = sdk.test()
 
 local result, err = client:PublicInbox():list()
--- result is the returned data; err is set on failure
+-- result is an array of entities, one per mock record; err is set on failure
 ```
 
 ### Use a custom fetch function
@@ -198,21 +188,24 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `direct` | `(fetchargs) -> table, err` | Build and send an HTTP request. |
 | `AdminInbox` | `(data) -> AdminInboxEntity` | Create an AdminInbox entity instance. |
 | `Country` | `(data) -> CountryEntity` | Create a Country entity instance. |
+| `Done` | `(data) -> DoneEntity` | Create a Done entity instance. |
 | `Inbox` | `(data) -> InboxEntity` | Create an Inbox entity instance. |
 | `InboxCount` | `(data) -> InboxCountEntity` | Create an InboxCount entity instance. |
 | `InboxEntry` | `(data) -> InboxEntryEntity` | Create an InboxEntry entity instance. |
 | `OAuthToken` | `(data) -> OAuthTokenEntity` | Create an OAuthToken entity instance. |
 | `Oauth` | `(data) -> OauthEntity` | Create an Oauth entity instance. |
 | `Photo` | `(data) -> PhotoEntity` | Create a Photo entity instance. |
-| `PhotoDownload` | `(data) -> PhotoDownloadEntity` | Create a PhotoDownload entity instance. |
+| `PhotoDownloadInbox` | `(data) -> PhotoDownloadInboxEntity` | Create a PhotoDownloadInbox entity instance. |
 | `PhotoStationById` | `(data) -> PhotoStationByIdEntity` | Create a PhotoStationById entity instance. |
 | `PhotoStationsByCountry` | `(data) -> PhotoStationsByCountryEntity` | Create a PhotoStationsByCountry entity instance. |
 | `PhotoStationsByPhotographer` | `(data) -> PhotoStationsByPhotographerEntity` | Create a PhotoStationsByPhotographer entity instance. |
 | `PhotoStationsByRecentPhotoImport` | `(data) -> PhotoStationsByRecentPhotoImportEntity` | Create a PhotoStationsByRecentPhotoImport entity instance. |
 | `PhotoUpload` | `(data) -> PhotoUploadEntity` | Create a PhotoUpload entity instance. |
 | `Photographer` | `(data) -> PhotographerEntity` | Create a Photographer entity instance. |
+| `Processed` | `(data) -> ProcessedEntity` | Create a Processed entity instance. |
 | `Profile` | `(data) -> ProfileEntity` | Create a Profile entity instance. |
 | `PublicInbox` | `(data) -> PublicInboxEntity` | Create a PublicInbox entity instance. |
+| `Rejected` | `(data) -> RejectedEntity` | Create a Rejected entity instance. |
 | `Stat` | `(data) -> StatEntity` | Create a Stat entity instance. |
 
 ### Entity interface
@@ -221,10 +214,10 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> any, err` | Load a single entity by match criteria. |
-| `list` | `(reqmatch, ctrl) -> any, err` | List entities matching the criteria. |
-| `create` | `(reqdata, ctrl) -> any, err` | Create a new entity. |
-| `remove` | `(reqmatch, ctrl) -> any, err` | Remove an entity. |
+| `load` | `(reqmatch, ctrl) -> any, err` | Load a single entity by match criteria, and return it. |
+| `list` | `(reqmatch, ctrl) -> any, err` | List entities matching the criteria, one per record. |
+| `create` | `(reqdata, ctrl) -> any, err` | Create a new entity, and return it. |
+| `remove` | `(reqmatch, ctrl) -> any, err` | Remove an entity, and return it marked as deleted. |
 | `data_get` | `() -> table` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> table` | Get entity match criteria. |
@@ -234,19 +227,19 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return `(value, err)`. The `value` is the operation's
-data **directly** — there is no wrapper:
+Entity operations return `(value, err)`. The `value` is the entity
+itself — there is no wrapper:
 
 | Operation | `value` |
 | --- | --- |
-| `load` / `create` / `remove` | the entity record (a `table`) |
-| `list` | an array (`table`) of entity records |
+| `load` / `create` / `remove` | the entity, whose `data_get()` reads its record (a `table`) |
+| `list` | an array (`table`) of entities, one per record |
 
 Check `err` first (it is non-`nil` on failure), then use `value`:
 
-    local inbox_count, err = client:InboxCount():load()
+    local done, err = client:Done():load({ id = "example_id" })
     if err then error(err) end
-    -- inbox_count is the loaded record
+    -- done is the loaded entity
 
 Only `direct()` returns a response envelope — a `table` with `ok`,
 `status`, `headers`, and `data` keys.
@@ -293,6 +286,16 @@ Operations: List.
 
 API path: `/countries`
 
+#### Done
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: Load.
+
+API path: `/inbox/done/{filename}`
+
 #### Inbox
 
 | Field | Description |
@@ -304,21 +307,24 @@ API path: `/countries`
 | `filename` | filename in inbox |
 | `id` |  |
 | `inboxUrl` | url of the photo in the inbox |
-| `lat` |  |
-| `lon` |  |
+| `inbox_state_queries` | Inbox state query request |
+| `lat` | new latitude value for the station |
+| `lon` | new longitude value for the station |
 | `message` |  |
 | `newLat` |  |
 | `newLon` |  |
 | `newTitle` |  |
+| `photoId` | Unique id of a photo, can be used for WRONG_PHOTO and PHOTO_OUTDATED type. |
 | `problemReportType` | types of problem reports |
 | `rejectedReason` |  |
 | `state` |  |
 | `stationId` |  |
-| `title` |  |
+| `title` | a new title for the station |
+| `type` | types of problem reports |
 
 Operations: Create, List, Remove.
 
-API path: `/reportProblem`
+API path: `/userInbox`
 
 #### InboxCount
 
@@ -366,7 +372,12 @@ API path: `/adminInbox`
 | Field | Description |
 | --- | --- |
 | `access_token` |  |
+| `client_id` |  |
+| `code` |  |
+| `code_verifier` |  |
 | `expires_in` |  |
+| `grant_type` |  |
+| `redirect_uri` |  |
 | `refresh_token` |  |
 | `scope` |  |
 | `token_type` |  |
@@ -379,6 +390,8 @@ API path: `/oauth2/token`
 
 | Field | Description |
 | --- | --- |
+| `token` |  |
+| `token_type_hint` |  |
 
 Operations: Create, Load.
 
@@ -394,14 +407,15 @@ Operations: Load.
 
 API path: `/photos/{country}/{filename}`
 
-#### PhotoDownload
+#### PhotoDownloadInbox
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 
 Operations: Load.
 
-API path: `/inbox/done/{filename}`
+API path: `/inbox/{filename}`
 
 #### PhotoStationById
 
@@ -482,6 +496,16 @@ Operations: Load.
 
 API path: `/photographers`
 
+#### Processed
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: Load.
+
+API path: `/inbox/processed/{filename}`
+
 #### Profile
 
 | Field | Description |
@@ -514,6 +538,16 @@ API path: `/changePassword`
 Operations: List.
 
 API path: `/publicInbox`
+
+#### Rejected
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: Load.
+
+API path: `/inbox/rejected/{filename}`
 
 #### Stat
 
@@ -568,8 +602,6 @@ Create an instance: `local admin_inbox = client:AdminInbox(nil)`
 local admin_inbox, err = client:AdminInbox():create({
   command = "example_command", -- string
   id = 1, -- number
-  message = "example_message", -- string
-  status = 1, -- number
 })
 ```
 
@@ -605,6 +637,29 @@ local countrys, err = client:Country():list()
 ```
 
 
+### Done
+
+Create an instance: `local done = client:Done(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+
+#### Example: Load
+
+```lua
+local done, err = client:Done():load({ id = "done_id" })
+```
+
+
 ### Inbox
 
 Create an instance: `local inbox = client:Inbox(nil)`
@@ -628,17 +683,20 @@ Create an instance: `local inbox = client:Inbox(nil)`
 | `filename` | `string` | filename in inbox |
 | `id` | `number` |  |
 | `inboxUrl` | `string` | url of the photo in the inbox |
-| `lat` | `number` |  |
-| `lon` | `number` |  |
+| `inbox_state_queries` | `table` | Inbox state query request |
+| `lat` | `number` | new latitude value for the station |
+| `lon` | `number` | new longitude value for the station |
 | `message` | `string` |  |
 | `newLat` | `number` |  |
 | `newLon` | `number` |  |
 | `newTitle` | `string` |  |
+| `photoId` | `number` | Unique id of a photo, can be used for WRONG_PHOTO and PHOTO_OUTDATED type. |
 | `problemReportType` | `string` | types of problem reports |
 | `rejectedReason` | `string` |  |
 | `state` | `string` |  |
 | `stationId` | `string` |  |
-| `title` | `string` |  |
+| `title` | `string` | a new title for the station |
+| `type` | `string` | types of problem reports |
 
 #### Example: List
 
@@ -650,7 +708,10 @@ local inboxs, err = client:Inbox():list()
 
 ```lua
 local inbox, err = client:Inbox():create({
-  state = "example_state", -- string
+  comment = "example_comment", -- string
+  countryCode = "example_countryCode", -- string
+  stationId = "example_stationId", -- string
+  type = "example_type", -- string
 })
 ```
 
@@ -737,7 +798,12 @@ Create an instance: `local o_auth_token = client:OAuthToken(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `access_token` | `string` |  |
+| `client_id` | `string` |  |
+| `code` | `string` |  |
+| `code_verifier` | `string` |  |
 | `expires_in` | `number` |  |
+| `grant_type` | `string` |  |
+| `redirect_uri` | `string` |  |
 | `refresh_token` | `string` |  |
 | `scope` | `string` |  |
 | `token_type` | `string` |  |
@@ -747,6 +813,9 @@ Create an instance: `local o_auth_token = client:OAuthToken(nil)`
 ```lua
 local o_auth_token, err = client:OAuthToken():create({
   access_token = "example_access_token", -- string
+  client_id = "example_client_id", -- string
+  grant_type = "example_grant_type", -- string
+  redirect_uri = "example_redirect_uri", -- string
   scope = "example_scope", -- string
   token_type = "example_token_type", -- string
 })
@@ -764,6 +833,13 @@ Create an instance: `local oauth = client:Oauth(nil)`
 | `create(data)` | Create a new entity with the given data. |
 | `load(match)` | Load a single entity by match criteria. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `token` | `string` |  |
+| `token_type_hint` | `string` |  |
+
 #### Example: Load
 
 ```lua
@@ -774,6 +850,7 @@ local oauth, err = client:Oauth():load({ client_id = "client_id", redirect_uri =
 
 ```lua
 local oauth, err = client:Oauth():create({
+  token = "example_token", -- string
 })
 ```
 
@@ -801,9 +878,9 @@ local photo, err = client:Photo():load({ country = "country", filename = "filena
 ```
 
 
-### PhotoDownload
+### PhotoDownloadInbox
 
-Create an instance: `local photo_download = client:PhotoDownload(nil)`
+Create an instance: `local photo_download_inbox = client:PhotoDownloadInbox(nil)`
 
 #### Operations
 
@@ -811,10 +888,16 @@ Create an instance: `local photo_download = client:PhotoDownload(nil)`
 | --- | --- |
 | `load(match)` | Load a single entity by match criteria. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+
 #### Example: Load
 
 ```lua
-local photo_download, err = client:PhotoDownload():load({ filename = "filename" })
+local photo_download_inbox, err = client:PhotoDownloadInbox():load({ id = "photo_download_inbox_id" })
 ```
 
 
@@ -972,6 +1055,29 @@ local photographer, err = client:Photographer():load()
 ```
 
 
+### Processed
+
+Create an instance: `local processed = client:Processed(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+
+#### Example: Load
+
+```lua
+local processed, err = client:Processed():load({ id = "processed_id" })
+```
+
+
 ### Profile
 
 Create an instance: `local profile = client:Profile(nil)`
@@ -1009,10 +1115,9 @@ local profile, err = client:Profile():load({ token = "token" })
 
 ```lua
 local profile, err = client:Profile():create({
-  license = "example_license", -- string
+  email = "example_email", -- string
   newPassword = "example_newPassword", -- string
   nickname = "example_nickname", -- string
-  photoOwner = true, -- boolean
 })
 ```
 
@@ -1041,6 +1146,29 @@ Create an instance: `local public_inbox = client:PublicInbox(nil)`
 
 ```lua
 local public_inboxs, err = client:PublicInbox():list()
+```
+
+
+### Rejected
+
+Create an instance: `local rejected = client:Rejected(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+
+#### Example: Load
+
+```lua
+local rejected, err = client:Rejected():load({ id = "rejected_id" })
 ```
 
 

@@ -30,10 +30,8 @@ export interface AdminInboxCreateData {
   id: number
   lat?: number
   lon?: number
-  message: string
   rejectReason?: string
   stationId?: string
-  status: number
   title?: string
 }
 
@@ -53,25 +51,37 @@ export interface CountryListMatch {
   only_active?: boolean
 }
 
+export interface Done {
+  id?: string
+}
+
+export interface DoneLoadMatch {
+  id: string
+  width?: number
+}
+
 export interface Inbox {
-  comment?: string
-  countryCode?: string
+  comment: string
+  countryCode: string
   crc32?: number
   createdAt?: number
   filename?: string
   id?: number
   inboxUrl?: string
+  inbox_state_queries?: any[]
   lat?: number
   lon?: number
   message?: string
   newLat?: number
   newLon?: number
   newTitle?: string
+  photoId?: number
   problemReportType?: string
   rejectedReason?: string
   state: string
-  stationId?: string
+  stationId: string
   title?: string
+  type: string
 }
 
 export interface InboxListMatch {
@@ -79,24 +89,15 @@ export interface InboxListMatch {
 }
 
 export interface InboxCreateData {
-  comment?: string
-  countryCode?: string
-  crc32?: number
-  createdAt?: number
-  filename?: string
-  id?: number
-  inboxUrl?: string
+  comment: string
+  countryCode: string
+  inbox_state_queries?: any[]
   lat?: number
   lon?: number
-  message?: string
-  newLat?: number
-  newLon?: number
-  newTitle?: string
-  problemReportType?: string
-  rejectedReason?: string
-  state: string
-  stationId?: string
+  photoId?: number
+  stationId: string
   title?: string
+  type: string
 }
 
 export interface InboxRemoveMatch {
@@ -163,7 +164,12 @@ export interface InboxEntryListMatch {
 
 export interface OAuthToken {
   access_token: string
+  client_id: string
+  code?: string
+  code_verifier?: string
   expires_in?: number
+  grant_type: string
+  redirect_uri: string
   refresh_token?: string
   scope: string
   token_type: string
@@ -171,13 +177,20 @@ export interface OAuthToken {
 
 export interface OAuthTokenCreateData {
   access_token: string
+  client_id: string
+  code?: string
+  code_verifier?: string
   expires_in?: number
+  grant_type: string
+  redirect_uri: string
   refresh_token?: string
   scope: string
   token_type: string
 }
 
 export interface Oauth {
+  token: string
+  token_type_hint?: string
 }
 
 export interface OauthLoadMatch {
@@ -191,6 +204,8 @@ export interface OauthLoadMatch {
 }
 
 export interface OauthCreateData {
+  token: string
+  token_type_hint?: string
 }
 
 export interface Photo {
@@ -203,11 +218,12 @@ export interface PhotoLoadMatch {
   width?: number
 }
 
-export interface PhotoDownload {
+export interface PhotoDownloadInbox {
+  id?: string
 }
 
-export interface PhotoDownloadLoadMatch {
-  filename: string
+export interface PhotoDownloadInboxLoadMatch {
+  id: string
   width?: number
 }
 
@@ -278,6 +294,7 @@ export interface PhotoUploadCreateData {
   inboxUrl?: string
   message?: string
   state: string
+  $body?: Uint8Array | ArrayBuffer | Blob | ReadableStream | AsyncIterable<Uint8Array> | string
 }
 
 export interface Photographer {
@@ -285,6 +302,15 @@ export interface Photographer {
 
 export interface PhotographerLoadMatch {
   country?: string
+}
+
+export interface Processed {
+  id?: string
+}
+
+export interface ProcessedLoadMatch {
+  id: string
+  width?: number
 }
 
 export interface Profile {
@@ -307,13 +333,13 @@ export interface ProfileLoadMatch {
 export interface ProfileCreateData {
   admin?: boolean
   anonymous?: boolean
-  email?: string
+  email: string
   emailVerified?: boolean
-  license: string
+  license?: string
   link?: string
   newPassword: string
   nickname: string
-  photoOwner: boolean
+  photoOwner?: boolean
   sendNotifications?: boolean
 }
 
@@ -344,6 +370,15 @@ export interface PublicInboxListMatch {
   lon?: number
   stationId?: string
   title?: string
+}
+
+export interface Rejected {
+  id?: string
+}
+
+export interface RejectedLoadMatch {
+  id: string
+  width?: number
 }
 
 export interface Stat {

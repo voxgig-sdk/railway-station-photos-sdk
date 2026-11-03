@@ -8,13 +8,25 @@ main: kit: entity: inbox: {
     comment: {
       h: "Comment"
       n: "comment"
-      r: false
+      op: {
+        list: {
+          req: false
+          type: "`$STRING`"
+        }
+      }
+      r: true
       t: "`$STRING`"
     }
     countryCode: {
       h: "Country Code"
       n: "countryCode"
-      r: false
+      op: {
+        list: {
+          req: false
+          type: "`$STRING`"
+        }
+      }
+      r: true
       sh: "a two character country code"
       t: "`$STRING`"
     }
@@ -60,11 +72,19 @@ main: kit: entity: inbox: {
       sh: "url of the photo in the inbox"
       t: "`$STRING`"
     }
+    inbox_state_queries: {
+      h: "Inbox State Queries"
+      n: "inbox_state_queries"
+      r: false
+      sh: "Inbox state query request"
+      t: "`$ARRAY`"
+    }
     lat: {
       fo: "double"
       h: "Lat"
       n: "lat"
       r: false
+      sh: "new latitude value for the station"
       t: "`$NUMBER`"
     }
     lon: {
@@ -72,6 +92,7 @@ main: kit: entity: inbox: {
       h: "Lon"
       n: "lon"
       r: false
+      sh: "new longitude value for the station"
       t: "`$NUMBER`"
     }
     message: {
@@ -100,6 +121,14 @@ main: kit: entity: inbox: {
       r: false
       t: "`$STRING`"
     }
+    photoId: {
+      fo: "int64"
+      h: "Photo Id"
+      n: "photoId"
+      r: false
+      sh: "Unique id of a photo, can be used for WRONG_PHOTO and PHOTO_OUTDATED type."
+      t: "`$INTEGER`"
+    }
     problemReportType: {
       h: "Problem Report Type"
       n: "problemReportType"
@@ -122,13 +151,27 @@ main: kit: entity: inbox: {
     stationId: {
       h: "Station Id"
       n: "stationId"
-      r: false
+      op: {
+        list: {
+          req: false
+          type: "`$STRING`"
+        }
+      }
+      r: true
       t: "`$STRING`"
     }
     title: {
       h: "Title"
       n: "title"
       r: false
+      sh: "a new title for the station"
+      t: "`$STRING`"
+    }
+    type: {
+      h: "Type"
+      n: "type"
+      r: true
+      sh: "types of problem reports"
       t: "`$STRING`"
     }
   }
@@ -144,6 +187,58 @@ main: kit: entity: inbox: {
       name: "create"
       points: [
         {
+          bf: [
+            "inbox_state_queries"
+          ]
+          co: {
+            id: "POST /userInbox"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "authorization"
+                or: "Authorization"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/userInbox"
+          q: {
+            exist: [
+              "authorization"
+              "inbox_state_queries"
+            ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "userInbox"
+            }
+          ]
+          t: {
+            req: "`reqdata.inbox_state_queries`"
+            res: "`body`"
+          }
+        }
+        {
+          bf: [
+            "comment"
+            "countryCode"
+            "lat"
+            "lon"
+            "photoId"
+            "stationId"
+            "title"
+            "type"
+          ]
           co: {
             id: "POST /reportProblem"
             source: "openapi3"
@@ -167,43 +262,13 @@ main: kit: entity: inbox: {
               "authorization"
             ]
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "reportProblem"
-            }
-          ]
-          t: {
-            req: "`reqdata`"
-            res: "`body`"
-          }
-        }
-        {
-          co: {
-            id: "POST /userInbox"
-            source: "openapi3"
-            version: 2
-          }
-          g: {
-            header: [
-              {
-                k: "header"
-                n: "authorization"
-                or: "Authorization"
-                r: true
-                t: "`$STRING`"
-              }
-            ]
-          }
-          m: "POST"
-          o: "/userInbox"
-          q: {
-            exist: [
-              "authorization"
-            ]
-          }
-          s: [
-            {
-              lit: "userInbox"
             }
           ]
           t: {
@@ -247,8 +312,11 @@ main: kit: entity: inbox: {
           q: {
             exist: [
               "authorization"
-              "show_completed_entry"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

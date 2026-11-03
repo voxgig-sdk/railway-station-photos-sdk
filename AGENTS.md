@@ -31,7 +31,7 @@ Each feature is generated into every SDK target — as a directory
 `<lang>/src/feature/<name>/` (ts/js) or a flat file in the `<lang>/feature/`
 package (other languages). Each target's guide documents its features.
 
-**Entities** (18): `AdminInbox`, `Country`, `Inbox`, `InboxCount`, `InboxEntry`, `OAuthToken`, `Oauth`, `Photo`, `PhotoDownload`, `PhotoStationById`, `PhotoStationsByCountry`, `PhotoStationsByPhotographer`, `PhotoStationsByRecentPhotoImport`, `PhotoUpload`, `Photographer`, `Profile`, `PublicInbox`, `Stat`.
+**Entities** (21): `AdminInbox`, `Country`, `Done`, `Inbox`, `InboxCount`, `InboxEntry`, `OAuthToken`, `Oauth`, `Photo`, `PhotoDownloadInbox`, `PhotoStationById`, `PhotoStationsByCountry`, `PhotoStationsByPhotographer`, `PhotoStationsByRecentPhotoImport`, `PhotoUpload`, `Photographer`, `Processed`, `Profile`, `PublicInbox`, `Rejected`, `Stat`.
 
 ## Generating and updating the SDK
 

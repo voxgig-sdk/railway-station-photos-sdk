@@ -6,10 +6,34 @@ require_relative "../RailwayStationPhotos_sdk"
 require_relative "runner"
 
 class InboxEntityTest < Minitest::Test
+  # main.kit.test.live.strict is true (the default is true): a live
+  # request that fails, or a live test missing an input it needs,
+  # fails the test.
+  # An account with no record for a test to read skips it either way.
+  LIVE_STRICT = true
+
   def test_create_instance
     testsdk = RailwayStationPhotosSDK.test(nil, nil)
     ent = testsdk.Inbox(nil)
     assert !ent.nil?
+  end
+
+  def test_list_entities
+    seed = {
+      "entity" => {
+        "inbox" => {
+          "l1" => { "id" => "l1" },
+          "l2" => { "id" => "l2" },
+        },
+      },
+    }
+    items = RailwayStationPhotosSDK.test(seed, nil).Inbox(nil).list(nil, nil)
+    # list resolves to one entity per record; data_get reads the record.
+    assert_equal 2, items.length
+    items.each do |item|
+      assert item.respond_to?(:data_get)
+      assert item.data_get.is_a?(Hash)
+    end
   end
 
   # Feature #4: the entity stream(action, ...) method runs the op pipeline and
@@ -48,6 +72,80 @@ class InboxEntityTest < Minitest::Test
     end
   end
 
+  class FailHook < RailwayStationPhotosBaseFeature
+    attr_reader :unexpected
+
+    def initialize
+      super()
+      @name = "failhook"
+      @unexpected = 0
+    end
+
+    def PreSpec(ctx)
+      raise "inbox hook failed"
+    end
+
+    def PreUnexpected(ctx)
+      @unexpected += 1
+    end
+  end
+
+  def test_stream_error
+    offline = { "net" => { "offline" => true } }
+    err = assert_raises(StandardError) do
+      RailwayStationPhotosSDK.test(offline, nil).Inbox(nil).stream("list", nil, nil).to_a
+    end
+    assert_match(/offline/, err.message)
+
+    RailwayStationPhotosSDK.test(offline, nil).Inbox(nil)
+      .stream("list", nil, { "ctrl" => { "throw" => false } }).to_a
+
+    cfg = RailwayStationPhotosConfig.shared_config
+    if cfg["feature"].is_a?(Hash) && cfg["feature"].key?("rbac")
+      denied = RailwayStationPhotosSDK.test(nil, { "feature" => { "rbac" => { "active" => true, "deny" => true } } })
+      err = assert_raises(StandardError) do
+        denied.Inbox(nil).stream("list", nil, nil).to_a
+      end
+      assert_equal "rbac_denied", err.code
+    end
+  end
+
+  def test_stream_ctrl
+    explain = {}
+    ctrl = { "explain" => explain }
+    RailwayStationPhotosSDK.test(nil, nil).Inbox(nil).stream("list", nil, { "ctrl" => ctrl }).to_a
+    assert_equal ["explain"], ctrl.keys
+    assert_same explain, ctrl["explain"]
+    refute_empty explain
+  end
+
+  def test_unexpected
+    hook = FailHook.new
+    client = RailwayStationPhotosSDK.new({ "feature" => { "test" => { "active" => true } }, "extend" => [hook] })
+
+    err = assert_raises(StandardError) do
+      client.Inbox(nil).list(nil, nil)
+    end
+    assert_match(/hook failed/, err.message)
+    assert_operator hook.unexpected, :>, 0
+
+    fired = hook.unexpected
+    assert_nil client.Inbox(nil).list(nil, { "throw" => false })
+    assert_operator hook.unexpected, :>, fired
+  end
+
+  def test_validate
+    cfg = RailwayStationPhotosConfig.shared_config
+    unless cfg["feature"].is_a?(Hash) && cfg["feature"].key?("validate")
+      skip("feature not present in this SDK: validate")
+    end
+    client = RailwayStationPhotosSDK.test(nil, { "feature" => { "validate" => { "active" => true } } })
+    err = assert_raises(StandardError) do
+      client.Inbox(nil).list({ "show_completed_entry" => "x" }, nil)
+    end
+    assert_equal "validate_failed", err.code
+  end
+
   def test_basic_flow
     setup = inbox_basic_setup(nil)
     # Per-op sdk-test-control.json skip.
@@ -59,12 +157,30 @@ class InboxEntityTest < Minitest::Test
         return
       end
     end
-    # The basic flow consumes synthetic IDs from the fixture. In live mode
-    # without an *_ENTID env override, those IDs hit the live API and 4xx.
-    if setup[:synthetic_only]
-      skip "live entity test uses synthetic IDs from fixture — set RAILWAY_STATION_PHOTOS_TEST_INBOX_ENTID JSON to run live"
+    if setup[:live] && ENV["VOXGIG_GETONLY_GUARD"] == "TRUE"
+      puts "LIVE STEP {\"id\":\"inbox.create.0\",\"state\":\"excluded\",\"attempted\":false,\"reason\":\"GET-only live run: needs POST /userInbox\"}"
+      puts "LIVE STEP {\"id\":\"inbox.remove.2\",\"state\":\"excluded\",\"attempted\":false,\"reason\":\"GET-only live run: needs DELETE /userInbox/{id}\"}"
+      puts "LIVE STEP {\"id\":\"inbox.list.3\",\"state\":\"excluded\",\"attempted\":false,\"reason\":\"GET-only live run: checks a removal this run does not make\"}"
+    client = setup[:client]
+
+    # Bootstrap entity data from existing test data.
+    inbox_ref01_data_raw = Vs.items(Helpers.to_map(
+      Vs.getpath(setup[:data], "existing.inbox")))
+    inbox_ref01_data = nil
+    if inbox_ref01_data_raw.length > 0
+      inbox_ref01_data = Helpers.to_map(inbox_ref01_data_raw[0][1])
+    end
+
+    # LIST
+    inbox_ref01_ent = client.Inbox(nil)
+    inbox_ref01_match = {}
+
+    inbox_ref01_list_result = inbox_ref01_ent.list(inbox_ref01_match, nil)
+    assert inbox_ref01_list_result.is_a?(Array)
+
       return
     end
+
     client = setup[:client]
 
     # CREATE
@@ -112,7 +228,7 @@ def inbox_basic_setup(extra)
   Runner.load_env_local
 
   entity_data_file = File.join(__dir__, "..", "..", ".sdk", "test", "entity", "inbox", "InboxTestData.json")
-  entity_data_source = File.read(entity_data_file)
+  entity_data_source = File.read(entity_data_file, encoding: "UTF-8")
   entity_data = JSON.parse(entity_data_source)
 
   options = {}
@@ -131,9 +247,8 @@ def inbox_basic_setup(extra)
     }
   )
 
-  # Detect ENTID env override before envOverride consumes it. When live
-  # mode is on without a real override, the basic test runs against synthetic
-  # IDs from the fixture and 4xx's. Surface this so the test can skip.
+  # Whether *_ENTID supplied the idmap, read before env_override consumes
+  # it: without it, the ids a live flow binds are the fixture's synthetic ones.
   entid_env_raw = ENV["RAILWAY_STATION_PHOTOS_TEST_INBOX_ENTID"]
   idmap_overridden = !entid_env_raw.nil? && entid_env_raw.strip.start_with?("{")
 

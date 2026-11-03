@@ -12,7 +12,7 @@ The SDK exposes the API as capitalised, semantic **Entities** — for example `$
 
 ## Install
 This package is not yet published to Packagist. Install it from the
-GitHub release tag (`php/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/railway-station-photos-sdk/releases)), or
+GitHub release tag (`php/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/railway-station-photos-sdk/tags)), or
 from a clone as a Composer path repository:
 
 ```bash
@@ -36,25 +36,11 @@ require_once 'railwaystationphotos_sdk.php';
 $client = new RailwayStationPhotosSDK();
 ```
 
-### 3. Load a photodownload
-
-PhotoDownload is nested under filename, so provide the `filename`.
-
-```php
-try {
-    // load() returns the ENTITY — call data_get() for the PhotoDownload record (throws on error).
-    $photodownload = $client->PhotoDownload()->load(["filename" => "example_filename"]);
-    print_r($photodownload->data_get());
-} catch (\Throwable $err) {
-    echo "Error: " . $err->getMessage();
-}
-```
-
 ### 4. Create, update, and remove
 
 ```php
 // create() returns the ENTITY — call data_get() for the created AdminInbox record.
-$created = $client->AdminInbox()->create(["command" => "example_command", "id" => 1, "message" => "example_message", "status" => 1]);
+$created = $client->AdminInbox()->create(["command" => "example_command", "id" => 1]);
 
 ```
 
@@ -138,13 +124,13 @@ data via the `entity` option so offline calls resolve without a live server:
 
 ```php
 $client = RailwayStationPhotosSDK::test([
-    "entity" => ["photostationsbycountry" => ["test01" => ["id" => "test01"]]],
+    "entity" => ["photo_station_by_id" => ["test01" => ["id" => "test01"]]],
 ]);
 
 // Entity ops return the ENTITY (throws on error);
 // call data_get() for the mock record.
-$photostationsbycountry = $client->PhotoStationsByCountry()->load(["id" => "test01"]);
-print_r($photostationsbycountry->data_get());
+$photostationbyid = $client->PhotoStationById()->load(["id" => "test01", "country" => "example"]);
+print_r($photostationbyid->data_get());
 ```
 
 ### Use a custom fetch function
@@ -225,21 +211,24 @@ Creates a test-mode client with mock transport. Both arguments may be `null`.
 | `direct` | `(array $fetchargs): array` | Build and send an HTTP request. |
 | `AdminInbox` | `($data): AdminInboxEntity` | Create an AdminInbox entity instance. |
 | `Country` | `($data): CountryEntity` | Create a Country entity instance. |
+| `Done` | `($data): DoneEntity` | Create a Done entity instance. |
 | `Inbox` | `($data): InboxEntity` | Create an Inbox entity instance. |
 | `InboxCount` | `($data): InboxCountEntity` | Create an InboxCount entity instance. |
 | `InboxEntry` | `($data): InboxEntryEntity` | Create an InboxEntry entity instance. |
 | `OAuthToken` | `($data): OAuthTokenEntity` | Create an OAuthToken entity instance. |
 | `Oauth` | `($data): OauthEntity` | Create an Oauth entity instance. |
 | `Photo` | `($data): PhotoEntity` | Create a Photo entity instance. |
-| `PhotoDownload` | `($data): PhotoDownloadEntity` | Create a PhotoDownload entity instance. |
+| `PhotoDownloadInbox` | `($data): PhotoDownloadInboxEntity` | Create a PhotoDownloadInbox entity instance. |
 | `PhotoStationById` | `($data): PhotoStationByIdEntity` | Create a PhotoStationById entity instance. |
 | `PhotoStationsByCountry` | `($data): PhotoStationsByCountryEntity` | Create a PhotoStationsByCountry entity instance. |
 | `PhotoStationsByPhotographer` | `($data): PhotoStationsByPhotographerEntity` | Create a PhotoStationsByPhotographer entity instance. |
 | `PhotoStationsByRecentPhotoImport` | `($data): PhotoStationsByRecentPhotoImportEntity` | Create a PhotoStationsByRecentPhotoImport entity instance. |
 | `PhotoUpload` | `($data): PhotoUploadEntity` | Create a PhotoUpload entity instance. |
 | `Photographer` | `($data): PhotographerEntity` | Create a Photographer entity instance. |
+| `Processed` | `($data): ProcessedEntity` | Create a Processed entity instance. |
 | `Profile` | `($data): ProfileEntity` | Create a Profile entity instance. |
 | `PublicInbox` | `($data): PublicInboxEntity` | Create a PublicInbox entity instance. |
+| `Rejected` | `($data): RejectedEntity` | Create a Rejected entity instance. |
 | `Stat` | `($data): StatEntity` | Create a Stat entity instance. |
 
 ### Entity interface
@@ -248,10 +237,10 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `($reqmatch, $ctrl): array` | Load a single entity by match criteria. |
-| `list` | `(?array $reqmatch = null, $ctrl): array` | List entities matching the criteria (call with no argument to list all). |
-| `create` | `($reqdata, $ctrl): array` | Create a new entity. |
-| `remove` | `($reqmatch, $ctrl): array` | Remove an entity. |
+| `load` | `($reqmatch, $ctrl): mixed` | Load a single entity by match criteria, and return it. |
+| `list` | `(?array $reqmatch = null, $ctrl): mixed` | List entities matching the criteria (call with no argument to list all), one per record. |
+| `create` | `($reqdata, $ctrl): mixed` | Create a new entity, and return it. |
+| `remove` | `($reqmatch, $ctrl): mixed` | Remove an entity, and return it marked as deleted. |
 | `data_get` | `(): array` | Get entity data. |
 | `data_set` | `($data): void` | Set entity data. |
 | `match_get` | `(): array` | Get entity match criteria. |
@@ -261,9 +250,9 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data_get() for the record) (an `array` for single-entity
-ops, a `list` for `list`) and throw on error. Wrap calls in
-`try`/`catch` to handle failures.
+Entity operations return the entity, and `list` an `array` of entities, one
+per record; an entity's `data_get()` reads its record (an `array`). They
+throw on error, so wrap calls in `try`/`catch` to handle failures.
 
 The `direct()` escape hatch never throws — it returns a result `array`
 you branch on via `$result["ok"]`:
@@ -319,6 +308,16 @@ Operations: List.
 
 API path: `/countries`
 
+#### Done
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: Load.
+
+API path: `/inbox/done/{filename}`
+
 #### Inbox
 
 | Field | Description |
@@ -330,21 +329,24 @@ API path: `/countries`
 | `filename` | filename in inbox |
 | `id` |  |
 | `inboxUrl` | url of the photo in the inbox |
-| `lat` |  |
-| `lon` |  |
+| `inbox_state_queries` | Inbox state query request |
+| `lat` | new latitude value for the station |
+| `lon` | new longitude value for the station |
 | `message` |  |
 | `newLat` |  |
 | `newLon` |  |
 | `newTitle` |  |
+| `photoId` | Unique id of a photo, can be used for WRONG_PHOTO and PHOTO_OUTDATED type. |
 | `problemReportType` | types of problem reports |
 | `rejectedReason` |  |
 | `state` |  |
 | `stationId` |  |
-| `title` |  |
+| `title` | a new title for the station |
+| `type` | types of problem reports |
 
 Operations: Create, List, Remove.
 
-API path: `/reportProblem`
+API path: `/userInbox`
 
 #### InboxCount
 
@@ -392,7 +394,12 @@ API path: `/adminInbox`
 | Field | Description |
 | --- | --- |
 | `access_token` |  |
+| `client_id` |  |
+| `code` |  |
+| `code_verifier` |  |
 | `expires_in` |  |
+| `grant_type` |  |
+| `redirect_uri` |  |
 | `refresh_token` |  |
 | `scope` |  |
 | `token_type` |  |
@@ -405,6 +412,8 @@ API path: `/oauth2/token`
 
 | Field | Description |
 | --- | --- |
+| `token` |  |
+| `token_type_hint` |  |
 
 Operations: Create, Load.
 
@@ -420,14 +429,15 @@ Operations: Load.
 
 API path: `/photos/{country}/{filename}`
 
-#### PhotoDownload
+#### PhotoDownloadInbox
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 
 Operations: Load.
 
-API path: `/inbox/done/{filename}`
+API path: `/inbox/{filename}`
 
 #### PhotoStationById
 
@@ -508,6 +518,16 @@ Operations: Load.
 
 API path: `/photographers`
 
+#### Processed
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: Load.
+
+API path: `/inbox/processed/{filename}`
+
 #### Profile
 
 | Field | Description |
@@ -540,6 +560,16 @@ API path: `/changePassword`
 Operations: List.
 
 API path: `/publicInbox`
+
+#### Rejected
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: Load.
+
+API path: `/inbox/rejected/{filename}`
 
 #### Stat
 
@@ -594,8 +624,6 @@ Create an instance: `$admin_inbox = $client->AdminInbox();`
 $admin_inbox = $client->AdminInbox()->create([
     "command" => null, // string
     "id" => null, // int
-    "message" => null, // string
-    "status" => null, // int
 ]);
 ```
 
@@ -627,8 +655,32 @@ Create an instance: `$country = $client->Country();`
 #### Example: List
 
 ```php
-// list() returns an array of Country records (throws on error).
+// list() returns an array of Country entities, one per record (throws on error).
 $countrys = $client->Country()->list();
+```
+
+
+### Done
+
+Create an instance: `$done = $client->Done();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+
+#### Example: Load
+
+```php
+// load() returns the ENTITY — call data_get() for the Done record (throws on error).
+$done = $client->Done()->load(["id" => "done_id"]);
 ```
 
 
@@ -655,22 +707,25 @@ Create an instance: `$inbox = $client->Inbox();`
 | `filename` | `string` | filename in inbox |
 | `id` | `int` |  |
 | `inboxUrl` | `string` | url of the photo in the inbox |
-| `lat` | `float` |  |
-| `lon` | `float` |  |
+| `inbox_state_queries` | `array` | Inbox state query request |
+| `lat` | `float` | new latitude value for the station |
+| `lon` | `float` | new longitude value for the station |
 | `message` | `string` |  |
 | `newLat` | `float` |  |
 | `newLon` | `float` |  |
 | `newTitle` | `string` |  |
+| `photoId` | `int` | Unique id of a photo, can be used for WRONG_PHOTO and PHOTO_OUTDATED type. |
 | `problemReportType` | `string` | types of problem reports |
 | `rejectedReason` | `string` |  |
 | `state` | `string` |  |
 | `stationId` | `string` |  |
-| `title` | `string` |  |
+| `title` | `string` | a new title for the station |
+| `type` | `string` | types of problem reports |
 
 #### Example: List
 
 ```php
-// list() returns an array of Inbox records (throws on error).
+// list() returns an array of Inbox entities, one per record (throws on error).
 $inboxs = $client->Inbox()->list();
 ```
 
@@ -678,7 +733,10 @@ $inboxs = $client->Inbox()->list();
 
 ```php
 $inbox = $client->Inbox()->create([
-    "state" => null, // string
+    "comment" => null, // string
+    "countryCode" => null, // string
+    "stationId" => null, // string
+    "type" => null, // string
 ]);
 ```
 
@@ -747,7 +805,7 @@ Create an instance: `$inbox_entry = $client->InboxEntry();`
 #### Example: List
 
 ```php
-// list() returns an array of InboxEntry records (throws on error).
+// list() returns an array of InboxEntry entities, one per record (throws on error).
 $inbox_entrys = $client->InboxEntry()->list();
 ```
 
@@ -767,7 +825,12 @@ Create an instance: `$o_auth_token = $client->OAuthToken();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `access_token` | `string` |  |
+| `client_id` | `string` |  |
+| `code` | `string` |  |
+| `code_verifier` | `string` |  |
 | `expires_in` | `int` |  |
+| `grant_type` | `string` |  |
+| `redirect_uri` | `string` |  |
 | `refresh_token` | `string` |  |
 | `scope` | `string` |  |
 | `token_type` | `string` |  |
@@ -777,6 +840,9 @@ Create an instance: `$o_auth_token = $client->OAuthToken();`
 ```php
 $o_auth_token = $client->OAuthToken()->create([
     "access_token" => null, // string
+    "client_id" => null, // string
+    "grant_type" => null, // string
+    "redirect_uri" => null, // string
     "scope" => null, // string
     "token_type" => null, // string
 ]);
@@ -794,6 +860,13 @@ Create an instance: `$oauth = $client->Oauth();`
 | `create(data)` | Create a new entity with the given data. |
 | `load(match)` | Load a single entity by match criteria. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `token` | `string` |  |
+| `token_type_hint` | `string` |  |
+
 #### Example: Load
 
 ```php
@@ -805,6 +878,7 @@ $oauth = $client->Oauth()->load(["client_id" => "client_id", "redirect_uri" => "
 
 ```php
 $oauth = $client->Oauth()->create([
+    "token" => null, // string
 ]);
 ```
 
@@ -833,9 +907,9 @@ $photo = $client->Photo()->load(["country" => "country", "filename" => "filename
 ```
 
 
-### PhotoDownload
+### PhotoDownloadInbox
 
-Create an instance: `$photo_download = $client->PhotoDownload();`
+Create an instance: `$photo_download_inbox = $client->PhotoDownloadInbox();`
 
 #### Operations
 
@@ -843,11 +917,17 @@ Create an instance: `$photo_download = $client->PhotoDownload();`
 | --- | --- |
 | `load(match)` | Load a single entity by match criteria. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+
 #### Example: Load
 
 ```php
-// load() returns the ENTITY — call data_get() for the PhotoDownload record (throws on error).
-$photo_download = $client->PhotoDownload()->load(["filename" => "filename"]);
+// load() returns the ENTITY — call data_get() for the PhotoDownloadInbox record (throws on error).
+$photo_download_inbox = $client->PhotoDownloadInbox()->load(["id" => "photo_download_inbox_id"]);
 ```
 
 
@@ -957,7 +1037,7 @@ Create an instance: `$photo_stations_by_recent_photo_import = $client->PhotoStat
 #### Example: List
 
 ```php
-// list() returns an array of PhotoStationsByRecentPhotoImport records (throws on error).
+// list() returns an array of PhotoStationsByRecentPhotoImport entities, one per record (throws on error).
 $photo_stations_by_recent_photo_imports = $client->PhotoStationsByRecentPhotoImport()->list();
 ```
 
@@ -1010,6 +1090,30 @@ $photographer = $client->Photographer()->load();
 ```
 
 
+### Processed
+
+Create an instance: `$processed = $client->Processed();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+
+#### Example: Load
+
+```php
+// load() returns the ENTITY — call data_get() for the Processed record (throws on error).
+$processed = $client->Processed()->load(["id" => "processed_id"]);
+```
+
+
 ### Profile
 
 Create an instance: `$profile = $client->Profile();`
@@ -1048,10 +1152,9 @@ $profile = $client->Profile()->load(["token" => "token"]);
 
 ```php
 $profile = $client->Profile()->create([
-    "license" => null, // string
+    "email" => null, // string
     "newPassword" => null, // string
     "nickname" => null, // string
-    "photoOwner" => null, // bool
 ]);
 ```
 
@@ -1079,8 +1182,32 @@ Create an instance: `$public_inbox = $client->PublicInbox();`
 #### Example: List
 
 ```php
-// list() returns an array of PublicInbox records (throws on error).
+// list() returns an array of PublicInbox entities, one per record (throws on error).
 $public_inboxs = $client->PublicInbox()->list();
+```
+
+
+### Rejected
+
+Create an instance: `$rejected = $client->Rejected();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+
+#### Example: Load
+
+```php
+// load() returns the ENTITY — call data_get() for the Rejected record (throws on error).
+$rejected = $client->Rejected()->load(["id" => "rejected_id"]);
 ```
 
 

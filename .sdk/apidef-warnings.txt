@@ -1,0 +1,12 @@
+{
+  point: "warning"
+  note: "Points POST /changePassword, POST /myProfile and POST /resendEmailVerification on entity=profile op=create have the same selector (exist: authorization), so only POST /changePassword is ever chosen. An action or another entity in guide.aontu tells them apart."
+  entity: "profile"
+  op: "create"
+  points: [
+    "POST /changePassword"
+    "POST /myProfile"
+    "POST /resendEmailVerification"
+  ]
+
+}

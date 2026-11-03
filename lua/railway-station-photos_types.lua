@@ -30,10 +30,8 @@
 ---@field id number
 ---@field lat? number
 ---@field lon? number
----@field message string
 ---@field rejectReason? string
 ---@field stationId? string
----@field status number
 ---@field title? string
 
 ---@class Country
@@ -50,48 +48,49 @@
 ---@class CountryListMatch
 ---@field only_active? boolean
 
+---@class Done
+---@field id? string
+
+---@class DoneLoadMatch
+---@field id string
+---@field width? number
+
 ---@class Inbox
----@field comment? string
----@field countryCode? string
+---@field comment string
+---@field countryCode string
 ---@field crc32? number
 ---@field createdAt? number
 ---@field filename? string
 ---@field id? number
 ---@field inboxUrl? string
+---@field inbox_state_queries? table
 ---@field lat? number
 ---@field lon? number
 ---@field message? string
 ---@field newLat? number
 ---@field newLon? number
 ---@field newTitle? string
+---@field photoId? number
 ---@field problemReportType? string
 ---@field rejectedReason? string
 ---@field state string
----@field stationId? string
+---@field stationId string
 ---@field title? string
+---@field type string
 
 ---@class InboxListMatch
 ---@field show_completed_entry? boolean
 
 ---@class InboxCreateData
----@field comment? string
----@field countryCode? string
----@field crc32? number
----@field createdAt? number
----@field filename? string
----@field id? number
----@field inboxUrl? string
+---@field comment string
+---@field countryCode string
+---@field inbox_state_queries? table
 ---@field lat? number
 ---@field lon? number
----@field message? string
----@field newLat? number
----@field newLon? number
----@field newTitle? string
----@field problemReportType? string
----@field rejectedReason? string
----@field state string
----@field stationId? string
+---@field photoId? number
+---@field stationId string
 ---@field title? string
+---@field type string
 
 ---@class InboxRemoveMatch
 ---@field id number
@@ -152,19 +151,31 @@
 
 ---@class OAuthToken
 ---@field access_token string
+---@field client_id string
+---@field code? string
+---@field code_verifier? string
 ---@field expires_in? number
+---@field grant_type string
+---@field redirect_uri string
 ---@field refresh_token? string
 ---@field scope string
 ---@field token_type string
 
 ---@class OAuthTokenCreateData
 ---@field access_token string
+---@field client_id string
+---@field code? string
+---@field code_verifier? string
 ---@field expires_in? number
+---@field grant_type string
+---@field redirect_uri string
 ---@field refresh_token? string
 ---@field scope string
 ---@field token_type string
 
 ---@class Oauth
+---@field token string
+---@field token_type_hint? string
 
 ---@class OauthLoadMatch
 ---@field client_id string
@@ -176,6 +187,8 @@
 ---@field state? string
 
 ---@class OauthCreateData
+---@field token string
+---@field token_type_hint? string
 
 ---@class Photo
 ---@field id? string
@@ -185,10 +198,11 @@
 ---@field filename string
 ---@field width? number
 
----@class PhotoDownload
+---@class PhotoDownloadInbox
+---@field id? string
 
----@class PhotoDownloadLoadMatch
----@field filename string
+---@class PhotoDownloadInboxLoadMatch
+---@field id string
 ---@field width? number
 
 ---@class PhotoStationById
@@ -255,6 +269,13 @@
 ---@class PhotographerLoadMatch
 ---@field country? string
 
+---@class Processed
+---@field id? string
+
+---@class ProcessedLoadMatch
+---@field id string
+---@field width? number
+
 ---@class Profile
 ---@field admin? boolean
 ---@field anonymous? boolean
@@ -273,13 +294,13 @@
 ---@class ProfileCreateData
 ---@field admin? boolean
 ---@field anonymous? boolean
----@field email? string
+---@field email string
 ---@field emailVerified? boolean
----@field license string
+---@field license? string
 ---@field link? string
 ---@field newPassword string
 ---@field nickname string
----@field photoOwner boolean
+---@field photoOwner? boolean
 ---@field sendNotifications? boolean
 
 ---@class ProfileRemoveMatch
@@ -307,6 +328,13 @@
 ---@field lon? number
 ---@field stationId? string
 ---@field title? string
+
+---@class Rejected
+---@field id? string
+
+---@class RejectedLoadMatch
+---@field id string
+---@field width? number
 
 ---@class Stat
 ---@field countryCode? string

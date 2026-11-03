@@ -41,10 +41,8 @@ class AdminInboxCreateData
     public int $id;
     public ?float $lat = null;
     public ?float $lon = null;
-    public string $message;
     public ?string $rejectReason = null;
     public ?string $stationId = null;
-    public int $status;
     public ?string $title = null;
 }
 
@@ -68,27 +66,43 @@ class CountryListMatch
     public ?bool $only_active = null;
 }
 
+/** Done entity data model. */
+class Done
+{
+    public ?string $id = null;
+}
+
+/** Request payload for Done#load. */
+class DoneLoadMatch
+{
+    public string $id;
+    public ?int $width = null;
+}
+
 /** Inbox entity data model. */
 class Inbox
 {
-    public ?string $comment = null;
-    public ?string $countryCode = null;
+    public string $comment;
+    public string $countryCode;
     public ?int $crc32 = null;
     public ?int $createdAt = null;
     public ?string $filename = null;
     public ?int $id = null;
     public ?string $inboxUrl = null;
+    public ?array $inbox_state_queries = null;
     public ?float $lat = null;
     public ?float $lon = null;
     public ?string $message = null;
     public ?float $newLat = null;
     public ?float $newLon = null;
     public ?string $newTitle = null;
+    public ?int $photoId = null;
     public ?string $problemReportType = null;
     public ?string $rejectedReason = null;
     public string $state;
-    public ?string $stationId = null;
+    public string $stationId;
     public ?string $title = null;
+    public string $type;
 }
 
 /** Request payload for Inbox#list. */
@@ -100,24 +114,15 @@ class InboxListMatch
 /** Request payload for Inbox#create. */
 class InboxCreateData
 {
-    public ?string $comment = null;
-    public ?string $countryCode = null;
-    public ?int $crc32 = null;
-    public ?int $createdAt = null;
-    public ?string $filename = null;
-    public ?int $id = null;
-    public ?string $inboxUrl = null;
+    public string $comment;
+    public string $countryCode;
+    public ?array $inbox_state_queries = null;
     public ?float $lat = null;
     public ?float $lon = null;
-    public ?string $message = null;
-    public ?float $newLat = null;
-    public ?float $newLon = null;
-    public ?string $newTitle = null;
-    public ?string $problemReportType = null;
-    public ?string $rejectedReason = null;
-    public string $state;
-    public ?string $stationId = null;
+    public ?int $photoId = null;
+    public string $stationId;
     public ?string $title = null;
+    public string $type;
 }
 
 /** Request payload for Inbox#remove. */
@@ -196,7 +201,12 @@ class InboxEntryListMatch
 class OAuthToken
 {
     public string $access_token;
+    public string $client_id;
+    public ?string $code = null;
+    public ?string $code_verifier = null;
     public ?int $expires_in = null;
+    public string $grant_type;
+    public string $redirect_uri;
     public ?string $refresh_token = null;
     public string $scope;
     public string $token_type;
@@ -206,7 +216,12 @@ class OAuthToken
 class OAuthTokenCreateData
 {
     public string $access_token;
+    public string $client_id;
+    public ?string $code = null;
+    public ?string $code_verifier = null;
     public ?int $expires_in = null;
+    public string $grant_type;
+    public string $redirect_uri;
     public ?string $refresh_token = null;
     public string $scope;
     public string $token_type;
@@ -215,6 +230,8 @@ class OAuthTokenCreateData
 /** Oauth entity data model. */
 class Oauth
 {
+    public string $token;
+    public ?string $token_type_hint = null;
 }
 
 /** Request payload for Oauth#load. */
@@ -232,6 +249,8 @@ class OauthLoadMatch
 /** Request payload for Oauth#create. */
 class OauthCreateData
 {
+    public string $token;
+    public ?string $token_type_hint = null;
 }
 
 /** Photo entity data model. */
@@ -248,15 +267,16 @@ class PhotoLoadMatch
     public ?int $width = null;
 }
 
-/** PhotoDownload entity data model. */
-class PhotoDownload
+/** PhotoDownloadInbox entity data model. */
+class PhotoDownloadInbox
 {
+    public ?string $id = null;
 }
 
-/** Request payload for PhotoDownload#load. */
-class PhotoDownloadLoadMatch
+/** Request payload for PhotoDownloadInbox#load. */
+class PhotoDownloadInboxLoadMatch
 {
-    public string $filename;
+    public string $id;
     public ?int $width = null;
 }
 
@@ -360,6 +380,19 @@ class PhotographerLoadMatch
     public ?string $country = null;
 }
 
+/** Processed entity data model. */
+class Processed
+{
+    public ?string $id = null;
+}
+
+/** Request payload for Processed#load. */
+class ProcessedLoadMatch
+{
+    public string $id;
+    public ?int $width = null;
+}
+
 /** Profile entity data model. */
 class Profile
 {
@@ -386,13 +419,13 @@ class ProfileCreateData
 {
     public ?bool $admin = null;
     public ?bool $anonymous = null;
-    public ?string $email = null;
+    public string $email;
     public ?bool $emailVerified = null;
-    public string $license;
+    public ?string $license = null;
     public ?string $link = null;
     public string $newPassword;
     public string $nickname;
-    public bool $photoOwner;
+    public ?bool $photoOwner = null;
     public ?bool $sendNotifications = null;
 }
 
@@ -429,6 +462,19 @@ class PublicInboxListMatch
     public ?float $lon = null;
     public ?string $stationId = null;
     public ?string $title = null;
+}
+
+/** Rejected entity data model. */
+class Rejected
+{
+    public ?string $id = null;
+}
+
+/** Request payload for Rejected#load. */
+class RejectedLoadMatch
+{
+    public string $id;
+    public ?int $width = null;
 }
 
 /** Stat entity data model. */

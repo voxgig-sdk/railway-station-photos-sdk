@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { RailwayStationPhotosSDK, BaseFeature, stdutil } from '../../..'
+import { RailwayStationPhotosSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,6 +41,64 @@ describe('CountryEntity', async () => {
   })
 
 
+  class FailHook extends BaseFeature {
+    name = 'failhook'
+    version = '0.0.1'
+    active = true
+    unexpected = 0
+    init() { }
+    PreSpec() { throw new Error('country hook failed') }
+    PreUnexpected() { this.unexpected++ }
+  }
+
+  test('stream-error', async () => {
+    const offline = { net: { offline: true } }
+    await assert.rejects(async () => {
+      for await (const _item of RailwayStationPhotosSDK.test(offline).Country().stream('list')) { }
+    }, /offline/)
+
+    for await (const _item of RailwayStationPhotosSDK.test(offline).Country()
+      .stream('list', undefined, { ctrl: { throw: false } })) { }
+
+    if (null != (config as any).feature?.rbac) {
+      const denied = RailwayStationPhotosSDK.test(undefined, { feature: { rbac: { active: true, deny: true } } })
+      await assert.rejects(async () => {
+        for await (const _item of denied.Country().stream('list')) { }
+      }, (err: any) => 'rbac_denied' === err.code)
+    }
+  })
+
+  test('stream-ctrl', async () => {
+    const explain: any = {}
+    const ctrl: any = { explain }
+    for await (const _item of RailwayStationPhotosSDK.test().Country().stream('list', undefined, { ctrl })) { }
+    assert.deepStrictEqual(Object.keys(ctrl), ['explain'])
+    assert(explain === ctrl.explain && 0 < Object.keys(explain).length)
+  })
+
+  test('unexpected', async () => {
+    const hook = new FailHook()
+    const client = new RailwayStationPhotosSDK({ feature: { test: { active: true } }, extend: [hook] })
+    await assert.rejects(client.Country().list(), /hook failed/)
+    assert(0 < hook.unexpected)
+
+    const fired = hook.unexpected
+    assert.strictEqual(await client.Country().list(undefined, { throw: false }), undefined)
+    assert(fired < hook.unexpected)
+  })
+
+  test('validate', async (t) => {
+    if (null == (config as any).feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = RailwayStationPhotosSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.Country().list({"only_active":"x"} as any),
+      (err: any) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.RAILWAY_STATION_PHOTOS_TEST_LIVE
@@ -51,7 +109,7 @@ describe('CountryEntity', async () => {
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"active":{"a":true,"h":"Active","n":"active","r":true,"sh":"Is this an active country where we collect photos?","t":"`$BOOLEAN`","key$":"active","index$":0},"allowPhotoUploads":{"a":true,"h":"Allow Photo Uploads","n":"allowPhotoUploads","r":true,"sh":"Are photo uploads allowed?","t":"`$BOOLEAN`","key$":"allowPhotoUploads","index$":1},"code":{"a":true,"h":"Code","n":"code","r":true,"sh":"a two character country code","t":"`$STRING`","key$":"code","index$":2},"email":{"a":true,"h":"Email","n":"email","r":false,"sh":"Contact email address","t":"`$STRING`","key$":"email","index$":3},"message":{"a":true,"h":"Message","n":"message","r":false,"sh":"Informational message about this country","t":"`$STRING`","key$":"message","index$":4},"name":{"a":true,"h":"Name","n":"name","r":true,"sh":"Name of the country","t":"`$STRING`","key$":"name","index$":5},"overrideLicense":{"a":true,"h":"Override License","n":"overrideLicense","r":false,"sh":"if a country needs a special license","t":"`$STRING`","key$":"overrideLicense","index$":6},"providerApps":{"a":true,"h":"Provider Apps","n":"providerApps","r":false,"sh":"array with links to provider apps","t":"`$ARRAY`","key$":"providerApps","index$":7},"timetableUrlTemplate":{"a":true,"h":"Timetable Url Template","n":"timetableUrlTemplate","r":false,"sh":"URL template for the timetable, contains {title}, {id} and {DS100} placeholders which need to be replaced","t":"`$STRING`","key$":"timetableUrlTemplate","index$":8}},"name":"country","op":{"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /countries","source":"openapi3","version":2},"g":{"query":[{"a":true,"k":"query","n":"only_active","or":"onlyActive","r":false,"t":"`$BOOLEAN`","index$":0}]},"k":"http","m":"GET","o":"/countries","q":{"exist":["only_active"]},"r":{},"s":[{"lit":"countries"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"list"}},"relations":{"ancestors":[]},"key$":"country","name__orig":"country","Name":"Country","name_":"country","name-":"country","NAME":"COUNTRY","index$":1}, {"active":true,"entity":"country","key$":"BasicCountryFlow","kind":"basic","name":"BasicCountryFlow","param":{},"step":[{"a":true,"d":{},"i":{},"m":{},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"country_ref01"}}],"index$":0}]}, 'Country', {"GET /countries":{"protocol":"http","parameters":[{"name":"onlyActive","in":"query","description":"return only active countries? Defaults to true.","schema":{"type":"boolean"},"index$":0}]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"active":{"a":true,"h":"Active","n":"active","r":true,"sh":"Is this an active country where we collect photos?","t":"`$BOOLEAN`","key$":"active","index$":0},"allowPhotoUploads":{"a":true,"h":"Allow Photo Uploads","n":"allowPhotoUploads","r":true,"sh":"Are photo uploads allowed?","t":"`$BOOLEAN`","key$":"allowPhotoUploads","index$":1},"code":{"a":true,"h":"Code","n":"code","r":true,"sh":"a two character country code","t":"`$STRING`","key$":"code","index$":2},"email":{"a":true,"h":"Email","n":"email","r":false,"sh":"Contact email address","t":"`$STRING`","key$":"email","index$":3},"message":{"a":true,"h":"Message","n":"message","r":false,"sh":"Informational message about this country","t":"`$STRING`","key$":"message","index$":4},"name":{"a":true,"h":"Name","n":"name","r":true,"sh":"Name of the country","t":"`$STRING`","key$":"name","index$":5},"overrideLicense":{"a":true,"h":"Override License","n":"overrideLicense","r":false,"sh":"if a country needs a special license","t":"`$STRING`","key$":"overrideLicense","index$":6},"providerApps":{"a":true,"h":"Provider Apps","n":"providerApps","r":false,"sh":"array with links to provider apps","t":"`$ARRAY`","key$":"providerApps","index$":7},"timetableUrlTemplate":{"a":true,"h":"Timetable Url Template","n":"timetableUrlTemplate","r":false,"sh":"URL template for the timetable, contains {title}, {id} and {DS100} placeholders which need to be replaced","t":"`$STRING`","key$":"timetableUrlTemplate","index$":8}},"name":"country","op":{"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /countries","source":"openapi3","version":2},"g":{"query":[{"a":true,"k":"query","n":"only_active","or":"onlyActive","r":false,"t":"`$BOOLEAN`","index$":0}]},"k":"http","m":"GET","o":"/countries","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"countries"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"list"}},"relations":{"ancestors":[]},"key$":"country","name__orig":"country","Name":"Country","name_":"country","name-":"country","NAME":"COUNTRY","index$":1}, {"active":true,"entity":"country","key$":"BasicCountryFlow","kind":"basic","name":"BasicCountryFlow","param":{},"step":[{"a":true,"d":{},"i":{},"m":{},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"country_ref01"}}],"index$":0}]}, 'Country', {"GET /countries":{"protocol":"http","parameters":[{"name":"onlyActive","in":"query","description":"return only active countries? Defaults to true.","schema":{"type":"boolean"},"index$":0}]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -72,6 +130,12 @@ describe('CountryEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options

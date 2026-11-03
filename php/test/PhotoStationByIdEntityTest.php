@@ -11,11 +11,33 @@ use Voxgig\Struct\Struct as Vs;
 
 class PhotoStationByIdEntityTest extends TestCase
 {
+    // main.kit.test.live.strict is true (the default is true): a live
+    // request that fails, or a live test missing an input it needs,
+    // fails the test.
+    // An account with no record for a test to read skips it either way.
+    private const LIVE_STRICT = true;
+
     public function test_create_instance(): void
     {
         $testsdk = RailwayStationPhotosSDK::test(null, null);
         $ent = $testsdk->PhotoStationById(null);
         $this->assertNotNull($ent);
+    }
+
+    public function test_validate(): void
+    {
+        $cfg = RailwayStationPhotosConfig::shared_config();
+        if (!isset($cfg["feature"]["validate"])) {
+            $this->markTestSkipped('feature not present in this SDK: validate');
+        }
+        $client = RailwayStationPhotosSDK::test(null, ["feature" => ["validate" => ["active" => true]]]);
+        $err = null;
+        try {
+            $client->PhotoStationById(null)->load(["country" => 1, "id" => 'x'], null);
+        } catch (\Throwable $e) {
+            $err = $e;
+        }
+        $this->assertSame('validate_failed', $err->sdk_code ?? null);
     }
 
     public function test_basic_flow(): void
@@ -30,13 +52,18 @@ class PhotoStationByIdEntityTest extends TestCase
                 return;
             }
         }
-        // The basic flow consumes synthetic IDs from the fixture. In live mode
-        // without an *_ENTID env override, those IDs hit the live API and 4xx.
-        if (!empty($setup["synthetic_only"])) {
-            $this->markTestSkipped("live entity test uses synthetic IDs from fixture — set RAILWAY_STATION_PHOTOS_TEST_PHOTO_STATION_BY_ID_ENTID JSON to run live");
-            return;
+        if (!empty($setup["live"])) {
+            foreach (["country01", "photo_station_by_id01"] as $_liveKey) {
+                if (!empty($setup["synthetic_only"]) || null === ($setup["idmap"][$_liveKey] ?? null)) {
+                    Runner::live_miss(self::LIVE_STRICT, "Live entity test blocked: needs " . $_liveKey . " via RAILWAY_STATION_PHOTOS_TEST_PHOTO_STATION_BY_ID_ENTID");
+                }
+            }
         }
         $client = $setup["client"];
+        if (!empty($setup["live"])) {
+            Runner::live_existing($setup, self::LIVE_STRICT, "photo_station_by_id",
+                fn() => [["id" => $setup["idmap"]["photo_station_by_id01"] ?? null]]);
+        }
 
         // Bootstrap entity data from existing test data.
         $photo_station_by_id_ref01_data_raw = Vs::items(Helpers::to_map(
@@ -51,6 +78,7 @@ class PhotoStationByIdEntityTest extends TestCase
         $photo_station_by_id_ref01_match_dt0 = [
             "id" => $photo_station_by_id_ref01_data["id"],
         ];
+        $photo_station_by_id_ref01_match_dt0["country"] = $setup["idmap"]["country"] ?? $setup["idmap"]["country01"] ?? null;
         $photo_station_by_id_ref01_data_dt0_loaded = $photo_station_by_id_ref01_ent->load($photo_station_by_id_ref01_match_dt0, null);
         $photo_station_by_id_ref01_data_dt0_load_result = Helpers::to_map(is_object($photo_station_by_id_ref01_data_dt0_loaded) && method_exists($photo_station_by_id_ref01_data_dt0_loaded, 'data_get') ? $photo_station_by_id_ref01_data_dt0_loaded->data_get() : $photo_station_by_id_ref01_data_dt0_loaded);
         $this->assertNotNull($photo_station_by_id_ref01_data_dt0_load_result);
@@ -78,9 +106,8 @@ function photo_station_by_id_basic_setup($extra)
         $idmap[$k] = strtoupper($k);
     }
 
-    // Detect ENTID env override before envOverride consumes it. When live
-    // mode is on without a real override, the basic test runs against synthetic
-    // IDs from the fixture and 4xx's. Surface this so the test can skip.
+    // Whether *_ENTID supplied the idmap, read before env_override consumes
+    // it: without it, the ids a live flow binds are the fixture's synthetic ones.
     $entid_env_raw = getenv("RAILWAY_STATION_PHOTOS_TEST_PHOTO_STATION_BY_ID_ENTID");
     $idmap_overridden = $entid_env_raw !== false && str_starts_with(trim($entid_env_raw), "{");
 

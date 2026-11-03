@@ -49,6 +49,10 @@ Create a new `AdminInboxEntity` instance. Pass `None` for no initial data.
 
 Create a new `CountryEntity` instance. Pass `None` for no initial data.
 
+#### `Done(data=None)`
+
+Create a new `DoneEntity` instance. Pass `None` for no initial data.
+
 #### `Inbox(data=None)`
 
 Create a new `InboxEntity` instance. Pass `None` for no initial data.
@@ -73,9 +77,9 @@ Create a new `OauthEntity` instance. Pass `None` for no initial data.
 
 Create a new `PhotoEntity` instance. Pass `None` for no initial data.
 
-#### `PhotoDownload(data=None)`
+#### `PhotoDownloadInbox(data=None)`
 
-Create a new `PhotoDownloadEntity` instance. Pass `None` for no initial data.
+Create a new `PhotoDownloadInboxEntity` instance. Pass `None` for no initial data.
 
 #### `PhotoStationById(data=None)`
 
@@ -101,6 +105,10 @@ Create a new `PhotoUploadEntity` instance. Pass `None` for no initial data.
 
 Create a new `PhotographerEntity` instance. Pass `None` for no initial data.
 
+#### `Processed(data=None)`
+
+Create a new `ProcessedEntity` instance. Pass `None` for no initial data.
+
 #### `Profile(data=None)`
 
 Create a new `ProfileEntity` instance. Pass `None` for no initial data.
@@ -108,6 +116,10 @@ Create a new `ProfileEntity` instance. Pass `None` for no initial data.
 #### `PublicInbox(data=None)`
 
 Create a new `PublicInboxEntity` instance. Pass `None` for no initial data.
+
+#### `Rejected(data=None)`
+
+Create a new `RejectedEntity` instance. Pass `None` for no initial data.
 
 #### `Stat(data=None)`
 
@@ -171,16 +183,14 @@ admin_inbox = client.AdminInbox()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> AdminInboxEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.AdminInbox().create({
     "command": "example_command",  # str
     "id": 1,  # int
-    "message": "example_message",  # str
-    "status": 1,  # int
 })
 ```
 
@@ -235,14 +245,14 @@ country = client.Country()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[CountryEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Country().list()
 for country in results:
-    print(country)
+    print(country.data_get())
 ```
 
 ### Common Methods
@@ -274,6 +284,57 @@ Return the entity name.
 
 ---
 
+## DoneEntity
+
+```python
+done = client.Done()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `str` | No |  |
+
+### Operations
+
+#### `load(reqmatch, ctrl=None) -> DoneEntity`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
+
+```python
+result = client.Done().load({"id": "done_id"})
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `DoneEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
 ## InboxEntity
 
 ```python
@@ -284,73 +345,82 @@ inbox = client.Inbox()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `comment` | `str` | No |  |
-| `countryCode` | `str` | No | a two character country code |
+| `comment` | `str` | Yes |  |
+| `countryCode` | `str` | Yes | a two character country code |
 | `crc32` | `int` | No | CRC32 checksum of the uploaded photo |
 | `createdAt` | `int` | No |  |
 | `filename` | `str` | No | filename in inbox |
 | `id` | `int` | No |  |
 | `inboxUrl` | `str` | No | url of the photo in the inbox |
-| `lat` | `float` | No |  |
-| `lon` | `float` | No |  |
+| `inbox_state_queries` | `list` | No | Inbox state query request |
+| `lat` | `float` | No | new latitude value for the station |
+| `lon` | `float` | No | new longitude value for the station |
 | `message` | `str` | No |  |
 | `newLat` | `float` | No |  |
 | `newLon` | `float` | No |  |
 | `newTitle` | `str` | No |  |
+| `photoId` | `int` | No | Unique id of a photo, can be used for WRONG_PHOTO and PHOTO_OUTDATED type. |
 | `problemReportType` | `str` | No | types of problem reports |
 | `rejectedReason` | `str` | No |  |
 | `state` | `str` | Yes |  |
-| `stationId` | `str` | No |  |
-| `title` | `str` | No |  |
+| `stationId` | `str` | Yes |  |
+| `title` | `str` | No | a new title for the station |
+| `type` | `str` | Yes | types of problem reports |
 
 ### Field Usage by Operation
 
 | Field | list | create | remove |
 | --- | --- | --- | --- |
-| `comment` | - | - | - |
-| `countryCode` | - | - | - |
+| `comment` | Yes | - | - |
+| `countryCode` | Yes | - | - |
 | `crc32` | - | - | - |
 | `createdAt` | - | - | - |
 | `filename` | - | - | - |
 | `id` | Yes | - | - |
 | `inboxUrl` | - | - | - |
+| `inbox_state_queries` | - | - | - |
 | `lat` | - | - | - |
 | `lon` | - | - | - |
 | `message` | - | - | - |
 | `newLat` | - | - | - |
 | `newLon` | - | - | - |
 | `newTitle` | - | - | - |
+| `photoId` | - | - | - |
 | `problemReportType` | - | - | - |
 | `rejectedReason` | - | - | - |
 | `state` | - | - | - |
-| `stationId` | - | - | - |
+| `stationId` | Yes | - | - |
 | `title` | - | - | - |
+| `type` | - | - | - |
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> InboxEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Inbox().create({
-    "state": "example_state",  # str
+    "comment": "example_comment",  # str
+    "countryCode": "example_countryCode",  # str
+    "stationId": "example_stationId",  # str
+    "type": "example_type",  # str
 })
 ```
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[InboxEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Inbox().list()
 for inbox in results:
-    print(inbox)
+    print(inbox.data_get())
 ```
 
-#### `remove(reqmatch, ctrl=None) -> dict`
+#### `remove(reqmatch, ctrl=None) -> InboxEntity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
 result = client.Inbox().remove({"id": 1})
@@ -399,9 +469,9 @@ inbox_count = client.InboxCount()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> InboxCountEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.InboxCount().load()
@@ -471,14 +541,14 @@ inbox_entry = client.InboxEntry()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[InboxEntryEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.InboxEntry().list()
 for inbox_entry in results:
-    print(inbox_entry)
+    print(inbox_entry.data_get())
 ```
 
 ### Common Methods
@@ -521,24 +591,34 @@ o_auth_token = client.OAuthToken()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `access_token` | `str` | Yes |  |
+| `client_id` | `str` | Yes |  |
+| `code` | `str` | No |  |
+| `code_verifier` | `str` | No |  |
 | `expires_in` | `int` | No |  |
+| `grant_type` | `str` | Yes |  |
+| `redirect_uri` | `str` | Yes |  |
 | `refresh_token` | `str` | No |  |
 | `scope` | `str` | Yes |  |
 | `token_type` | `str` | Yes |  |
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> OAuthTokenEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.OAuthToken().create({
     "access_token": "example_access_token",  # str
+    "client_id": "example_client_id",  # str
+    "grant_type": "example_grant_type",  # str
+    "redirect_uri": "example_redirect_uri",  # str
     "scope": "example_scope",  # str
     "token_type": "example_token_type",  # str
 })
 ```
+
+Declares a `application/x-www-form-urlencoded` body, which this SDK does not encode yet: it sends the data as JSON.
 
 ### Common Methods
 
@@ -575,20 +655,30 @@ Return the entity name.
 oauth = client.Oauth()
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `token` | `str` | Yes |  |
+| `token_type_hint` | `str` | No |  |
+
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> OauthEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Oauth().create({
+    "token": "example_token",  # str
 })
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+Declares a `application/x-www-form-urlencoded` body, which this SDK does not encode yet: it sends the data as JSON.
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+#### `load(reqmatch, ctrl=None) -> OauthEntity`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Oauth().load({"client_id": "client_id", "redirect_uri": "redirect_uri", "response_type": "response_type", "scope": "scope"})
@@ -637,9 +727,9 @@ photo = client.Photo()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> PhotoEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Photo().load({"country": "country", "filename": "filename"})
@@ -674,20 +764,26 @@ Return the entity name.
 
 ---
 
-## PhotoDownloadEntity
+## PhotoDownloadInboxEntity
 
 ```python
-photo_download = client.PhotoDownload()
+photo_download_inbox = client.PhotoDownloadInbox()
 ```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `str` | No |  |
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> PhotoDownloadInboxEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
-result = client.PhotoDownload().load({"filename": "filename"})
+result = client.PhotoDownloadInbox().load({"id": "photo_download_inbox_id"})
 ```
 
 ### Common Methods
@@ -710,7 +806,7 @@ Set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `PhotoDownloadEntity` instance with the same options.
+Create a new `PhotoDownloadInboxEntity` instance with the same options.
 
 #### `get_name() -> str`
 
@@ -737,9 +833,9 @@ photo_station_by_id = client.PhotoStationById()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> PhotoStationByIdEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.PhotoStationById().load({"id": "photo_station_by_id_id", "country": "country"})
@@ -792,9 +888,9 @@ photo_stations_by_country = client.PhotoStationsByCountry()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> PhotoStationsByCountryEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.PhotoStationsByCountry().load({"id": "photo_stations_by_country_id"})
@@ -847,9 +943,9 @@ photo_stations_by_photographer = client.PhotoStationsByPhotographer()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> PhotoStationsByPhotographerEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.PhotoStationsByPhotographer().load({"id": "photo_stations_by_photographer_id"})
@@ -901,14 +997,14 @@ photo_stations_by_recent_photo_import = client.PhotoStationsByRecentPhotoImport(
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[PhotoStationsByRecentPhotoImportEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.PhotoStationsByRecentPhotoImport().list()
 for photo_stations_by_recent_photo_import in results:
-    print(photo_stations_by_recent_photo_import)
+    print(photo_stations_by_recent_photo_import.data_get())
 ```
 
 ### Common Methods
@@ -959,15 +1055,17 @@ photo_upload = client.PhotoUpload()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> PhotoUploadEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.PhotoUpload().create({
     "state": "example_state",  # str
 })
 ```
+
+Sends its body unencoded, as `application/octet-stream`: pass it as `$body`, `bytes`, `bytearray`, `memoryview`, a `str` or a file object. A file object is read in full before the request is sent, so that a retry sends the same bytes. The operation also accepts `image/jpeg`, `image/png`: a `content-type` header option that is not JSON replaces the declared one.
 
 ### Common Methods
 
@@ -1006,9 +1104,9 @@ photographer = client.Photographer()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> PhotographerEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Photographer().load()
@@ -1035,6 +1133,57 @@ Set the entity match criteria.
 #### `make() -> Entity`
 
 Create a new `PhotographerEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## ProcessedEntity
+
+```python
+processed = client.Processed()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `str` | No |  |
+
+### Operations
+
+#### `load(reqmatch, ctrl=None) -> ProcessedEntity`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
+
+```python
+result = client.Processed().load({"id": "processed_id"})
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `ProcessedEntity` instance with the same options.
 
 #### `get_name() -> str`
 
@@ -1081,30 +1230,29 @@ profile = client.Profile()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> ProfileEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Profile().create({
-    "license": "example_license",  # str
+    "email": "example_email",  # str
     "newPassword": "example_newPassword",  # str
     "nickname": "example_nickname",  # str
-    "photoOwner": True,  # bool
 })
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> ProfileEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Profile().load({"token": "token"})
 ```
 
-#### `remove(reqmatch, ctrl=None) -> dict`
+#### `remove(reqmatch, ctrl=None) -> ProfileEntity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
 result = client.Profile().remove()
@@ -1157,14 +1305,14 @@ public_inbox = client.PublicInbox()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[PublicInboxEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.PublicInbox().list()
 for public_inbox in results:
-    print(public_inbox)
+    print(public_inbox.data_get())
 ```
 
 ### Common Methods
@@ -1196,6 +1344,57 @@ Return the entity name.
 
 ---
 
+## RejectedEntity
+
+```python
+rejected = client.Rejected()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `str` | No |  |
+
+### Operations
+
+#### `load(reqmatch, ctrl=None) -> RejectedEntity`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
+
+```python
+result = client.Rejected().load({"id": "rejected_id"})
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `RejectedEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
 ## StatEntity
 
 ```python
@@ -1214,9 +1413,9 @@ stat = client.Stat()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> StatEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Stat().load()
@@ -1408,6 +1607,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

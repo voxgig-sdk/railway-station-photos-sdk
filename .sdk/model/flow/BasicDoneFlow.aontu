@@ -1,0 +1,32 @@
+# BasicDoneFlow
+
+main: kit: flow: BasicDoneFlow:
+{
+  entity: "done",
+  kind: "basic",
+  name: "BasicDoneFlow",
+  step: [
+    {
+      i: {
+        ref: "done_ref01",
+        srcdatavar: "done_ref01_data",
+        suffix: "_dt0"
+      }
+
+      m: {
+        id: "done01"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-done_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicDoneFlow"
+}

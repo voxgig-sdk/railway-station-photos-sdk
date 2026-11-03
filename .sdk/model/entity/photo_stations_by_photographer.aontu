@@ -81,7 +81,6 @@ main: kit: entity: photo_stations_by_photographer: {
           o: "/photoStationsByPhotographer/{photographer}"
           q: {
             exist: [
-              "country"
               "id"
             ]
           }
@@ -89,6 +88,10 @@ main: kit: entity: photo_stations_by_photographer: {
             param: {
               photographer: "id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

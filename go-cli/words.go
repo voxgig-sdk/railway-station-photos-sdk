@@ -75,12 +75,14 @@ func runOp(client *sdk.RailwayStationPhotosSDK, op string, query *eng.Value, ent
 
 // entityFor dispatches on the lowercase entity name. The generator
 // emits one `case "<name>":` per entity defined in the SDK model.
-func entityFor(client *sdk.RailwayStationPhotosSDK, name string) (sdk.RailwayStationPhotosEntity, error) {
+func entityFor(client *sdk.RailwayStationPhotosSDK, name string) (sdk.RailwayStationPhotosEntityBase, error) {
 	switch strings.ToLower(name) {
 	case "admin_inbox":
 		return client.AdminInbox(nil), nil
 	case "country":
 		return client.Country(nil), nil
+	case "done":
+		return client.Done(nil), nil
 	case "inbox":
 		return client.Inbox(nil), nil
 	case "inbox_count":
@@ -93,8 +95,8 @@ func entityFor(client *sdk.RailwayStationPhotosSDK, name string) (sdk.RailwaySta
 		return client.Oauth(nil), nil
 	case "photo":
 		return client.Photo(nil), nil
-	case "photo_download":
-		return client.PhotoDownload(nil), nil
+	case "photo_download_inbox":
+		return client.PhotoDownloadInbox(nil), nil
 	case "photo_station_by_id":
 		return client.PhotoStationById(nil), nil
 	case "photo_stations_by_country":
@@ -107,10 +109,14 @@ func entityFor(client *sdk.RailwayStationPhotosSDK, name string) (sdk.RailwaySta
 		return client.PhotoUpload(nil), nil
 	case "photographer":
 		return client.Photographer(nil), nil
+	case "processed":
+		return client.Processed(nil), nil
 	case "profile":
 		return client.Profile(nil), nil
 	case "public_inbox":
 		return client.PublicInbox(nil), nil
+	case "rejected":
+		return client.Rejected(nil), nil
 	case "stat":
 		return client.Stat(nil), nil
 

@@ -60,10 +60,9 @@ main: kit: entity: photo_stations_by_recent_photo_import: {
           }
           m: "GET"
           o: "/photoStationsByRecentPhotoImports"
-          q: {
-            exist: [
-              "since_hour"
-            ]
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

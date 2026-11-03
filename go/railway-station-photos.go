@@ -13,7 +13,12 @@ type Context = core.Context
 type Utility = core.Utility
 type Feature = core.Feature
 type Entity = core.Entity
-type RailwayStationPhotosEntity = core.RailwayStationPhotosEntity
+type RailwayStationPhotosEntityBase = core.RailwayStationPhotosEntityBase
+
+// Deprecated: use RailwayStationPhotosEntityBase.
+type RailwayStationPhotosEntity = core.RailwayStationPhotosEntityBase
+
+type StreamItem = core.StreamItem
 type FetcherFunc = core.FetcherFunc
 type Spec = core.Spec
 type Result = core.Result
@@ -41,58 +46,67 @@ func init() {
 	core.NewTimeoutFeatureFunc = func() core.Feature {
 		return feature.NewTimeoutFeature()
 	}
-	core.NewAdminInboxEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
+	core.NewAdminInboxEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntityBase {
 		return entity.NewAdminInboxEntity(client, entopts)
 	}
-	core.NewCountryEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
+	core.NewCountryEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntityBase {
 		return entity.NewCountryEntity(client, entopts)
 	}
-	core.NewInboxEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
+	core.NewDoneEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntityBase {
+		return entity.NewDoneEntity(client, entopts)
+	}
+	core.NewInboxEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntityBase {
 		return entity.NewInboxEntity(client, entopts)
 	}
-	core.NewInboxCountEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
+	core.NewInboxCountEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntityBase {
 		return entity.NewInboxCountEntity(client, entopts)
 	}
-	core.NewInboxEntryEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
+	core.NewInboxEntryEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntityBase {
 		return entity.NewInboxEntryEntity(client, entopts)
 	}
-	core.NewOAuthTokenEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
+	core.NewOAuthTokenEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntityBase {
 		return entity.NewOAuthTokenEntity(client, entopts)
 	}
-	core.NewOauthEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
+	core.NewOauthEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntityBase {
 		return entity.NewOauthEntity(client, entopts)
 	}
-	core.NewPhotoEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
+	core.NewPhotoEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntityBase {
 		return entity.NewPhotoEntity(client, entopts)
 	}
-	core.NewPhotoDownloadEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
-		return entity.NewPhotoDownloadEntity(client, entopts)
+	core.NewPhotoDownloadInboxEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntityBase {
+		return entity.NewPhotoDownloadInboxEntity(client, entopts)
 	}
-	core.NewPhotoStationByIdEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
+	core.NewPhotoStationByIdEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntityBase {
 		return entity.NewPhotoStationByIdEntity(client, entopts)
 	}
-	core.NewPhotoStationsByCountryEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
+	core.NewPhotoStationsByCountryEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntityBase {
 		return entity.NewPhotoStationsByCountryEntity(client, entopts)
 	}
-	core.NewPhotoStationsByPhotographerEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
+	core.NewPhotoStationsByPhotographerEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntityBase {
 		return entity.NewPhotoStationsByPhotographerEntity(client, entopts)
 	}
-	core.NewPhotoStationsByRecentPhotoImportEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
+	core.NewPhotoStationsByRecentPhotoImportEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntityBase {
 		return entity.NewPhotoStationsByRecentPhotoImportEntity(client, entopts)
 	}
-	core.NewPhotoUploadEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
+	core.NewPhotoUploadEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntityBase {
 		return entity.NewPhotoUploadEntity(client, entopts)
 	}
-	core.NewPhotographerEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
+	core.NewPhotographerEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntityBase {
 		return entity.NewPhotographerEntity(client, entopts)
 	}
-	core.NewProfileEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
+	core.NewProcessedEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntityBase {
+		return entity.NewProcessedEntity(client, entopts)
+	}
+	core.NewProfileEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntityBase {
 		return entity.NewProfileEntity(client, entopts)
 	}
-	core.NewPublicInboxEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
+	core.NewPublicInboxEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntityBase {
 		return entity.NewPublicInboxEntity(client, entopts)
 	}
-	core.NewStatEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntity {
+	core.NewRejectedEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntityBase {
+		return entity.NewRejectedEntity(client, entopts)
+	}
+	core.NewStatEntityFunc = func(client *core.RailwayStationPhotosSDK, entopts map[string]any) core.RailwayStationPhotosEntityBase {
 		return entity.NewStatEntity(client, entopts)
 	}
 }

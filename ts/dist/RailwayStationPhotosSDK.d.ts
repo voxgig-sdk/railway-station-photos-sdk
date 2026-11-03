@@ -1,20 +1,23 @@
 import { AdminInboxEntity } from './entity/AdminInboxEntity';
 import { CountryEntity } from './entity/CountryEntity';
+import { DoneEntity } from './entity/DoneEntity';
 import { InboxEntity } from './entity/InboxEntity';
 import { InboxCountEntity } from './entity/InboxCountEntity';
 import { InboxEntryEntity } from './entity/InboxEntryEntity';
 import { OAuthTokenEntity } from './entity/OAuthTokenEntity';
 import { OauthEntity } from './entity/OauthEntity';
 import { PhotoEntity } from './entity/PhotoEntity';
-import { PhotoDownloadEntity } from './entity/PhotoDownloadEntity';
+import { PhotoDownloadInboxEntity } from './entity/PhotoDownloadInboxEntity';
 import { PhotoStationByIdEntity } from './entity/PhotoStationByIdEntity';
 import { PhotoStationsByCountryEntity } from './entity/PhotoStationsByCountryEntity';
 import { PhotoStationsByPhotographerEntity } from './entity/PhotoStationsByPhotographerEntity';
 import { PhotoStationsByRecentPhotoImportEntity } from './entity/PhotoStationsByRecentPhotoImportEntity';
 import { PhotoUploadEntity } from './entity/PhotoUploadEntity';
 import { PhotographerEntity } from './entity/PhotographerEntity';
+import { ProcessedEntity } from './entity/ProcessedEntity';
 import { ProfileEntity } from './entity/ProfileEntity';
 import { PublicInboxEntity } from './entity/PublicInboxEntity';
+import { RejectedEntity } from './entity/RejectedEntity';
 import { StatEntity } from './entity/StatEntity';
 export type * from './RailwayStationPhotosTypes';
 import { inspect } from 'node:util';
@@ -24,6 +27,19 @@ import { RailwayStationPhotosEntityBase } from './RailwayStationPhotosEntityBase
 import { Utility } from './utility/Utility';
 import { BaseFeature } from './feature/base/BaseFeature';
 declare const stdutil: Utility;
+type DirectResult = {
+    ok: false;
+    err: any;
+    status?: undefined;
+    headers?: undefined;
+    data?: undefined;
+} | {
+    ok: boolean;
+    status: number;
+    headers: any;
+    data: any;
+    err?: any;
+};
 declare class RailwayStationPhotosSDK {
     _mode: string;
     _options: any;
@@ -34,50 +50,29 @@ declare class RailwayStationPhotosSDK {
     options(): any;
     utility(): any;
     prepare(fetchargs?: any): Promise<any>;
-    direct(fetchargs?: any): Promise<Error | {
-        ok: boolean;
-        err: any;
-        status?: undefined;
-        headers?: undefined;
-        data?: undefined;
-    } | {
-        ok: boolean;
-        status: number;
-        headers: any;
-        data: any;
-        err?: undefined;
-    }>;
-    _rawRequest(fetchargs?: any): Promise<Error | {
-        ok: boolean;
-        err: any;
-        status?: undefined;
-        headers?: undefined;
-        data?: undefined;
-    } | {
-        ok: boolean;
-        status: number;
-        headers: any;
-        data: any;
-        err?: undefined;
-    }>;
+    direct(fetchargs?: any): Promise<DirectResult>;
+    _rawRequest(fetchargs?: any): Promise<DirectResult>;
     graphql(query: string, variables?: any, ctrl?: any): Promise<any>;
     AdminInbox(entopts?: Record<string, any>): AdminInboxEntity;
     Country(entopts?: Record<string, any>): CountryEntity;
+    Done(entopts?: Record<string, any>): DoneEntity;
     Inbox(entopts?: Record<string, any>): InboxEntity;
     InboxCount(entopts?: Record<string, any>): InboxCountEntity;
     InboxEntry(entopts?: Record<string, any>): InboxEntryEntity;
     OAuthToken(entopts?: Record<string, any>): OAuthTokenEntity;
     Oauth(entopts?: Record<string, any>): OauthEntity;
     Photo(entopts?: Record<string, any>): PhotoEntity;
-    PhotoDownload(entopts?: Record<string, any>): PhotoDownloadEntity;
+    PhotoDownloadInbox(entopts?: Record<string, any>): PhotoDownloadInboxEntity;
     PhotoStationById(entopts?: Record<string, any>): PhotoStationByIdEntity;
     PhotoStationsByCountry(entopts?: Record<string, any>): PhotoStationsByCountryEntity;
     PhotoStationsByPhotographer(entopts?: Record<string, any>): PhotoStationsByPhotographerEntity;
     PhotoStationsByRecentPhotoImport(entopts?: Record<string, any>): PhotoStationsByRecentPhotoImportEntity;
     PhotoUpload(entopts?: Record<string, any>): PhotoUploadEntity;
     Photographer(entopts?: Record<string, any>): PhotographerEntity;
+    Processed(entopts?: Record<string, any>): ProcessedEntity;
     Profile(entopts?: Record<string, any>): ProfileEntity;
     PublicInbox(entopts?: Record<string, any>): PublicInboxEntity;
+    Rejected(entopts?: Record<string, any>): RejectedEntity;
     Stat(entopts?: Record<string, any>): StatEntity;
     static test(testoptsarg?: any, sdkoptsarg?: any): RailwayStationPhotosSDK;
     tester(testopts?: any, sdkopts?: any): RailwayStationPhotosSDK;
@@ -89,3 +84,4 @@ declare class RailwayStationPhotosSDK {
 }
 declare const SDK: typeof RailwayStationPhotosSDK;
 export { stdutil, config, BaseFeature, RailwayStationPhotosEntityBase, RailwayStationPhotosSDK, SDK, };
+export type { DirectResult };

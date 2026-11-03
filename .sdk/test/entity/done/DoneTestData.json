@@ -1,0 +1,27 @@
+{
+  "existing": {
+    "done": {
+      "DONE00": {
+        "id": "DONE00"
+      },
+      "DONE01": {
+        "id": "DONE01"
+      },
+      "DONE02": {
+        "id": "DONE02"
+      }
+    }
+  },
+  "new": {
+    "done": {
+      "done_ref01": {}
+    }
+  },
+  "requests": {
+    "GET /inbox/done/{filename}": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

@@ -6,7 +6,7 @@ Backend Service for https://www.railway-stations.org/. Sourcecode available at: 
 
 This guide introduces the API, the client libraries, and the companion tools in this repository. Start with the API capabilities, choose a client for your application, and use the linked reference when you need exact request and response details.
 
-The selected API surface contains 18 entities and 30 HTTP routes. There are 6 SDK targets and 2 companion tools.
+The selected API surface contains 21 entities and 30 HTTP routes. There are 6 SDK targets and 2 companion tools.
 
 An entity groups related API operations. An operation can have several routes with different inputs or authentication requirements. The SDK exposes the entity and its operations using the conventions of the selected language.
 
@@ -40,9 +40,15 @@ Key fields to recognise:
 - `email`: Contact email address
 - `message`: Informational message about this country
 
+### Done
+
+Results: ok.
+
+SDK operations: `load`.
+
 ### Inbox
 
-Results: report successful; array of InboxStateQueryResponse objects; inbox entry got deleted.
+Results: array of InboxStateQueryResponse objects; report successful; inbox entry got deleted.
 
 SDK operations: `create`, `list`, `remove`.
 
@@ -52,7 +58,7 @@ Key fields to recognise:
 - `crc32`: CRC32 checksum of the uploaded photo
 - `filename`: filename in inbox
 - `inboxUrl`: url of the photo in the inbox
-- `problemReportType`: types of problem reports
+- `inbox_state_queries`: Inbox state query request
 
 ### InboxCount
 
@@ -92,7 +98,7 @@ Results: ok.
 
 SDK operations: `load`.
 
-### PhotoDownload
+### PhotoDownloadInbox
 
 Results: ok.
 
@@ -171,6 +177,12 @@ Results: successful operation.
 
 SDK operations: `load`.
 
+### Processed
+
+Results: ok.
+
+SDK operations: `load`.
+
 ### Profile
 
 Results: password changed; ok; email successfully sent; email successfully verified; delete action has been enacted, no further information.
@@ -191,6 +203,12 @@ Key fields to recognise:
 
 - `countryCode`: a two character country code
 
+### Rejected
+
+Results: ok.
+
+SDK operations: `load`.
+
 ### Stat
 
 Results: successful operation.
@@ -209,8 +227,9 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 | --- | --- | --- | --- |
 | AdminInbox | `create` | `POST /adminInbox` | See reference |
 | Country | `list` | `GET /countries` | See reference |
-| Inbox | `create` | `POST /reportProblem` | See reference |
+| Done | `load` | `GET /inbox/done/{filename}` | See reference |
 | Inbox | `create` | `POST /userInbox` | See reference |
+| Inbox | `create` | `POST /reportProblem` | See reference |
 | Inbox | `list` | `GET /userInbox` | See reference |
 | Inbox | `remove` | `DELETE /userInbox/{id}` | See reference |
 | InboxCount | `load` | `GET /adminInboxCount` | See reference |
@@ -219,16 +238,14 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 | Oauth | `create` | `POST /oauth2/revoke` | See reference |
 | Oauth | `load` | `GET /oauth2/authorize` | See reference |
 | Photo | `load` | `GET /photos/{country}/{filename}` | See reference |
-| PhotoDownload | `load` | `GET /inbox/done/{filename}` | See reference |
-| PhotoDownload | `load` | `GET /inbox/processed/{filename}` | See reference |
-| PhotoDownload | `load` | `GET /inbox/rejected/{filename}` | See reference |
-| PhotoDownload | `load` | `GET /inbox/{filename}` | See reference |
+| PhotoDownloadInbox | `load` | `GET /inbox/{filename}` | See reference |
 | PhotoStationById | `load` | `GET /photoStationById/{country}/{id}` | See reference |
 | PhotoStationsByCountry | `load` | `GET /photoStationsByCountry/{country}` | See reference |
 | PhotoStationsByPhotographer | `load` | `GET /photoStationsByPhotographer/{photographer}` | See reference |
 | PhotoStationsByRecentPhotoImport | `list` | `GET /photoStationsByRecentPhotoImports` | See reference |
 | PhotoUpload | `create` | `POST /photoUpload` | See reference |
 | Photographer | `load` | `GET /photographers` | See reference |
+| Processed | `load` | `GET /inbox/processed/{filename}` | See reference |
 | Profile | `create` | `POST /changePassword` | See reference |
 | Profile | `create` | `POST /myProfile` | See reference |
 | Profile | `create` | `POST /resendEmailVerification` | See reference |
@@ -236,6 +253,7 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 | Profile | `load` | `GET /emailVerification/{token}` | See reference |
 | Profile | `remove` | `DELETE /myProfile` | See reference |
 | PublicInbox | `list` | `GET /publicInbox` | See reference |
+| Rejected | `load` | `GET /inbox/rejected/{filename}` | See reference |
 | Stat | `load` | `GET /stats` | See reference |
 
 ## Connect to the API
@@ -285,7 +303,7 @@ Use the MCP server to expose supported API operations to an MCP client.
 Repository directory: `go-mcp/`. Not published. Build from the go-mcp directory.
 
 - `railway-station-photos_list`: List records for an entity. Supported entities: `country`, `inbox`, `inbox_entry`, `photo_stations_by_recent_photo_import`, `public_inbox`.
-- `railway-station-photos_load`: Load one record for an entity. Supported entities: `inbox_count`, `oauth`, `photo`, `photo_download`, `photo_station_by_id`, `photo_stations_by_country`, `photo_stations_by_photographer`, `photographer`, `profile`, `stat`.
+- `railway-station-photos_load`: Load one record for an entity. Supported entities: `done`, `inbox_count`, `oauth`, `photo`, `photo_download_inbox`, `photo_station_by_id`, `photo_stations_by_country`, `photo_stations_by_photographer`, `photographer`, `processed`, `profile`, `rejected`, `stat`.
 
 ## Operational features
 

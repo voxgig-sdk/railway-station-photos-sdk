@@ -4,6 +4,8 @@ from railwaystationphotos_sdk.utility.voxgig_struct import voxgig_struct as vs
 from railwaystationphotos_sdk.core.utility_type import RailwayStationPhotosUtility
 from railwaystationphotos_sdk.core.spec import RailwayStationPhotosSpec
 from railwaystationphotos_sdk.core import helpers
+from railwaystationphotos_sdk.utility.prepare_method import allowed
+from railwaystationphotos_sdk.utility.result_body import unreadable_body
 
 # Load utility registration (populates Utility._registrar)
 from railwaystationphotos_sdk.utility import register
@@ -138,6 +140,13 @@ class RailwayStationPhotosSDK:
         method = vs.getprop(fetchargs, "method") or "GET"
         if not isinstance(method, str):
             method = "GET"
+        method = method.upper()
+
+        allow_method = vs.getpath(options, "allow.method")
+        if not allowed(allow_method, method):
+            raise ctx.make_error("spec_method_allow",
+                'Method "' + method +
+                '" not allowed by SDK option allow.method value: "' + str(allow_method) + '"')
 
         params = helpers.to_map(vs.getprop(fetchargs, "params"))
         if params is None:
@@ -198,8 +207,7 @@ class RailwayStationPhotosSDK:
 
     # Is this raw-access op permitted by the SDK's allow.op option?
     def _op_allowed(self, op):
-        allow_op = vs.getpath(self.options, "allow.op")
-        return isinstance(allow_op, str) and op in allow_op
+        return allowed(vs.getpath(self.options, "allow.op"), op)
 
     def _op_denied(self, op):
         allow_op = vs.getpath(self.options, "allow.op")
@@ -260,6 +268,7 @@ class RailwayStationPhotosSDK:
             no_body = status in (204, 304) or str(content_length) == "0"
 
             json_data = None
+            body_err = None
             if not no_body:
                 jf = vs.getprop(fetched, "json")
                 if callable(jf):
@@ -269,13 +278,22 @@ class RailwayStationPhotosSDK:
                         # Non-JSON body (e.g. text/plain, text/html). Surface
                         # status + headers but leave data as None.
                         json_data = None
+                if vs.getprop(fetched, "unreadable") is True:
+                    failed = None if 200 <= status < 300 else ctx.make_error(
+                        "request_status",
+                        "request: " + str(status) + ": " + str(vs.getprop(fetched, "statusText")))
+                    body_err = unreadable_body(ctx, status, headers, vs.getprop(fetched, "body"),
+                                               fetchdef.get("headers"), failed)
 
-            return {
-                "ok": status >= 200 and status < 300,
+            out = {
+                "ok": body_err is None and status >= 200 and status < 300,
                 "status": status,
                 "headers": headers,
                 "data": json_data,
             }
+            if body_err is not None:
+                out["err"] = utility.clean(ctx, body_err)
+            return out
 
         return {
             "ok": False,
@@ -335,6 +353,12 @@ class RailwayStationPhotosSDK:
         return CountryEntity(self, data)
 
 
+    def Done(self, data=None) -> "DoneEntity":
+        """Entity factory: client.Done().list() / client.Done().load({"id": ...})."""
+        from railwaystationphotos_sdk.entity.done_entity import DoneEntity
+        return DoneEntity(self, data)
+
+
     def Inbox(self, data=None) -> "InboxEntity":
         """Entity factory: client.Inbox().list() / client.Inbox().load({"id": ...})."""
         from railwaystationphotos_sdk.entity.inbox_entity import InboxEntity
@@ -371,10 +395,10 @@ class RailwayStationPhotosSDK:
         return PhotoEntity(self, data)
 
 
-    def PhotoDownload(self, data=None) -> "PhotoDownloadEntity":
-        """Entity factory: client.PhotoDownload().list() / client.PhotoDownload().load({"id": ...})."""
-        from railwaystationphotos_sdk.entity.photo_download_entity import PhotoDownloadEntity
-        return PhotoDownloadEntity(self, data)
+    def PhotoDownloadInbox(self, data=None) -> "PhotoDownloadInboxEntity":
+        """Entity factory: client.PhotoDownloadInbox().list() / client.PhotoDownloadInbox().load({"id": ...})."""
+        from railwaystationphotos_sdk.entity.photo_download_inbox_entity import PhotoDownloadInboxEntity
+        return PhotoDownloadInboxEntity(self, data)
 
 
     def PhotoStationById(self, data=None) -> "PhotoStationByIdEntity":
@@ -413,6 +437,12 @@ class RailwayStationPhotosSDK:
         return PhotographerEntity(self, data)
 
 
+    def Processed(self, data=None) -> "ProcessedEntity":
+        """Entity factory: client.Processed().list() / client.Processed().load({"id": ...})."""
+        from railwaystationphotos_sdk.entity.processed_entity import ProcessedEntity
+        return ProcessedEntity(self, data)
+
+
     def Profile(self, data=None) -> "ProfileEntity":
         """Entity factory: client.Profile().list() / client.Profile().load({"id": ...})."""
         from railwaystationphotos_sdk.entity.profile_entity import ProfileEntity
@@ -423,6 +453,12 @@ class RailwayStationPhotosSDK:
         """Entity factory: client.PublicInbox().list() / client.PublicInbox().load({"id": ...})."""
         from railwaystationphotos_sdk.entity.public_inbox_entity import PublicInboxEntity
         return PublicInboxEntity(self, data)
+
+
+    def Rejected(self, data=None) -> "RejectedEntity":
+        """Entity factory: client.Rejected().list() / client.Rejected().load({"id": ...})."""
+        from railwaystationphotos_sdk.entity.rejected_entity import RejectedEntity
+        return RejectedEntity(self, data)
 
 
     def Stat(self, data=None) -> "StatEntity":
@@ -460,19 +496,22 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from railwaystationphotos_sdk.entity.admin_inbox_entity import AdminInboxEntity
     from railwaystationphotos_sdk.entity.country_entity import CountryEntity
+    from railwaystationphotos_sdk.entity.done_entity import DoneEntity
     from railwaystationphotos_sdk.entity.inbox_entity import InboxEntity
     from railwaystationphotos_sdk.entity.inbox_count_entity import InboxCountEntity
     from railwaystationphotos_sdk.entity.inbox_entry_entity import InboxEntryEntity
     from railwaystationphotos_sdk.entity.o_auth_token_entity import OAuthTokenEntity
     from railwaystationphotos_sdk.entity.oauth_entity import OauthEntity
     from railwaystationphotos_sdk.entity.photo_entity import PhotoEntity
-    from railwaystationphotos_sdk.entity.photo_download_entity import PhotoDownloadEntity
+    from railwaystationphotos_sdk.entity.photo_download_inbox_entity import PhotoDownloadInboxEntity
     from railwaystationphotos_sdk.entity.photo_station_by_id_entity import PhotoStationByIdEntity
     from railwaystationphotos_sdk.entity.photo_stations_by_country_entity import PhotoStationsByCountryEntity
     from railwaystationphotos_sdk.entity.photo_stations_by_photographer_entity import PhotoStationsByPhotographerEntity
     from railwaystationphotos_sdk.entity.photo_stations_by_recent_photo_import_entity import PhotoStationsByRecentPhotoImportEntity
     from railwaystationphotos_sdk.entity.photo_upload_entity import PhotoUploadEntity
     from railwaystationphotos_sdk.entity.photographer_entity import PhotographerEntity
+    from railwaystationphotos_sdk.entity.processed_entity import ProcessedEntity
     from railwaystationphotos_sdk.entity.profile_entity import ProfileEntity
     from railwaystationphotos_sdk.entity.public_inbox_entity import PublicInboxEntity
+    from railwaystationphotos_sdk.entity.rejected_entity import RejectedEntity
     from railwaystationphotos_sdk.entity.stat_entity import StatEntity

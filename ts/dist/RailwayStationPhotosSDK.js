@@ -4,21 +4,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SDK = exports.RailwayStationPhotosSDK = exports.RailwayStationPhotosEntityBase = exports.BaseFeature = exports.config = exports.stdutil = void 0;
 const AdminInboxEntity_1 = require("./entity/AdminInboxEntity");
 const CountryEntity_1 = require("./entity/CountryEntity");
+const DoneEntity_1 = require("./entity/DoneEntity");
 const InboxEntity_1 = require("./entity/InboxEntity");
 const InboxCountEntity_1 = require("./entity/InboxCountEntity");
 const InboxEntryEntity_1 = require("./entity/InboxEntryEntity");
 const OAuthTokenEntity_1 = require("./entity/OAuthTokenEntity");
 const OauthEntity_1 = require("./entity/OauthEntity");
 const PhotoEntity_1 = require("./entity/PhotoEntity");
-const PhotoDownloadEntity_1 = require("./entity/PhotoDownloadEntity");
+const PhotoDownloadInboxEntity_1 = require("./entity/PhotoDownloadInboxEntity");
 const PhotoStationByIdEntity_1 = require("./entity/PhotoStationByIdEntity");
 const PhotoStationsByCountryEntity_1 = require("./entity/PhotoStationsByCountryEntity");
 const PhotoStationsByPhotographerEntity_1 = require("./entity/PhotoStationsByPhotographerEntity");
 const PhotoStationsByRecentPhotoImportEntity_1 = require("./entity/PhotoStationsByRecentPhotoImportEntity");
 const PhotoUploadEntity_1 = require("./entity/PhotoUploadEntity");
 const PhotographerEntity_1 = require("./entity/PhotographerEntity");
+const ProcessedEntity_1 = require("./entity/ProcessedEntity");
 const ProfileEntity_1 = require("./entity/ProfileEntity");
 const PublicInboxEntity_1 = require("./entity/PublicInboxEntity");
+const RejectedEntity_1 = require("./entity/RejectedEntity");
 const StatEntity_1 = require("./entity/StatEntity");
 const node_util_1 = require("node:util");
 const Config_1 = require("./Config");
@@ -26,6 +29,9 @@ Object.defineProperty(exports, "config", { enumerable: true, get: function () { 
 const RailwayStationPhotosEntityBase_1 = require("./RailwayStationPhotosEntityBase");
 Object.defineProperty(exports, "RailwayStationPhotosEntityBase", { enumerable: true, get: function () { return RailwayStationPhotosEntityBase_1.RailwayStationPhotosEntityBase; } });
 const Utility_1 = require("./utility/Utility");
+const ResultBodyUtility_1 = require("./utility/ResultBodyUtility");
+const MakeRequestUtility_1 = require("./utility/MakeRequestUtility");
+const PrepareMethodUtility_1 = require("./utility/PrepareMethodUtility");
 const BaseFeature_1 = require("./feature/base/BaseFeature");
 Object.defineProperty(exports, "BaseFeature", { enumerable: true, get: function () { return BaseFeature_1.BaseFeature; } });
 const stdutil = new Utility_1.Utility();
@@ -106,12 +112,17 @@ class RailwayStationPhotosSDK {
             ctrl: fetchargs.ctrl || {},
         }, this._rootctx);
         const options = this._options;
+        const method = String(fetchargs.method || 'GET').toUpperCase();
+        if (!(0, PrepareMethodUtility_1.allowed)(options.allow.method, method)) {
+            return ctx.error('spec_method_allow', 'Method "' + method +
+                '" not allowed by SDK option allow.method value: "' + options.allow.method + '"');
+        }
         const spec = {
             base: options.base,
             prefix: options.prefix,
             suffix: options.suffix,
             path: fetchargs.path || '',
-            method: fetchargs.method || 'GET',
+            method,
             params: fetchargs.params || {},
             query: fetchargs.query || {},
             headers: prepareHeaders(ctx),
@@ -135,7 +146,7 @@ class RailwayStationPhotosSDK {
     // Blocking it means denying BOTH the 'direct' and 'graphql' tokens, since
     // either one reaches the same endpoint.
     async direct(fetchargs) {
-        if (!this._options.allow.op.includes('direct')) {
+        if (!(0, PrepareMethodUtility_1.allowed)(this._options.allow.op, 'direct')) {
             return {
                 ok: false,
                 err: new Error('RailwayStationPhotosSDK: direct: operation not allowed by' +
@@ -154,19 +165,22 @@ class RailwayStationPhotosSDK {
         const makeContext = utility.makeContext;
         const fetchdef = await this.prepare(fetchargs);
         if (fetchdef instanceof Error) {
-            return fetchdef;
+            return { ok: false, err: utility.clean(this._rootctx, fetchdef) };
         }
         let ctx = makeContext({
             opname: 'direct',
             ctrl: (fetchargs || {}).ctrl || {},
         }, this._rootctx);
         try {
+            if (true === fetchdef.signal?.aborted) {
+                throw fetchdef.signal.reason;
+            }
             const fetched = await fetcher(ctx, fetchdef.url, fetchdef);
             if (null == fetched) {
                 return { ok: false, err: ctx.error('direct_no_response', 'response: undefined') };
             }
             else if (fetched instanceof Error) {
-                return { ok: false, err: utility.clean(ctx, fetched) };
+                return { ok: false, err: utility.clean(ctx, (0, MakeRequestUtility_1.abortError)(ctx, fetched)) };
             }
             const status = fetched.status;
             // No body responses (204 No Content, 304 Not Modified) and explicit
@@ -178,30 +192,45 @@ class RailwayStationPhotosSDK {
                 : (headers || {})['content-length'];
             const noBody = 204 === status || 304 === status || '0' === String(contentLength);
             let json = undefined;
+            let err = undefined;
             if (!noBody) {
+                let text = undefined;
                 try {
-                    json = 'function' === typeof fetched.json ? await fetched.json() : fetched.json;
+                    const raw = fetched;
+                    if ('function' === typeof raw.text) {
+                        text = await raw.text();
+                        json = '' === text.trim() ? undefined : JSON.parse(text);
+                    }
+                    else {
+                        json = 'function' === typeof fetched.json ? await fetched.json() : fetched.json;
+                    }
                 }
                 catch (parseErr) {
-                    // Body wasn't valid JSON — surface the raw response rather than
-                    // throwing. data stays undefined; callers can inspect status/headers.
-                    json = undefined;
+                    if ('SyntaxError' !== parseErr?.name) {
+                        throw parseErr;
+                    }
+                    err = (0, ResultBodyUtility_1.unreadableBody)(ctx, {
+                        status, headers, text: text ?? parseErr.text, sent: fetchdef.headers,
+                        failed: 200 <= status && status < 300 ? undefined :
+                            ctx.error('request_status', 'request: ' + status + ': ' + fetched.statusText),
+                    });
                 }
             }
             return {
-                ok: status >= 200 && status < 300,
+                ok: null == err && status >= 200 && status < 300,
                 status,
                 headers: fetched.headers,
                 data: json,
+                ...(null == err ? {} : { err: utility.clean(ctx, err) }),
             };
         }
         catch (err) {
-            return { ok: false, err: utility.clean(ctx, err) };
+            return { ok: false, err: utility.clean(ctx, (0, MakeRequestUtility_1.abortError)(ctx, err)) };
         }
     }
     async graphql(query, variables, ctrl) {
         const options = this._options;
-        if (!options.allow.op.includes('graphql')) {
+        if (!(0, PrepareMethodUtility_1.allowed)(options.allow.op, 'graphql')) {
             return {
                 ok: false,
                 err: new Error('RailwayStationPhotosSDK: graphql: operation not allowed by' +
@@ -214,9 +243,6 @@ class RailwayStationPhotosSDK {
             body: { query, variables: variables || {} },
             ctrl,
         });
-        if (res instanceof Error) {
-            return res;
-        }
         // Errors are read BEFORE any status check: a GraphQL parse or validation
         // failure comes back as HTTP 400 carrying the standard { errors: [...] }
         // body, and the raw path represents a non-2xx as { ok: false } with no
@@ -245,6 +271,13 @@ class RailwayStationPhotosSDK {
     Country(entopts) {
         const self = this;
         return new CountryEntity_1.CountryEntity(self, entopts);
+    }
+    // Entity access: `client.Done().list()` / `client.Done().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    Done(entopts) {
+        const self = this;
+        return new DoneEntity_1.DoneEntity(self, entopts);
     }
     // Entity access: `client.Inbox().list()` / `client.Inbox().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity
@@ -288,12 +321,12 @@ class RailwayStationPhotosSDK {
         const self = this;
         return new PhotoEntity_1.PhotoEntity(self, entopts);
     }
-    // Entity access: `client.PhotoDownload().list()` / `client.PhotoDownload().load({ id })`.
+    // Entity access: `client.PhotoDownloadInbox().list()` / `client.PhotoDownloadInbox().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity
     // constructor as entopts), not initial entity data.
-    PhotoDownload(entopts) {
+    PhotoDownloadInbox(entopts) {
         const self = this;
-        return new PhotoDownloadEntity_1.PhotoDownloadEntity(self, entopts);
+        return new PhotoDownloadInboxEntity_1.PhotoDownloadInboxEntity(self, entopts);
     }
     // Entity access: `client.PhotoStationById().list()` / `client.PhotoStationById().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity
@@ -337,6 +370,13 @@ class RailwayStationPhotosSDK {
         const self = this;
         return new PhotographerEntity_1.PhotographerEntity(self, entopts);
     }
+    // Entity access: `client.Processed().list()` / `client.Processed().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    Processed(entopts) {
+        const self = this;
+        return new ProcessedEntity_1.ProcessedEntity(self, entopts);
+    }
     // Entity access: `client.Profile().list()` / `client.Profile().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity
     // constructor as entopts), not initial entity data.
@@ -350,6 +390,13 @@ class RailwayStationPhotosSDK {
     PublicInbox(entopts) {
         const self = this;
         return new PublicInboxEntity_1.PublicInboxEntity(self, entopts);
+    }
+    // Entity access: `client.Rejected().list()` / `client.Rejected().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    Rejected(entopts) {
+        const self = this;
+        return new RejectedEntity_1.RejectedEntity(self, entopts);
     }
     // Entity access: `client.Stat().list()` / `client.Stat().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity

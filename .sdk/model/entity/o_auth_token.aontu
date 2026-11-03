@@ -11,12 +11,43 @@ main: kit: entity: o_auth_token: {
       r: true
       t: "`$STRING`"
     }
+    client_id: {
+      h: "Client Id"
+      n: "client_id"
+      r: true
+      t: "`$STRING`"
+    }
+    code: {
+      h: "Code"
+      n: "code"
+      r: false
+      t: "`$STRING`"
+    }
+    code_verifier: {
+      h: "Code Verifier"
+      n: "code_verifier"
+      r: false
+      t: "`$STRING`"
+    }
     expires_in: {
       fo: "int64"
       h: "Expires In"
       n: "expires_in"
       r: false
       t: "`$INTEGER`"
+    }
+    grant_type: {
+      h: "Grant Type"
+      n: "grant_type"
+      r: true
+      t: "`$STRING`"
+    }
+    redirect_uri: {
+      fo: "uri"
+      h: "Redirect Uri"
+      n: "redirect_uri"
+      r: true
+      t: "`$STRING`"
     }
     refresh_token: {
       h: "Refresh Token"
@@ -66,6 +97,34 @@ main: kit: entity: o_auth_token: {
             exist: [
               "authorization"
             ]
+          }
+          rb: {
+            fields: [
+              {
+                name: "client_id"
+              }
+              {
+                name: "code"
+              }
+              {
+                name: "code_verifier"
+              }
+              {
+                name: "grant_type"
+              }
+              {
+                name: "redirect_uri"
+              }
+              {
+                name: "refresh_token"
+              }
+            ]
+            kind: "form"
+            media: "application/x-www-form-urlencoded"
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

@@ -94,10 +94,9 @@ main: kit: entity: country: {
           }
           m: "GET"
           o: "/countries"
-          q: {
-            exist: [
-              "only_active"
-            ]
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

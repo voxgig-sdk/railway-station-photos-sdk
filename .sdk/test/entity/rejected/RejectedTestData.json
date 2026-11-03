@@ -1,0 +1,27 @@
+{
+  "existing": {
+    "rejected": {
+      "REJECTED00": {
+        "id": "REJECTED00"
+      },
+      "REJECTED01": {
+        "id": "REJECTED01"
+      },
+      "REJECTED02": {
+        "id": "REJECTED02"
+      }
+    }
+  },
+  "new": {
+    "rejected": {
+      "rejected_ref01": {}
+    }
+  },
+  "requests": {
+    "GET /inbox/rejected/{filename}": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

@@ -15,7 +15,7 @@ keeps the cognitive load low.
 
 ## Install
 This package is not yet published to PyPI. Install it from the GitHub
-release tag (`py/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/railway-station-photos-sdk/releases)) or
+release tag (`py/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/railway-station-photos-sdk/tags)) or
 from a source checkout:
 
 ```bash
@@ -36,24 +36,11 @@ from railwaystationphotos_sdk import RailwayStationPhotosSDK
 client = RailwayStationPhotosSDK()
 ```
 
-### 3. Load a photodownload
-
-PhotoDownload is nested under filename, so provide the `filename`.
-`load()` returns the ENTITY — call data_get() for the record — and raises on error.
-
-```python
-try:
-    photodownload = client.PhotoDownload().load({"filename": "example_filename"})
-    print(photodownload)
-except Exception as err:
-    print(f"load failed: {err}")
-```
-
 ### 4. Create, update, and remove
 
 ```python
 # Create — returns the ENTITY (call data_get() for the record)
-created = client.AdminInbox().create({"command": "example_command", "id": 1, "message": "example_message", "status": 1})
+created = client.AdminInbox().create({"command": "example_command", "id": 1})
 
 ```
 
@@ -65,7 +52,7 @@ Entity operations raise on failure, so wrap them in `try` / `except`:
 ```python
 try:
     publicinboxs = client.PublicInbox().list()
-    print(publicinboxs)
+    print([item.data_get() for item in publicinboxs])
 except Exception as err:
     print(f"list failed: {err}")
 ```
@@ -131,10 +118,9 @@ Create a mock client for unit testing — no server required:
 ```python
 client = RailwayStationPhotosSDK.test()
 
-# Entity ops return the ENTITY and raises on error;
-# call data_get() for the record.
+# Entity ops return the entity, and list one per record; they raise on error.
 publicinbox = client.PublicInbox().list()
-# publicinbox contains the mock response record
+# data_get() on an entity reads its mock response record
 ```
 
 ### Use a custom fetch function
@@ -212,21 +198,24 @@ Creates a test-mode client with mock transport. Both arguments may be `None`.
 | `direct` | `(fetchargs) -> dict` | Build and send an HTTP request. Returns a result dict (branch on `ok`). |
 | `AdminInbox` | `(data) -> AdminInboxEntity` | Create an AdminInbox entity instance. |
 | `Country` | `(data) -> CountryEntity` | Create a Country entity instance. |
+| `Done` | `(data) -> DoneEntity` | Create a Done entity instance. |
 | `Inbox` | `(data) -> InboxEntity` | Create an Inbox entity instance. |
 | `InboxCount` | `(data) -> InboxCountEntity` | Create an InboxCount entity instance. |
 | `InboxEntry` | `(data) -> InboxEntryEntity` | Create an InboxEntry entity instance. |
 | `OAuthToken` | `(data) -> OAuthTokenEntity` | Create an OAuthToken entity instance. |
 | `Oauth` | `(data) -> OauthEntity` | Create an Oauth entity instance. |
 | `Photo` | `(data) -> PhotoEntity` | Create a Photo entity instance. |
-| `PhotoDownload` | `(data) -> PhotoDownloadEntity` | Create a PhotoDownload entity instance. |
+| `PhotoDownloadInbox` | `(data) -> PhotoDownloadInboxEntity` | Create a PhotoDownloadInbox entity instance. |
 | `PhotoStationById` | `(data) -> PhotoStationByIdEntity` | Create a PhotoStationById entity instance. |
 | `PhotoStationsByCountry` | `(data) -> PhotoStationsByCountryEntity` | Create a PhotoStationsByCountry entity instance. |
 | `PhotoStationsByPhotographer` | `(data) -> PhotoStationsByPhotographerEntity` | Create a PhotoStationsByPhotographer entity instance. |
 | `PhotoStationsByRecentPhotoImport` | `(data) -> PhotoStationsByRecentPhotoImportEntity` | Create a PhotoStationsByRecentPhotoImport entity instance. |
 | `PhotoUpload` | `(data) -> PhotoUploadEntity` | Create a PhotoUpload entity instance. |
 | `Photographer` | `(data) -> PhotographerEntity` | Create a Photographer entity instance. |
+| `Processed` | `(data) -> ProcessedEntity` | Create a Processed entity instance. |
 | `Profile` | `(data) -> ProfileEntity` | Create a Profile entity instance. |
 | `PublicInbox` | `(data) -> PublicInboxEntity` | Create a PublicInbox entity instance. |
+| `Rejected` | `(data) -> RejectedEntity` | Create a Rejected entity instance. |
 | `Stat` | `(data) -> StatEntity` | Create a Stat entity instance. |
 
 ### Entity interface
@@ -235,10 +224,10 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria. Raises on error. |
-| `list` | `(reqmatch, ctrl) -> list` | List entities matching the criteria. Raises on error. |
-| `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
-| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity. Raises on error. |
+| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria, and return it. Raises on error. |
+| `list` | `(reqmatch, ctrl) -> list` | List entities matching the criteria, one per record. Raises on error. |
+| `create` | `(reqdata, ctrl) -> any` | Create a new entity, and return it. Raises on error. |
+| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity, and return it marked as deleted. Raises on error. |
 | `data_get` | `() -> dict` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> dict` | Get entity match criteria. |
@@ -248,9 +237,9 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data_get() for the record) (a `dict` for single-entity
-ops, a `list` for `list`) and raise on error. Wrap calls in
-`try`/`except` to handle failures.
+Entity operations return the entity, and `list` a `list` of entities, one
+per record; an entity's `data_get()` reads its record (a `dict`). They raise
+on error, so wrap calls in `try`/`except` to handle failures.
 
 The `direct()` escape hatch never raises — it returns a result `dict`
 you branch on via `result["ok"]`:
@@ -306,6 +295,16 @@ Operations: List.
 
 API path: `/countries`
 
+#### Done
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: Load.
+
+API path: `/inbox/done/{filename}`
+
 #### Inbox
 
 | Field | Description |
@@ -317,21 +316,24 @@ API path: `/countries`
 | `filename` | filename in inbox |
 | `id` |  |
 | `inboxUrl` | url of the photo in the inbox |
-| `lat` |  |
-| `lon` |  |
+| `inbox_state_queries` | Inbox state query request |
+| `lat` | new latitude value for the station |
+| `lon` | new longitude value for the station |
 | `message` |  |
 | `newLat` |  |
 | `newLon` |  |
 | `newTitle` |  |
+| `photoId` | Unique id of a photo, can be used for WRONG_PHOTO and PHOTO_OUTDATED type. |
 | `problemReportType` | types of problem reports |
 | `rejectedReason` |  |
 | `state` |  |
 | `stationId` |  |
-| `title` |  |
+| `title` | a new title for the station |
+| `type` | types of problem reports |
 
 Operations: Create, List, Remove.
 
-API path: `/reportProblem`
+API path: `/userInbox`
 
 #### InboxCount
 
@@ -379,7 +381,12 @@ API path: `/adminInbox`
 | Field | Description |
 | --- | --- |
 | `access_token` |  |
+| `client_id` |  |
+| `code` |  |
+| `code_verifier` |  |
 | `expires_in` |  |
+| `grant_type` |  |
+| `redirect_uri` |  |
 | `refresh_token` |  |
 | `scope` |  |
 | `token_type` |  |
@@ -392,6 +399,8 @@ API path: `/oauth2/token`
 
 | Field | Description |
 | --- | --- |
+| `token` |  |
+| `token_type_hint` |  |
 
 Operations: Create, Load.
 
@@ -407,14 +416,15 @@ Operations: Load.
 
 API path: `/photos/{country}/{filename}`
 
-#### PhotoDownload
+#### PhotoDownloadInbox
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 
 Operations: Load.
 
-API path: `/inbox/done/{filename}`
+API path: `/inbox/{filename}`
 
 #### PhotoStationById
 
@@ -495,6 +505,16 @@ Operations: Load.
 
 API path: `/photographers`
 
+#### Processed
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: Load.
+
+API path: `/inbox/processed/{filename}`
+
 #### Profile
 
 | Field | Description |
@@ -527,6 +547,16 @@ API path: `/changePassword`
 Operations: List.
 
 API path: `/publicInbox`
+
+#### Rejected
+
+| Field | Description |
+| --- | --- |
+| `id` |  |
+
+Operations: Load.
+
+API path: `/inbox/rejected/{filename}`
 
 #### Stat
 
@@ -581,8 +611,6 @@ Create an instance: `admin_inbox = client.AdminInbox()`
 admin_inbox = client.AdminInbox().create({
     "command": "example_command",  # str
     "id": 1,  # int
-    "message": "example_message",  # str
-    "status": 1,  # int
 })
 ```
 
@@ -618,6 +646,29 @@ countrys = client.Country().list()
 ```
 
 
+### Done
+
+Create an instance: `done = client.Done()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `str` |  |
+
+#### Example: Load
+
+```python
+done = client.Done().load({"id": "done_id"})
+```
+
+
 ### Inbox
 
 Create an instance: `inbox = client.Inbox()`
@@ -641,17 +692,20 @@ Create an instance: `inbox = client.Inbox()`
 | `filename` | `str` | filename in inbox |
 | `id` | `int` |  |
 | `inboxUrl` | `str` | url of the photo in the inbox |
-| `lat` | `float` |  |
-| `lon` | `float` |  |
+| `inbox_state_queries` | `list` | Inbox state query request |
+| `lat` | `float` | new latitude value for the station |
+| `lon` | `float` | new longitude value for the station |
 | `message` | `str` |  |
 | `newLat` | `float` |  |
 | `newLon` | `float` |  |
 | `newTitle` | `str` |  |
+| `photoId` | `int` | Unique id of a photo, can be used for WRONG_PHOTO and PHOTO_OUTDATED type. |
 | `problemReportType` | `str` | types of problem reports |
 | `rejectedReason` | `str` |  |
 | `state` | `str` |  |
 | `stationId` | `str` |  |
-| `title` | `str` |  |
+| `title` | `str` | a new title for the station |
+| `type` | `str` | types of problem reports |
 
 #### Example: List
 
@@ -663,7 +717,10 @@ inboxs = client.Inbox().list()
 
 ```python
 inbox = client.Inbox().create({
-    "state": "example_state",  # str
+    "comment": "example_comment",  # str
+    "countryCode": "example_countryCode",  # str
+    "stationId": "example_stationId",  # str
+    "type": "example_type",  # str
 })
 ```
 
@@ -750,7 +807,12 @@ Create an instance: `o_auth_token = client.OAuthToken()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `access_token` | `str` |  |
+| `client_id` | `str` |  |
+| `code` | `str` |  |
+| `code_verifier` | `str` |  |
 | `expires_in` | `int` |  |
+| `grant_type` | `str` |  |
+| `redirect_uri` | `str` |  |
 | `refresh_token` | `str` |  |
 | `scope` | `str` |  |
 | `token_type` | `str` |  |
@@ -760,6 +822,9 @@ Create an instance: `o_auth_token = client.OAuthToken()`
 ```python
 o_auth_token = client.OAuthToken().create({
     "access_token": "example_access_token",  # str
+    "client_id": "example_client_id",  # str
+    "grant_type": "example_grant_type",  # str
+    "redirect_uri": "example_redirect_uri",  # str
     "scope": "example_scope",  # str
     "token_type": "example_token_type",  # str
 })
@@ -777,6 +842,13 @@ Create an instance: `oauth = client.Oauth()`
 | `create(data)` | Create a new entity with the given data. |
 | `load(match)` | Load a single entity by match criteria. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `token` | `str` |  |
+| `token_type_hint` | `str` |  |
+
 #### Example: Load
 
 ```python
@@ -787,6 +859,7 @@ oauth = client.Oauth().load({"client_id": "client_id", "redirect_uri": "redirect
 
 ```python
 oauth = client.Oauth().create({
+    "token": "example_token",  # str
 })
 ```
 
@@ -814,9 +887,9 @@ photo = client.Photo().load({"country": "country", "filename": "filename"})
 ```
 
 
-### PhotoDownload
+### PhotoDownloadInbox
 
-Create an instance: `photo_download = client.PhotoDownload()`
+Create an instance: `photo_download_inbox = client.PhotoDownloadInbox()`
 
 #### Operations
 
@@ -824,10 +897,16 @@ Create an instance: `photo_download = client.PhotoDownload()`
 | --- | --- |
 | `load(match)` | Load a single entity by match criteria. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `str` |  |
+
 #### Example: Load
 
 ```python
-photo_download = client.PhotoDownload().load({"filename": "filename"})
+photo_download_inbox = client.PhotoDownloadInbox().load({"id": "photo_download_inbox_id"})
 ```
 
 
@@ -985,6 +1064,29 @@ photographer = client.Photographer().load()
 ```
 
 
+### Processed
+
+Create an instance: `processed = client.Processed()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `str` |  |
+
+#### Example: Load
+
+```python
+processed = client.Processed().load({"id": "processed_id"})
+```
+
+
 ### Profile
 
 Create an instance: `profile = client.Profile()`
@@ -1022,10 +1124,9 @@ profile = client.Profile().load({"token": "token"})
 
 ```python
 profile = client.Profile().create({
-    "license": "example_license",  # str
+    "email": "example_email",  # str
     "newPassword": "example_newPassword",  # str
     "nickname": "example_nickname",  # str
-    "photoOwner": True,  # bool
 })
 ```
 
@@ -1054,6 +1155,29 @@ Create an instance: `public_inbox = client.PublicInbox()`
 
 ```python
 public_inboxs = client.PublicInbox().list()
+```
+
+
+### Rejected
+
+Create an instance: `rejected = client.Rejected()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `str` |  |
+
+#### Example: Load
+
+```python
+rejected = client.Rejected().load({"id": "rejected_id"})
 ```
 
 

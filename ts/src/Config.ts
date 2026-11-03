@@ -102,6 +102,7 @@ class Config {
       },
       "optspec": {
         "clearTimer": "`$FUNCTION`",
+        "now": "`$FUNCTION`",
         "setTimer": "`$FUNCTION`"
       },
       "strict": false,
@@ -126,6 +127,9 @@ class Config {
         country: {
         },
   
+        done: {
+        },
+  
         inbox: {
         },
   
@@ -144,7 +148,7 @@ class Config {
         photo: {
         },
   
-        photo_download: {
+        photo_download_inbox: {
         },
   
         photo_station_by_id: {
@@ -165,10 +169,16 @@ class Config {
         photographer: {
         },
   
+        processed: {
+        },
+  
         profile: {
         },
   
         public_inbox: {
+        },
+  
+        rejected: {
         },
   
         stat: {
@@ -303,6 +313,10 @@ class Config {
                 "exist": [
                   "authorization"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -406,10 +420,101 @@ class Config {
                   }
                 ]
               },
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
+            }
+          ]
+        }
+      },
+      "relations": {
+        "ancestors": []
+      }
+    },
+    "done": {
+      "fields": [
+        {
+          "name": "id",
+          "title": "Id",
+          "type": "`$STRING`"
+        }
+      ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
+      "name": "done",
+      "op": {
+        "load": {
+          "input": "data",
+          "name": "load",
+          "points": [
+            {
+              "kind": "http",
+              "method": "GET",
+              "orig": "/inbox/done/{filename}",
+              "segments": [
+                {
+                  "lit": "inbox"
+                },
+                {
+                  "lit": "done"
+                },
+                {
+                  "var": "id"
+                }
+              ],
+              "parts": [
+                "inbox",
+                "done",
+                "{id}"
+              ],
+              "rename": {
+                "param": {
+                  "filename": "id"
+                }
+              },
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "filename",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ],
+                "query": [
+                  {
+                    "name": "width",
+                    "orig": "width",
+                    "type": "`$INTEGER`",
+                    "kind": "query"
+                  }
+                ]
+              },
               "select": {
                 "exist": [
-                  "only_active"
+                  "id"
                 ]
+              },
+              "response": {
+                "alternatives": [
+                  {
+                    "binary": true,
+                    "kind": "raw",
+                    "media": "image/png"
+                  }
+                ],
+                "binary": true,
+                "kind": "raw",
+                "media": "image/jpeg"
               }
             }
           ]
@@ -424,12 +529,24 @@ class Config {
         {
           "name": "comment",
           "title": "Comment",
-          "type": "`$STRING`"
+          "type": "`$STRING`",
+          "req": true,
+          "op": {
+            "list": {
+              "type": "`$STRING`"
+            }
+          }
         },
         {
           "name": "countryCode",
           "title": "Country Code",
           "type": "`$STRING`",
+          "req": true,
+          "op": {
+            "list": {
+              "type": "`$STRING`"
+            }
+          },
           "short": "a two character country code"
         },
         {
@@ -470,15 +587,23 @@ class Config {
           "short": "url of the photo in the inbox"
         },
         {
+          "name": "inbox_state_queries",
+          "title": "Inbox State Queries",
+          "type": "`$ARRAY`",
+          "short": "Inbox state query request"
+        },
+        {
           "name": "lat",
           "title": "Lat",
           "type": "`$NUMBER`",
+          "short": "new latitude value for the station",
           "format": "double"
         },
         {
           "name": "lon",
           "title": "Lon",
           "type": "`$NUMBER`",
+          "short": "new longitude value for the station",
           "format": "double"
         },
         {
@@ -504,6 +629,13 @@ class Config {
           "type": "`$STRING`"
         },
         {
+          "name": "photoId",
+          "title": "Photo Id",
+          "type": "`$INTEGER`",
+          "short": "Unique id of a photo, can be used for WRONG_PHOTO and PHOTO_OUTDATED type.",
+          "format": "int64"
+        },
+        {
           "name": "problemReportType",
           "title": "Problem Report Type",
           "type": "`$STRING`",
@@ -523,12 +655,26 @@ class Config {
         {
           "name": "stationId",
           "title": "Station Id",
-          "type": "`$STRING`"
+          "type": "`$STRING`",
+          "req": true,
+          "op": {
+            "list": {
+              "type": "`$STRING`"
+            }
+          }
         },
         {
           "name": "title",
           "title": "Title",
-          "type": "`$STRING`"
+          "type": "`$STRING`",
+          "short": "a new title for the station"
+        },
+        {
+          "name": "type",
+          "title": "Type",
+          "type": "`$STRING`",
+          "req": true,
+          "short": "types of problem reports"
         }
       ],
       "id": {
@@ -541,6 +687,45 @@ class Config {
           "input": "data",
           "name": "create",
           "points": [
+            {
+              "kind": "http",
+              "method": "POST",
+              "orig": "/userInbox",
+              "segments": [
+                {
+                  "lit": "userInbox"
+                }
+              ],
+              "parts": [
+                "userInbox"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata.inbox_state_queries`",
+                "res": "`body`"
+              },
+              "args": {
+                "header": [
+                  {
+                    "name": "authorization",
+                    "orig": "Authorization",
+                    "type": "`$STRING`",
+                    "kind": "header",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "authorization",
+                  "inbox_state_queries"
+                ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
+            },
             {
               "kind": "http",
               "method": "POST",
@@ -573,40 +758,10 @@ class Config {
                 "exist": [
                   "authorization"
                 ]
-              }
-            },
-            {
-              "kind": "http",
-              "method": "POST",
-              "orig": "/userInbox",
-              "segments": [
-                {
-                  "lit": "userInbox"
-                }
-              ],
-              "parts": [
-                "userInbox"
-              ],
-              "rename": {},
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
               },
-              "args": {
-                "header": [
-                  {
-                    "name": "authorization",
-                    "orig": "Authorization",
-                    "type": "`$STRING`",
-                    "kind": "header",
-                    "reqd": true
-                  }
-                ]
-              },
-              "select": {
-                "exist": [
-                  "authorization"
-                ]
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -653,9 +808,12 @@ class Config {
               },
               "select": {
                 "exist": [
-                  "authorization",
-                  "show_completed_entry"
+                  "authorization"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -743,7 +901,11 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         }
@@ -930,6 +1092,10 @@ class Config {
                 "exist": [
                   "authorization"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -948,10 +1114,39 @@ class Config {
           "req": true
         },
         {
+          "name": "client_id",
+          "title": "Client Id",
+          "type": "`$STRING`",
+          "req": true
+        },
+        {
+          "name": "code",
+          "title": "Code",
+          "type": "`$STRING`"
+        },
+        {
+          "name": "code_verifier",
+          "title": "Code Verifier",
+          "type": "`$STRING`"
+        },
+        {
           "name": "expires_in",
           "title": "Expires In",
           "type": "`$INTEGER`",
           "format": "int64"
+        },
+        {
+          "name": "grant_type",
+          "title": "Grant Type",
+          "type": "`$STRING`",
+          "req": true
+        },
+        {
+          "name": "redirect_uri",
+          "title": "Redirect Uri",
+          "type": "`$STRING`",
+          "req": true,
+          "format": "uri"
         },
         {
           "name": "refresh_token",
@@ -1013,6 +1208,34 @@ class Config {
                 "exist": [
                   "authorization"
                 ]
+              },
+              "body": {
+                "fields": [
+                  {
+                    "name": "client_id"
+                  },
+                  {
+                    "name": "code"
+                  },
+                  {
+                    "name": "code_verifier"
+                  },
+                  {
+                    "name": "grant_type"
+                  },
+                  {
+                    "name": "redirect_uri"
+                  },
+                  {
+                    "name": "refresh_token"
+                  }
+                ],
+                "kind": "form",
+                "media": "application/x-www-form-urlencoded"
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -1023,7 +1246,19 @@ class Config {
       }
     },
     "oauth": {
-      "fields": [],
+      "fields": [
+        {
+          "name": "token",
+          "title": "Token",
+          "type": "`$STRING`",
+          "req": true
+        },
+        {
+          "name": "token_type_hint",
+          "title": "Token Type Hint",
+          "type": "`$STRING`"
+        }
+      ],
       "name": "oauth",
       "op": {
         "create": {
@@ -1066,6 +1301,18 @@ class Config {
                 "exist": [
                   "authorization"
                 ]
+              },
+              "body": {
+                "fields": [
+                  {
+                    "name": "token"
+                  },
+                  {
+                    "name": "token_type_hint"
+                  }
+                ],
+                "kind": "form",
+                "media": "application/x-www-form-urlencoded"
               }
             }
           ]
@@ -1148,12 +1395,9 @@ class Config {
               "select": {
                 "exist": [
                   "client_id",
-                  "code_challenge",
-                  "code_challenge_method",
                   "redirect_uri",
                   "response_type",
-                  "scope",
-                  "state"
+                  "scope"
                 ]
               }
             }
@@ -1241,9 +1485,20 @@ class Config {
               "select": {
                 "exist": [
                   "country",
-                  "filename",
-                  "width"
+                  "filename"
                 ]
+              },
+              "response": {
+                "alternatives": [
+                  {
+                    "binary": true,
+                    "kind": "raw",
+                    "media": "image/png"
+                  }
+                ],
+                "binary": true,
+                "kind": "raw",
+                "media": "image/jpeg"
               }
             }
           ]
@@ -1253,167 +1508,24 @@ class Config {
         "ancestors": []
       }
     },
-    "photo_download": {
-      "fields": [],
-      "name": "photo_download",
+    "photo_download_inbox": {
+      "fields": [
+        {
+          "name": "id",
+          "title": "Id",
+          "type": "`$STRING`"
+        }
+      ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
+      "name": "photo_download_inbox",
       "op": {
         "load": {
           "input": "data",
           "name": "load",
           "points": [
-            {
-              "kind": "http",
-              "method": "GET",
-              "orig": "/inbox/done/{filename}",
-              "segments": [
-                {
-                  "lit": "inbox"
-                },
-                {
-                  "lit": "done"
-                },
-                {
-                  "var": "filename"
-                }
-              ],
-              "parts": [
-                "inbox",
-                "done",
-                "{filename}"
-              ],
-              "rename": {},
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "args": {
-                "params": [
-                  {
-                    "name": "filename",
-                    "orig": "filename",
-                    "type": "`$STRING`",
-                    "kind": "param",
-                    "reqd": true
-                  }
-                ],
-                "query": [
-                  {
-                    "name": "width",
-                    "orig": "width",
-                    "type": "`$INTEGER`",
-                    "kind": "query"
-                  }
-                ]
-              },
-              "select": {
-                "exist": [
-                  "filename",
-                  "width"
-                ]
-              }
-            },
-            {
-              "kind": "http",
-              "method": "GET",
-              "orig": "/inbox/processed/{filename}",
-              "segments": [
-                {
-                  "lit": "inbox"
-                },
-                {
-                  "lit": "processed"
-                },
-                {
-                  "var": "filename"
-                }
-              ],
-              "parts": [
-                "inbox",
-                "processed",
-                "{filename}"
-              ],
-              "rename": {},
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "args": {
-                "params": [
-                  {
-                    "name": "filename",
-                    "orig": "filename",
-                    "type": "`$STRING`",
-                    "kind": "param",
-                    "reqd": true
-                  }
-                ],
-                "query": [
-                  {
-                    "name": "width",
-                    "orig": "width",
-                    "type": "`$INTEGER`",
-                    "kind": "query"
-                  }
-                ]
-              },
-              "select": {
-                "exist": [
-                  "filename",
-                  "width"
-                ]
-              }
-            },
-            {
-              "kind": "http",
-              "method": "GET",
-              "orig": "/inbox/rejected/{filename}",
-              "segments": [
-                {
-                  "lit": "inbox"
-                },
-                {
-                  "lit": "rejected"
-                },
-                {
-                  "var": "filename"
-                }
-              ],
-              "parts": [
-                "inbox",
-                "rejected",
-                "{filename}"
-              ],
-              "rename": {},
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "args": {
-                "params": [
-                  {
-                    "name": "filename",
-                    "orig": "filename",
-                    "type": "`$STRING`",
-                    "kind": "param",
-                    "reqd": true
-                  }
-                ],
-                "query": [
-                  {
-                    "name": "width",
-                    "orig": "width",
-                    "type": "`$INTEGER`",
-                    "kind": "query"
-                  }
-                ]
-              },
-              "select": {
-                "exist": [
-                  "filename",
-                  "width"
-                ]
-              }
-            },
             {
               "kind": "http",
               "method": "GET",
@@ -1423,14 +1535,18 @@ class Config {
                   "lit": "inbox"
                 },
                 {
-                  "var": "filename"
+                  "var": "id"
                 }
               ],
               "parts": [
                 "inbox",
-                "{filename}"
+                "{id}"
               ],
-              "rename": {},
+              "rename": {
+                "param": {
+                  "filename": "id"
+                }
+              },
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
@@ -1438,7 +1554,7 @@ class Config {
               "args": {
                 "params": [
                   {
-                    "name": "filename",
+                    "name": "id",
                     "orig": "filename",
                     "type": "`$STRING`",
                     "kind": "param",
@@ -1456,20 +1572,27 @@ class Config {
               },
               "select": {
                 "exist": [
-                  "filename",
-                  "width"
+                  "id"
                 ]
+              },
+              "response": {
+                "alternatives": [
+                  {
+                    "binary": true,
+                    "kind": "raw",
+                    "media": "image/png"
+                  }
+                ],
+                "binary": true,
+                "kind": "raw",
+                "media": "image/jpeg"
               }
             }
           ]
         }
       },
       "relations": {
-        "ancestors": [
-          [
-            "$.main.kit.entity.inbox"
-          ]
-        ]
+        "ancestors": []
       }
     },
     "photo_station_by_id": {
@@ -1571,6 +1694,10 @@ class Config {
                   "country",
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -1678,10 +1805,12 @@ class Config {
               },
               "select": {
                 "exist": [
-                  "has_photo",
-                  "id",
-                  "is_active"
+                  "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -1783,9 +1912,12 @@ class Config {
               },
               "select": {
                 "exist": [
-                  "country",
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -1860,10 +1992,10 @@ class Config {
                   }
                 ]
               },
-              "select": {
-                "exist": [
-                  "since_hour"
-                ]
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -1961,13 +2093,6 @@ class Config {
                     "kind": "header"
                   },
                   {
-                    "name": "content_type",
-                    "orig": "Content-Type",
-                    "type": "`$STRING`",
-                    "kind": "header",
-                    "reqd": true
-                  },
-                  {
                     "name": "country",
                     "orig": "Country",
                     "type": "`$STRING`",
@@ -2001,16 +2126,26 @@ class Config {
               },
               "select": {
                 "exist": [
-                  "active",
-                  "authorization",
-                  "comment",
-                  "content_type",
-                  "country",
-                  "latitude",
-                  "longitude",
-                  "station_id",
-                  "station_title"
+                  "authorization"
                 ]
+              },
+              "body": {
+                "alternatives": [
+                  {
+                    "kind": "raw",
+                    "media": "image/jpeg"
+                  },
+                  {
+                    "kind": "raw",
+                    "media": "image/png"
+                  }
+                ],
+                "kind": "raw",
+                "media": "application/octet-stream"
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -2055,10 +2190,101 @@ class Config {
                   }
                 ]
               },
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
+            }
+          ]
+        }
+      },
+      "relations": {
+        "ancestors": []
+      }
+    },
+    "processed": {
+      "fields": [
+        {
+          "name": "id",
+          "title": "Id",
+          "type": "`$STRING`"
+        }
+      ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
+      "name": "processed",
+      "op": {
+        "load": {
+          "input": "data",
+          "name": "load",
+          "points": [
+            {
+              "kind": "http",
+              "method": "GET",
+              "orig": "/inbox/processed/{filename}",
+              "segments": [
+                {
+                  "lit": "inbox"
+                },
+                {
+                  "lit": "processed"
+                },
+                {
+                  "var": "id"
+                }
+              ],
+              "parts": [
+                "inbox",
+                "processed",
+                "{id}"
+              ],
+              "rename": {
+                "param": {
+                  "filename": "id"
+                }
+              },
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "filename",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ],
+                "query": [
+                  {
+                    "name": "width",
+                    "orig": "width",
+                    "type": "`$INTEGER`",
+                    "kind": "query"
+                  }
+                ]
+              },
               "select": {
                 "exist": [
-                  "country"
+                  "id"
                 ]
+              },
+              "response": {
+                "alternatives": [
+                  {
+                    "binary": true,
+                    "kind": "raw",
+                    "media": "image/png"
+                  }
+                ],
+                "binary": true,
+                "kind": "raw",
+                "media": "image/jpeg"
               }
             }
           ]
@@ -2290,6 +2516,10 @@ class Config {
                 "exist": [
                   "authorization"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             },
             {
@@ -2328,6 +2558,10 @@ class Config {
                 "exist": [
                   "token"
                 ]
+              },
+              "response": {
+                "kind": "raw",
+                "media": "text/plain"
               }
             }
           ]
@@ -2435,7 +2669,102 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
+            }
+          ]
+        }
+      },
+      "relations": {
+        "ancestors": []
+      }
+    },
+    "rejected": {
+      "fields": [
+        {
+          "name": "id",
+          "title": "Id",
+          "type": "`$STRING`"
+        }
+      ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
+      "name": "rejected",
+      "op": {
+        "load": {
+          "input": "data",
+          "name": "load",
+          "points": [
+            {
+              "kind": "http",
+              "method": "GET",
+              "orig": "/inbox/rejected/{filename}",
+              "segments": [
+                {
+                  "lit": "inbox"
+                },
+                {
+                  "lit": "rejected"
+                },
+                {
+                  "var": "id"
+                }
+              ],
+              "parts": [
+                "inbox",
+                "rejected",
+                "{id}"
+              ],
+              "rename": {
+                "param": {
+                  "filename": "id"
+                }
+              },
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "filename",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ],
+                "query": [
+                  {
+                    "name": "width",
+                    "orig": "width",
+                    "type": "`$INTEGER`",
+                    "kind": "query"
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              },
+              "response": {
+                "alternatives": [
+                  {
+                    "binary": true,
+                    "kind": "raw",
+                    "media": "image/png"
+                  }
+                ],
+                "binary": true,
+                "kind": "raw",
+                "media": "image/jpeg"
+              }
             }
           ]
         }
@@ -2514,10 +2843,10 @@ class Config {
                   }
                 ]
               },
-              "select": {
-                "exist": [
-                  "country"
-                ]
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]

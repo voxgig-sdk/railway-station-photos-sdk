@@ -1,0 +1,27 @@
+{
+  "existing": {
+    "processed": {
+      "PROCESSED00": {
+        "id": "PROCESSED00"
+      },
+      "PROCESSED01": {
+        "id": "PROCESSED01"
+      },
+      "PROCESSED02": {
+        "id": "PROCESSED02"
+      }
+    }
+  },
+  "new": {
+    "processed": {
+      "processed_ref01": {}
+    }
+  },
+  "requests": {
+    "GET /inbox/processed/{filename}": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

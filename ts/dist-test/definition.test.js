@@ -19,7 +19,12 @@ const PLAN = [
             "authorization": "v1"
         },
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": null,
         "status": 200,
         "sample": {
@@ -39,8 +44,18 @@ const PLAN = [
             "only_active": "v1"
         },
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [
             "onlyActive"
+        ],
+        "queryArgs": [
+            {
+                "name": "only_active",
+                "wire": "onlyActive"
+            }
         ],
         "auth": null,
         "status": 200,
@@ -66,6 +81,114 @@ const PLAN = [
         "idField": "id"
     },
     {
+        "entity": "done",
+        "accessor": "Done",
+        "op": "load",
+        "method": "GET",
+        "path": "/inbox/done/{filename}",
+        "args": [
+            {
+                "name": "id",
+                "wire": "filename",
+                "value": "p1"
+            }
+        ],
+        "select": {
+            "width": "v1"
+        },
+        "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "image/jpeg",
+            "image/png"
+        ],
+        "query": [
+            "width"
+        ],
+        "queryArgs": [
+            {
+                "name": "width",
+                "wire": "width"
+            }
+        ],
+        "auth": null,
+        "status": 200,
+        "sample": null,
+        "idField": "id"
+    },
+    {
+        "entity": "inbox",
+        "accessor": "Inbox",
+        "op": "create",
+        "method": "POST",
+        "path": "/userInbox",
+        "args": [],
+        "select": {
+            "authorization": "v1",
+            "inbox_state_queries": "v1"
+        },
+        "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
+        "query": [],
+        "queryArgs": [],
+        "auth": null,
+        "status": 200,
+        "sample": [
+            {
+                "id": 1,
+                "countryCode": "x",
+                "stationId": "x",
+                "title": "x",
+                "lat": 1,
+                "lon": 1,
+                "newTitle": "x",
+                "newLat": 1,
+                "newLon": 1,
+                "comment": "x",
+                "problemReportType": "WRONG_LOCATION",
+                "rejectedReason": "x",
+                "filename": "x",
+                "inboxUrl": "x",
+                "crc32": 1,
+                "state": "UNKNOWN",
+                "createdAt": 1
+            }
+        ],
+        "idField": "id"
+    },
+    {
+        "entity": "inbox",
+        "accessor": "Inbox",
+        "op": "create",
+        "method": "POST",
+        "path": "/reportProblem",
+        "args": [],
+        "select": {
+            "authorization": "v1"
+        },
+        "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
+        "query": [],
+        "queryArgs": [],
+        "auth": null,
+        "status": 202,
+        "sample": {
+            "state": "REVIEW",
+            "message": "x",
+            "id": 1,
+            "filename": "x",
+            "inboxUrl": "x",
+            "crc32": 1
+        },
+        "idField": "id"
+    },
+    {
         "entity": "inbox",
         "accessor": "Inbox",
         "op": "list",
@@ -77,8 +200,18 @@ const PLAN = [
             "show_completed_entry": "v1"
         },
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [
             "showCompletedEntries"
+        ],
+        "queryArgs": [
+            {
+                "name": "show_completed_entry",
+                "wire": "showCompletedEntries"
+            }
         ],
         "auth": null,
         "status": 200,
@@ -120,7 +253,9 @@ const PLAN = [
         ],
         "select": {},
         "headers": [],
+        "cookies": [],
         "query": [],
+        "queryArgs": [],
         "auth": null,
         "status": 204,
         "sample": null,
@@ -135,7 +270,12 @@ const PLAN = [
         "args": [],
         "select": {},
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": null,
         "status": 200,
         "sample": {
@@ -154,7 +294,12 @@ const PLAN = [
             "authorization": "v1"
         },
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": null,
         "status": 200,
         "sample": [
@@ -196,7 +341,12 @@ const PLAN = [
             "authorization": "v1"
         },
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": null,
         "status": 200,
         "sample": {
@@ -219,7 +369,9 @@ const PLAN = [
             "authorization": "v1"
         },
         "headers": [],
+        "cookies": [],
         "query": [],
+        "queryArgs": [],
         "auth": null,
         "status": 200,
         "sample": null,
@@ -234,14 +386,15 @@ const PLAN = [
         "args": [],
         "select": {
             "client_id": "v1",
-            "code_challenge": "v1",
-            "code_challenge_method": "v1",
             "redirect_uri": "v1",
             "response_type": "v1",
             "scope": "v1",
+            "code_challenge": "v1",
+            "code_challenge_method": "v1",
             "state": "v1"
         },
         "headers": [],
+        "cookies": [],
         "query": [
             "client_id",
             "scope",
@@ -250,6 +403,36 @@ const PLAN = [
             "state",
             "code_challenge",
             "code_challenge_method"
+        ],
+        "queryArgs": [
+            {
+                "name": "client_id",
+                "wire": "client_id"
+            },
+            {
+                "name": "code_challenge",
+                "wire": "code_challenge"
+            },
+            {
+                "name": "code_challenge_method",
+                "wire": "code_challenge_method"
+            },
+            {
+                "name": "redirect_uri",
+                "wire": "redirect_uri"
+            },
+            {
+                "name": "response_type",
+                "wire": "response_type"
+            },
+            {
+                "name": "scope",
+                "wire": "scope"
+            },
+            {
+                "name": "state",
+                "wire": "state"
+            }
         ],
         "auth": null,
         "status": 200,
@@ -278,8 +461,55 @@ const PLAN = [
             "width": "v1"
         },
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "image/jpeg",
+            "image/png"
+        ],
         "query": [
             "width"
+        ],
+        "queryArgs": [
+            {
+                "name": "width",
+                "wire": "width"
+            }
+        ],
+        "auth": null,
+        "status": 200,
+        "sample": null,
+        "idField": "id"
+    },
+    {
+        "entity": "photo_download_inbox",
+        "accessor": "PhotoDownloadInbox",
+        "op": "load",
+        "method": "GET",
+        "path": "/inbox/{filename}",
+        "args": [
+            {
+                "name": "id",
+                "wire": "filename",
+                "value": "p1"
+            }
+        ],
+        "select": {
+            "width": "v1"
+        },
+        "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "image/jpeg",
+            "image/png"
+        ],
+        "query": [
+            "width"
+        ],
+        "queryArgs": [
+            {
+                "name": "width",
+                "wire": "width"
+            }
         ],
         "auth": null,
         "status": 200,
@@ -306,7 +536,12 @@ const PLAN = [
         ],
         "select": {},
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": null,
         "status": 200,
         "sample": {
@@ -328,21 +563,21 @@ const PLAN = [
                 {
                     "country": "x",
                     "id": "7054260",
-                    "inactive": true,
+                    "title": "London Victoria",
                     "lat": 1,
                     "lon": 1,
+                    "shortCode": "x",
+                    "inactive": true,
                     "photos": [
                         {
-                            "createdAt": 1,
                             "id": 1,
-                            "license": "x",
-                            "outdated": true,
+                            "photographer": "x",
                             "path": "x",
-                            "photographer": "x"
+                            "createdAt": 1,
+                            "license": "x",
+                            "outdated": true
                         }
-                    ],
-                    "shortCode": "x",
-                    "title": "London Victoria"
+                    ]
                 }
             ]
         },
@@ -366,9 +601,23 @@ const PLAN = [
             "is_active": "v1"
         },
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [
             "hasPhoto",
             "isActive"
+        ],
+        "queryArgs": [
+            {
+                "name": "has_photo",
+                "wire": "hasPhoto"
+            },
+            {
+                "name": "is_active",
+                "wire": "isActive"
+            }
         ],
         "auth": null,
         "status": 200,
@@ -391,21 +640,21 @@ const PLAN = [
                 {
                     "country": "x",
                     "id": "7054260",
-                    "inactive": true,
+                    "title": "London Victoria",
                     "lat": 1,
                     "lon": 1,
+                    "shortCode": "x",
+                    "inactive": true,
                     "photos": [
                         {
-                            "createdAt": 1,
                             "id": 1,
-                            "license": "x",
-                            "outdated": true,
+                            "photographer": "x",
                             "path": "x",
-                            "photographer": "x"
+                            "createdAt": 1,
+                            "license": "x",
+                            "outdated": true
                         }
-                    ],
-                    "shortCode": "x",
-                    "title": "London Victoria"
+                    ]
                 }
             ]
         },
@@ -428,8 +677,18 @@ const PLAN = [
             "country": "v1"
         },
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [
             "country"
+        ],
+        "queryArgs": [
+            {
+                "name": "country",
+                "wire": "country"
+            }
         ],
         "auth": null,
         "status": 200,
@@ -452,21 +711,21 @@ const PLAN = [
                 {
                     "country": "x",
                     "id": "7054260",
-                    "inactive": true,
+                    "title": "London Victoria",
                     "lat": 1,
                     "lon": 1,
+                    "shortCode": "x",
+                    "inactive": true,
                     "photos": [
                         {
-                            "createdAt": 1,
                             "id": 1,
-                            "license": "x",
-                            "outdated": true,
+                            "photographer": "x",
                             "path": "x",
-                            "photographer": "x"
+                            "createdAt": 1,
+                            "license": "x",
+                            "outdated": true
                         }
-                    ],
-                    "shortCode": "x",
-                    "title": "London Victoria"
+                    ]
                 }
             ]
         },
@@ -480,11 +739,21 @@ const PLAN = [
         "path": "/photoStationsByRecentPhotoImports",
         "args": [],
         "select": {
-            "since_hour": "v1"
+            "since_hour": 10
         },
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [
             "sinceHours"
+        ],
+        "queryArgs": [
+            {
+                "name": "since_hour",
+                "wire": "sinceHours"
+            }
         ],
         "auth": null,
         "status": 200,
@@ -507,21 +776,21 @@ const PLAN = [
                 {
                     "country": "x",
                     "id": "7054260",
-                    "inactive": true,
+                    "title": "London Victoria",
                     "lat": 1,
                     "lon": 1,
+                    "shortCode": "x",
+                    "inactive": true,
                     "photos": [
                         {
-                            "createdAt": 1,
                             "id": 1,
-                            "license": "x",
-                            "outdated": true,
+                            "photographer": "x",
                             "path": "x",
-                            "photographer": "x"
+                            "createdAt": 1,
+                            "license": "x",
+                            "outdated": true
                         }
-                    ],
-                    "shortCode": "x",
-                    "title": "London Victoria"
+                    ]
                 }
             ]
         },
@@ -535,8 +804,7 @@ const PLAN = [
         "path": "/photoUpload",
         "args": [],
         "select": {
-            "authorization": "v1",
-            "content_type": "v1"
+            "authorization": "v1"
         },
         "headers": [
             {
@@ -575,7 +843,20 @@ const PLAN = [
                 "value": "h7"
             }
         ],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
+        "rawBody": {
+            "media": [
+                "image/jpeg",
+                "image/png",
+                "application/octet-stream"
+            ],
+            "text": false
+        },
         "query": [],
+        "queryArgs": [],
         "auth": null,
         "status": 202,
         "sample": {
@@ -599,12 +880,58 @@ const PLAN = [
             "country": "v1"
         },
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [
             "country"
+        ],
+        "queryArgs": [
+            {
+                "name": "country",
+                "wire": "country"
+            }
         ],
         "auth": null,
         "status": 200,
         "sample": {},
+        "idField": "id"
+    },
+    {
+        "entity": "processed",
+        "accessor": "Processed",
+        "op": "load",
+        "method": "GET",
+        "path": "/inbox/processed/{filename}",
+        "args": [
+            {
+                "name": "id",
+                "wire": "filename",
+                "value": "p1"
+            }
+        ],
+        "select": {
+            "width": "v1"
+        },
+        "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "image/jpeg",
+            "image/png"
+        ],
+        "query": [
+            "width"
+        ],
+        "queryArgs": [
+            {
+                "name": "width",
+                "wire": "width"
+            }
+        ],
+        "auth": null,
+        "status": 200,
+        "sample": null,
         "idField": "id"
     },
     {
@@ -618,7 +945,12 @@ const PLAN = [
             "authorization": "v1"
         },
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": null,
         "status": 200,
         "sample": {
@@ -649,7 +981,12 @@ const PLAN = [
         ],
         "select": {},
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "text/plain"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": null,
         "status": 200,
         "sample": null,
@@ -666,7 +1003,9 @@ const PLAN = [
             "authorization": "v1"
         },
         "headers": [],
+        "cookies": [],
         "query": [],
+        "queryArgs": [],
         "auth": null,
         "status": 204,
         "sample": null,
@@ -681,7 +1020,12 @@ const PLAN = [
         "args": [],
         "select": {},
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [],
+        "queryArgs": [],
         "auth": null,
         "status": 200,
         "sample": [
@@ -696,6 +1040,42 @@ const PLAN = [
         "idField": "id"
     },
     {
+        "entity": "rejected",
+        "accessor": "Rejected",
+        "op": "load",
+        "method": "GET",
+        "path": "/inbox/rejected/{filename}",
+        "args": [
+            {
+                "name": "id",
+                "wire": "filename",
+                "value": "p1"
+            }
+        ],
+        "select": {
+            "width": "v1"
+        },
+        "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "image/jpeg",
+            "image/png"
+        ],
+        "query": [
+            "width"
+        ],
+        "queryArgs": [
+            {
+                "name": "width",
+                "wire": "width"
+            }
+        ],
+        "auth": null,
+        "status": 200,
+        "sample": null,
+        "idField": "id"
+    },
+    {
         "entity": "stat",
         "accessor": "Stat",
         "op": "load",
@@ -706,8 +1086,18 @@ const PLAN = [
             "country": "v1"
         },
         "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
         "query": [
             "country"
+        ],
+        "queryArgs": [
+            {
+                "name": "country",
+                "wire": "country"
+            }
         ],
         "auth": null,
         "status": 200,

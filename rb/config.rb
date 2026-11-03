@@ -79,6 +79,7 @@ module RailwayStationPhotosConfig
           },
           "optspec" => {
             "clearTimer" => "`$FUNCTION`",
+            "now" => "`$FUNCTION`",
             "setTimer" => "`$FUNCTION`",
           },
           "strict" => false,
@@ -93,21 +94,24 @@ module RailwayStationPhotosConfig
         "entity" => {
           "admin_inbox" => {},
           "country" => {},
+          "done" => {},
           "inbox" => {},
           "inbox_count" => {},
           "inbox_entry" => {},
           "o_auth_token" => {},
           "oauth" => {},
           "photo" => {},
-          "photo_download" => {},
+          "photo_download_inbox" => {},
           "photo_station_by_id" => {},
           "photo_stations_by_country" => {},
           "photo_stations_by_photographer" => {},
           "photo_stations_by_recent_photo_import" => {},
           "photo_upload" => {},
           "photographer" => {},
+          "processed" => {},
           "profile" => {},
           "public_inbox" => {},
+          "rejected" => {},
           "stat" => {},
         },
       },
@@ -237,6 +241,10 @@ module RailwayStationPhotosConfig
                       "authorization",
                     ],
                   },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -339,10 +347,101 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
+                },
+              ],
+            },
+          },
+          "relations" => {
+            "ancestors" => [],
+          },
+        },
+        "done" => {
+          "fields" => [
+            {
+              "name" => "id",
+              "title" => "Id",
+              "type" => "`$STRING`",
+            },
+          ],
+          "id" => {
+            "field" => "id",
+            "name" => "id",
+          },
+          "name" => "done",
+          "op" => {
+            "load" => {
+              "input" => "data",
+              "name" => "load",
+              "points" => [
+                {
+                  "kind" => "http",
+                  "method" => "GET",
+                  "orig" => "/inbox/done/{filename}",
+                  "segments" => [
+                    {
+                      "lit" => "inbox",
+                    },
+                    {
+                      "lit" => "done",
+                    },
+                    {
+                      "var" => "id",
+                    },
+                  ],
+                  "parts" => [
+                    "inbox",
+                    "done",
+                    "{id}",
+                  ],
+                  "rename" => {
+                    "param" => {
+                      "filename" => "id",
+                    },
+                  },
+                  "transform" => {
+                    "req" => "`reqdata`",
+                    "res" => "`body`",
+                  },
+                  "args" => {
+                    "params" => [
+                      {
+                        "name" => "id",
+                        "orig" => "filename",
+                        "type" => "`$STRING`",
+                        "kind" => "param",
+                        "reqd" => true,
+                      },
+                    ],
+                    "query" => [
+                      {
+                        "name" => "width",
+                        "orig" => "width",
+                        "type" => "`$INTEGER`",
+                        "kind" => "query",
+                      },
+                    ],
+                  },
                   "select" => {
                     "exist" => [
-                      "only_active",
+                      "id",
                     ],
+                  },
+                  "response" => {
+                    "alternatives" => [
+                      {
+                        "binary" => true,
+                        "kind" => "raw",
+                        "media" => "image/png",
+                      },
+                    ],
+                    "binary" => true,
+                    "kind" => "raw",
+                    "media" => "image/jpeg",
                   },
                 },
               ],
@@ -358,11 +457,23 @@ module RailwayStationPhotosConfig
               "name" => "comment",
               "title" => "Comment",
               "type" => "`$STRING`",
+              "req" => true,
+              "op" => {
+                "list" => {
+                  "type" => "`$STRING`",
+                },
+              },
             },
             {
               "name" => "countryCode",
               "title" => "Country Code",
               "type" => "`$STRING`",
+              "req" => true,
+              "op" => {
+                "list" => {
+                  "type" => "`$STRING`",
+                },
+              },
               "short" => "a two character country code",
             },
             {
@@ -403,15 +514,23 @@ module RailwayStationPhotosConfig
               "short" => "url of the photo in the inbox",
             },
             {
+              "name" => "inbox_state_queries",
+              "title" => "Inbox State Queries",
+              "type" => "`$ARRAY`",
+              "short" => "Inbox state query request",
+            },
+            {
               "name" => "lat",
               "title" => "Lat",
               "type" => "`$NUMBER`",
+              "short" => "new latitude value for the station",
               "format" => "double",
             },
             {
               "name" => "lon",
               "title" => "Lon",
               "type" => "`$NUMBER`",
+              "short" => "new longitude value for the station",
               "format" => "double",
             },
             {
@@ -437,6 +556,13 @@ module RailwayStationPhotosConfig
               "type" => "`$STRING`",
             },
             {
+              "name" => "photoId",
+              "title" => "Photo Id",
+              "type" => "`$INTEGER`",
+              "short" => "Unique id of a photo, can be used for WRONG_PHOTO and PHOTO_OUTDATED type.",
+              "format" => "int64",
+            },
+            {
               "name" => "problemReportType",
               "title" => "Problem Report Type",
               "type" => "`$STRING`",
@@ -457,11 +583,25 @@ module RailwayStationPhotosConfig
               "name" => "stationId",
               "title" => "Station Id",
               "type" => "`$STRING`",
+              "req" => true,
+              "op" => {
+                "list" => {
+                  "type" => "`$STRING`",
+                },
+              },
             },
             {
               "name" => "title",
               "title" => "Title",
               "type" => "`$STRING`",
+              "short" => "a new title for the station",
+            },
+            {
+              "name" => "type",
+              "title" => "Type",
+              "type" => "`$STRING`",
+              "req" => true,
+              "short" => "types of problem reports",
             },
           ],
           "id" => {
@@ -474,6 +614,45 @@ module RailwayStationPhotosConfig
               "input" => "data",
               "name" => "create",
               "points" => [
+                {
+                  "kind" => "http",
+                  "method" => "POST",
+                  "orig" => "/userInbox",
+                  "segments" => [
+                    {
+                      "lit" => "userInbox",
+                    },
+                  ],
+                  "parts" => [
+                    "userInbox",
+                  ],
+                  "rename" => {},
+                  "transform" => {
+                    "req" => "`reqdata.inbox_state_queries`",
+                    "res" => "`body`",
+                  },
+                  "args" => {
+                    "header" => [
+                      {
+                        "name" => "authorization",
+                        "orig" => "Authorization",
+                        "type" => "`$STRING`",
+                        "kind" => "header",
+                        "reqd" => true,
+                      },
+                    ],
+                  },
+                  "select" => {
+                    "exist" => [
+                      "authorization",
+                      "inbox_state_queries",
+                    ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
+                },
                 {
                   "kind" => "http",
                   "method" => "POST",
@@ -507,39 +686,9 @@ module RailwayStationPhotosConfig
                       "authorization",
                     ],
                   },
-                },
-                {
-                  "kind" => "http",
-                  "method" => "POST",
-                  "orig" => "/userInbox",
-                  "segments" => [
-                    {
-                      "lit" => "userInbox",
-                    },
-                  ],
-                  "parts" => [
-                    "userInbox",
-                  ],
-                  "rename" => {},
-                  "transform" => {
-                    "req" => "`reqdata`",
-                    "res" => "`body`",
-                  },
-                  "args" => {
-                    "header" => [
-                      {
-                        "name" => "authorization",
-                        "orig" => "Authorization",
-                        "type" => "`$STRING`",
-                        "kind" => "header",
-                        "reqd" => true,
-                      },
-                    ],
-                  },
-                  "select" => {
-                    "exist" => [
-                      "authorization",
-                    ],
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -587,8 +736,11 @@ module RailwayStationPhotosConfig
                   "select" => {
                     "exist" => [
                       "authorization",
-                      "show_completed_entry",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -677,6 +829,10 @@ module RailwayStationPhotosConfig
                   },
                   "args" => {},
                   "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -864,6 +1020,10 @@ module RailwayStationPhotosConfig
                       "authorization",
                     ],
                   },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -881,10 +1041,39 @@ module RailwayStationPhotosConfig
               "req" => true,
             },
             {
+              "name" => "client_id",
+              "title" => "Client Id",
+              "type" => "`$STRING`",
+              "req" => true,
+            },
+            {
+              "name" => "code",
+              "title" => "Code",
+              "type" => "`$STRING`",
+            },
+            {
+              "name" => "code_verifier",
+              "title" => "Code Verifier",
+              "type" => "`$STRING`",
+            },
+            {
               "name" => "expires_in",
               "title" => "Expires In",
               "type" => "`$INTEGER`",
               "format" => "int64",
+            },
+            {
+              "name" => "grant_type",
+              "title" => "Grant Type",
+              "type" => "`$STRING`",
+              "req" => true,
+            },
+            {
+              "name" => "redirect_uri",
+              "title" => "Redirect Uri",
+              "type" => "`$STRING`",
+              "req" => true,
+              "format" => "uri",
             },
             {
               "name" => "refresh_token",
@@ -947,6 +1136,34 @@ module RailwayStationPhotosConfig
                       "authorization",
                     ],
                   },
+                  "body" => {
+                    "fields" => [
+                      {
+                        "name" => "client_id",
+                      },
+                      {
+                        "name" => "code",
+                      },
+                      {
+                        "name" => "code_verifier",
+                      },
+                      {
+                        "name" => "grant_type",
+                      },
+                      {
+                        "name" => "redirect_uri",
+                      },
+                      {
+                        "name" => "refresh_token",
+                      },
+                    ],
+                    "kind" => "form",
+                    "media" => "application/x-www-form-urlencoded",
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
               ],
             },
@@ -956,7 +1173,19 @@ module RailwayStationPhotosConfig
           },
         },
         "oauth" => {
-          "fields" => [],
+          "fields" => [
+            {
+              "name" => "token",
+              "title" => "Token",
+              "type" => "`$STRING`",
+              "req" => true,
+            },
+            {
+              "name" => "token_type_hint",
+              "title" => "Token Type Hint",
+              "type" => "`$STRING`",
+            },
+          ],
           "name" => "oauth",
           "op" => {
             "create" => {
@@ -999,6 +1228,18 @@ module RailwayStationPhotosConfig
                     "exist" => [
                       "authorization",
                     ],
+                  },
+                  "body" => {
+                    "fields" => [
+                      {
+                        "name" => "token",
+                      },
+                      {
+                        "name" => "token_type_hint",
+                      },
+                    ],
+                    "kind" => "form",
+                    "media" => "application/x-www-form-urlencoded",
                   },
                 },
               ],
@@ -1081,12 +1322,9 @@ module RailwayStationPhotosConfig
                   "select" => {
                     "exist" => [
                       "client_id",
-                      "code_challenge",
-                      "code_challenge_method",
                       "redirect_uri",
                       "response_type",
                       "scope",
-                      "state",
                     ],
                   },
                 },
@@ -1175,8 +1413,19 @@ module RailwayStationPhotosConfig
                     "exist" => [
                       "country",
                       "filename",
-                      "width",
                     ],
+                  },
+                  "response" => {
+                    "alternatives" => [
+                      {
+                        "binary" => true,
+                        "kind" => "raw",
+                        "media" => "image/png",
+                      },
+                    ],
+                    "binary" => true,
+                    "kind" => "raw",
+                    "media" => "image/jpeg",
                   },
                 },
               ],
@@ -1186,167 +1435,24 @@ module RailwayStationPhotosConfig
             "ancestors" => [],
           },
         },
-        "photo_download" => {
-          "fields" => [],
-          "name" => "photo_download",
+        "photo_download_inbox" => {
+          "fields" => [
+            {
+              "name" => "id",
+              "title" => "Id",
+              "type" => "`$STRING`",
+            },
+          ],
+          "id" => {
+            "field" => "id",
+            "name" => "id",
+          },
+          "name" => "photo_download_inbox",
           "op" => {
             "load" => {
               "input" => "data",
               "name" => "load",
               "points" => [
-                {
-                  "kind" => "http",
-                  "method" => "GET",
-                  "orig" => "/inbox/done/{filename}",
-                  "segments" => [
-                    {
-                      "lit" => "inbox",
-                    },
-                    {
-                      "lit" => "done",
-                    },
-                    {
-                      "var" => "filename",
-                    },
-                  ],
-                  "parts" => [
-                    "inbox",
-                    "done",
-                    "{filename}",
-                  ],
-                  "rename" => {},
-                  "transform" => {
-                    "req" => "`reqdata`",
-                    "res" => "`body`",
-                  },
-                  "args" => {
-                    "params" => [
-                      {
-                        "name" => "filename",
-                        "orig" => "filename",
-                        "type" => "`$STRING`",
-                        "kind" => "param",
-                        "reqd" => true,
-                      },
-                    ],
-                    "query" => [
-                      {
-                        "name" => "width",
-                        "orig" => "width",
-                        "type" => "`$INTEGER`",
-                        "kind" => "query",
-                      },
-                    ],
-                  },
-                  "select" => {
-                    "exist" => [
-                      "filename",
-                      "width",
-                    ],
-                  },
-                },
-                {
-                  "kind" => "http",
-                  "method" => "GET",
-                  "orig" => "/inbox/processed/{filename}",
-                  "segments" => [
-                    {
-                      "lit" => "inbox",
-                    },
-                    {
-                      "lit" => "processed",
-                    },
-                    {
-                      "var" => "filename",
-                    },
-                  ],
-                  "parts" => [
-                    "inbox",
-                    "processed",
-                    "{filename}",
-                  ],
-                  "rename" => {},
-                  "transform" => {
-                    "req" => "`reqdata`",
-                    "res" => "`body`",
-                  },
-                  "args" => {
-                    "params" => [
-                      {
-                        "name" => "filename",
-                        "orig" => "filename",
-                        "type" => "`$STRING`",
-                        "kind" => "param",
-                        "reqd" => true,
-                      },
-                    ],
-                    "query" => [
-                      {
-                        "name" => "width",
-                        "orig" => "width",
-                        "type" => "`$INTEGER`",
-                        "kind" => "query",
-                      },
-                    ],
-                  },
-                  "select" => {
-                    "exist" => [
-                      "filename",
-                      "width",
-                    ],
-                  },
-                },
-                {
-                  "kind" => "http",
-                  "method" => "GET",
-                  "orig" => "/inbox/rejected/{filename}",
-                  "segments" => [
-                    {
-                      "lit" => "inbox",
-                    },
-                    {
-                      "lit" => "rejected",
-                    },
-                    {
-                      "var" => "filename",
-                    },
-                  ],
-                  "parts" => [
-                    "inbox",
-                    "rejected",
-                    "{filename}",
-                  ],
-                  "rename" => {},
-                  "transform" => {
-                    "req" => "`reqdata`",
-                    "res" => "`body`",
-                  },
-                  "args" => {
-                    "params" => [
-                      {
-                        "name" => "filename",
-                        "orig" => "filename",
-                        "type" => "`$STRING`",
-                        "kind" => "param",
-                        "reqd" => true,
-                      },
-                    ],
-                    "query" => [
-                      {
-                        "name" => "width",
-                        "orig" => "width",
-                        "type" => "`$INTEGER`",
-                        "kind" => "query",
-                      },
-                    ],
-                  },
-                  "select" => {
-                    "exist" => [
-                      "filename",
-                      "width",
-                    ],
-                  },
-                },
                 {
                   "kind" => "http",
                   "method" => "GET",
@@ -1356,14 +1462,18 @@ module RailwayStationPhotosConfig
                       "lit" => "inbox",
                     },
                     {
-                      "var" => "filename",
+                      "var" => "id",
                     },
                   ],
                   "parts" => [
                     "inbox",
-                    "{filename}",
+                    "{id}",
                   ],
-                  "rename" => {},
+                  "rename" => {
+                    "param" => {
+                      "filename" => "id",
+                    },
+                  },
                   "transform" => {
                     "req" => "`reqdata`",
                     "res" => "`body`",
@@ -1371,7 +1481,7 @@ module RailwayStationPhotosConfig
                   "args" => {
                     "params" => [
                       {
-                        "name" => "filename",
+                        "name" => "id",
                         "orig" => "filename",
                         "type" => "`$STRING`",
                         "kind" => "param",
@@ -1389,20 +1499,27 @@ module RailwayStationPhotosConfig
                   },
                   "select" => {
                     "exist" => [
-                      "filename",
-                      "width",
+                      "id",
                     ],
+                  },
+                  "response" => {
+                    "alternatives" => [
+                      {
+                        "binary" => true,
+                        "kind" => "raw",
+                        "media" => "image/png",
+                      },
+                    ],
+                    "binary" => true,
+                    "kind" => "raw",
+                    "media" => "image/jpeg",
                   },
                 },
               ],
             },
           },
           "relations" => {
-            "ancestors" => [
-              [
-                "$.main.kit.entity.inbox",
-              ],
-            ],
+            "ancestors" => [],
           },
         },
         "photo_station_by_id" => {
@@ -1504,6 +1621,10 @@ module RailwayStationPhotosConfig
                       "country",
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -1611,10 +1732,12 @@ module RailwayStationPhotosConfig
                   },
                   "select" => {
                     "exist" => [
-                      "has_photo",
                       "id",
-                      "is_active",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -1716,9 +1839,12 @@ module RailwayStationPhotosConfig
                   },
                   "select" => {
                     "exist" => [
-                      "country",
                       "id",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -1793,10 +1919,10 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
-                  "select" => {
-                    "exist" => [
-                      "since_hour",
-                    ],
+                  "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -1894,13 +2020,6 @@ module RailwayStationPhotosConfig
                         "kind" => "header",
                       },
                       {
-                        "name" => "content_type",
-                        "orig" => "Content-Type",
-                        "type" => "`$STRING`",
-                        "kind" => "header",
-                        "reqd" => true,
-                      },
-                      {
                         "name" => "country",
                         "orig" => "Country",
                         "type" => "`$STRING`",
@@ -1934,16 +2053,26 @@ module RailwayStationPhotosConfig
                   },
                   "select" => {
                     "exist" => [
-                      "active",
                       "authorization",
-                      "comment",
-                      "content_type",
-                      "country",
-                      "latitude",
-                      "longitude",
-                      "station_id",
-                      "station_title",
                     ],
+                  },
+                  "body" => {
+                    "alternatives" => [
+                      {
+                        "kind" => "raw",
+                        "media" => "image/jpeg",
+                      },
+                      {
+                        "kind" => "raw",
+                        "media" => "image/png",
+                      },
+                    ],
+                    "kind" => "raw",
+                    "media" => "application/octet-stream",
+                  },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],
@@ -1988,10 +2117,101 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
+                  "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
+                },
+              ],
+            },
+          },
+          "relations" => {
+            "ancestors" => [],
+          },
+        },
+        "processed" => {
+          "fields" => [
+            {
+              "name" => "id",
+              "title" => "Id",
+              "type" => "`$STRING`",
+            },
+          ],
+          "id" => {
+            "field" => "id",
+            "name" => "id",
+          },
+          "name" => "processed",
+          "op" => {
+            "load" => {
+              "input" => "data",
+              "name" => "load",
+              "points" => [
+                {
+                  "kind" => "http",
+                  "method" => "GET",
+                  "orig" => "/inbox/processed/{filename}",
+                  "segments" => [
+                    {
+                      "lit" => "inbox",
+                    },
+                    {
+                      "lit" => "processed",
+                    },
+                    {
+                      "var" => "id",
+                    },
+                  ],
+                  "parts" => [
+                    "inbox",
+                    "processed",
+                    "{id}",
+                  ],
+                  "rename" => {
+                    "param" => {
+                      "filename" => "id",
+                    },
+                  },
+                  "transform" => {
+                    "req" => "`reqdata`",
+                    "res" => "`body`",
+                  },
+                  "args" => {
+                    "params" => [
+                      {
+                        "name" => "id",
+                        "orig" => "filename",
+                        "type" => "`$STRING`",
+                        "kind" => "param",
+                        "reqd" => true,
+                      },
+                    ],
+                    "query" => [
+                      {
+                        "name" => "width",
+                        "orig" => "width",
+                        "type" => "`$INTEGER`",
+                        "kind" => "query",
+                      },
+                    ],
+                  },
                   "select" => {
                     "exist" => [
-                      "country",
+                      "id",
                     ],
+                  },
+                  "response" => {
+                    "alternatives" => [
+                      {
+                        "binary" => true,
+                        "kind" => "raw",
+                        "media" => "image/png",
+                      },
+                    ],
+                    "binary" => true,
+                    "kind" => "raw",
+                    "media" => "image/jpeg",
                   },
                 },
               ],
@@ -2224,6 +2444,10 @@ module RailwayStationPhotosConfig
                       "authorization",
                     ],
                   },
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
                 },
                 {
                   "kind" => "http",
@@ -2261,6 +2485,10 @@ module RailwayStationPhotosConfig
                     "exist" => [
                       "token",
                     ],
+                  },
+                  "response" => {
+                    "kind" => "raw",
+                    "media" => "text/plain",
                   },
                 },
               ],
@@ -2369,6 +2597,101 @@ module RailwayStationPhotosConfig
                   },
                   "args" => {},
                   "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
+                  },
+                },
+              ],
+            },
+          },
+          "relations" => {
+            "ancestors" => [],
+          },
+        },
+        "rejected" => {
+          "fields" => [
+            {
+              "name" => "id",
+              "title" => "Id",
+              "type" => "`$STRING`",
+            },
+          ],
+          "id" => {
+            "field" => "id",
+            "name" => "id",
+          },
+          "name" => "rejected",
+          "op" => {
+            "load" => {
+              "input" => "data",
+              "name" => "load",
+              "points" => [
+                {
+                  "kind" => "http",
+                  "method" => "GET",
+                  "orig" => "/inbox/rejected/{filename}",
+                  "segments" => [
+                    {
+                      "lit" => "inbox",
+                    },
+                    {
+                      "lit" => "rejected",
+                    },
+                    {
+                      "var" => "id",
+                    },
+                  ],
+                  "parts" => [
+                    "inbox",
+                    "rejected",
+                    "{id}",
+                  ],
+                  "rename" => {
+                    "param" => {
+                      "filename" => "id",
+                    },
+                  },
+                  "transform" => {
+                    "req" => "`reqdata`",
+                    "res" => "`body`",
+                  },
+                  "args" => {
+                    "params" => [
+                      {
+                        "name" => "id",
+                        "orig" => "filename",
+                        "type" => "`$STRING`",
+                        "kind" => "param",
+                        "reqd" => true,
+                      },
+                    ],
+                    "query" => [
+                      {
+                        "name" => "width",
+                        "orig" => "width",
+                        "type" => "`$INTEGER`",
+                        "kind" => "query",
+                      },
+                    ],
+                  },
+                  "select" => {
+                    "exist" => [
+                      "id",
+                    ],
+                  },
+                  "response" => {
+                    "alternatives" => [
+                      {
+                        "binary" => true,
+                        "kind" => "raw",
+                        "media" => "image/png",
+                      },
+                    ],
+                    "binary" => true,
+                    "kind" => "raw",
+                    "media" => "image/jpeg",
+                  },
                 },
               ],
             },
@@ -2447,10 +2770,10 @@ module RailwayStationPhotosConfig
                       },
                     ],
                   },
-                  "select" => {
-                    "exist" => [
-                      "country",
-                    ],
+                  "select" => {},
+                  "response" => {
+                    "kind" => "json",
+                    "media" => "application/json",
                   },
                 },
               ],

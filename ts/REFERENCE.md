@@ -72,6 +72,18 @@ Create a new `Country` entity instance.
 
 **Returns:** `CountryEntity` instance.
 
+#### `Done(data?: object)`
+
+Create a new `Done` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `DoneEntity` instance.
+
 #### `Inbox(data?: object)`
 
 Create a new `Inbox` entity instance.
@@ -144,9 +156,9 @@ Create a new `Photo` entity instance.
 
 **Returns:** `PhotoEntity` instance.
 
-#### `PhotoDownload(data?: object)`
+#### `PhotoDownloadInbox(data?: object)`
 
-Create a new `PhotoDownload` entity instance.
+Create a new `PhotoDownloadInbox` entity instance.
 
 **Parameters:**
 
@@ -154,7 +166,7 @@ Create a new `PhotoDownload` entity instance.
 | --- | --- | --- |
 | `data` | `object` | Initial entity data. |
 
-**Returns:** `PhotoDownloadEntity` instance.
+**Returns:** `PhotoDownloadInboxEntity` instance.
 
 #### `PhotoStationById(data?: object)`
 
@@ -228,6 +240,18 @@ Create a new `Photographer` entity instance.
 
 **Returns:** `PhotographerEntity` instance.
 
+#### `Processed(data?: object)`
+
+Create a new `Processed` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `ProcessedEntity` instance.
+
 #### `Profile(data?: object)`
 
 Create a new `Profile` entity instance.
@@ -251,6 +275,18 @@ Create a new `PublicInbox` entity instance.
 | `data` | `object` | Initial entity data. |
 
 **Returns:** `PublicInboxEntity` instance.
+
+#### `Rejected(data?: object)`
+
+Create a new `Rejected` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `RejectedEntity` instance.
 
 #### `Stat(data?: object)`
 
@@ -291,8 +327,10 @@ Make a direct HTTP request to any API endpoint.
 | `fetchargs.headers` | `object` | Request headers (merged with defaults). |
 | `fetchargs.body` | `any` | Request body (objects are JSON-serialized). |
 | `fetchargs.ctrl` | `object` | Control options (e.g. `{ explain: true }`). |
+| `fetchargs.ctrl.signal` | `AbortSignal` | Aborts the request in flight: `ok` is then `false` and `err.code` is `request_aborted`. |
 
-**Returns:** `Promise<{ ok, status, headers, data } | Error>`
+**Returns:** `Promise<{ ok, status, headers, data }>`. On a failure
+`ok` is `false` and `err` holds the error.
 
 #### `prepare(fetchargs?: object)`
 
@@ -306,6 +344,15 @@ same parameters as `direct()`.
 Alias for `RailwayStationPhotosSDK.test()`.
 
 **Returns:** `RailwayStationPhotosSDK` instance in test mode.
+
+#### Cancelling a call
+
+Every entity operation takes an optional `ctrl` object after its match or
+data, and an `AbortSignal` in `ctrl.signal` cancels the request in flight.
+The operation then rejects with an error whose `code` is
+`request_aborted` and whose `cause` is the signal's reason. A request
+whose signal has already aborted is not sent. `stream()` takes the signal
+as `callopts.signal`, and ends when it aborts.
 
 
 ---
@@ -338,14 +385,12 @@ const admin_inbox = client.AdminInbox()
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.AdminInbox().create({
   command: 'example_command',
   id: 1,
-  message: 'example_message',
-  status: 1,
 })
 ```
 
@@ -401,7 +446,7 @@ const country = client.Country()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.Country().list()
@@ -435,6 +480,56 @@ Return a copy of the entity options.
 
 ---
 
+## DoneEntity
+
+```ts
+const done = client.Done()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
+### Operations
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
+
+```ts
+const result = await client.Done().load({ id: 'done_id' })
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `DoneEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `RailwayStationPhotosSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
 ## InboxEntity
 
 ```ts
@@ -445,63 +540,72 @@ const inbox = client.Inbox()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `comment` | `string` | No |  |
-| `countryCode` | `string` | No | a two character country code |
+| `comment` | `string` | Yes |  |
+| `countryCode` | `string` | Yes | a two character country code |
 | `crc32` | `number` | No | CRC32 checksum of the uploaded photo |
 | `createdAt` | `number` | No |  |
 | `filename` | `string` | No | filename in inbox |
 | `id` | `number` | No |  |
 | `inboxUrl` | `string` | No | url of the photo in the inbox |
-| `lat` | `number` | No |  |
-| `lon` | `number` | No |  |
+| `inbox_state_queries` | `any[]` | No | Inbox state query request |
+| `lat` | `number` | No | new latitude value for the station |
+| `lon` | `number` | No | new longitude value for the station |
 | `message` | `string` | No |  |
 | `newLat` | `number` | No |  |
 | `newLon` | `number` | No |  |
 | `newTitle` | `string` | No |  |
+| `photoId` | `number` | No | Unique id of a photo, can be used for WRONG_PHOTO and PHOTO_OUTDATED type. |
 | `problemReportType` | `string` | No | types of problem reports |
 | `rejectedReason` | `string` | No |  |
 | `state` | `string` | Yes |  |
-| `stationId` | `string` | No |  |
-| `title` | `string` | No |  |
+| `stationId` | `string` | Yes |  |
+| `title` | `string` | No | a new title for the station |
+| `type` | `string` | Yes | types of problem reports |
 
 ### Field Usage by Operation
 
 | Field | list | create | remove |
 | --- | --- | --- | --- |
-| `comment` | - | - | - |
-| `countryCode` | - | - | - |
+| `comment` | Yes | - | - |
+| `countryCode` | Yes | - | - |
 | `crc32` | - | - | - |
 | `createdAt` | - | - | - |
 | `filename` | - | - | - |
 | `id` | Yes | - | - |
 | `inboxUrl` | - | - | - |
+| `inbox_state_queries` | - | - | - |
 | `lat` | - | - | - |
 | `lon` | - | - | - |
 | `message` | - | - | - |
 | `newLat` | - | - | - |
 | `newLon` | - | - | - |
 | `newTitle` | - | - | - |
+| `photoId` | - | - | - |
 | `problemReportType` | - | - | - |
 | `rejectedReason` | - | - | - |
 | `state` | - | - | - |
-| `stationId` | - | - | - |
+| `stationId` | Yes | - | - |
 | `title` | - | - | - |
+| `type` | - | - | - |
 
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Inbox().create({
-  state: 'example_state',
+  comment: 'example_comment',
+  countryCode: 'example_countryCode',
+  stationId: 'example_stationId',
+  type: 'example_type',
 })
 ```
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.Inbox().list()
@@ -509,7 +613,7 @@ const results = await client.Inbox().list()
 
 #### `remove(match: object, ctrl?: object)`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
 const result = await client.Inbox().remove({ id: 1 })
@@ -559,7 +663,7 @@ const inbox_count = client.InboxCount()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.InboxCount().load()
@@ -630,7 +734,7 @@ const inbox_entry = client.InboxEntry()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.InboxEntry().list()
@@ -675,7 +779,12 @@ const o_auth_token = client.OAuthToken()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `access_token` | `string` | Yes |  |
+| `client_id` | `string` | Yes |  |
+| `code` | `string` | No |  |
+| `code_verifier` | `string` | No |  |
 | `expires_in` | `number` | No |  |
+| `grant_type` | `string` | Yes |  |
+| `redirect_uri` | `string` | Yes |  |
 | `refresh_token` | `string` | No |  |
 | `scope` | `string` | Yes |  |
 | `token_type` | `string` | Yes |  |
@@ -684,15 +793,20 @@ const o_auth_token = client.OAuthToken()
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.OAuthToken().create({
   access_token: 'example_access_token',
+  client_id: 'example_client_id',
+  grant_type: 'example_grant_type',
+  redirect_uri: 'example_redirect_uri',
   scope: 'example_scope',
   token_type: 'example_token_type',
 })
 ```
+
+Declares a `application/x-www-form-urlencoded` body, which this SDK does not encode yet: it sends the data as JSON.
 
 ### Common Methods
 
@@ -728,20 +842,30 @@ Return a copy of the entity options.
 const oauth = client.Oauth()
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `token` | `string` | Yes |  |
+| `token_type_hint` | `string` | No |  |
+
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Oauth().create({
+  token: 'example_token',
 })
 ```
 
+Declares a `application/x-www-form-urlencoded` body, which this SDK does not encode yet: it sends the data as JSON.
+
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Oauth().load({ client_id: 'client_id', redirect_uri: 'redirect_uri', response_type: 'response_type', scope: 'scope' })
@@ -791,7 +915,7 @@ const photo = client.Photo()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Photo().load({ country: 'country', filename: 'filename' })
@@ -825,20 +949,26 @@ Return a copy of the entity options.
 
 ---
 
-## PhotoDownloadEntity
+## PhotoDownloadInboxEntity
 
 ```ts
-const photo_download = client.PhotoDownload()
+const photo_download_inbox = client.PhotoDownloadInbox()
 ```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
 
 ### Operations
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
-const result = await client.PhotoDownload().load({ filename: 'filename' })
+const result = await client.PhotoDownloadInbox().load({ id: 'photo_download_inbox_id' })
 ```
 
 ### Common Methods
@@ -855,7 +985,7 @@ Get or set the entity match criteria. Works the same as `data()`.
 
 #### `make()`
 
-Create a new `PhotoDownloadEntity` instance with the same client and
+Create a new `PhotoDownloadInboxEntity` instance with the same client and
 options.
 
 #### `client()`
@@ -889,7 +1019,7 @@ const photo_station_by_id = client.PhotoStationById()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.PhotoStationById().load({ id: 'photo_station_by_id_id', country: 'country' })
@@ -943,7 +1073,7 @@ const photo_stations_by_country = client.PhotoStationsByCountry()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.PhotoStationsByCountry().load({ id: 'photo_stations_by_country_id' })
@@ -997,7 +1127,7 @@ const photo_stations_by_photographer = client.PhotoStationsByPhotographer()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.PhotoStationsByPhotographer().load({ id: 'photo_stations_by_photographer_id' })
@@ -1050,7 +1180,7 @@ const photo_stations_by_recent_photo_import = client.PhotoStationsByRecentPhotoI
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.PhotoStationsByRecentPhotoImport().list()
@@ -1105,13 +1235,15 @@ const photo_upload = client.PhotoUpload()
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.PhotoUpload().create({
   state: 'example_state',
 })
 ```
+
+Sends its body unencoded, as `application/octet-stream`: pass it as `$body`, a `Buffer`, `Uint8Array`, `ArrayBuffer`, `Blob`, stream or string. A stream is read in full before the request is sent, so that a retry sends the same bytes. The operation also accepts `image/jpeg`, `image/png`: a `content-type` header option that is not JSON replaces the declared one.
 
 ### Common Methods
 
@@ -1151,7 +1283,7 @@ const photographer = client.Photographer()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Photographer().load()
@@ -1172,6 +1304,56 @@ Get or set the entity match criteria. Works the same as `data()`.
 #### `make()`
 
 Create a new `PhotographerEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `RailwayStationPhotosSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## ProcessedEntity
+
+```ts
+const processed = client.Processed()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
+### Operations
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
+
+```ts
+const result = await client.Processed().load({ id: 'processed_id' })
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `ProcessedEntity` instance with the same client and
 options.
 
 #### `client()`
@@ -1225,20 +1407,19 @@ const profile = client.Profile()
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Profile().create({
-  license: 'example_license',
+  email: 'example_email',
   newPassword: 'example_newPassword',
   nickname: 'example_nickname',
-  photoOwner: true,
 })
 ```
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Profile().load({ token: 'token' })
@@ -1246,7 +1427,7 @@ const result = await client.Profile().load({ token: 'token' })
 
 #### `remove(match: object, ctrl?: object)`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
 const result = await client.Profile().remove()
@@ -1300,7 +1481,7 @@ const public_inbox = client.PublicInbox()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.PublicInbox().list()
@@ -1334,6 +1515,56 @@ Return a copy of the entity options.
 
 ---
 
+## RejectedEntity
+
+```ts
+const rejected = client.Rejected()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
+### Operations
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
+
+```ts
+const result = await client.Rejected().load({ id: 'rejected_id' })
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `RejectedEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `RailwayStationPhotosSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
 ## StatEntity
 
 ```ts
@@ -1354,7 +1585,7 @@ const stat = client.Stat()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Stat().load()
@@ -1545,6 +1776,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

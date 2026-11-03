@@ -67,8 +67,19 @@ main: kit: entity: photo: {
             exist: [
               "country"
               "filename"
-              "width"
             ]
+          }
+          rs: {
+            alternatives: [
+              {
+                binary: true
+                kind: "raw"
+                media: "image/png"
+              }
+            ]
+            binary: true
+            kind: "raw"
+            media: "image/jpeg"
           }
           s: [
             {

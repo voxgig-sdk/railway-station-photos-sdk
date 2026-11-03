@@ -27,6 +27,10 @@ main: kit: entity: inbox_count: {
           }
           m: "GET"
           o: "/adminInboxCount"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "adminInboxCount"

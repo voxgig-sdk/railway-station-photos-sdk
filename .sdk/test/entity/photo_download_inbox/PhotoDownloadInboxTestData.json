@@ -1,0 +1,27 @@
+{
+  "existing": {
+    "photo_download_inbox": {
+      "PHOTO_DOWNLOAD_INBOX00": {
+        "id": "PHOTO_DOWNLOAD_INBOX00"
+      },
+      "PHOTO_DOWNLOAD_INBOX01": {
+        "id": "PHOTO_DOWNLOAD_INBOX01"
+      },
+      "PHOTO_DOWNLOAD_INBOX02": {
+        "id": "PHOTO_DOWNLOAD_INBOX02"
+      }
+    }
+  },
+  "new": {
+    "photo_download_inbox": {
+      "photo_download_inbox_ref01": {}
+    }
+  },
+  "requests": {
+    "GET /inbox/{filename}": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

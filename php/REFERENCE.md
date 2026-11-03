@@ -49,6 +49,10 @@ Create a new `AdminInboxEntity` instance. Pass `null` for no initial data.
 
 Create a new `CountryEntity` instance. Pass `null` for no initial data.
 
+#### `Done($data = null)`
+
+Create a new `DoneEntity` instance. Pass `null` for no initial data.
+
 #### `Inbox($data = null)`
 
 Create a new `InboxEntity` instance. Pass `null` for no initial data.
@@ -73,9 +77,9 @@ Create a new `OauthEntity` instance. Pass `null` for no initial data.
 
 Create a new `PhotoEntity` instance. Pass `null` for no initial data.
 
-#### `PhotoDownload($data = null)`
+#### `PhotoDownloadInbox($data = null)`
 
-Create a new `PhotoDownloadEntity` instance. Pass `null` for no initial data.
+Create a new `PhotoDownloadInboxEntity` instance. Pass `null` for no initial data.
 
 #### `PhotoStationById($data = null)`
 
@@ -101,6 +105,10 @@ Create a new `PhotoUploadEntity` instance. Pass `null` for no initial data.
 
 Create a new `PhotographerEntity` instance. Pass `null` for no initial data.
 
+#### `Processed($data = null)`
+
+Create a new `ProcessedEntity` instance. Pass `null` for no initial data.
+
 #### `Profile($data = null)`
 
 Create a new `ProfileEntity` instance. Pass `null` for no initial data.
@@ -108,6 +116,10 @@ Create a new `ProfileEntity` instance. Pass `null` for no initial data.
 #### `PublicInbox($data = null)`
 
 Create a new `PublicInboxEntity` instance. Pass `null` for no initial data.
+
+#### `Rejected($data = null)`
+
+Create a new `RejectedEntity` instance. Pass `null` for no initial data.
 
 #### `Stat($data = null)`
 
@@ -178,14 +190,12 @@ $admin_inbox = $client->AdminInbox();
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->AdminInbox()->create([
   "command" => null, // string
   "id" => null, // int
-  "message" => null, // string
-  "status" => null, // int
 ]);
 ```
 
@@ -243,7 +253,7 @@ $country = $client->Country();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->Country()->list();
@@ -279,6 +289,58 @@ Return the entity name.
 
 ---
 
+## DoneEntity
+
+```php
+$done = $client->Done();
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
+### Operations
+
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
+
+```php
+$result = $client->Done()->load(["id" => "done_id"]);
+```
+
+### Common Methods
+
+#### `data_get(): array`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set($data): void`
+
+Set the entity data.
+
+#### `match_get(): array`
+
+Get the entity match criteria.
+
+#### `match_set($match): void`
+
+Set the entity match criteria.
+
+#### `make(): DoneEntity`
+
+Create a new `DoneEntity` instance with the same client and
+options.
+
+#### `get_name(): string`
+
+Return the entity name.
+
+
+---
+
 ## InboxEntity
 
 ```php
@@ -289,63 +351,72 @@ $inbox = $client->Inbox();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `comment` | `string` | No |  |
-| `countryCode` | `string` | No | a two character country code |
+| `comment` | `string` | Yes |  |
+| `countryCode` | `string` | Yes | a two character country code |
 | `crc32` | `int` | No | CRC32 checksum of the uploaded photo |
 | `createdAt` | `int` | No |  |
 | `filename` | `string` | No | filename in inbox |
 | `id` | `int` | No |  |
 | `inboxUrl` | `string` | No | url of the photo in the inbox |
-| `lat` | `float` | No |  |
-| `lon` | `float` | No |  |
+| `inbox_state_queries` | `array` | No | Inbox state query request |
+| `lat` | `float` | No | new latitude value for the station |
+| `lon` | `float` | No | new longitude value for the station |
 | `message` | `string` | No |  |
 | `newLat` | `float` | No |  |
 | `newLon` | `float` | No |  |
 | `newTitle` | `string` | No |  |
+| `photoId` | `int` | No | Unique id of a photo, can be used for WRONG_PHOTO and PHOTO_OUTDATED type. |
 | `problemReportType` | `string` | No | types of problem reports |
 | `rejectedReason` | `string` | No |  |
 | `state` | `string` | Yes |  |
-| `stationId` | `string` | No |  |
-| `title` | `string` | No |  |
+| `stationId` | `string` | Yes |  |
+| `title` | `string` | No | a new title for the station |
+| `type` | `string` | Yes | types of problem reports |
 
 ### Field Usage by Operation
 
 | Field | list | create | remove |
 | --- | --- | --- | --- |
-| `comment` | - | - | - |
-| `countryCode` | - | - | - |
+| `comment` | Yes | - | - |
+| `countryCode` | Yes | - | - |
 | `crc32` | - | - | - |
 | `createdAt` | - | - | - |
 | `filename` | - | - | - |
 | `id` | Yes | - | - |
 | `inboxUrl` | - | - | - |
+| `inbox_state_queries` | - | - | - |
 | `lat` | - | - | - |
 | `lon` | - | - | - |
 | `message` | - | - | - |
 | `newLat` | - | - | - |
 | `newLon` | - | - | - |
 | `newTitle` | - | - | - |
+| `photoId` | - | - | - |
 | `problemReportType` | - | - | - |
 | `rejectedReason` | - | - | - |
 | `state` | - | - | - |
-| `stationId` | - | - | - |
+| `stationId` | Yes | - | - |
 | `title` | - | - | - |
+| `type` | - | - | - |
 
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->Inbox()->create([
-  "state" => null, // string
+  "comment" => null, // string
+  "countryCode" => null, // string
+  "stationId" => null, // string
+  "type" => null, // string
 ]);
 ```
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->Inbox()->list();
@@ -353,7 +424,7 @@ $results = $client->Inbox()->list();
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```php
 $result = $client->Inbox()->remove(["id" => 1]);
@@ -405,7 +476,7 @@ $inbox_count = $client->InboxCount();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->InboxCount()->load();
@@ -478,7 +549,7 @@ $inbox_entry = $client->InboxEntry();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->InboxEntry()->list();
@@ -525,7 +596,12 @@ $o_auth_token = $client->OAuthToken();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `access_token` | `string` | Yes |  |
+| `client_id` | `string` | Yes |  |
+| `code` | `string` | No |  |
+| `code_verifier` | `string` | No |  |
 | `expires_in` | `int` | No |  |
+| `grant_type` | `string` | Yes |  |
+| `redirect_uri` | `string` | Yes |  |
 | `refresh_token` | `string` | No |  |
 | `scope` | `string` | Yes |  |
 | `token_type` | `string` | Yes |  |
@@ -534,15 +610,20 @@ $o_auth_token = $client->OAuthToken();
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->OAuthToken()->create([
   "access_token" => null, // string
+  "client_id" => null, // string
+  "grant_type" => null, // string
+  "redirect_uri" => null, // string
   "scope" => null, // string
   "token_type" => null, // string
 ]);
 ```
+
+Declares a `application/x-www-form-urlencoded` body, which this SDK does not encode yet: it sends the data as JSON.
 
 ### Common Methods
 
@@ -580,20 +661,30 @@ Return the entity name.
 $oauth = $client->Oauth();
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `token` | `string` | Yes |  |
+| `token_type_hint` | `string` | No |  |
+
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->Oauth()->create([
+  "token" => null, // string
 ]);
 ```
 
+Declares a `application/x-www-form-urlencoded` body, which this SDK does not encode yet: it sends the data as JSON.
+
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Oauth()->load(["client_id" => "client_id", "redirect_uri" => "redirect_uri", "response_type" => "response_type", "scope" => "scope"]);
@@ -645,7 +736,7 @@ $photo = $client->Photo();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Photo()->load(["country" => "country", "filename" => "filename"]);
@@ -681,20 +772,26 @@ Return the entity name.
 
 ---
 
-## PhotoDownloadEntity
+## PhotoDownloadInboxEntity
 
 ```php
-$photo_download = $client->PhotoDownload();
+$photo_download_inbox = $client->PhotoDownloadInbox();
 ```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
 
 ### Operations
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
-$result = $client->PhotoDownload()->load(["filename" => "filename"]);
+$result = $client->PhotoDownloadInbox()->load(["id" => "photo_download_inbox_id"]);
 ```
 
 ### Common Methods
@@ -715,9 +812,9 @@ Get the entity match criteria.
 
 Set the entity match criteria.
 
-#### `make(): PhotoDownloadEntity`
+#### `make(): PhotoDownloadInboxEntity`
 
-Create a new `PhotoDownloadEntity` instance with the same client and
+Create a new `PhotoDownloadInboxEntity` instance with the same client and
 options.
 
 #### `get_name(): string`
@@ -747,7 +844,7 @@ $photo_station_by_id = $client->PhotoStationById();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->PhotoStationById()->load(["id" => "photo_station_by_id_id", "country" => "country"]);
@@ -803,7 +900,7 @@ $photo_stations_by_country = $client->PhotoStationsByCountry();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->PhotoStationsByCountry()->load(["id" => "photo_stations_by_country_id"]);
@@ -859,7 +956,7 @@ $photo_stations_by_photographer = $client->PhotoStationsByPhotographer();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->PhotoStationsByPhotographer()->load(["id" => "photo_stations_by_photographer_id"]);
@@ -914,7 +1011,7 @@ $photo_stations_by_recent_photo_import = $client->PhotoStationsByRecentPhotoImpo
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->PhotoStationsByRecentPhotoImport()->list();
@@ -971,13 +1068,15 @@ $photo_upload = $client->PhotoUpload();
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->PhotoUpload()->create([
   "state" => null, // string
 ]);
 ```
+
+Sends its body unencoded, as `application/octet-stream`: pass it as `$body`, a string or a stream resource. A stream resource is read in full before the request is sent, so that a retry sends the same bytes. The operation also accepts `image/jpeg`, `image/png`: a `content-type` header option that is not JSON replaces the declared one.
 
 ### Common Methods
 
@@ -1019,7 +1118,7 @@ $photographer = $client->Photographer();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Photographer()->load();
@@ -1046,6 +1145,58 @@ Set the entity match criteria.
 #### `make(): PhotographerEntity`
 
 Create a new `PhotographerEntity` instance with the same client and
+options.
+
+#### `get_name(): string`
+
+Return the entity name.
+
+
+---
+
+## ProcessedEntity
+
+```php
+$processed = $client->Processed();
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
+### Operations
+
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
+
+```php
+$result = $client->Processed()->load(["id" => "processed_id"]);
+```
+
+### Common Methods
+
+#### `data_get(): array`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set($data): void`
+
+Set the entity data.
+
+#### `match_get(): array`
+
+Get the entity match criteria.
+
+#### `match_set($match): void`
+
+Set the entity match criteria.
+
+#### `make(): ProcessedEntity`
+
+Create a new `ProcessedEntity` instance with the same client and
 options.
 
 #### `get_name(): string`
@@ -1095,20 +1246,19 @@ $profile = $client->Profile();
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->Profile()->create([
-  "license" => null, // string
+  "email" => null, // string
   "newPassword" => null, // string
   "nickname" => null, // string
-  "photoOwner" => null, // bool
 ]);
 ```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Profile()->load(["token" => "token"]);
@@ -1116,7 +1266,7 @@ $result = $client->Profile()->load(["token" => "token"]);
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```php
 $result = $client->Profile()->remove();
@@ -1172,7 +1322,7 @@ $public_inbox = $client->PublicInbox();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->PublicInbox()->list();
@@ -1208,6 +1358,58 @@ Return the entity name.
 
 ---
 
+## RejectedEntity
+
+```php
+$rejected = $client->Rejected();
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
+### Operations
+
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
+
+```php
+$result = $client->Rejected()->load(["id" => "rejected_id"]);
+```
+
+### Common Methods
+
+#### `data_get(): array`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set($data): void`
+
+Set the entity data.
+
+#### `match_get(): array`
+
+Get the entity match criteria.
+
+#### `match_set($match): void`
+
+Set the entity match criteria.
+
+#### `make(): RejectedEntity`
+
+Create a new `RejectedEntity` instance with the same client and
+options.
+
+#### `get_name(): string`
+
+Return the entity name.
+
+
+---
+
 ## StatEntity
 
 ```php
@@ -1228,7 +1430,7 @@ $stat = $client->Stat();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Stat()->load();
@@ -1421,6 +1623,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and
